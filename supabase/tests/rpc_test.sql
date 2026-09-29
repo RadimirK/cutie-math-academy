@@ -25,7 +25,7 @@ grant execute on function pg_temp.check(boolean, text) to public;
 set role service_role;
 select public.sync_content(:'payload'::jsonb) as synced \gset
 reset role;
-select pg_temp.check((select count(*) from public.templates) = 9, 'templates synced');
+select pg_temp.check((select count(*) from public.templates) = jsonb_array_length(:'payload'::jsonb -> 'templates'), 'templates synced');
 select pg_temp.check((select base_reward from public.templates where id = 'calculus.seq_limits.lim_basic_2') = 80, 'base reward');
 
 set role authenticated;
