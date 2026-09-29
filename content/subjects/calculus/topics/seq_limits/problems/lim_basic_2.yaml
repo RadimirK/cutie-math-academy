@@ -1,0 +1,13 @@
+id: lim_basic_2
+title: Отношение линейных
+difficulty: 1
+answer_type: number
+params:
+  a: {type: int, range: [-9, 9], exclude: [0]}
+  b: {type: int, range: [-9, 9]}
+  c: {type: int, range: [1, 9]}
+  d: {type: int, range: [-9, 9], exclude: [0]}
+statement: |
+  Найдите предел
+  $$\lim_{n \to \infty} \frac{<<a>> n <<b|signed>>}{<<c>> n <<d|signed>>}$$
+answer: '<<a>>/<<c>>'

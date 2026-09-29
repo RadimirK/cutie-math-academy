@@ -1,0 +1,11 @@
+id: lim_sqrt_diff
+title: Разность корней
+difficulty: 2
+answer_type: number
+params:
+  a: {type: int, range: [-9, 9], exclude: [0]}
+  b: {type: int, range: [1, 9]}
+statement: |
+  Найдите предел
+  $$\lim_{n \to \infty} \left(\sqrt{n^2 <<a|signed>> n + <<b>>} - n\right)$$
+answer: '<<a>>/2'

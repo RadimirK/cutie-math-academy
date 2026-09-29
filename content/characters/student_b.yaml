@@ -1,0 +1,10 @@
+id: student_b
+name: Лиза
+rarity: 3
+subject: calculus
+topics: []
+description: 'Однокурсница, решает задачи в последний момент, но всегда успевает.'
+sprites:
+  smile: student_b/smile.png
+  thinking: student_b/thinking.png
+  happy: student_b/happy.png

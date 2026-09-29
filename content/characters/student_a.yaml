@@ -1,0 +1,10 @@
+id: student_a
+name: Аня
+rarity: 3
+subject: calculus
+topics: []
+description: 'Однокурсница, конспектирует всё цветными ручками.'
+sprites:
+  smile: student_a/smile.png
+  thinking: student_a/thinking.png
+  happy: student_a/happy.png

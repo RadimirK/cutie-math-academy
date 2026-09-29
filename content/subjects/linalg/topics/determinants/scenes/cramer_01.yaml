@@ -1,0 +1,38 @@
+id: cramer_01
+title: Число, которое знает всё о матрице
+character: cramer
+background: library
+nodes:
+  start:
+    - speaker: cramer
+      emotion: smile
+      text: 'Я Крамер. Покажу тебе одно число, по которому видно, обратима ли матрица, — определитель.'
+    - speaker: cramer
+      emotion: thinking
+      text: 'Для матрицы $2 \times 2$: $\det \begin{pmatrix} a & b \\ c & d \end{pmatrix} = ad - bc$.'
+    - speaker: cramer
+      emotion: smile
+      text: 'Для $3 \times 3$ удобно раскладывать по строке: $\det A = \sum_j (-1)^{1+j} a_{1j} M_{1j}$, где $M_{1j}$ — определитель без первой строки и $j$-го столбца.'
+    - choice:
+        question: 'Что происходит с определителем, если к одной строке прибавить другую, умноженную на число?'
+        options:
+          - text: Умножается на это число
+            goto: wrong
+          - text: Не меняется
+            goto: right
+  wrong:
+    - speaker: cramer
+      emotion: thinking
+      text: 'Представь, что прибавляем строку к самой себе в другом месте. Определитель линеен по строке, так что получится $\det A + t \cdot \det A''$, где у $A''$ две одинаковые строки.'
+    - speaker: cramer
+      emotion: smile
+      text: 'А определитель с двумя одинаковыми строками равен нулю! Значит, добавка исчезает.'
+    - goto: right
+  right:
+    - speaker: cramer
+      emotion: happy
+      text: 'Не меняется! Поэтому метод Гаусса — лучший способ считать определители: приводим к треугольному виду, и $\det$ равен произведению диагонали.'
+    - speaker: cramer
+      emotion: smile
+      text: 'И главное: $A$ обратима тогда и только тогда, когда $\det A \ne 0$. Если $\det A = \pm 1$ и элементы целые, то и $A^{-1}$ целочисленная.'
+unlocks: [det_3x3, det_unimodular, inverse_unimodular]

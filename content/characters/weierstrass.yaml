@@ -1,0 +1,10 @@
+id: weierstrass
+name: Вейерштрасс
+rarity: 5
+subject: calculus
+topics: []
+description: 'Любит контрпримеры: непрерывная, но нигде не дифференцируемая — её любимая шутка.'
+sprites:
+  smile: weierstrass/smile.png
+  thinking: weierstrass/thinking.png
+  happy: weierstrass/happy.png

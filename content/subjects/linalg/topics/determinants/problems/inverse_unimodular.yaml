@@ -1,0 +1,5 @@
+id: inverse_unimodular
+title: Обратная матрица
+difficulty: 3
+answer_type: matrix
+generator: generators/inverse_unimodular.py

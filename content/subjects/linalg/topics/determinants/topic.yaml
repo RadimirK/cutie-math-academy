@@ -1,0 +1,6 @@
+id: determinants
+title: Определители
+description: Что такое определитель, как его считать и зачем он нужен.
+requires: []
+main_character: cramer
+main_scenes: [cramer_01]

@@ -1,0 +1,6 @@
+id: seq_limits
+title: Пределы последовательностей
+description: Определение предела, арифметика пределов и число e.
+requires: []
+main_character: cauchy
+main_scenes: [cauchy_01, cauchy_02]

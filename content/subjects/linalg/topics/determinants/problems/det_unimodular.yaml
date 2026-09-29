@@ -1,0 +1,6 @@
+id: det_unimodular
+title: Определитель с подвохом
+difficulty: 2
+answer_type: number
+generator: generators/det_unimodular.py
+hint: 'Прибавление строки к другой не меняет определитель.'

@@ -1,0 +1,20 @@
+id: lim_rational_1
+title: Отношение многочленов
+difficulty: 2
+answer_type: number
+params:
+  a: {type: int, range: [1, 9]}
+  b: {type: int, range: [-9, 9], exclude: [0]}
+  c: {type: int, range: [1, 9]}
+  d: {type: int, range: [-9, 9], exclude: [0]}
+  # Степени числителя и знаменателя; f — множитель при a/c в ответе.
+  deg:
+    type: pick
+    values:
+      - {num: 2, den: 2, f: 1}
+      - {num: 2, den: 3, f: 0}
+      - {num: 3, den: 2, f: oo}
+statement: |
+  Найдите предел
+  $$\lim_{n \to \infty} \frac{<<a>> n^{<<deg.num>>} <<b|signed>> n}{<<c>> n^{<<deg.den>>} <<d|signed>>}$$
+answer: '<<deg.f>>*<<a>>/<<c>>'

@@ -1,0 +1,50 @@
+name: ci
+# main is covered by deploy.yml, which calls this workflow before syncing and deploying.
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_call:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: python/requirements.txt
+      - run: npm ci
+      - run: pip install -r python/requirements.txt
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Validate content (schemas, references, topic graph)
+        run: npm run content:validate
+      - name: Unit tests
+        run: npm test
+        env:
+          PYTHON: python
+      - name: Python checker tests
+        run: PYTHONPATH=python python -m unittest discover -s python/tests
+      - name: Template self-test (20 seeds each)
+        run: npm run content:selftest
+        env:
+          PYTHON: python
+
+  db:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Migrations + RLS/RPC scenario test
+        run: supabase/tests/run.sh

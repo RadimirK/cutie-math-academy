@@ -1,0 +1,8 @@
+id: calculus_standard
+title: Стандартный баннер анализа
+subject: calculus
+rates: {5: 0.006, 4: 0.051, 3: 0.943}
+pool:
+  5: [cauchy, weierstrass]
+  4: [bolzano, heine]
+  3: [student_a, student_b]

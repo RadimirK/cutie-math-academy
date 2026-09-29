@@ -1,0 +1,18 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+.venv
+__pycache__
+*.pyc
+supabase/.temp
+supabase/.branches
+
+# Art is not published (third-party images): it stays local, the site shows silhouettes.
+content/assets/characters/
+content/assets/backgrounds/
+
+# Local tooling
+.claude/
+supabase/.local-test-account

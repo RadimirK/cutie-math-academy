@@ -1,0 +1,10 @@
+id: heine
+name: Гейне
+rarity: 4
+subject: calculus
+topics: []
+description: 'Переводит всё на язык последовательностей, даже бытовые споры.'
+sprites:
+  smile: heine/smile.png
+  thinking: heine/thinking.png
+  happy: heine/happy.png

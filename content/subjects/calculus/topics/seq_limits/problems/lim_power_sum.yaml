@@ -1,0 +1,12 @@
+id: lim_power_sum
+title: Сумма степеней
+difficulty: 3
+starred: true
+answer_type: number
+params:
+  k: {type: int, range: [1, 9]}
+statement: |
+  Найдите предел
+  $$\lim_{n \to \infty} \frac{1^{<<k>>} + 2^{<<k>>} + \ldots + n^{<<k>>}}{n^{<<k>> + 1}}$$
+hint: 'Теорема Штольца или интегральные суммы.'
+answer: '1/(<<k>> + 1)'

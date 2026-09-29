@@ -1,0 +1,52 @@
+id: cauchy_01
+title: Что значит «сходится»
+character: cauchy
+background: classroom
+nodes:
+  start:
+    - narration: 'Первая пара. В аудитории пахнет мелом и кофе.'
+    - speaker: cauchy
+      emotion: smile
+      text: 'Привет! Я Коши. Сегодня разберёмся, что значит, что последовательность $x_n$ стремится к числу $a$.'
+    - speaker: cauchy
+      emotion: smile
+      text: 'Идея простая: начиная с какого-то номера, все члены последовательности оказываются сколь угодно близко к $a$.'
+    - speaker: cauchy
+      emotion: thinking
+      text: 'Строго: $\lim\limits_{n\to\infty} x_n = a$, если для любого $\varepsilon > 0$ найдётся такой номер $N$, что $|x_n - a| < \varepsilon$ при всех $n > N$.'
+    - choice:
+        question: 'Сходится ли последовательность $x_n = (-1)^n$?'
+        options:
+          - text: Да, к нулю
+            goto: wrong_zero
+          - text: Да, к единице
+            goto: wrong_one
+          - text: Нет
+            goto: right
+  wrong_zero:
+    - speaker: cauchy
+      emotion: thinking
+      text: 'Хм, а насколько $x_n$ близко к нулю? Все члены равны $\pm 1$, так что $|x_n - 0| = 1$ всегда.'
+    - speaker: cauchy
+      emotion: smile
+      text: 'Возьми $\varepsilon = \tfrac12$: ни один член не попадает в интервал $(-\tfrac12, \tfrac12)$.'
+    - goto: right
+  wrong_one:
+    - speaker: cauchy
+      emotion: thinking
+      text: 'Чётные члены действительно равны $1$. А нечётные? Они равны $-1$, и до единицы им всегда расстояние $2$.'
+    - speaker: cauchy
+      emotion: smile
+      text: 'Предел должен «притягивать» все члены с какого-то номера, а не только половину.'
+    - goto: right
+  right:
+    - speaker: cauchy
+      emotion: happy
+      text: 'Именно, не сходится! У неё два частичных предела, $1$ и $-1$, а у сходящейся последовательности частичный предел один.'
+    - speaker: cauchy
+      emotion: smile
+      text: 'А вот $x_n = \dfrac{1}{n}$ сходится к нулю: для $\varepsilon > 0$ подходит $N = \left\lceil \tfrac{1}{\varepsilon} \right\rceil$.'
+    - speaker: cauchy
+      emotion: happy
+      text: 'Попробуй свои силы на задачах, а потом продолжим: поговорим об арифметике пределов и числе $e$.'
+unlocks: [lim_basic_2, lim_rational_1, converges_choice]

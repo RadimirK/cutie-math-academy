@@ -1,0 +1,39 @@
+id: cauchy_02
+title: Арифметика пределов и число e
+character: cauchy
+background: classroom
+nodes:
+  start:
+    - speaker: cauchy
+      emotion: smile
+      text: 'С ходу проверять определение утомительно. Поэтому есть арифметика пределов: если $x_n \to a$ и $y_n \to b$, то $x_n + y_n \to a + b$, $x_n y_n \to ab$, а при $b \ne 0$ ещё и $\dfrac{x_n}{y_n} \to \dfrac{a}{b}$.'
+    - speaker: cauchy
+      emotion: thinking
+      text: 'Например, $\dfrac{3n^2 + n}{2n^2 - 5}$. Делим числитель и знаменатель на $n^2$: получаем $\dfrac{3 + 1/n}{2 - 5/n^2} \to \dfrac{3}{2}$.'
+    - choice:
+        question: 'Чему равен $\lim\limits_{n\to\infty} \left(1 + \dfrac{1}{n}\right)^n$?'
+        options:
+          - text: '$1$, ведь $1 + \frac1n \to 1$'
+            goto: wrong_one
+          - text: '$e$'
+            goto: right
+          - text: '$\infty$, ведь степень растёт'
+            goto: wrong_inf
+  wrong_one:
+    - speaker: cauchy
+      emotion: thinking
+      text: 'Ловушка! Основание стремится к $1$, но показатель растёт. Это неопределённость вида $1^\infty$, и арифметика пределов тут не работает.'
+    - goto: right
+  wrong_inf:
+    - speaker: cauchy
+      emotion: thinking
+      text: 'Показатель растёт, но основание всё ближе к $1$. Эти эффекты борются, и ни один не побеждает окончательно: получается неопределённость $1^\infty$.'
+    - goto: right
+  right:
+    - speaker: cauchy
+      emotion: happy
+      text: 'Ответ: $e \approx 2.718$. Это второй замечательный предел, а последовательность монотонно растёт и ограничена.'
+    - speaker: cauchy
+      emotion: smile
+      text: 'Полезное обобщение: $\left(1 + \dfrac{a}{n}\right)^{bn} \to e^{ab}$. А ещё пригодится приём с сопряжённым: $\sqrt{n^2 + an} - n = \dfrac{an}{\sqrt{n^2 + an} + n} \to \dfrac{a}{2}$.'
+unlocks: [lim_exp_1, lim_sqrt_diff, lim_power_sum]

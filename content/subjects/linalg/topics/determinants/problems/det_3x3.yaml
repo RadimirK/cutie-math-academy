@@ -1,0 +1,5 @@
+id: det_3x3
+title: Определитель 3×3
+difficulty: 1
+answer_type: number
+generator: generators/det_3x3.py

@@ -1,0 +1,10 @@
+id: bolzano
+name: Больцано
+rarity: 4
+subject: calculus
+topics: []
+description: 'Тихая отличница. Всегда найдёт сходящуюся подпоследовательность.'
+sprites:
+  smile: bolzano/smile.png
+  thinking: bolzano/thinking.png
+  happy: bolzano/happy.png

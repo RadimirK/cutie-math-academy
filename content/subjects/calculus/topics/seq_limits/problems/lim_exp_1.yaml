@@ -1,0 +1,13 @@
+id: lim_exp_1
+title: Второй замечательный
+difficulty: 2
+answer_type: expression
+config:
+  variables: [x]
+params:
+  a: {type: int, range: [-9, 9], exclude: [0]}
+  b: {type: int, range: [1, 5]}
+statement: |
+  Найдите предел как функцию от $x$:
+  $$\lim_{n \to \infty} \left(1 + \frac{<<a>> x}{n}\right)^{<<b>> n}$$
+answer: 'exp(<<a>>*<<b>>*x)'

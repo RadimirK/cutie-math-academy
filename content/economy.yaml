@@ -1,0 +1,18 @@
+# Стартовые значения экономики (docs/design.md, раздел «Экономика»).
+# Синхронизируются в таблицу economy; сервер берёт числа только оттуда.
+pull_cost: 160
+reward_by_difficulty: {1: 80, 2: 160, 3: 400, 4: 800, 5: 1600}
+decay:
+  - {after: 5, factor: 0.5}    # с 6-го решения шаблона
+  - {after: 15, factor: 0.1}   # с 16-го решения шаблона
+daily_cap:
+  max_difficulty: 2            # лимит действует на шаблоны сложности 1–2
+  amount: 1600                 # 10 круток в сутки
+  timezone: Europe/Moscow      # когда начинаются «сутки»
+pity:
+  five_star: 70
+  four_star: 10
+duplicates:
+  max_constellation: 6
+  refund: {3: 20, 4: 160, 5: 800}
+starting_currency: 1600

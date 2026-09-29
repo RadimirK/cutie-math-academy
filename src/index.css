@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night-950: #080720;
+  --color-night-900: #100e33;
+  --color-night-800: #1a1748;
+  --color-night-700: #28246a;
+  --color-night-600: #3a3590;
+  --color-sakura-200: #ffc2d6;
+  --color-sakura-300: #ff9fc0;
+  --color-sakura-400: #ff7aa6;
+  --color-sakura-500: #f7507f;
+  --color-sakura-600: #de2f62;
+  --color-gold-200: #fff0c7;
+  --color-gold-300: #ffe09a;
+  --color-gold-400: #f7c96b;
+  --color-gold-500: #e8a93c;
+  --color-r3: #5ab8ff;
+  --color-r4: #b98cff;
+  --color-r5: #ffc24d;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Unbounded", "Nunito", ui-sans-serif, sans-serif;
+
+  --animate-twinkle: twinkle 6s ease-in-out infinite alternate;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-bounce-soft: bounce-soft 1.2s ease-in-out infinite;
+  --animate-rise: rise 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  --animate-fade: fade 0.35s ease-out both;
+
+  @keyframes twinkle {
+    from { opacity: 0.55; }
+    to { opacity: 1; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+  @keyframes bounce-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px) scale(0.92); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+html {
+  background: var(--color-night-950);
+}
+
+body {
+  @apply text-white antialiased;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 15% -10%, rgb(247 80 127 / 0.28), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 100% 20%, rgb(120 90 255 / 0.30), transparent 60%),
+    radial-gradient(ellipse 90% 60% at 50% 120%, rgb(255 194 77 / 0.12), transparent 60%),
+    linear-gradient(180deg, var(--color-night-900), var(--color-night-950) 70%);
+  background-attachment: fixed;
+}
+
+/* Star field: two layers of tiny dots that twinkle out of phase. */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 30% 70%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 55% 15%, #ffe8f0 50%, transparent 51%),
+    radial-gradient(1px 1px at 75% 45%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 90% 85%, #fff4d6 50%, transparent 51%),
+    radial-gradient(1px 1px at 40% 40%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 65% 90%, #fff 50%, transparent 51%);
+  background-size: 420px 420px;
+  animation: var(--animate-twinkle);
+}
+body::after {
+  background-size: 290px 290px;
+  background-position: 60px 110px;
+  animation-delay: -3s;
+  opacity: 0.7;
+}
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+@layer components {
+  .panel {
+    @apply rounded-3xl border border-white/10 bg-white/[0.06] shadow-[0_8px_40px_-12px_rgb(0_0_0/0.6)] backdrop-blur-md;
+  }
+  .panel-hover {
+    @apply transition duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.09];
+  }
+  .title-display {
+    @apply font-display font-extrabold tracking-tight;
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-sakura-300 via-gold-300 to-sakura-300 bg-clip-text text-transparent;
+    background-size: 200% 100%;
+  }
+  /* Buttons are flat: solid fill, small radius, no gradients, glow or lift. */
+  .btn-gold,
+  .btn-pink,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border px-5 py-2.5 text-sm font-bold tracking-wide transition-colors duration-150;
+  }
+  .btn-gold {
+    @apply border-gold-400 bg-gold-400 text-night-950 hover:border-gold-300 hover:bg-gold-300;
+  }
+  .btn-pink {
+    @apply border-sakura-500 bg-sakura-500 text-white hover:border-sakura-400 hover:bg-sakura-400;
+  }
+  .btn-ghost {
+    @apply border-white/20 bg-transparent px-4 py-2 text-white/80 hover:border-white/40 hover:bg-white/5 hover:text-white;
+  }
+  .btn-gold:disabled,
+  .btn-pink:disabled {
+    @apply cursor-not-allowed border-white/10 bg-white/10 text-white/40;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold;
+  }
+  .field {
+    @apply w-full rounded-2xl border border-white/15 bg-night-950/60 px-4 py-2.5 text-white placeholder-white/35 outline-none transition focus:border-sakura-300 focus:ring-2 focus:ring-sakura-400/40;
+  }
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- wish (pull) animation ---------- */
+@keyframes meteor {
+  0% { transform: translate(-70vw, -70vh) scale(0.5); opacity: 0; }
+  12% { opacity: 1; }
+  78% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(0, 0) scale(4); opacity: 0; }
+}
+@keyframes flash {
+  0%, 72% { opacity: 0; }
+  84% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.meteor {
+  animation: meteor 2.1s cubic-bezier(0.55, 0, 0.35, 1) forwards;
+}
+.flash {
+  animation: flash 2.1s ease-out forwards;
+}
+.rays {
+  background: repeating-conic-gradient(from 0deg, var(--ray) 0deg 5deg, transparent 5deg 16deg);
+  mask-image: radial-gradient(circle, #000 20%, transparent 68%);
+}
+
+/* ---------- answer input (MathLive) ---------- */
+.answer-field,
+math-field.answer-field {
+  display: block;
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgb(255 255 255 / 0.2);
+  background: rgb(8 7 32 / 0.6);
+  color: #fff;
+  font-size: 1.5rem;
+  --caret-color: var(--color-sakura-300);
+  --selection-background-color: rgb(247 80 127 / 0.35);
+  --contains-highlight-background-color: rgb(255 255 255 / 0.06);
+  --primary-color: var(--color-sakura-400);
+}
+math-field.answer-field:focus-within {
+  outline: none;
+  border-color: var(--color-sakura-400);
+}
+math-field::part(menu-toggle) {
+  display: none;
+}
+div.answer-field {
+  font-size: 1rem;
+}
