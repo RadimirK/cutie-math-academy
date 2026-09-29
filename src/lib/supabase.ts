@@ -1,7 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+const rawUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim();
+const anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)?.trim();
+// Only the origin matters; a pasted trailing slash or /rest/v1 would break every request.
+const url = rawUrl ? new URL(rawUrl).origin : undefined;
 
 /** null when the build has no Supabase settings: the app then runs in demo mode without saving. */
 export const supabase = url && anonKey ? createClient(url, anonKey) : null;

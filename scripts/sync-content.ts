@@ -71,12 +71,21 @@ const payload = buildSyncPayload(loadOrDie());
 if (process.argv.includes('--print')) {
   process.stdout.write(JSON.stringify(payload));
 } else {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
+  const rawUrl = process.env.SUPABASE_URL?.trim();
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (!rawUrl || !key) {
     console.error('нужны SUPABASE_URL и SUPABASE_SERVICE_ROLE_KEY');
     process.exit(1);
   }
+  let url: string;
+  try {
+    // Only the origin matters; a pasted trailing slash or /rest/v1 would break every request.
+    url = new URL(rawUrl).origin;
+  } catch {
+    console.error('SUPABASE_URL должен выглядеть как https://<ref>.supabase.co');
+    process.exit(1);
+  }
+  if (url !== rawUrl) console.log(`SUPABASE_URL приведён к ${url.replace(/\/\/[^.]+/, '//<ref>')}`);
   const supabase = createClient(url, key, { auth: { persistSession: false } });
   const { data, error } = await supabase.rpc('sync_content', { p: payload });
   if (error) {
