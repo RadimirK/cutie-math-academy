@@ -17,7 +17,7 @@ export function Collection() {
 
   return (
     <div>
-      <PageHeader back="/" backLabel="Лобби" kicker={`Собрано ${have} из ${total}`} title="Ученицы">
+      <PageHeader back="/" backLabel="Лобби" kicker={`Собрано ${have} из ${total}`} title="Героини">
         <div className="flex gap-1">
           {(['all', 5, 4, 3] as const).map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`${filter === f ? 'btn-blue' : 'btn-ghost'} !px-4 !py-1.5`}>

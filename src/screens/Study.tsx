@@ -12,7 +12,7 @@ export function Study() {
   return (
     <div>
       <PageHeader back="/" backLabel="Лобби" kicker="Учёба" title="Выбор предмета" />
-      <p className="-mt-3 mb-6 text-ink-700">Героини объяснят теорию, а за решённые задачи вы получите кристаллы для набора.</p>
+      <p className="-mt-3 mb-6 text-ink-700">Героини объяснят теорию, а за решённые задачи ты получишь кристаллы для набора.</p>
       <div className="grid gap-5 md:grid-cols-2">
         {subjects.map((s, i) => {
           const done = s.topics.filter((t) => progress.topics[t] === 'completed').length;

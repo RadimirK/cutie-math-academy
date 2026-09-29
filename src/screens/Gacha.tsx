@@ -51,7 +51,7 @@ export function Gacha() {
 
   return (
     <div>
-      <PageHeader back="/" backLabel="Лобби" kicker="Recruitment" title="Набор учениц" />
+      <PageHeader back="/" backLabel="Лобби" kicker="Recruitment" title="Набор героинь" />
       {banners.length > 1 && (
         <div className="mb-4 flex gap-2 overflow-x-auto">
           {banners.map((b) => (

@@ -55,7 +55,7 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
       </div>
       <form onSubmit={submit} className="w-full max-w-sm animate-rise overflow-hidden rounded-lg bg-white/95 shadow-[0_20px_50px_-20px_rgb(18_140_255/0.7)]">
         <div className="bg-ba-500 px-6 py-2 font-display text-sm font-bold tracking-widest text-white uppercase italic">
-          {mode === 'login' ? 'Вход для Сэнсэя' : needsInviteOnly ? 'Активация инвайт-кодом' : 'Регистрация по инвайту'}
+          {mode === 'login' ? 'Вход для учеников' : needsInviteOnly ? 'Активация инвайт-кодом' : 'Регистрация по инвайту'}
         </div>
         <div className="space-y-3 p-6">
           {!needsInviteOnly && (
@@ -89,7 +89,7 @@ export function AuthScreen({ mode }: { mode: 'login' | 'register' }) {
           )}
         </div>
       </form>
-      <p className="mt-6 font-bold text-ink-700 drop-shadow-[0_1px_0_#fff]">учитесь · набирайте · собирайте учениц</p>
+      <p className="mt-6 font-bold text-ink-700 drop-shadow-[0_1px_0_#fff]">учись · призывай · собирай героинь</p>
     </div>
   );
 }

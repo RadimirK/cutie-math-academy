@@ -76,7 +76,7 @@ function Layout() {
             </NavLink>
             <NavLink to="/collection" className={link}>
               <span className="flex skew-x-12 items-center gap-1.5">
-                <IconCards className="h-4 w-4" /> Ученицы
+                <IconCards className="h-4 w-4" /> Героини
               </span>
             </NavLink>
           </nav>
@@ -89,7 +89,7 @@ function Layout() {
               profile && (
                 <>
                   <span className="hidden font-bold text-ink-700 sm:inline">
-                    <span className="mr-1 text-ba-500">Сэнсэй</span>
+                    <span className="mr-1 text-ba-500">Ученик</span>
                     {profile.nickname}
                   </span>
                   <CurrencyPill amount={profile.currency} />

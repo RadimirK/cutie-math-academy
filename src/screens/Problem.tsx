@@ -28,9 +28,9 @@ interface Reward {
 type Feedback = { kind: 'wrong' } | { kind: 'parse'; message: string } | { kind: 'error'; message: string } | null;
 
 const LINES = {
-  idle: ['Сэнсэй, давайте попробуем!', 'Не спешите, всё получится.', 'Я рядом, если что.'],
-  wrong: ['Почти! Проверьте вычисления ещё раз.', 'Хм, не сходится. Попробуйте иначе.', 'Ошибиться не страшно, давайте ещё раз.'],
-  right: ['Верно! Сэнсэй, вы молодец!', 'Отлично! Именно так.', 'Идеально! Идём дальше?'],
+  idle: ['Давай попробуем!', 'Не спеши, всё получится.', 'Я рядом, если что.'],
+  wrong: ['Почти! Проверь вычисления ещё раз.', 'Хм, не сходится. Попробуй иначе.', 'Ошибиться не страшно, давай ещё раз.'],
+  right: ['Верно! Ты молодец!', 'Отлично! Именно так.', 'Идеально! Идём дальше?'],
 };
 const pick = (xs: string[]) => xs[Math.floor(Math.random() * xs.length)]!;
 
@@ -93,7 +93,7 @@ export function ProblemScreen() {
   if (!demo && !templateUnlocked(content, progress, t.fullId))
     return (
       <p className="panel p-6">
-        Эта задача ещё закрыта: пройдите сцену темы «<Link to={`/topic/${topic.fullId}`} className="font-bold text-ba-500 underline">{topic.title}</Link>».
+        Эта задача ещё закрыта: пройди сцену темы «<Link to={`/topic/${topic.fullId}`} className="font-bold text-ba-500 underline">{topic.title}</Link>».
       </p>
     );
 
@@ -179,7 +179,7 @@ export function ProblemScreen() {
                     }`}
                   >
                     {feedback.kind === 'wrong'
-                      ? 'Неверно. Задача остаётся открытой — попробуйте ещё раз.'
+                      ? 'Неверно. Задача остаётся открытой — попробуй ещё раз.'
                       : feedback.kind === 'parse'
                         ? `Не удалось распознать ответ: ${feedback.message}`
                         : `Ошибка: ${feedback.message}`}
@@ -249,7 +249,7 @@ function RewardBanner({ solved, onNext, topicId }: { solved: Reward | 'demo'; on
               <span className="font-bold text-ba-600">Верно!</span>
             </div>
             {solved.decay_factor < 1 && (
-              <p className="mt-1 text-sm text-ink-500">Эта задача уже решена много раз, поэтому награда ×{solved.decay_factor}. Попробуйте другие задачи!</p>
+              <p className="mt-1 text-sm text-ink-500">Эта задача уже решена много раз, поэтому награда ×{solved.decay_factor}. Попробуй другие задачи!</p>
             )}
             {solved.capped && <p className="mt-1 text-sm text-ink-500">Дневной лимит за лёгкие задачи исчерпан — задачи посложнее по-прежнему приносят кристаллы.</p>}
           </>

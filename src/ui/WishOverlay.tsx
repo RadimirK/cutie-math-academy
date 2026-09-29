@@ -53,7 +53,7 @@ export function WishOverlay({ results, onClose }: { results: PullResult[]; onClo
             <div className="absolute inset-[42%] rounded-full bg-white" style={{ boxShadow: `0 0 30px 12px ${color}` }} />
           </div>
           <div className="flash pointer-events-none absolute inset-0" style={{ background: `radial-gradient(circle, #fff 30%, ${color}88 60%, #fff 90%)` }} />
-          <span className="absolute right-6 bottom-6 text-sm font-bold text-ink-500">нажмите, чтобы пропустить</span>
+          <span className="absolute right-6 bottom-6 text-sm font-bold text-ink-500">нажми, чтобы пропустить</span>
         </>
       ) : sorted.length === 1 ? (
         <SingleReveal r={sorted[0]!} />
@@ -67,7 +67,7 @@ export function WishOverlay({ results, onClose }: { results: PullResult[]; onClo
             ))}
           </div>
           <p className="mt-8 animate-fade text-center text-sm font-bold text-ink-500" style={{ animationDelay: '1.2s' }}>
-            нажмите, чтобы продолжить
+            нажми, чтобы продолжить
           </p>
         </div>
       )}

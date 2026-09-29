@@ -33,7 +33,7 @@ export function Lobby() {
                 <span className="font-display font-extrabold text-ink-900 italic">{ch.name}</span>
                 <Stars n={ch.rarity} className="text-xs" />
               </div>
-              <p className="text-ink-700">{ch.description ?? 'Сэнсэй, готовы заниматься?'}</p>
+              <p className="text-ink-700">{ch.description ?? 'Привет! Готов заниматься?'}</p>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ export function Lobby() {
               <span>Академия</span>
             </span>
             <h1 className="title-display mt-2 text-3xl text-ink-900 drop-shadow-[0_2px_0_#fff] sm:text-4xl">
-              {profile ? `С возвращением, Сэнсэй ${profile.nickname}!` : 'Добро пожаловать, Сэнсэй!'}
+              {profile ? `С возвращением, ${profile.nickname}!` : 'Добро пожаловать, ученик!'}
             </h1>
           </div>
           <MenuTile
@@ -67,7 +67,7 @@ export function Lobby() {
           <MenuTile
             to="/collection"
             icon={<IconCards className="h-7 w-7" />}
-            title="Ученицы"
+            title="Героини"
             subtitle="Коллекция, созвездия и симпатия"
             meta={`Собрано: ${ownedIds.length} / ${Object.keys(content.characters).length}`}
             delay={180}
