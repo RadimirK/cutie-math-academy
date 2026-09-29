@@ -1,0 +1,6 @@
+id: cartesian_size
+title: Декартово произведение
+difficulty: 1
+answer_type: number
+generator: generators/cartesian_size.py
+hint: '$|A \times B| = |A| \cdot |B|$, а в $A^0$ лежит ровно один пустой кортеж.'

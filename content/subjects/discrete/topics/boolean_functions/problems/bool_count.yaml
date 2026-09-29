@@ -1,0 +1,6 @@
+id: bool_count
+title: Сколько булевых функций
+difficulty: 1
+answer_type: number
+generator: generators/bool_count.py
+hint: 'В таблице истинности $2^n$ строчек. Посчитайте, сколько из них можно заполнять свободно.'

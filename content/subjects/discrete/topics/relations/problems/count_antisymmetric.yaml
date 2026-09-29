@@ -1,0 +1,7 @@
+id: count_antisymmetric
+title: Антисимметричные отношения
+difficulty: 3
+starred: true
+answer_type: number
+generator: generators/count_antisymmetric.py
+hint: 'Диагональные пары выбираются независимо. Для каждой пары различных $x, y$ есть три варианта.'

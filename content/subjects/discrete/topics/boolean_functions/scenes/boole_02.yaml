@@ -1,0 +1,57 @@
+id: boole_02
+title: Шестнадцать функций двух аргументов
+character: boole
+background: library
+nodes:
+  start:
+    - speaker: boole
+      emotion: smile
+      text: 'Выпишем все $16$ функций $f(x, y)$. Функцию будем задавать вектором значений на наборах $00, 01, 10, 11$ (это $xy$ по порядку). Например, $0001$ значит, что $f = 1$ только при $x = y = 1$.'
+    - speaker: boole
+      emotion: smile
+      text: '$0000$ — $\mathbf{0}$. $0001$ — конъюнкция, «и»: $x \wedge y$, ещё $x \mathbin{\&} y$ или просто $xy$. $0010$ — $x \nrightarrow y$, отрицание импликации: $1$, только когда $x$ истинно, а $y$ ложно. $0011$ — $x$, то есть проектор $\mathrm{pr}_1$.'
+    - speaker: boole
+      emotion: thinking
+      text: 'Почему «проектор»? Пара $\langle x, y \rangle$ — точка на плоскости, и мы проецируем её на первую ось. В общем случае $\mathrm{pr}_i$ возвращает $i$-ю компоненту кортежа.'
+    - speaker: boole
+      emotion: smile
+      text: '$0100$ — $x \nleftarrow y$, отрицание обратной импликации: $\neg x \wedge y$. $0101$ — $y$, проектор $\mathrm{pr}_2$. $0110$ — исключающее или, сумма по модулю $2$: $x \oplus y$, единица при различных аргументах. $0111$ — дизъюнкция, «или»: $x \vee y$.'
+    - speaker: boole
+      emotion: thinking
+      text: 'Первые восемь функций на наборе $00$ дают $0$ — они сохраняют ноль. Остальные восемь — их отрицания, но среди них тоже есть звёзды.'
+    - speaker: boole
+      emotion: smile
+      text: '$1000$ — стрелка Пирса: $x \downarrow y = \neg(x \vee y)$, «не или», NOR. $1001$ — эквивалентность $x \equiv y$: единица при равных аргументах. $1010$ — $\neg y$. $1011$ — $x \leftarrow y$, «$x$ следует из $y$».'
+    - speaker: boole
+      emotion: smile
+      text: '$1100$ — $\neg x$. $1101$ — импликация $x \to y$. $1110$ — штрих Шеффера: $x \mid y = \neg(x \wedge y)$, NAND; у Кнута $x \uparrow y$. $1111$ — $\mathbf{1}$.'
+    - speaker: boole
+      emotion: thinking
+      text: 'Мнемоника: в $\downarrow$ и $\uparrow$ отбрось «хвост» стрелки. Останутся $\vee$ и $\wedge$ — и берётся их отрицание. А в C/C++ $\oplus$ пишется как ^, но на бумаге — только кружочек с плюсом.'
+    - choice:
+        question: 'Какая функция задана вектором значений $1001$?'
+        options:
+          - text: 'Сложение по модулю $2$'
+            goto: wrong_xor
+          - text: 'Эквивалентность'
+            goto: right
+          - text: 'Штрих Шеффера'
+            goto: wrong_nand
+  wrong_xor:
+    - speaker: boole
+      emotion: thinking
+      text: '$x \oplus y$ равно $1$ при различных аргументах: $0110$. А у нас единицы стоят на $00$ и $11$ — на равных. Это ровно отрицание $\oplus$.'
+    - goto: right
+  wrong_nand:
+    - speaker: boole
+      emotion: thinking
+      text: 'Штрих Шеффера ложен только при $x = y = 1$: $1110$. А у нас $f(1, 1) = 1$.'
+    - goto: right
+  right:
+    - speaker: boole
+      emotion: happy
+      text: 'Эквивалентность: $x \equiv y = \neg(x \oplus y) = x \oplus y \oplus 1$. Единицы стоят на наборах, где аргументы равны.'
+    - speaker: boole
+      emotion: smile
+      text: 'Удивительный факт: одной стрелкой Пирса (как и одним штрихом Шеффера) можно выразить любую булеву функцию. Скоро мы поймём почему.'
+unlocks: [binary_named, truth_vector_2]

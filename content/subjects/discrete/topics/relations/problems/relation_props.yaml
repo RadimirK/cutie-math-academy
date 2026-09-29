@@ -1,0 +1,33 @@
+id: relation_props
+title: Свойства отношений
+difficulty: 1
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {rel: 'x \le y \text{ на } \mathbb{R}', prop: 'антисимметричным', ans: 'Да'}
+      - {rel: 'x < y \text{ на } \mathbb{R}', prop: 'рефлексивным', ans: 'Нет'}
+      - {rel: 'x < y \text{ на } \mathbb{R}', prop: 'антирефлексивным', ans: 'Да'}
+      - {rel: 'x \text{ делится на } y \text{ на } \mathbb{N}', prop: 'антисимметричным', ans: 'Да'}
+      - {rel: 'x \text{ делится на } y \text{ на } \mathbb{Z}', prop: 'антисимметричным', ans: 'Нет'}
+      - {rel: 'x \equiv_7 y \text{ на } \mathbb{Z}', prop: 'симметричным', ans: 'Да'}
+      - {rel: '|x - y| \le 1 \text{ на } \mathbb{Z}', prop: 'транзитивным', ans: 'Нет'}
+      - {rel: '|x - y| \le 1 \text{ на } \mathbb{Z}', prop: 'рефлексивным', ans: 'Да'}
+      - {rel: 'x + y \text{ чётно, на } \mathbb{Z}', prop: 'транзитивным', ans: 'Да'}
+      - {rel: 'x + y \text{ нечётно, на } \mathbb{Z}', prop: 'транзитивным', ans: 'Нет'}
+      - {rel: 'x + y \text{ нечётно, на } \mathbb{Z}', prop: 'антирефлексивным', ans: 'Да'}
+      - {rel: 'x \ne y \text{ на } \mathbb{Z}', prop: 'транзитивным', ans: 'Нет'}
+      - {rel: 'x \ne y \text{ на } \mathbb{Z}', prop: 'симметричным', ans: 'Да'}
+      - {rel: 'R = \varnothing \text{ на } \{1, 2\}', prop: 'транзитивным', ans: 'Да'}
+      - {rel: 'R = \varnothing \text{ на } \{1, 2\}', prop: 'рефлексивным', ans: 'Нет'}
+      - {rel: 'y = x + 1 \text{ на } \mathbb{Z}', prop: 'антисимметричным', ans: 'Да'}
+      - {rel: 'x = y^2 \text{ на } \mathbb{Z}', prop: 'транзитивным', ans: 'Нет'}
+      - {rel: 'xy > 0 \text{ на } \mathbb{Z}', prop: 'рефлексивным', ans: 'Нет'}
+      - {rel: 'xy > 0 \text{ на } \mathbb{Z}', prop: 'транзитивным', ans: 'Да'}
+      - {rel: 'S \subseteq T \text{ на } 2^{\{1, 2, 3\}}', prop: 'антисимметричным', ans: 'Да'}
+statement: 'Является ли отношение $<<q.rel>>$ <<q.prop>>? Здесь $\mathbb{N} = \{1, 2, 3, \ldots\}$.'
+config:
+  options: [Да, Нет]
+answer: '<<q.ans>>'
+hint: 'Попробуйте найти контрпример. Если посылка определения никогда не выполняется, свойство выполнено автоматически.'

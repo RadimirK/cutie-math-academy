@@ -1,0 +1,6 @@
+id: set_ops
+title: Операции над множествами
+difficulty: 1
+answer_type: number
+generator: generators/set_ops.py
+hint: '$A \oplus B$ — элементы, лежащие ровно в одном из множеств.'

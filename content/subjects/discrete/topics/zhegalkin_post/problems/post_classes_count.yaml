@@ -1,0 +1,6 @@
+id: post_classes_count
+title: Сколько классов
+difficulty: 3
+answer_type: number
+generator: generators/post_classes_count.py
+hint: 'Постройте вектор значений и проверьте каждый из пяти классов по отдельности.'

@@ -27,6 +27,9 @@ const CASES: [string, string, 'number' | 'expression'][] = [
   ['(x+1)(x-1)', 'x**2 - 1', 'expression'],
   ['\\operatorname{arctg} x', 'atan(x)', 'expression'],
   ['x!', 'factorial(x)', 'expression'],
+  // Zhegalkin polynomials: juxtaposed letters are a product, + stands for ⊕.
+  ['xyz+xz+x+z+1', 'x*y*z + x*z + x + z + 1', 'expression'],
+  ['yx+y', 'x*y + y', 'expression'],
 ];
 
 describe('mathJsonToSympy', () => {

@@ -1,0 +1,6 @@
+id: boolean_functions
+title: Булевы функции
+description: Импликация, все функции от двух аргументов, формулы, полные системы и СДНФ.
+requires: [sets]
+main_character: boole
+main_scenes: [boole_01, boole_02, boole_03]

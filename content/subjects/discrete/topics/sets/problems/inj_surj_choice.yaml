@@ -1,0 +1,28 @@
+id: inj_surj_choice
+title: Инъекция, сюръекция, биекция
+difficulty: 1
+answer_type: choice
+params:
+  f:
+    type: pick
+    values:
+      - {tex: 'f \colon \mathbb{Z} \to \mathbb{Z},\ f(x) = 2x', ans: 'Только инъекция'}
+      - {tex: 'f \colon \mathbb{Z} \to \mathbb{Z},\ f(x) = x + 5', ans: 'Биекция'}
+      - {tex: 'f \colon \mathbb{R} \to \mathbb{R},\ f(x) = x^2', ans: 'Ни то ни другое'}
+      - {tex: 'f \colon \mathbb{R} \to [0, +\infty),\ f(x) = x^2', ans: 'Только сюръекция'}
+      - {tex: 'f \colon [0, +\infty) \to [0, +\infty),\ f(x) = x^2', ans: 'Биекция'}
+      - {tex: 'f \colon \mathbb{R} \to \mathbb{R},\ f(x) = x^3', ans: 'Биекция'}
+      - {tex: 'f \colon \mathbb{R} \to \mathbb{R},\ f(x) = e^x', ans: 'Только инъекция'}
+      - {tex: 'f \colon \mathbb{R} \to (0, +\infty),\ f(x) = e^x', ans: 'Биекция'}
+      - {tex: 'f \colon \mathbb{R} \to \mathbb{R},\ f(x) = \sin x', ans: 'Ни то ни другое'}
+      - {tex: 'f \colon \mathbb{R} \to [-1, 1],\ f(x) = \sin x', ans: 'Только сюръекция'}
+      - {tex: 'f \colon \mathbb{N} \to \mathbb{N},\ f(x) = x + 1', ans: 'Только инъекция'}
+      - {tex: 'f \colon \mathbb{Z} \to \mathbb{Z},\ f(x) = \lfloor x / 2 \rfloor', ans: 'Только сюръекция'}
+      - {tex: 'f \colon \mathbb{R} \to \mathbb{R},\ f(x) = x^3 - x', ans: 'Только сюръекция'}
+      - {tex: 'f \colon 2^{\{1, 2, 3\}} \to \{0, 1, 2, 3\},\ f(S) = |S|', ans: 'Только сюръекция'}
+      - {tex: 'f \colon 2^{\{1, 2, 3\}} \to 2^{\{1, 2, 3\}},\ f(S) = \{1, 2, 3\} \setminus S', ans: 'Биекция'}
+statement: 'Чем является функция $<<f.tex>>$? Здесь $\mathbb{N} = \{1, 2, 3, \ldots\}$.'
+config:
+  options: [Биекция, Только инъекция, Только сюръекция, Ни то ни другое]
+answer: '<<f.ans>>'
+hint: 'Инъекция: $f(x_1) = f(x_2) \Rightarrow x_1 = x_2$. Сюръекция: каждое $y$ из правого множества достигается.'

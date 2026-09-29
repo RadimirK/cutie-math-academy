@@ -1,0 +1,6 @@
+id: set_expr
+title: Выражение из трёх множеств
+difficulty: 2
+answer_type: number
+generator: generators/set_expr.py
+hint: 'Вычисляйте по шагам, начиная со скобок, и выписывайте промежуточные множества.'

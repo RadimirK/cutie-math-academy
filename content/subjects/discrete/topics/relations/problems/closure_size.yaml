@@ -1,0 +1,6 @@
+id: closure_size
+title: Транзитивное замыкание
+difficulty: 3
+answer_type: number
+generator: generators/closure_size.py
+hint: '$a \mathrel{R^+} b$, если из $a$ в $b$ есть путь хотя бы из одной стрелки. $R^*$ ещё добавляет все пары $\langle x, x \rangle$.'

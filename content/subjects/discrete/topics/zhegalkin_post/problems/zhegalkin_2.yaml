@@ -1,0 +1,6 @@
+id: zhegalkin_2
+title: Полином Жегалкина от двух переменных
+difficulty: 2
+answer_type: expression
+generator: generators/zhegalkin_2.py
+hint: 'Выразите функцию через $\wedge$ и $\neg$, замените $\neg a$ на $a \oplus 1$, раскройте скобки и сократите пары одинаковых слагаемых.'

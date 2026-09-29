@@ -1,0 +1,6 @@
+id: zhegalkin_3
+title: Полином Жегалкина от трёх переменных
+difficulty: 3
+answer_type: expression
+generator: generators/zhegalkin_3.py
+hint: 'Метод неопределённых коэффициентов: $f(0,0,0)$ даёт свободный член, наборы с одной единицей — коэффициенты при $x, y, z$, и так далее.'

@@ -1,0 +1,6 @@
+id: truth_vector_2
+title: Вектор значений
+difficulty: 1
+answer_type: matrix
+generator: generators/truth_vector_2.py
+hint: 'Вычислите формулу на каждом из четырёх наборов, начиная с внутренних скобок.'

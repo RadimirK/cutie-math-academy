@@ -1,0 +1,6 @@
+id: truth_vector_3
+title: Таблица истинности от трёх переменных
+difficulty: 2
+answer_type: matrix
+generator: generators/truth_vector_3.py
+hint: 'Импликация ложна только при $1 \to 0$, а $\equiv$ истинна при равных аргументах.'

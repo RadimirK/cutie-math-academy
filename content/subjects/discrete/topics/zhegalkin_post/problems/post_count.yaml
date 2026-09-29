@@ -1,0 +1,7 @@
+id: post_count
+title: Размеры классов Поста
+difficulty: 3
+starred: true
+answer_type: number
+generator: generators/post_count.py
+hint: 'Самодвойственная функция определяется значениями на половине наборов. Для линейных считайте коэффициенты полинома.'

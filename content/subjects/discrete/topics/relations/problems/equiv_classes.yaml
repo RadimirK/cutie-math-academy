@@ -1,0 +1,6 @@
+id: equiv_classes
+title: Классы эквивалентности
+difficulty: 2
+answer_type: number
+generator: generators/equiv_classes.py
+hint: 'Найдите, что общего у элементов одного класса, и посчитайте, сколько бывает разных вариантов.'

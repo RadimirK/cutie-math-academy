@@ -1,0 +1,6 @@
+id: count_relations
+title: Сколько отношений
+difficulty: 2
+answer_type: number
+generator: generators/count_relations.py
+hint: 'Отношение — подмножество $A \times A$. Посчитайте, сколько пар можно выбирать свободно.'

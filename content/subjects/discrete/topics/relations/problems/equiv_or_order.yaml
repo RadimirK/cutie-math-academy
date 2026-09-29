@@ -1,0 +1,27 @@
+id: equiv_or_order
+title: Эквивалентность или порядок?
+difficulty: 1
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {rel: 'x \equiv_5 y \text{ на } \mathbb{Z}', ans: 'Эквивалентность'}
+      - {rel: 'x \text{ делится на } y \text{ на } \mathbb{N}', ans: 'Частичный порядок'}
+      - {rel: 'x \le y \text{ на } \mathbb{R}', ans: 'Частичный порядок'}
+      - {rel: 'x < y \text{ на } \mathbb{R}', ans: 'Ни то ни другое'}
+      - {rel: 'x = y \text{ на } \mathbb{Z}', ans: 'И то и другое'}
+      - {rel: 'S \subseteq T \text{ на } 2^{\{1, 2, 3\}}', ans: 'Частичный порядок'}
+      - {rel: 'x \text{ делится на } y \text{ на } \mathbb{Z}', ans: 'Ни то ни другое'}
+      - {rel: '|x - y| \le 1 \text{ на } \mathbb{Z}', ans: 'Ни то ни другое'}
+      - {rel: 'x + y \text{ чётно, на } \mathbb{Z}', ans: 'Эквивалентность'}
+      - {rel: 'x^2 = y^2 \text{ на } \mathbb{Z}', ans: 'Эквивалентность'}
+      - {rel: '|x| \le |y| \text{ на } \mathbb{Z}', ans: 'Ни то ни другое'}
+      - {rel: 'x - y \text{ делится на } 3, \text{ на } \mathbb{Z}', ans: 'Эквивалентность'}
+      - {rel: 'x \le y \text{ и } x \equiv_2 y, \text{ на } \mathbb{Z}', ans: 'Частичный порядок'}
+      - {rel: 'S \cap T \ne \varnothing \text{ на непустых подмножествах } \{1, 2, 3\}', ans: 'Ни то ни другое'}
+statement: 'Чем является отношение $<<q.rel>>$? Здесь $\mathbb{N} = \{1, 2, 3, \ldots\}$.'
+config:
+  options: [Эквивалентность, Частичный порядок, И то и другое, Ни то ни другое]
+answer: '<<q.ans>>'
+hint: 'Эквивалентность: рефлексивность, симметричность, транзитивность. Частичный порядок: рефлексивность, антисимметричность, транзитивность.'

@@ -1,0 +1,172 @@
+"""Boolean-function helpers for discrete-math generators.
+
+A function of n arguments is its truth vector: a tuple of 2**n bits in lexicographic order
+of the argument sets (00…0, 00…1, …, 11…1), so the first argument is the most significant bit.
+Formulas are nested tuples: ('var', i), ('not', f) or (op, f, g) with op from BINARY.
+"""
+from itertools import product
+
+NAMES = ('x', 'y', 'z', 't')
+
+# op -> (LaTeX, function on bits)
+BINARY = {
+    'and': ('\\wedge', lambda a, b: a & b),
+    'or': ('\\vee', lambda a, b: a | b),
+    'imp': ('\\to', lambda a, b: (1 - a) | b),
+    'xor': ('\\oplus', lambda a, b: a ^ b),
+    'eq': ('\\equiv', lambda a, b: 1 - (a ^ b)),
+    'nand': ('\\mid', lambda a, b: 1 - (a & b)),
+    'nor': ('\\downarrow', lambda a, b: 1 - (a | b)),
+}
+
+
+def points(n):
+    return list(product((0, 1), repeat=n))
+
+
+# ---------- formulas ----------
+
+def evaluate(f, point):
+    if f[0] == 'var':
+        return point[f[1]]
+    if f[0] == 'not':
+        return 1 - evaluate(f[1], point)
+    return BINARY[f[0]][1](evaluate(f[1], point), evaluate(f[2], point))
+
+
+def truth_vector(f, n):
+    return tuple(evaluate(f, p) for p in points(n))
+
+
+def to_tex(f, top=True):
+    if f[0] == 'var':
+        return NAMES[f[1]]
+    if f[0] == 'not':
+        inner = to_tex(f[1], top=False)
+        return f'\\neg {inner}'
+    s = f'{to_tex(f[1], top=False)} {BINARY[f[0]][0]} {to_tex(f[2], top=False)}'
+    return s if top else f'({s})'
+
+
+def depends_on(v, n, j):
+    """Whether the function essentially depends on its j-th argument."""
+    bit = 1 << (n - 1 - j)
+    return any(v[i] != v[i ^ bit] for i in range(len(v)))
+
+
+def random_formula(rng, n, ops, binary_count, negation_rate=0.3):
+    """A random formula with `binary_count` binary connectives whose function essentially
+    depends on all n variables."""
+    def build(k):
+        if k == 0:
+            node = ('var', rng.randrange(n))
+        else:
+            left = rng.randint(0, k - 1)
+            node = (rng.choice(ops), build(left), build(k - 1 - left))
+        return ('not', node) if rng.random() < negation_rate else node
+
+    if binary_count + 1 < n:
+        raise ValueError(f'в формуле с {binary_count} связками не уместить {n} переменных')
+    for _ in range(10_000):
+        f = build(binary_count)
+        v = truth_vector(f, n)
+        if all(depends_on(v, n, j) for j in range(n)):
+            return f
+    raise ValueError('не удалось построить формулу')
+
+
+# ---------- truth vectors ----------
+
+def vector_str(v):
+    return ''.join(map(str, v))
+
+
+def random_vector(rng, n, nonconstant=True):
+    while True:
+        v = tuple(rng.randint(0, 1) for _ in range(2 ** n))
+        if not nonconstant or len(set(v)) == 2:
+            return v
+
+
+def table_tex(v, n):
+    """Truth table of a vector as a display-math LaTeX array."""
+    names = NAMES[:n]
+    head = ' & '.join(names) + ' & f'
+    rows = ' \\\\ '.join(' & '.join(map(str, p)) + f' & {b}' for p, b in zip(points(n), v))
+    return f'$$\\begin{{array}}{{{"c" * n}|c}} {head} \\\\ \\hline {rows} \\end{{array}}$$'
+
+
+def grid(v, n):
+    """Truth vector as a matrix answer: one row for n = 2, rows by x for n = 3."""
+    v = list(v)
+    if n <= 2:
+        return [v]
+    half = len(v) // 2
+    return [v[:half], v[half:]]
+
+
+# ---------- Zhegalkin polynomial ----------
+
+def zhegalkin(v, n):
+    """Monomials of the reduced Zhegalkin polynomial, each a tuple of variable indices
+    (() is the constant 1), sorted by degree descending, then lexicographically."""
+    a = list(v)
+    for j in range(n):
+        bit = 1 << (n - 1 - j)
+        for mask in range(2 ** n):
+            if mask & bit:
+                a[mask] ^= a[mask ^ bit]
+    monomials = [tuple(j for j in range(n) if mask & (1 << (n - 1 - j))) for mask in range(2 ** n) if a[mask]]
+    return sorted(monomials, key=lambda m: (-len(m), m))
+
+
+def zhegalkin_tex(monomials):
+    if not monomials:
+        return '0'
+    return ' \\oplus '.join(''.join(NAMES[j] for j in m) or '1' for m in monomials)
+
+
+def zhegalkin_sympy(monomials):
+    """The polynomial with ⊕ written as + (the reduced form is unique, so it can be
+    compared as an ordinary polynomial)."""
+    if not monomials:
+        return '0'
+    return ' + '.join('*'.join(NAMES[j] for j in m) or '1' for m in monomials)
+
+
+# ---------- Post classes ----------
+
+def preserves_0(v, n):
+    return v[0] == 0
+
+
+def preserves_1(v, n):
+    return v[-1] == 1
+
+
+def is_monotone(v, n):
+    ps = points(n)
+    return all(
+        v[i] <= v[j]
+        for i, p in enumerate(ps)
+        for j, q in enumerate(ps)
+        if all(a <= b for a, b in zip(p, q))
+    )
+
+
+def is_self_dual(v, n):
+    # f(¬x) = ¬f(x): the vector read backwards is the negated vector.
+    return all(v[i] != v[-1 - i] for i in range(len(v)))
+
+
+def is_linear(v, n):
+    return all(len(m) <= 1 for m in zhegalkin(v, n))
+
+
+POST_CLASSES = [
+    ('T_0', preserves_0),
+    ('T_1', preserves_1),
+    ('M', is_monotone),
+    ('S', is_self_dual),
+    ('L', is_linear),
+]

@@ -1,0 +1,6 @@
+id: power_set_size
+title: Сколько подмножеств
+difficulty: 1
+answer_type: number
+generator: generators/power_set_size.py
+hint: 'Подмножество — это функция в $\{0, 1\}$, поэтому $|2^A| = 2^{|A|}$.'

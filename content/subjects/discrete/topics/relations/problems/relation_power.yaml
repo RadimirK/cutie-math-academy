@@ -1,0 +1,6 @@
+id: relation_power
+title: Степень отношения
+difficulty: 2
+answer_type: number
+generator: generators/relation_power.py
+hint: 'Нарисуйте граф: $a \mathrel{R^k} b$, если из $a$ в $b$ есть путь ровно из $k$ стрелок.'

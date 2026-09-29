@@ -1,0 +1,72 @@
+id: cantor_02
+title: Подмножества, пары и произведения
+character: cantor
+background: classroom
+nodes:
+  start:
+    - speaker: cantor
+      emotion: smile
+      text: 'Сначала два значка, без которых в математике ни шагу. $\forall$ — «для любого» (перевёрнутая A, от any/all). $\exists$ — «существует» (перевёрнутая E, от exists). $\forall x\ P(x)$: $P$ верно для всех $x$ из универсума. $\exists x\ P(x)$: найдётся хотя бы один такой $x$.'
+    - speaker: cantor
+      emotion: smile
+      text: '$A$ — подмножество $B$, пишем $A \subseteq B$, если $\forall a\ (a \in A \Rightarrow a \in B)$. Каждое множество — подмножество самого себя: $A \subseteq A$. А $\varnothing \subseteq A$ для любого $A$: у пустого множества просто нет элемента, который мог бы нарушить условие.'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Не путай $\in$ и $\subseteq$! Смотри на них как на типы в программировании. Если $\mathbb{N}$ имеет тип «множество чисел», то $2 \in \mathbb{N}$ корректно, $\{2\} \subseteq \mathbb{N}$ тоже корректно. А $2 \subseteq \mathbb{N}$ и $\{2\} \in \mathbb{N}$ — ошибки типов: число не бывает подмножеством, а множество не лежит среди чисел.'
+    - choice:
+        question: 'Какая запись корректна и верна?'
+        options:
+          - text: '$\{2\} \in \{1, 2, 3\}$'
+            goto: wrong_in
+          - text: '$\{2\} \subseteq \{1, 2, 3\}$'
+            goto: right_subset
+          - text: '$2 \subseteq \{1, 2, 3\}$'
+            goto: wrong_subset
+  wrong_in:
+    - speaker: cantor
+      emotion: thinking
+      text: 'Элементы $\{1, 2, 3\}$ — числа $1$, $2$, $3$. Множества $\{2\}$ среди них нет, так что $\{2\} \notin \{1, 2, 3\}$. А вот в $\{\{2\}, 3\}$ оно бы лежало.'
+    - goto: right_subset
+  wrong_subset:
+    - speaker: cantor
+      emotion: thinking
+      text: 'Слева стоит число, а подмножеством может быть только множество. Это ошибка типов, как сравнивать строку с массивом.'
+    - goto: right_subset
+  right_subset:
+    - speaker: cantor
+      emotion: happy
+      text: 'Верно: $\{2\} \subseteq \{1, 2, 3\}$, потому что единственный элемент $\{2\}$ лежит в $\{1, 2, 3\}$.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Семейство всех подмножеств $A$ называют булеаном и пишут $\mathcal{P}(A)$ (power set) или $2^A$. Например, $2^{\{1, 2\}} = \{\varnothing, \{1\}, \{2\}, \{1, 2\}\}$. Здесь нет парадокса: мы берём части конкретного множества и за его пределы не выходим.'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Кстати, $A \in 2^A$ — это не парадокс. Если $A$ имеет тип «множество элементов», то $2^A$ — «множество множеств», и $A$ как раз подходящего типа. Можно взять и $2^{2^A}$, всё честно.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Следующий кирпичик — упорядоченная пара $\langle a, b \rangle$: у неё есть первая и вторая компонента. Декартово произведение $A \times B = \{\langle a, b \rangle \mid a \in A, b \in B\}$ — все пары. Например, $\mathbb{N} \times \mathbb{N}$ — все пары натуральных чисел; перемножать ничего не нужно.'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Тройку можно собрать из пар: $\langle \langle x, y \rangle, z \rangle$ или $\langle x, \langle y, z \rangle \rangle$. Строго говоря, это разные объекты, но в дискретке нам всё равно, как собран кортеж. Поэтому пишем просто $X \times Y \times Z$ и тройки $\langle x, y, z \rangle$.'
+    - speaker: cantor
+      emotion: smile
+      text: '$A^n = A \times \ldots \times A$ ($n$ раз) — кортежи длины $n$: $\langle a_1, \ldots, a_n \rangle$. Если $|A| = k$, то $|A^n| = k^n$: каждую позицию заполняем независимо. Считаем $A^1 = A$: кортеж длины $1$ отождествляем с самим элементом.'
+    - choice:
+        question: 'Сколько элементов в $A^0$?'
+        options:
+          - text: '$0$ — это пустое множество'
+            goto: wrong_zero
+          - text: '$1$'
+            goto: right_zero
+          - text: 'Не определено'
+            goto: wrong_zero
+  wrong_zero:
+    - speaker: cantor
+      emotion: thinking
+      text: 'Элементы $A^0$ — кортежи длины $0$. Такой кортеж есть, и он ровно один: пустой кортеж $\langle\rangle$. Ничего не сделать можно ровно одним способом, как бы студенты ни старались найти их много.'
+    - goto: right_zero
+  right_zero:
+    - speaker: cantor
+      emotion: happy
+      text: 'Именно: $A^0 = \{\langle\rangle\}$ — одноэлементное множество из пустого кортежа. Не пустое множество! И формула $|A^0| = k^0 = 1$ сходится.'
+unlocks: [in_vs_subset, power_set_size, cartesian_size]

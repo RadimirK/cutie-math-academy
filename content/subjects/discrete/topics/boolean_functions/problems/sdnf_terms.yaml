@@ -1,0 +1,6 @@
+id: sdnf_terms
+title: Считаем СДНФ
+difficulty: 2
+answer_type: number
+generator: generators/sdnf_terms.py
+hint: 'Каждой строчке с $f = 1$ соответствует одна конъюнкция, в которой переменные, равные $0$, берутся с отрицанием.'

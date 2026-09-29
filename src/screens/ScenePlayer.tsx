@@ -64,7 +64,8 @@ export function ScenePlayer() {
         </button>
       </div>
 
-      <div className="flex flex-1 items-end justify-center">
+      {/* min-h-0 lets a long line (e.g. with a truth table) squeeze the portrait instead of overflowing. */}
+      <div className="flex min-h-0 flex-1 items-end justify-center">
         <Portrait key={onStage} id={onStage} emotion={emotion} variant="stage" className="mb-[-4rem] h-[72vh] w-[min(24rem,75vw)] animate-fade" />
       </div>
 

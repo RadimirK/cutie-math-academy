@@ -1,0 +1,28 @@
+id: in_vs_subset
+title: Принадлежит или подмножество?
+difficulty: 1
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {tex: '2 \in \mathbb{N}', ans: 'Верно'}
+      - {tex: '\{2\} \subseteq \mathbb{N}', ans: 'Верно'}
+      - {tex: '2 \subseteq \mathbb{N}', ans: 'Ошибка типов'}
+      - {tex: '\{2\} \in \mathbb{N}', ans: 'Ошибка типов'}
+      - {tex: '\varnothing \subseteq \{1, 2\}', ans: 'Верно'}
+      - {tex: '\varnothing \in \{\varnothing\}', ans: 'Верно'}
+      - {tex: '\{1\} \in \{\{1\}, \{2\}\}', ans: 'Верно'}
+      - {tex: '\{1, 2\} \subseteq \{1, 3\}', ans: 'Неверно'}
+      - {tex: '\{1, 2\} \in 2^{\{1, 2, 3\}}', ans: 'Верно'}
+      - {tex: '\{1, 4\} \in 2^{\{1, 2, 3\}}', ans: 'Неверно'}
+      - {tex: '\{1, 2\} \subseteq 2^{\{1, 2, 3\}}', ans: 'Ошибка типов'}
+      - {tex: '\{\{1\}\} \subseteq 2^{\{1, 2\}}', ans: 'Верно'}
+      - {tex: '3 \in 2^{\{1, 2, 3\}}', ans: 'Ошибка типов'}
+      - {tex: '\{3\} \subseteq \{1, 2\}', ans: 'Неверно'}
+      - {tex: '\{1, 2\} \subseteq \{1, 2\}', ans: 'Верно'}
+statement: 'Универсум — натуральные числа, множества чисел и множества таких множеств. Верна ли запись $<<q.tex>>$?'
+config:
+  options: [Верно, Неверно, Ошибка типов]
+answer: '<<q.ans>>'
+hint: 'Слева от $\in$ стоит элемент, слева от $\subseteq$ — множество того же типа, что и справа.'

@@ -1,0 +1,6 @@
+id: preimage_size
+title: Образы и прообразы
+difficulty: 2
+answer_type: number
+generator: generators/preimage_size.py
+hint: '$f^{-1}(B)$ — все $x$, для которых $f(x) \in B$.'

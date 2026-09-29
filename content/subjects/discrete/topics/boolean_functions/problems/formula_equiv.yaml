@@ -1,0 +1,29 @@
+id: formula_equiv
+title: Равносильны ли формулы?
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {a: '\neg(x \wedge y)', b: '\neg x \vee \neg y', ans: 'Да'}
+      - {a: '\neg(x \vee y)', b: '\neg x \vee \neg y', ans: 'Нет'}
+      - {a: 'x \to y', b: '\neg y \to \neg x', ans: 'Да'}
+      - {a: 'x \to y', b: 'y \to x', ans: 'Нет'}
+      - {a: 'x \to y', b: '\neg x \vee y', ans: 'Да'}
+      - {a: 'x \oplus y', b: '(x \vee y) \wedge \neg(x \wedge y)', ans: 'Да'}
+      - {a: 'x \wedge (y \vee z)', b: '(x \wedge y) \vee (x \wedge z)', ans: 'Да'}
+      - {a: 'x \vee (y \wedge z)', b: '(x \vee y) \wedge (x \vee z)', ans: 'Да'}
+      - {a: 'x \oplus (y \wedge z)', b: '(x \oplus y) \wedge (x \oplus z)', ans: 'Нет'}
+      - {a: 'x \wedge (y \oplus z)', b: '(x \wedge y) \oplus (x \wedge z)', ans: 'Да'}
+      - {a: 'x \to (y \to z)', b: '(x \to y) \to z', ans: 'Нет'}
+      - {a: 'x \to (y \to z)', b: '(x \wedge y) \to z', ans: 'Да'}
+      - {a: 'x \downarrow x', b: '\neg x', ans: 'Да'}
+      - {a: '(x \mid y) \mid (x \mid y)', b: 'x \wedge y', ans: 'Да'}
+      - {a: 'x \vee (x \wedge y)', b: 'x', ans: 'Да'}
+      - {a: '(x \to y) \wedge (y \to z)', b: 'x \to z', ans: 'Нет'}
+statement: 'Равносильны ли формулы $<<q.a>>$ и $<<q.b>>$, то есть задают ли они одну и ту же функцию?'
+config:
+  options: [Да, Нет]
+answer: '<<q.ans>>'
+hint: 'Чтобы опровергнуть равносильность, достаточно одного набора, на котором формулы различаются.'

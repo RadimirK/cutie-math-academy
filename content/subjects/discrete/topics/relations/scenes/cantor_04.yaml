@@ -1,0 +1,53 @@
+id: cantor_04
+title: Отношения и их свойства
+character: cantor
+background: classroom
+nodes:
+  start:
+    - speaker: cantor
+      emotion: smile
+      text: 'Функция — это множество пар с условием: у каждого $x$ ровно один $y$. Уберём условие, и получится отношение. Отношение между $X$ и $Y$ — любое подмножество $R \subseteq X \times Y$.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Примеры из жизни. $X$ и $Y$ — люди, $\langle x, y \rangle \in R$, если $x$ — родитель $y$. Или $X$ — люди, $Y$ — собаки, и $x$ — хозяин $y$. Ограничений нет: у кого-то нет детей, у собаки может не быть хозяина, а у человека — несколько собак.'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Из математики: $\le$ на $\mathbb{R}$ — это множество пар $\langle x, y \rangle$, где $x \le y$. Например, $\langle 1, 2 \rangle$ в нём есть, а $\langle 2, 0 \rangle$ нет. Вместо $\langle x, y \rangle \in R$ обычно пишут инфиксно: $x \mathrel{R} y$, как $x \le y$.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Если $X = Y = A$, говорят «отношение на $A$». Для таких отношений есть пять важных свойств. Кванторы «для любых $x, y, z$» в определениях обычно опускают.'
+    - speaker: cantor
+      emotion: smile
+      text: '1. Рефлексивность: $x \mathrel{R} x$ для всех $x$. 2. Антирефлексивность: $x \mathrel{R} x$ не выполнено ни для одного $x$. Бывает ни то ни другое: «$x$ — законный представитель $y$». Взрослый сам себе представитель, ребёнок нет.'
+    - speaker: cantor
+      emotion: smile
+      text: '3. Симметричность: $x \mathrel{R} y \Rightarrow y \mathrel{R} x$. Пары вида $\langle x, x \rangle$ на неё никак не влияют. Пример: $a \equiv_7 b$ — «$a$ и $b$ дают одинаковый остаток при делении на $7$».'
+    - speaker: cantor
+      emotion: thinking
+      text: '4. Антисимметричность: при $x \ne y$ не бывает сразу $x \mathrel{R} y$ и $y \mathrel{R} x$. Равносильная запись: $x \mathrel{R} y \wedge y \mathrel{R} x \Rightarrow x = y$. Диагональные пары снова не мешают — ими ведают свойства 1 и 2. Пример: $\le$.'
+    - speaker: cantor
+      emotion: smile
+      text: '5. Транзитивность: $x \mathrel{R} y \wedge y \mathrel{R} z \Rightarrow x \mathrel{R} z$. Примеры: $<$, $\le$, делимость, $\equiv_7$. А «быть родителем» не транзитивно: родитель родителя — дедушка.'
+    - choice:
+        question: 'Антисимметрично ли отношение «$a$ делится на $b$» на целых числах $\mathbb{Z}$?'
+        options:
+          - text: 'Да, как и на $\mathbb{N}$'
+            goto: wrong
+          - text: 'Нет'
+            goto: right
+  wrong:
+    - speaker: cantor
+      emotion: thinking
+      text: 'На $\mathbb{N}$ да: если $a$ делится на $b$, а $b$ на $a$, то $a = b$. Но на $\mathbb{Z}$ возьми $2$ и $-2$: они делятся друг на друга, а равными не являются.'
+    - goto: right
+  right:
+    - speaker: cantor
+      emotion: happy
+      text: 'Верно, не антисимметрично: $2$ и $-2$ делятся друг на друга, но $2 \ne -2$. Вот почему важно, на каком множестве задано отношение.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Конечное отношение удобно рисовать графом: элементы — вершины, пара $\langle x, y \rangle$ — стрелка из $x$ в $y$. Рефлексивность — петли у всех вершин. Симметричность — у каждой стрелки есть обратная. Транзитивность — у каждого пути из двух стрелок есть «короткий путь» из одной.'
+    - speaker: cantor
+      emotion: happy
+      text: 'А сколько вообще отношений на $n$-элементном множестве $A$? Отношение — подмножество $A \times A$, где $n^2$ пар. Значит, отношений $2^{n^2}$. Подумай сам, сколько среди них рефлексивных.'
+unlocks: [relation_props, count_relations, count_antisymmetric]

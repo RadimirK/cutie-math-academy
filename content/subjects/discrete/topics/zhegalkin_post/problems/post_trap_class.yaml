@@ -1,0 +1,22 @@
+id: post_trap_class
+title: В какой ловушке система?
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {sys: '\{\oplus, \wedge\}', ans: '$T_0$'}
+      - {sys: '\{x \wedge \neg y\}', ans: '$T_0$'}
+      - {sys: '\{\to\}', ans: '$T_1$'}
+      - {sys: '\{\vee, \equiv\}', ans: '$T_1$'}
+      - {sys: '\{\wedge, \vee, \mathbf{0}, \mathbf{1}\}', ans: '$M$'}
+      - {sys: '\{xy \vee yz \vee xz,\ \mathbf{0},\ \mathbf{1}\}', ans: '$M$'}
+      - {sys: '\{xy \vee yz \vee xz,\ \neg x\}', ans: '$S$'}
+      - {sys: '\{\oplus, \equiv\}', ans: '$L$'}
+      - {sys: '\{\neg, \oplus\}', ans: '$L$'}
+statement: 'Система $<<q.sys>>$ неполна. В каком классе Поста она целиком лежит? (Такой класс здесь ровно один.)'
+config:
+  options: ['$T_0$', '$T_1$', '$M$', '$S$', '$L$']
+answer: '<<q.ans>>'
+hint: 'Проверьте каждую функцию системы по всем пяти классам и найдите общий.'

@@ -1,0 +1,29 @@
+id: post_complete
+title: Полна ли система?
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {sys: '\{\neg, \wedge\}', ans: 'Полная'}
+      - {sys: '\{\wedge, \vee\}', ans: 'Неполная'}
+      - {sys: '\{\oplus, \wedge, \mathbf{1}\}', ans: 'Полная'}
+      - {sys: '\{\oplus, \wedge\}', ans: 'Неполная'}
+      - {sys: '\{\to\}', ans: 'Неполная'}
+      - {sys: '\{\to, \mathbf{0}\}', ans: 'Полная'}
+      - {sys: '\{\downarrow\}', ans: 'Полная'}
+      - {sys: '\{\mid\}', ans: 'Полная'}
+      - {sys: '\{xy \vee yz \vee xz,\ \neg x\}', ans: 'Неполная'}
+      - {sys: '\{\wedge, \vee, \mathbf{0}, \mathbf{1}\}', ans: 'Неполная'}
+      - {sys: '\{\oplus, \equiv\}', ans: 'Неполная'}
+      - {sys: '\{\to, \neg\}', ans: 'Полная'}
+      - {sys: '\{x \oplus y \oplus z,\ \wedge,\ \mathbf{0}\}', ans: 'Неполная'}
+      - {sys: '\{\vee, \equiv\}', ans: 'Неполная'}
+      - {sys: '\{x \wedge \neg y,\ \mathbf{1}\}', ans: 'Полная'}
+      - {sys: '\{x \wedge \neg y\}', ans: 'Неполная'}
+statement: 'Является ли полной система функций $<<q.sys>>$?'
+config:
+  options: [Полная, Неполная]
+answer: '<<q.ans>>'
+hint: 'По теореме Поста для каждого из классов $T_0, T_1, M, S, L$ нужна функция системы, которая в нём не лежит.'

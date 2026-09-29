@@ -1,0 +1,10 @@
+id: cantor
+name: Кантор
+rarity: 5
+subject: discrete
+topics: [sets, relations]
+description: 'Умещает бесконечность в фигурные скобки, но множество всех множеств в рюкзак не берёт: от него одни парадоксы.'
+sprites:
+  smile: cantor/smile.png
+  thinking: cantor/thinking.png
+  happy: cantor/happy.png

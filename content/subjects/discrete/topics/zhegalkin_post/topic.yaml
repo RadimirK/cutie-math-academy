@@ -1,0 +1,6 @@
+id: zhegalkin_post
+title: Полином Жегалкина и теорема Поста
+description: Базис Жегалкина и единственность полинома, пять классов Поста, критерий полноты.
+requires: [boolean_functions]
+main_character: post
+main_scenes: [post_01, post_02, post_03]

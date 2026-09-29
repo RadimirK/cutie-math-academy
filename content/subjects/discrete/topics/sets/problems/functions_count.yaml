@@ -1,0 +1,6 @@
+id: functions_count
+title: Сколько функций
+difficulty: 2
+answer_type: number
+generator: generators/functions_count.py
+hint: 'Запишите функцию таблицей и посчитайте, сколькими способами можно заполнить каждую строчку.'

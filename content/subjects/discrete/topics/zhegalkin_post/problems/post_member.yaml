@@ -1,0 +1,6 @@
+id: post_member
+title: Лежит ли в классе?
+difficulty: 2
+answer_type: choice
+generator: generators/post_member.py
+hint: 'Для $S$ сравните вектор, прочитанный задом наперёд, с отрицанием вектора. Для $L$ постройте полином Жегалкина.'

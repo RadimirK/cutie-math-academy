@@ -1,0 +1,6 @@
+id: sets
+title: Множества и функции
+description: Множества и парадокс Рассела, операции над множествами, пары и декартово произведение, функция как множество пар.
+requires: []
+main_character: cantor
+main_scenes: [cantor_01, cantor_02, cantor_03]

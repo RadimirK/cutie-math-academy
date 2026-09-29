@@ -1,0 +1,6 @@
+id: relations
+title: Отношения
+description: Свойства отношений, эквивалентность и частичный порядок, композиция и транзитивное замыкание.
+requires: [sets]
+main_character: cantor
+main_scenes: [cantor_04, cantor_05, cantor_06]
