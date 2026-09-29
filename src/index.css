@@ -1,41 +1,47 @@
 @import "tailwindcss";
 
+/* Blue Archive-inspired light theme: sky backgrounds, white panels, navy text,
+   blue accents, yellow primary buttons and parallelogram shapes. */
 @theme {
-  --color-night-950: #080720;
-  --color-night-900: #100e33;
-  --color-night-800: #1a1748;
-  --color-night-700: #28246a;
-  --color-night-600: #3a3590;
-  --color-sakura-200: #ffc2d6;
-  --color-sakura-300: #ff9fc0;
-  --color-sakura-400: #ff7aa6;
-  --color-sakura-500: #f7507f;
-  --color-sakura-600: #de2f62;
-  --color-gold-200: #fff0c7;
-  --color-gold-300: #ffe09a;
-  --color-gold-400: #f7c96b;
-  --color-gold-500: #e8a93c;
-  --color-r3: #5ab8ff;
-  --color-r4: #b98cff;
-  --color-r5: #ffc24d;
+  --color-ink-900: #1c2f4a;
+  --color-ink-700: #3a5070;
+  --color-ink-500: #6a7f99;
+  --color-ink-300: #a8b6c8;
+  --color-ink-100: #e2e9f1;
+  --color-ba-50: #f0f8ff;
+  --color-ba-100: #dcefff;
+  --color-ba-200: #b5ddff;
+  --color-ba-300: #7fc4ff;
+  --color-ba-400: #3eaaff;
+  --color-ba-500: #128cff;
+  --color-ba-600: #0a73db;
+  --color-ba-700: #0b5aa8;
+  --color-halo-100: #fff6c2;
+  --color-halo-300: #ffe766;
+  --color-halo-400: #ffdb2e;
+  --color-halo-500: #f2c400;
+  --color-momo-100: #ffe3ee;
+  --color-momo-300: #ff9cc2;
+  --color-momo-400: #ff76a8;
+  --color-momo-500: #ef4f8a;
+  --color-r3: #3eaaff;
+  --color-r4: #f2b600;
+  --color-r5: #ff5fa8;
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Unbounded", "Nunito", ui-sans-serif, sans-serif;
+  --font-display: "Exo 2", "Nunito", ui-sans-serif, sans-serif;
 
-  --animate-twinkle: twinkle 6s ease-in-out infinite alternate;
   --animate-float: float 5s ease-in-out infinite;
   --animate-shimmer: shimmer 2.8s linear infinite;
   --animate-spin-slow: spin 18s linear infinite;
   --animate-bounce-soft: bounce-soft 1.2s ease-in-out infinite;
   --animate-rise: rise 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
   --animate-fade: fade 0.35s ease-out both;
+  --animate-slide: slide 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  --animate-halo: halo-bob 3.2s ease-in-out infinite;
 
-  @keyframes twinkle {
-    from { opacity: 0.55; }
-    to { opacity: 1; }
-  }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-8px); }
   }
   @keyframes shimmer {
     from { background-position: -200% 0; }
@@ -46,31 +52,39 @@
     50% { transform: translateY(4px); }
   }
   @keyframes rise {
-    from { opacity: 0; transform: translateY(24px) scale(0.92); }
+    from { opacity: 0; transform: translateY(24px) scale(0.94); }
     to { opacity: 1; transform: none; }
   }
   @keyframes fade {
     from { opacity: 0; }
     to { opacity: 1; }
   }
+  @keyframes slide {
+    from { opacity: 0; transform: translateX(-28px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes halo-bob {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50% { transform: translateY(-5px) rotate(-2deg); }
+  }
 }
 
 html {
-  background: var(--color-night-950);
+  background: #eef5fb;
+  color-scheme: light;
 }
 
 body {
-  @apply text-white antialiased;
+  @apply text-ink-900 antialiased;
   min-height: 100vh;
   background:
-    radial-gradient(ellipse 80% 50% at 15% -10%, rgb(247 80 127 / 0.28), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 100% 20%, rgb(120 90 255 / 0.30), transparent 60%),
-    radial-gradient(ellipse 90% 60% at 50% 120%, rgb(255 194 77 / 0.12), transparent 60%),
-    linear-gradient(180deg, var(--color-night-900), var(--color-night-950) 70%);
+    radial-gradient(ellipse 70% 45% at 100% 0%, rgb(127 196 255 / 0.45), transparent 65%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgb(255 219 46 / 0.14), transparent 60%),
+    linear-gradient(180deg, #e4f1fc, #f4f9fd 45%, #eef5fb);
   background-attachment: fixed;
 }
 
-/* Star field: two layers of tiny dots that twinkle out of phase. */
+/* Faint technical grid and diagonal light streaks, like the game's UI backdrops. */
 body::before,
 body::after {
   content: "";
@@ -78,22 +92,17 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 0;
+}
+body::before {
   background-image:
-    radial-gradient(1px 1px at 10% 20%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 30% 70%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 55% 15%, #ffe8f0 50%, transparent 51%),
-    radial-gradient(1px 1px at 75% 45%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 90% 85%, #fff4d6 50%, transparent 51%),
-    radial-gradient(1px 1px at 40% 40%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 65% 90%, #fff 50%, transparent 51%);
-  background-size: 420px 420px;
-  animation: var(--animate-twinkle);
+    linear-gradient(rgb(18 140 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(18 140 255 / 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(180deg, #000, transparent 75%);
 }
 body::after {
-  background-size: 290px 290px;
-  background-position: 60px 110px;
-  animation-delay: -3s;
-  opacity: 0.7;
+  background: repeating-linear-gradient(115deg, transparent 0 180px, rgb(255 255 255 / 0.5) 180px 260px, transparent 260px 520px);
+  opacity: 0.6;
 }
 #root {
   position: relative;
@@ -102,42 +111,65 @@ body::after {
 
 @layer components {
   .panel {
-    @apply rounded-3xl border border-white/10 bg-white/[0.06] shadow-[0_8px_40px_-12px_rgb(0_0_0/0.6)] backdrop-blur-md;
+    @apply rounded-lg border border-ink-100 bg-white/90 shadow-[0_6px_24px_-10px_rgb(28_47_74/0.25)] backdrop-blur-sm;
   }
   .panel-hover {
-    @apply transition duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.09];
+    @apply transition duration-200 hover:-translate-y-0.5 hover:border-ba-300 hover:shadow-[0_10px_30px_-12px_rgb(18_140_255/0.45)];
   }
   .title-display {
-    @apply font-display font-extrabold tracking-tight;
+    @apply font-display font-extrabold tracking-tight italic;
   }
   .text-gradient {
-    @apply bg-gradient-to-r from-sakura-300 via-gold-300 to-sakura-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-ba-500 via-ba-400 to-ba-600 bg-clip-text text-transparent;
     background-size: 200% 100%;
   }
-  /* Buttons are flat: solid fill, small radius, no gradients, glow or lift. */
+  /* Small blue kicker above headings, e.g. "ТЕМА". */
+  .kicker {
+    @apply flex items-center gap-2 font-display text-xs font-bold tracking-[0.2em] text-ba-500 uppercase;
+  }
+  .kicker::before {
+    content: "";
+    @apply h-3 w-1.5 -skew-x-12 bg-ba-500;
+  }
+
+  /* Buttons are flat parallelograms; the slant comes from clip-path so text stays upright. */
   .btn-gold,
   .btn-pink,
+  .btn-blue,
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-md border px-5 py-2.5 text-sm font-bold tracking-wide transition-colors duration-150;
+    --cut: 10px;
+    clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+    @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 font-display text-sm font-bold tracking-wide transition-[background-color,color,filter] duration-150 focus-visible:outline-none focus-visible:brightness-90;
   }
   .btn-gold {
-    @apply border-gold-400 bg-gold-400 text-night-950 hover:border-gold-300 hover:bg-gold-300;
+    @apply bg-halo-400 text-ink-900 hover:bg-halo-300;
   }
+  .btn-blue,
   .btn-pink {
-    @apply border-sakura-500 bg-sakura-500 text-white hover:border-sakura-400 hover:bg-sakura-400;
+    @apply bg-ba-500 text-white hover:bg-ba-400;
   }
   .btn-ghost {
-    @apply border-white/20 bg-transparent px-4 py-2 text-white/80 hover:border-white/40 hover:bg-white/5 hover:text-white;
+    --cut: 8px;
+    @apply bg-ink-100 px-5 py-2 text-ink-700 hover:bg-ba-100 hover:text-ba-700;
   }
   .btn-gold:disabled,
-  .btn-pink:disabled {
-    @apply cursor-not-allowed border-white/10 bg-white/10 text-white/40;
+  .btn-pink:disabled,
+  .btn-blue:disabled,
+  .btn-ghost:disabled {
+    @apply cursor-not-allowed bg-ink-100 text-ink-300;
   }
   .chip {
-    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold;
+    @apply inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs font-bold;
   }
   .field {
-    @apply w-full rounded-2xl border border-white/15 bg-night-950/60 px-4 py-2.5 text-white placeholder-white/35 outline-none transition focus:border-sakura-300 focus:ring-2 focus:ring-sakura-400/40;
+    @apply w-full rounded-md border border-ink-100 bg-ba-50 px-4 py-2.5 text-ink-900 placeholder-ink-300 outline-none transition focus:border-ba-400 focus:bg-white focus:ring-2 focus:ring-ba-200;
+  }
+  /* Slanted blue name plate (screen titles, speaker names). */
+  .plate {
+    @apply inline-block -skew-x-12 bg-ba-500 px-4 py-1 text-white;
+  }
+  .plate > * {
+    @apply inline-block skew-x-12;
   }
 }
 
@@ -157,20 +189,31 @@ body::after {
   }
 }
 
-/* ---------- wish (pull) animation ---------- */
-@keyframes meteor {
-  0% { transform: translate(-70vw, -70vh) scale(0.5); opacity: 0; }
-  12% { opacity: 1; }
-  78% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(0, 0) scale(4); opacity: 0; }
+/* ---------- sky (lobby, banners, VN fallback background) ---------- */
+.sky {
+  background:
+    radial-gradient(ellipse 28% 12% at 18% 72%, rgb(255 255 255 / 0.95), transparent 70%),
+    radial-gradient(ellipse 22% 10% at 30% 76%, rgb(255 255 255 / 0.9), transparent 70%),
+    radial-gradient(ellipse 30% 13% at 82% 82%, rgb(255 255 255 / 0.95), transparent 70%),
+    radial-gradient(ellipse 18% 8% at 70% 30%, rgb(255 255 255 / 0.7), transparent 70%),
+    radial-gradient(circle at 85% 10%, rgb(255 255 255 / 0.9), transparent 25%),
+    linear-gradient(180deg, #4fb2ff 0%, #8fd0ff 45%, #d9f0ff 80%, #f4fbff 100%);
+}
+
+/* ---------- recruitment animation ---------- */
+@keyframes summon-ring {
+  0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: scale(1) rotate(200deg); opacity: 1; }
+  100% { transform: scale(3.5) rotate(260deg); opacity: 0; }
 }
 @keyframes flash {
-  0%, 72% { opacity: 0; }
-  84% { opacity: 1; }
+  0%, 68% { opacity: 0; }
+  82% { opacity: 1; }
   100% { opacity: 0; }
 }
-.meteor {
-  animation: meteor 2.1s cubic-bezier(0.55, 0, 0.35, 1) forwards;
+.summon-ring {
+  animation: summon-ring 2.1s cubic-bezier(0.55, 0, 0.35, 1) forwards;
 }
 .flash {
   animation: flash 2.1s ease-out forwards;
@@ -188,18 +231,19 @@ math-field.answer-field {
   min-height: 3.25rem;
   padding: 0.6rem 0.9rem;
   border-radius: 0.375rem;
-  border: 1px solid rgb(255 255 255 / 0.2);
-  background: rgb(8 7 32 / 0.6);
-  color: #fff;
+  border: 1px solid var(--color-ink-100);
+  background: var(--color-ba-50);
+  color: var(--color-ink-900);
   font-size: 1.5rem;
-  --caret-color: var(--color-sakura-300);
-  --selection-background-color: rgb(247 80 127 / 0.35);
-  --contains-highlight-background-color: rgb(255 255 255 / 0.06);
-  --primary-color: var(--color-sakura-400);
+  --caret-color: var(--color-ba-500);
+  --selection-background-color: rgb(18 140 255 / 0.2);
+  --contains-highlight-background-color: rgb(18 140 255 / 0.06);
+  --primary-color: var(--color-ba-500);
 }
 math-field.answer-field:focus-within {
   outline: none;
-  border-color: var(--color-sakura-400);
+  border-color: var(--color-ba-400);
+  background: #fff;
 }
 math-field::part(menu-toggle) {
   display: none;

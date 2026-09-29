@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { content } from '../content/bundle.ts';
 import { usePlayer } from '../lib/player.tsx';
 import { CharacterCard } from '../ui/CharacterCard.tsx';
+import { PageHeader } from '../ui/PageHeader.tsx';
 
 type Filter = 'all' | 3 | 4 | 5;
 
@@ -16,25 +17,15 @@ export function Collection() {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-end gap-4">
-        <div>
-          <h1 className="title-display text-3xl">Коллекция</h1>
-          <p className="text-white/60">
-            Собрано {have} из {total}
-          </p>
-        </div>
-        <div className="ml-auto flex gap-1 rounded-md border border-white/15 p-1">
+      <PageHeader back="/" backLabel="Лобби" kicker={`Собрано ${have} из ${total}`} title="Ученицы">
+        <div className="flex gap-1">
           {(['all', 5, 4, 3] as const).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`rounded px-3 py-1 text-sm font-bold transition-colors ${filter === f ? 'bg-white/15 text-white' : 'text-white/50 hover:text-white'}`}
-            >
+            <button key={f} onClick={() => setFilter(f)} className={`${filter === f ? 'btn-blue' : 'btn-ghost'} !px-4 !py-1.5`}>
               {f === 'all' ? 'Все' : `${f}★`}
             </button>
           ))}
         </div>
-      </div>
+      </PageHeader>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {all.map((c) => {
           const o = owned[c.id];
@@ -43,8 +34,8 @@ export function Collection() {
               key={c.id}
               id={c.id}
               locked={!o}
-              badge={o && o.copies > 1 ? <span className="chip bg-night-950/80 text-gold-200 ring-1 ring-gold-400/40">C{o.copies - 1}</span> : undefined}
-              footer={o ? <span className="text-[11px] font-bold text-sakura-300">♥ {o.affection}</span> : undefined}
+              badge={o && o.copies > 1 ? <span className="chip bg-white/95 text-ink-900 shadow">C{o.copies - 1}</span> : undefined}
+              footer={o ? <span className="text-momo-500">♥ {o.affection}</span> : undefined}
             />
           );
         })}

@@ -10,8 +10,10 @@ import { usePlayer } from '../lib/player.tsx';
 import { generateWithPython, preloadPython } from '../lib/python.ts';
 import { rpcErrorMessage, supabase } from '../lib/supabase.ts';
 import { usePythonStatus } from '../lib/usePythonStatus.ts';
-import { Gem, IconBack } from '../ui/Icons.tsx';
+import { Difficulty } from '../ui/Difficulty.tsx';
+import { Gem } from '../ui/Icons.tsx';
 import { MathText } from '../ui/MathText.tsx';
+import { PageHeader } from '../ui/PageHeader.tsx';
 import { Portrait } from '../ui/Portrait.tsx';
 
 interface Issued {
@@ -26,9 +28,9 @@ interface Reward {
 type Feedback = { kind: 'wrong' } | { kind: 'parse'; message: string } | { kind: 'error'; message: string } | null;
 
 const LINES = {
-  idle: ['Давай попробуем!', 'Не спеши, всё получится.', 'Я рядом, если что.'],
-  wrong: ['Почти! Проверь вычисления ещё раз.', 'Хм, не сходится. Попробуй иначе.', 'Ошибиться не страшно, давай ещё раз.'],
-  right: ['Верно! Ты молодец!', 'Отлично! Именно так.', 'Идеально! Идём дальше?'],
+  idle: ['Сэнсэй, давайте попробуем!', 'Не спешите, всё получится.', 'Я рядом, если что.'],
+  wrong: ['Почти! Проверьте вычисления ещё раз.', 'Хм, не сходится. Попробуйте иначе.', 'Ошибиться не страшно, давайте ещё раз.'],
+  right: ['Верно! Сэнсэй, вы молодец!', 'Отлично! Именно так.', 'Идеально! Идём дальше?'],
 };
 const pick = (xs: string[]) => xs[Math.floor(Math.random() * xs.length)]!;
 
@@ -91,7 +93,7 @@ export function ProblemScreen() {
   if (!demo && !templateUnlocked(content, progress, t.fullId))
     return (
       <p className="panel p-6">
-        Эта задача ещё закрыта: пройди сцену темы «<Link to={`/topic/${topic.fullId}`} className="text-sakura-300 underline">{topic.title}</Link>».
+        Эта задача ещё закрыта: пройдите сцену темы «<Link to={`/topic/${topic.fullId}`} className="font-bold text-ba-500 underline">{topic.title}</Link>».
       </p>
     );
 
@@ -134,93 +136,96 @@ export function ProblemScreen() {
   return (
     <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1fr_16rem]">
       <div>
-        <Link to={`/topic/${topic.fullId}`} className="btn-ghost !px-3 !py-1">
-          <IconBack /> {topic.title}
-        </Link>
+        <PageHeader back={`/topic/${topic.fullId}`} backLabel={topic.title} title={t.title ?? t.id} />
 
-        <div className="panel mt-4 p-6">
-          <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
-            <span className="title-display text-lg">{t.title ?? t.id}</span>
-            {t.starred && <span className="chip bg-gold-400/20 text-gold-300 ring-1 ring-gold-400/40">✶ особая</span>}
-            <span className="ml-auto tracking-widest text-sakura-300" title={`сложность ${t.difficulty}`}>
-              {'◆'.repeat(t.difficulty)}
-              <span className="text-white/15">{'◆'.repeat(5 - t.difficulty)}</span>
+        <div className="panel overflow-hidden">
+          <div className="flex flex-wrap items-center gap-3 border-b border-ink-100 bg-ba-50 px-6 py-2.5 text-sm">
+            <span className="font-display text-xs font-bold tracking-widest text-ba-500 uppercase">Задача</span>
+            {t.starred && <span className="chip bg-halo-400 text-ink-900">✶ особая</span>}
+            <span className="ml-auto">
+              <Difficulty n={t.difficulty} />
             </span>
-            <span className="flex items-center gap-1 font-display font-bold text-gold-200">
+            <span className="flex items-center gap-1 font-display font-extrabold text-ink-900">
               <Gem /> {reward}
             </span>
           </div>
 
-          {loadError ? (
-            <div className="rounded-md bg-red-500/15 p-4 text-red-200 ring-1 ring-red-400/40">
-              {loadError}
-              <button className="btn-ghost ml-3 !py-1" onClick={() => void load(false)}>
-                повторить
-              </button>
-            </div>
-          ) : !instance ? (
-            <div className="py-10 text-center text-white/60">{t.generator && pyStatus === 'loading' ? <PythonLoading /> : 'Готовим задачу…'}</div>
-          ) : (
-            <>
-              <MathText text={instance.statement} className="block text-xl leading-relaxed" />
-
-              <div className="mt-6">
-                {Input ? (
-                  <Input key={attempt} cfg={instance.config} correct={instance.answer} onChange={setDraft} onSubmit={() => void submit()} disabled={checking || !!solved} />
-                ) : (
-                  <p className="text-red-300">Нет поля ввода для типа ответа {t.answer_type}.</p>
-                )}
+          <div className="p-6">
+            {loadError ? (
+              <div className="rounded-md bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
+                {loadError}
+                <button className="btn-ghost ml-3 !py-1" onClick={() => void load(false)}>
+                  повторить
+                </button>
               </div>
+            ) : !instance ? (
+              <div className="py-10 text-center text-ink-500">{t.generator && pyStatus === 'loading' ? <PythonLoading /> : 'Готовим задачу…'}</div>
+            ) : (
+              <>
+                <MathText text={instance.statement} className="block text-xl leading-relaxed text-ink-900" />
 
-              {feedback && (
-                <p
-                  className={`mt-4 animate-fade rounded-md p-3 text-sm ring-1 ${
-                    feedback.kind === 'wrong' ? 'bg-sakura-500/15 text-sakura-200 ring-sakura-400/40' : 'bg-gold-400/10 text-gold-200 ring-gold-400/30'
-                  }`}
-                >
-                  {feedback.kind === 'wrong'
-                    ? 'Неверно. Задача остаётся открытой — попробуй ещё раз.'
-                    : feedback.kind === 'parse'
-                      ? `Не удалось распознать ответ: ${feedback.message}`
-                      : `Ошибка: ${feedback.message}`}
-                </p>
-              )}
-
-              {solved ? (
-                <RewardBanner solved={solved} onNext={() => void load(false)} topicId={topic.fullId} />
-              ) : (
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <button className="btn-gold" disabled={checking} onClick={() => void submit()}>
-                    {checking ? 'Проверяем…' : 'Проверить'}
-                  </button>
-                  {t.hint && !showHint && (
-                    <button className="btn-ghost" onClick={() => setShowHint(true)}>
-                      Подсказка
-                    </button>
+                <div className="mt-6">
+                  {Input ? (
+                    <Input key={attempt} cfg={instance.config} correct={instance.answer} onChange={setDraft} onSubmit={() => void submit()} disabled={checking || !!solved} />
+                  ) : (
+                    <p className="text-red-600">Нет поля ввода для типа ответа {t.answer_type}.</p>
                   )}
-                  <button className="btn-ghost ml-auto" onClick={() => void load(true)} title="Выдать другой вариант этой задачи">
-                    Другой вариант
-                  </button>
                 </div>
-              )}
-              {showHint && t.hint && (
-                <p className="mt-4 animate-fade rounded-md bg-white/5 p-3 text-sm text-white/80 ring-1 ring-white/10">
-                  <MathText text={t.hint} />
-                </p>
-              )}
-              {waitingPython && (
-                <div className="mt-4">
-                  <PythonLoading />
-                </div>
-              )}
-            </>
-          )}
+
+                {feedback && (
+                  <p
+                    className={`mt-4 animate-fade rounded-md border-l-4 p-3 text-sm font-bold ${
+                      feedback.kind === 'wrong' ? 'border-momo-500 bg-momo-100 text-momo-500' : 'border-halo-500 bg-halo-100 text-ink-700'
+                    }`}
+                  >
+                    {feedback.kind === 'wrong'
+                      ? 'Неверно. Задача остаётся открытой — попробуйте ещё раз.'
+                      : feedback.kind === 'parse'
+                        ? `Не удалось распознать ответ: ${feedback.message}`
+                        : `Ошибка: ${feedback.message}`}
+                  </p>
+                )}
+
+                {solved ? (
+                  <RewardBanner solved={solved} onNext={() => void load(false)} topicId={topic.fullId} />
+                ) : (
+                  <div className="mt-6 flex flex-wrap items-center gap-3">
+                    <button className="btn-gold !px-8" disabled={checking} onClick={() => void submit()}>
+                      {checking ? 'Проверяем…' : 'Проверить'}
+                    </button>
+                    {t.hint && !showHint && (
+                      <button className="btn-ghost" onClick={() => setShowHint(true)}>
+                        Подсказка
+                      </button>
+                    )}
+                    <button className="btn-ghost ml-auto" onClick={() => void load(true)} title="Выдать другой вариант этой задачи">
+                      Другой вариант
+                    </button>
+                  </div>
+                )}
+                {showHint && t.hint && (
+                  <p className="mt-4 animate-fade rounded-md border-l-4 border-ba-400 bg-ba-50 p-3 text-sm text-ink-700">
+                    <MathText text={t.hint} />
+                  </p>
+                )}
+                {waitingPython && (
+                  <div className="mt-4">
+                    <PythonLoading />
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
 
       <aside className="relative hidden flex-col items-center lg:flex">
-        <div className="panel relative z-10 mt-10 w-full animate-fade p-3 text-center text-sm" key={line}>
-          {line}
+        <div className="relative z-10 mt-16 w-full animate-fade" key={line}>
+          <div className="rounded-lg bg-white p-3 text-sm text-ink-700 shadow-lg">
+            <div className="mb-0.5 font-display text-xs font-extrabold text-momo-500 italic">{content.characters[heroine]?.name}</div>
+            {line}
+          </div>
+          <div className="ml-8 h-0 w-0 border-x-8 border-t-[10px] border-x-transparent border-t-white" />
         </div>
         <Portrait id={heroine} emotion={emotion} variant="stage" className="-mt-2 h-[26rem] w-60" />
       </aside>
@@ -230,32 +235,33 @@ export function ProblemScreen() {
 
 function RewardBanner({ solved, onNext, topicId }: { solved: Reward | 'demo'; onNext(): void; topicId: string }) {
   return (
-    <div className="mt-6 animate-rise rounded-md border border-gold-400/50 bg-gold-400/10 p-5">
-      {solved === 'demo' ? (
-        <p className="font-bold text-gold-200">Верно! В демо-режиме валюта не начисляется.</p>
-      ) : (
-        <>
-          <div className="flex items-center gap-3">
-            <span className="title-display text-gradient flex animate-shimmer items-center gap-2 text-3xl">
-              +{solved.reward} <Gem className="h-7 w-7" />
-            </span>
-            <span className="font-bold text-gold-200">Верно!</span>
-          </div>
-          {solved.decay_factor < 1 && (
-            <p className="mt-1 text-sm text-white/60">
-              Эта задача уже решена много раз, поэтому награда ×{solved.decay_factor}. Попробуй другие задачи!
-            </p>
-          )}
-          {solved.capped && <p className="mt-1 text-sm text-white/60">Дневной лимит за лёгкие задачи исчерпан — задачи посложнее по-прежнему приносят валюту.</p>}
-        </>
-      )}
-      <div className="mt-4 flex gap-3">
-        <button className="btn-gold" onClick={onNext}>
-          Следующая задача
-        </button>
-        <Link to={`/topic/${topicId}`} className="btn-ghost">
-          К теме
-        </Link>
+    <div className="mt-6 animate-rise overflow-hidden rounded-md border border-halo-400 bg-gradient-to-r from-halo-100 to-white">
+      <div className="bg-halo-400 px-5 py-1 font-display text-sm font-black tracking-widest text-ink-900 italic">MISSION CLEAR</div>
+      <div className="p-5">
+        {solved === 'demo' ? (
+          <p className="font-bold text-ink-900">Верно! В демо-режиме кристаллы не начисляются.</p>
+        ) : (
+          <>
+            <div className="flex items-center gap-3">
+              <span className="title-display flex items-center gap-2 text-3xl text-ink-900">
+                +{solved.reward} <Gem className="h-7 w-7" />
+              </span>
+              <span className="font-bold text-ba-600">Верно!</span>
+            </div>
+            {solved.decay_factor < 1 && (
+              <p className="mt-1 text-sm text-ink-500">Эта задача уже решена много раз, поэтому награда ×{solved.decay_factor}. Попробуйте другие задачи!</p>
+            )}
+            {solved.capped && <p className="mt-1 text-sm text-ink-500">Дневной лимит за лёгкие задачи исчерпан — задачи посложнее по-прежнему приносят кристаллы.</p>}
+          </>
+        )}
+        <div className="mt-4 flex gap-3">
+          <button className="btn-gold" onClick={onNext}>
+            Следующая задача
+          </button>
+          <Link to={`/topic/${topicId}`} className="btn-ghost">
+            К теме
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -263,8 +269,8 @@ function RewardBanner({ solved, onNext, topicId }: { solved: Reward | 'demo'; on
 
 function PythonLoading() {
   return (
-    <div className="flex items-center justify-center gap-3 text-sm text-white/60">
-      <span className="h-4 w-4 animate-spin rounded-full border-2 border-sakura-300 border-t-transparent" />
+    <div className="flex items-center justify-center gap-3 text-sm text-ink-500">
+      <span className="h-4 w-4 animate-spin rounded-full border-2 border-ba-400 border-t-transparent" />
       Загружаем математический движок (один раз, ~15 МБ)…
     </div>
   );

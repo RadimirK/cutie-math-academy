@@ -19,7 +19,7 @@ const MathField = lazy(() => import('./MathField.tsx'));
 
 function MathInput(props: InputProps & { keys?: { label: string; latex: string }[] }) {
   return (
-    <Suspense fallback={<div className="answer-field animate-pulse text-white/40">загружаем поле ввода…</div>}>
+    <Suspense fallback={<div className="answer-field animate-pulse text-ink-300">загружаем поле ввода…</div>}>
       <MathField onChange={props.onChange} onSubmit={props.onSubmit} disabled={props.disabled} keys={props.keys} />
     </Suspense>
   );
@@ -32,7 +32,7 @@ function NumberInput(props: InputProps) {
       {dne ? (
         <div className="answer-field flex items-center justify-between">
           <span className="font-bold">не существует</span>
-          <button type="button" className="text-sm text-white/50 hover:text-white" onClick={() => (setDne(false), props.onChange(null))}>
+          <button type="button" className="text-sm font-bold text-ink-500 hover:text-ba-600" onClick={() => (setDne(false), props.onChange(null))}>
             ✕ ввести число
           </button>
         </div>
@@ -64,8 +64,8 @@ function ChoiceInput({ cfg, onChange, disabled }: InputProps) {
           type="button"
           disabled={disabled}
           onClick={() => (setPicked(o), onChange({ value: o }))}
-          className={`rounded-md border px-4 py-3 text-left font-bold transition-colors ${
-            picked === o ? 'border-sakura-400 bg-sakura-500/20' : 'border-white/20 hover:border-white/40 hover:bg-white/5'
+          className={`rounded-md border-2 px-4 py-3 text-left font-bold text-ink-900 transition-colors ${
+            picked === o ? 'border-ba-500 bg-ba-100' : 'border-ink-100 bg-white hover:border-ba-300 hover:bg-ba-50'
           }`}
         >
           <MathText text={o} />
@@ -91,7 +91,7 @@ function MatrixInput({ correct, onChange, onSubmit, disabled }: InputProps) {
   };
   return (
     <div className="inline-flex items-stretch gap-2">
-      <div className="w-2 rounded-l-md border-y-2 border-l-2 border-white/60" />
+      <div className="w-2 rounded-l-md border-y-2 border-l-2 border-ink-700" />
       <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${cols}, 4.5rem)` }}>
         {cells.map((c, i) => (
           <input
@@ -102,12 +102,12 @@ function MatrixInput({ correct, onChange, onSubmit, disabled }: InputProps) {
             inputMode="text"
             onChange={(e) => update(i, e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
-            className="rounded-md border border-white/20 bg-night-950/60 px-2 py-2 text-center font-mono text-lg outline-none focus:border-sakura-400"
+            className="rounded-md border border-ink-100 bg-ba-50 px-2 py-2 text-center font-mono text-lg text-ink-900 outline-none focus:border-ba-400 focus:bg-white"
             aria-label={`строка ${Math.floor(i / cols) + 1}, столбец ${(i % cols) + 1}`}
           />
         ))}
       </div>
-      <div className="w-2 rounded-r-md border-y-2 border-r-2 border-white/60" />
+      <div className="w-2 rounded-r-md border-y-2 border-r-2 border-ink-700" />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { content } from '../content/bundle.ts';
 import { usePlayer } from '../lib/player.tsx';
 import { rpcErrorMessage, supabase } from '../lib/supabase.ts';
 import { Gem } from '../ui/Icons.tsx';
+import { PageHeader } from '../ui/PageHeader.tsx';
 import { Portrait, Stars } from '../ui/Portrait.tsx';
 import { rarityOf } from '../ui/rarity.ts';
 import { WishOverlay, type PullResult } from '../ui/WishOverlay.tsx';
@@ -30,7 +31,7 @@ export function Gacha() {
     void loadPity();
   }, [loadPity]);
 
-  if (!banner) return <p>Баннеров пока нет.</p>;
+  if (!banner) return <p>Наборов пока нет.</p>;
 
   async function pull(count: 1 | 10) {
     if (!supabase || !banner) return;
@@ -50,30 +51,30 @@ export function Gacha() {
 
   return (
     <div>
+      <PageHeader back="/" backLabel="Лобби" kicker="Recruitment" title="Набор учениц" />
       {banners.length > 1 && (
         <div className="mb-4 flex gap-2 overflow-x-auto">
           {banners.map((b) => (
-            <button key={b.id} onClick={() => setBannerId(b.id)} className={`btn-ghost shrink-0 ${b.id === bannerId ? '!border-white/50 !bg-white/10 !text-white' : ''}`}>
+            <button key={b.id} onClick={() => setBannerId(b.id)} className={`${b.id === bannerId ? 'btn-blue' : 'btn-ghost'} shrink-0`}>
               {b.title}
             </button>
           ))}
         </div>
       )}
 
-      <section className="relative min-h-[30rem] overflow-hidden rounded-[2rem] border border-white/15 shadow-[0_20px_80px_-20px_rgb(247_80_127/0.5)]">
+      <section className="relative min-h-[30rem] overflow-hidden rounded-xl border-2 border-white shadow-[0_20px_60px_-24px_rgb(18_140_255/0.7)]">
+        <div className="sky absolute inset-0" />
+        {/* diagonal banner stripes */}
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(circle at 75% 40%, rgb(255 194 77 / 0.45), transparent 45%), radial-gradient(circle at 20% 90%, rgb(247 80 127 / 0.5), transparent 50%), linear-gradient(135deg, #2a1a6e, #5b2a8a 50%, #1a1748)',
-          }}
+          style={{ background: 'linear-gradient(115deg, transparent 0 52%, rgb(255 255 255 / 0.55) 52% 60%, transparent 60% 64%, rgb(255 219 46 / 0.35) 64% 66%, transparent 66%)' }}
         />
-        <div className="rays absolute top-[40%] left-[72%] h-[44rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 animate-spin-slow opacity-25" style={{ ['--ray' as string]: '#ffe09a' }} />
+        <div className="rays absolute top-[40%] left-[72%] h-[44rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 animate-spin-slow opacity-30" style={{ ['--ray' as string]: '#ffffff' }} />
 
         {/* featured characters */}
         <div className="absolute right-0 bottom-0 flex items-end">
           {banner.pool[4].slice(0, 2).map((id) => (
-            <Portrait key={id} id={id} variant="stage" className="-mr-16 hidden h-72 w-44 opacity-70 md:block" />
+            <Portrait key={id} id={id} variant="stage" className="-mr-16 hidden h-72 w-44 opacity-80 md:block" />
           ))}
           {featured.map((id, i) => (
             <Portrait key={id} id={id} variant="stage" className={`h-[26rem] w-60 ${i > 0 ? '-ml-24 hidden sm:block' : ''} animate-float`} style={{ animationDelay: `${i * -1.7}s` }} />
@@ -81,48 +82,45 @@ export function Gacha() {
         </div>
 
         <div className="relative flex min-h-[30rem] flex-col p-6 sm:p-8">
-          <span className="chip w-fit bg-white/15 text-white/90 ring-1 ring-white/25">
-            {content.subjects[banner.subject]?.title ?? banner.subject} · постоянный баннер
+          <span className="plate w-fit font-display text-xs font-bold tracking-widest uppercase">
+            <span>{content.subjects[banner.subject]?.title ?? banner.subject} · постоянный набор</span>
           </span>
-          <h1 className="title-display mt-3 max-w-md text-4xl leading-tight drop-shadow-[0_4px_20px_rgb(0_0_0/0.5)] sm:text-5xl">{banner.title}</h1>
+          <h2 className="title-display mt-3 max-w-md text-4xl leading-tight text-ink-900 [text-shadow:0_2px_0_#fff,0_0_18px_#fff] sm:text-5xl">{banner.title}</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {featured.map((id) => (
-              <span key={id} className="chip bg-night-950/60 py-1 text-sm text-gold-200 ring-1 ring-gold-400/50">
+              <span key={id} className="chip bg-white/90 py-1 text-sm text-ink-900 shadow-sm">
                 <Stars n={5} className="text-xs" /> {content.characters[id]?.name}
               </span>
             ))}
           </div>
 
-          <div className="panel mt-6 max-w-xs p-4 text-sm !bg-night-950/50">
-            <div className="flex justify-between font-bold">
+          <div className="mt-6 max-w-xs rounded-md bg-white/90 p-4 text-sm shadow-md backdrop-blur-sm">
+            <div className="flex justify-between font-bold text-ink-900">
               <span>До гарантии 5★</span>
-              <span className="text-gold-300">{demo ? eco.pity.five_star : toFive}</span>
+              <span className="font-display text-ba-600">{demo ? eco.pity.five_star : toFive}</span>
             </div>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-sakura-400 to-gold-300"
-                style={{ width: `${(pity.since_5 / eco.pity.five_star) * 100}%` }}
-              />
+            <div className="mt-2 h-2.5 -skew-x-12 overflow-hidden bg-ink-100">
+              <div className="h-full bg-gradient-to-r from-ba-400 to-momo-400" style={{ width: `${(pity.since_5 / eco.pity.five_star) * 100}%` }} />
             </div>
-            <p className="mt-2 text-xs text-white/60">
+            <p className="mt-2 text-xs text-ink-500">
               5★ {(banner.rates[5] * 100).toFixed(1)}% · 4★ {(banner.rates[4] * 100).toFixed(1)}% · 4★ и выше не реже чем раз в {eco.pity.four_star}
             </p>
-            <button onClick={() => setShowPool((v) => !v)} className="mt-2 text-xs font-bold text-sakura-300 underline-offset-2 hover:underline">
-              {showPool ? 'скрыть состав' : 'состав баннера'}
+            <button onClick={() => setShowPool((v) => !v)} className="mt-2 text-xs font-bold text-ba-500 underline-offset-2 hover:underline">
+              {showPool ? 'скрыть состав' : 'состав набора'}
             </button>
           </div>
 
           <div className="mt-auto flex flex-wrap items-end justify-end gap-3 pt-8">
-            {demo && <p className="mr-auto self-center text-sm text-white/60">В демо-режиме без Supabase призыв недоступен.</p>}
+            {demo && <p className="mr-auto self-center rounded bg-white/80 px-2 py-1 text-sm font-bold text-ink-700">В демо-режиме без Supabase набор недоступен.</p>}
             {([1, 10] as const).map((n) => (
               <button
                 key={n}
                 disabled={demo || busy || balance < cost * n}
                 onClick={() => void pull(n)}
-                className={`${n === 10 ? 'btn-gold' : 'btn-pink'} min-w-40 flex-col !gap-0 !py-2`}
+                className={`${n === 10 ? 'btn-gold' : 'btn-blue'} min-w-44 flex-col !gap-0 !py-2.5 shadow-lg`}
               >
-                <span className="font-display text-base">Призыв ×{n}</span>
-                <span className="flex items-center gap-1 text-xs opacity-80">
+                <span className="text-lg italic">Набор ×{n}</span>
+                <span className="flex items-center gap-1 text-xs">
                   <Gem className="h-3.5 w-3.5" /> {cost * n}
                 </span>
               </button>
@@ -131,18 +129,18 @@ export function Gacha() {
         </div>
       </section>
 
-      {error && <p className="mt-4 rounded-2xl bg-red-500/15 p-3 text-red-200 ring-1 ring-red-400/40">{error}</p>}
+      {error && <p className="mt-4 rounded-md bg-red-50 p-3 text-red-700 ring-1 ring-red-200">{error}</p>}
 
       {showPool && (
         <section className="panel mt-6 animate-fade p-5">
-          <h2 className="title-display mb-3 text-lg">Состав баннера</h2>
+          <h2 className="title-display mb-3 text-lg text-ink-900">Состав набора</h2>
           {([5, 4, 3] as const).map((rar) => (
             <div key={rar} className="mb-3 flex flex-wrap items-center gap-3">
-              <span className={`w-24 font-bold ${rarityOf(rar).text}`}>
+              <span className={`w-24 font-display font-extrabold ${rarityOf(rar).text}`}>
                 {rar}★ · {(banner.rates[rar] * 100).toFixed(1)}%
               </span>
               {banner.pool[rar].map((id) => (
-                <span key={id} className="flex items-center gap-2 rounded-full bg-white/5 py-1 pr-3 pl-1 text-sm">
+                <span key={id} className="flex items-center gap-2 rounded-full bg-ba-50 py-1 pr-3 pl-1 text-sm font-bold text-ink-900 ring-1 ring-ink-100">
                   <Portrait id={id} className="h-7 w-7 rounded-full" />
                   {content.characters[id]?.name}
                 </span>

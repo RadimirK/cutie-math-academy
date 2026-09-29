@@ -16,8 +16,8 @@ export class ErrorBoundary extends Component<{ children: ReactNode; resetKey?: s
     if (!this.state.error) return this.props.children;
     return (
       <div className="panel mx-auto max-w-xl p-6">
-        <p className="title-display mb-2 text-lg">Что-то сломалось</p>
-        <pre className="overflow-x-auto text-xs whitespace-pre-wrap text-red-200">{this.state.error.message}</pre>
+        <p className="title-display mb-2 text-lg text-ink-900">Что-то сломалось</p>
+        <pre className="overflow-x-auto text-xs whitespace-pre-wrap text-red-700">{this.state.error.message}</pre>
         <button className="btn-ghost mt-4" onClick={() => this.setState({ error: null })}>
           Попробовать снова
         </button>
