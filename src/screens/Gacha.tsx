@@ -45,6 +45,18 @@ export function Gacha() {
     void loadPity();
   }
 
+  /** Dev only: play the recruitment animation with made-up results, without the server. */
+  function preview(kind: 3 | 4 | 5 | 10) {
+    if (!banner) return;
+    const pick = (r: 3 | 4 | 5): PullResult => {
+      const ids = banner.pool[r];
+      return { character_id: ids[Math.floor(Math.random() * ids.length)]!, rarity: r, constellation: 0, is_new: Math.random() < 0.5, refund: 0 };
+    };
+    if (kind !== 10) return setResults([{ ...pick(kind), is_new: true }]);
+    const rarities: (3 | 4 | 5)[] = [3, 3, 4, 3, 3, 5, 3, 4, 3, 3];
+    setResults(rarities.map(pick));
+  }
+
   const balance = profile?.currency ?? 0;
   const featured = banner.pool[5];
   const toFive = eco.pity.five_star - pity.since_5;
@@ -128,6 +140,17 @@ export function Gacha() {
           </div>
         </div>
       </section>
+
+      {import.meta.env.MODE !== 'production' && (
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+          <span className="font-bold text-ink-500">Превью анимации (dev):</span>
+          {([3, 4, 5, 10] as const).map((k) => (
+            <button key={k} onClick={() => preview(k)} className="btn-ghost !px-3 !py-1">
+              {k === 10 ? '×10' : `${k}★`}
+            </button>
+          ))}
+        </div>
+      )}
 
       {error && <p className="mt-4 rounded-md bg-red-50 p-3 text-red-700 ring-1 ring-red-200">{error}</p>}
 
