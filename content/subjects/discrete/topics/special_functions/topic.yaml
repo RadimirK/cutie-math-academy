@@ -1,0 +1,6 @@
+id: special_functions
+title: Особые булевы функции
+description: Существенные и фиктивные переменные, симметричные и форсируемые функции, медиана, пороговые функции.
+requires: [boolean_functions]
+main_character: boole
+main_scenes: [boole_04, boole_05, boole_06]

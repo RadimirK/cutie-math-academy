@@ -3,7 +3,16 @@ import unittest
 
 from cutemath.boolean import (
     POST_CLASSES,
+    closed_under,
+    cnf_tex,
     depends_on,
+    dual,
+    essential_count,
+    horn_least_model,
+    is_forcible,
+    is_symmetric,
+    maj,
+    minimal_ones,
     is_linear,
     is_monotone,
     is_self_dual,
@@ -66,6 +75,42 @@ class PostClassesTest(unittest.TestCase):
         self.assertFalse(is_monotone(XOR, 2))
         self.assertTrue(is_self_dual((0, 1), 1))
         self.assertTrue(is_linear((1, 0, 0, 1), 2))
+
+
+class PropertiesTest(unittest.TestCase):
+    def test_dual(self):
+        self.assertEqual(dual(AND), OR)
+        self.assertEqual(dual(XOR), (1, 0, 0, 1))
+        self.assertEqual(dual(MAJ), MAJ)
+
+    def test_forcible(self):
+        self.assertTrue(is_forcible(AND, 2))
+        self.assertFalse(is_forcible(XOR, 2))
+        self.assertFalse(is_forcible((1, 0, 0, 1), 2))
+        self.assertTrue(is_forcible(IMP, 2))
+
+    def test_symmetric_and_essential(self):
+        self.assertTrue(is_symmetric(MAJ, 3))
+        self.assertFalse(is_symmetric(IMP, 2))
+        self.assertEqual(essential_count((0, 0, 1, 1, 1, 1, 0, 0), 3), 2)
+
+    def test_minimal_ones(self):
+        self.assertEqual(minimal_ones(MAJ, 3), [(0, 1, 1), (1, 0, 1), (1, 1, 0)])
+
+    def test_closures(self):
+        # x ⊕ y = (x ∨ y)(¬x ∨ ¬y) is a 2-CNF but not Horn; x ⊕ y ⊕ z is neither.
+        self.assertTrue(closed_under(AND, 2, lambda a, b: a & b))
+        self.assertFalse(closed_under(XOR, 2, lambda a, b: a & b))
+        self.assertTrue(closed_under(XOR, 2, maj))
+        self.assertTrue(closed_under(IMP, 2, maj))
+        self.assertFalse(closed_under((0, 1, 1, 0, 1, 0, 0, 1), 3, maj))
+
+    def test_horn_least_model(self):
+        # x ∧ (¬x ∨ y) ∧ (¬y ∨ z) ∧ (¬x ∨ ¬z) is unsatisfiable.
+        clauses = [((0, True),), ((0, False), (1, True)), ((1, False), (2, True)), ((0, False), (2, False))]
+        self.assertIsNone(horn_least_model(clauses, 3))
+        self.assertEqual(horn_least_model(clauses[:3], 3), [1, 1, 1])
+        self.assertEqual(cnf_tex(clauses[:2]), 'x \\wedge (\\neg x \\vee y)')
 
 
 class FormulaTest(unittest.TestCase):

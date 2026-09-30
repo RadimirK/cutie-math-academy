@@ -1,0 +1,10 @@
+id: horn
+name: Хорн
+rarity: 4
+subject: discrete
+topics: [normal_forms]
+description: 'Оптимистка с ограничениями: в каждом дизъюнкте разрешает не больше одной надежды без отрицания. Зато выполнимость проверяет быстрее всех.'
+sprites:
+  smile: horn/smile.png
+  thinking: horn/thinking.png
+  happy: horn/happy.png

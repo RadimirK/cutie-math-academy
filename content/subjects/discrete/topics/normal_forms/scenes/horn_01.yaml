@@ -1,0 +1,79 @@
+id: horn_01
+title: Двойственность и СКНФ
+character: horn
+background: library
+nodes:
+  start:
+    - speaker: horn
+      emotion: smile
+      text: 'Я Хорн. Начнём с зеркала. Функция, двойственная к $f$: $$f^*(x_1, \ldots, x_n) = \neg f(\neg x_1, \ldots, \neg x_n).$$ Переворачиваем входы и выход.'
+    - speaker: horn
+      emotion: smile
+      text: 'Примеры. $(x \wedge y)^* = \neg(\neg x \wedge \neg y) = x \vee y$. И наоборот, $\vee^* = \wedge$. $\mathbf{0}^* = \mathbf{1}$. $\neg^* = \neg$. А $(x \oplus y)^* = \neg(\neg x \oplus \neg y) = \neg(x \oplus y) = x \equiv y$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Как быстро найти двойственную по вектору значений?'
+    - speaker: horn
+      emotion: happy
+      text: 'Прочитай вектор задом наперёд и инвертируй каждую цифру. Задом наперёд — потому что набор $\neg \alpha$ стоит симметрично $\alpha$ относительно середины таблицы. Для $\wedge$: $0001 \to$ задом $1000 \to$ инверсия $0111$. Это $\vee$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А $(f^*)^*$?'
+    - speaker: horn
+      emotion: smile
+      text: 'Двойное отражение — снова $f$: отрицания сокращаются. Самодвойственные функции Поста — это ровно неподвижные точки зеркала: $f^* = f$.'
+    - speaker: horn
+      emotion: thinking
+      text: 'Принцип двойственности. Пусть формула $F$ над $\{\wedge, \vee, \neg, \mathbf{0}, \mathbf{1}\}$ задаёт $f$. Поменяем в ней $\wedge \leftrightarrow \vee$ и $\mathbf{0} \leftrightarrow \mathbf{1}$, отрицания оставим. Получится формула для $f^*$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Почему?'
+    - speaker: horn
+      emotion: thinking
+      text: 'Индукция по дереву разбора. $f^*$ — это $\neg F(\neg x)$. Проносим внешнее отрицание внутрь по законам де Моргана: $\neg(A \wedge B) = \neg A \vee \neg B$ — связка сменилась, а отрицание ушло к поддеревьям. Дойдя до листьев, $\neg \neg x_i = x_i$. У $\neg$ отрицание просто проходит насквозь.'
+    - speaker: horn
+      emotion: smile
+      text: 'Теперь СКНФ — совершенная конъюнктивная нормальная форма. Буль строила СДНФ по единицам. Построим по нулям. Для каждой строки, где $f = 0$, запишем дизъюнкцию, ложную ровно на этой строке: переменную, равную там $0$, берём как есть, равную $1$ — с отрицанием.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Стоп, у Буль было наоборот: единица без отрицания.'
+    - speaker: horn
+      emotion: happy
+      text: 'Правильно, тут всё наоборот. Дизъюнкция ложна, только когда все её литералы ложны. Для строки $\langle 1, 0 \rangle$ пишем $\neg x \vee y$: при $x = 1$, $y = 0$ оба литерала ложны. На других строках хоть один истинен.'
+    - speaker: horn
+      emotion: smile
+      text: 'Соединяем все дизъюнкции через $\wedge$. На нулевой строке её дизъюнкция даст $0$ и обнулит всё. На единичной строке все дизъюнкции истинны. Пример: $x \to y$ равна нулю только на $10$, её СКНФ — одна скобка $\neg x \vee y$.'
+    - choice:
+        question: 'Сколько дизъюнкций в СКНФ медианы $\langle xyz \rangle$?'
+        options:
+          - text: '$3$'
+            goto: wrong
+          - text: '$4$'
+            goto: right
+          - text: '$8$'
+            goto: wrong
+  wrong:
+    - speaker: horn
+      emotion: thinking
+      text: 'Одна дизъюнкция на каждую строку с нулём. Медиана равна нулю, когда единиц меньше двух: $000$, $001$, $010$, $100$. Сколько это строк?'
+    - goto: right
+  right:
+    - speaker: horn
+      emotion: happy
+      text: 'Четыре нуля — четыре скобки: $(x \vee y \vee z)(x \vee y \vee \neg z)(x \vee \neg y \vee z)(\neg x \vee y \vee z)$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А связь с двойственностью где? Вы же с неё начали.'
+    - speaker: horn
+      emotion: smile
+      text: 'Возьми СДНФ функции $f^*$ и примени принцип двойственности: $\vee$ станет $\wedge$ и наоборот. Получишь формулу для $(f^*)^* = f$ — и это ровно СКНФ функции $f$. СКНФ — это «вывернутая» СДНФ двойственной функции.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А если вывернуть СДНФ самой $f$?'
+    - speaker: horn
+      emotion: happy
+      text: 'Получится формула для $f^*$, и она имеет вид СКНФ. Когда эта формула задаёт ту же функцию, что и $f$? Ответ ты уже знаешь из классов Поста.'
+    - speaker: horn
+      emotion: smile
+      text: 'Вообще, КНФ — любая конъюнкция дизъюнкций литералов, не обязательно совершенная. Каждая функция записывается в КНФ. Проверить, выполнима ли КНФ, — знаменитая задача SAT. В общем случае быстрого алгоритма никто не знает. Но для особых КНФ — знает. Об этом в следующий раз.'
+unlocks: [dual_vector, sknf_count]

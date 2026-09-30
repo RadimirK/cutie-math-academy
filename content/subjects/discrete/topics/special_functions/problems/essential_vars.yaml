@@ -1,0 +1,6 @@
+id: essential_vars
+title: Существенные переменные
+difficulty: 2
+answer_type: number
+generator: generators/essential_vars.py
+hint: 'Для первой переменной сравните половины вектора, для второй — четвертинки внутри половин и так далее.'

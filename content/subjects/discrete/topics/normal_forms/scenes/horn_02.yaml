@@ -1,0 +1,74 @@
+id: horn_02
+title: КНФ Хорна
+character: horn
+background: classroom
+nodes:
+  start:
+    - speaker: horn
+      emotion: smile
+      text: 'КНФ Хорна — это КНФ, в каждом дизъюнкте которой не больше одной переменной без отрицания. Пример: $x \wedge (\neg x \vee \neg y \vee z) \wedge (\neg z \vee t) \wedge (\neg x \vee \neg t)$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Почему именно «не больше одной»? Звучит случайно.'
+    - speaker: horn
+      emotion: happy
+      text: 'Перепишем дизъюнкты как правила. $\neg x \vee \neg y \vee z$ — это $x \wedge y \to z$: «если $x$ и $y$, то $z$». Одиночное $x$ — факт. А $\neg x \vee \neg t$ — запрет: $x$ и $t$ не могут быть истинны вместе. Так устроены базы знаний и язык Пролог.'
+    - speaker: horn
+      emotion: smile
+      text: 'Алгоритм проверки выполнимости. Начинаем с набора из всех нулей. Пока какой-то дизъюнкт ложен: если в нём есть переменная без отрицания — ставим её в $1$. Если такой нет — формула невыполнима. Когда ложных дизъюнктов нет — набор найден.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Прогоню пример. Всё $0$. Дизъюнкт $x$ ложен — ставим $x = 1$. Теперь $\neg x \vee \neg y \vee z$ истинен, ведь $y = 0$. $\neg z \vee t$ истинен. $\neg x \vee \neg t$ истинен. Готово: $x = 1$, остальные $0$!'
+    - speaker: horn
+      emotion: happy
+      text: 'Верно. Почему алгоритм полиномиален? Каждый шаг ставит в единицу новую переменную, а обратно ничего не меняет. Шагов не больше $n$, каждый — проход по $m$ дизъюнктам. Итого $O(nm)$, а с аккуратными структурами данных — линейно от длины формулы.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А почему «невыполнима», если застряли на запрете? Может, надо было раньше поставить что-то иначе?'
+    - speaker: horn
+      emotion: thinking
+      text: 'Инвариант: каждая переменная, которую мы поставили в $1$, равна $1$ в любом выполняющем наборе. Индукция: мы ставим $z = 1$, только когда правило $x \wedge y \to z$ нарушено, то есть $x = y = 1$ уже вынуждены. Значит, и $z$ вынуждена.'
+    - speaker: horn
+      emotion: thinking
+      text: 'Если нарушен запрет $\neg x \vee \neg t$, то $x$ и $t$ обе вынуждены в любом решении — решений нет. А найденный набор ещё и минимален: в нём единицы только там, где без них никак.'
+    - choice:
+        question: 'Выполнима ли $x \wedge (\neg x \vee y) \wedge (\neg y \vee z) \wedge (\neg x \vee \neg z)$?'
+        options:
+          - text: 'Да'
+            goto: wrong
+          - text: 'Нет'
+            goto: right
+  wrong:
+    - speaker: horn
+      emotion: thinking
+      text: 'Прогоним алгоритм. $x$ — факт, ставим $x = 1$. Правило $x \to y$ требует $y = 1$. Правило $y \to z$ требует $z = 1$. А запрет $\neg x \vee \neg z$ теперь ложен, и исправить нечем.'
+    - goto: right
+  right:
+    - speaker: horn
+      emotion: happy
+      text: 'Невыполнима: $x$ — факт, из него вынуждены $y$ и $z$, а запрет не разрешает $x$ и $z$ вместе.'
+    - speaker: horn
+      emotion: smile
+      text: 'Теперь структурное свойство. Если наборы $\alpha$ и $\beta$ выполняют КНФ Хорна, то и их покомпонентная конъюнкция $\alpha \wedge \beta$ её выполняет.'
+    - speaker: horn
+      emotion: thinking
+      text: 'Доказательство для одного дизъюнкта $\neg a \vee \neg b \vee c$. Если в $\alpha \wedge \beta$ хоть одна из $a$, $b$ равна $0$ — дизъюнкт истинен. Иначе $a = b = 1$ и в $\alpha$, и в $\beta$. Тогда $c = 1$ в обоих, а значит, и в $\alpha \wedge \beta$. Запрет без $c$ разбирается так же.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А обратно? Если множество единиц функции замкнуто относительно покомпонентного $\wedge$, её можно записать КНФ Хорна?'
+    - speaker: horn
+      emotion: happy
+      text: 'Можно! Для каждого нулевого набора $\alpha$ построим хорновский дизъюнкт, ложный на $\alpha$ и истинный на всех единицах $f$. Конъюнкция этих дизъюнктов и будет $f$. Пусть $P$ — позиции, где $\alpha_i = 1$.'
+    - speaker: horn
+      emotion: thinking
+      text: 'Рассмотрим единицы $f$, лежащие выше $\alpha$. Если их нет — годится запрет $\bigvee_{i \in P} \neg x_i$: он ложен только на наборах выше $\alpha$. Если есть — возьмём их общую конъюнкцию $\gamma$. По замкнутости это тоже единица $f$, и $\gamma \ge \alpha$, $\gamma \ne \alpha$.'
+    - speaker: horn
+      emotion: thinking
+      text: 'Значит, есть позиция $j$ с $\gamma_j = 1$, $\alpha_j = 0$. Дизъюнкт $\bigvee_{i \in P} \neg x_i \vee x_j$ ложен на $\alpha$. На единице $f$ ниже или сбоку от $\alpha$ он истинен за счёт отрицаний. А единица выше $\alpha$ лежит выше $\gamma$, и там $x_j = 1$.'
+    - speaker: student_b
+      emotion: happy
+      text: 'Красиво: замкнутость относительно $\wedge$ — это и есть «хорновость».'
+    - speaker: horn
+      emotion: smile
+      text: 'Такие соответствия «вид КНФ ↔ операция, сохраняющая решения» — основа теоремы Шефера о сложности SAT. Следующий пример — 2-КНФ и медиана.'
+unlocks: [horn_krom_kind, horn_sat_check, horn_min_model]

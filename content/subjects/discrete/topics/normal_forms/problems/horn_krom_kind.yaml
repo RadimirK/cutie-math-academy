@@ -1,0 +1,22 @@
+id: horn_krom_kind
+title: Какая это КНФ?
+difficulty: 1
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {f: '(\neg x \vee y) \wedge (\neg y \vee \neg z)', ans: 'И то и другое'}
+      - {f: '(x \vee y) \wedge (\neg x \vee z)', ans: 'Только 2-КНФ'}
+      - {f: '(\neg x \vee \neg y \vee z) \wedge (\neg z \vee t)', ans: 'Только КНФ Хорна'}
+      - {f: '(x \vee y \vee \neg z) \wedge (\neg x \vee t)', ans: 'Ни то ни другое'}
+      - {f: '(\neg x \vee \neg y) \wedge (\neg y \vee \neg z) \wedge (\neg x \vee \neg z)', ans: 'И то и другое'}
+      - {f: '(x \vee \neg y) \wedge (y \vee \neg z) \wedge (z \vee \neg x)', ans: 'И то и другое'}
+      - {f: '(x \vee y) \wedge (y \vee z)', ans: 'Только 2-КНФ'}
+      - {f: '(\neg x \vee \neg y \vee \neg z) \wedge (x \vee \neg y)', ans: 'Только КНФ Хорна'}
+      - {f: '(x \vee y \vee z) \wedge (\neg x \vee \neg y)', ans: 'Ни то ни другое'}
+statement: 'К какому виду относится формула $<<q.f>>$: КНФ Хорна (в каждом дизъюнкте не больше одной переменной без отрицания) или 2-КНФ (в каждом дизъюнкте ровно два литерала)?'
+config:
+  options: [Только КНФ Хорна, Только 2-КНФ, И то и другое, Ни то ни другое]
+answer: '<<q.ans>>'
+hint: 'Проверьте каждый дизъюнкт по отдельности: сколько в нём литералов и сколько из них без отрицания.'

@@ -1,0 +1,6 @@
+id: triangle_coef
+title: Метод треугольника
+difficulty: 2
+answer_type: number
+generator: generators/triangle_coef.py
+hint: 'Постройте треугольник: под каждой парой соседей пишите их сумму по модулю $2$. Левый край — коэффициенты при $1, z, y, yz, x, xz, xy, xyz$.'

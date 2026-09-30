@@ -1,0 +1,20 @@
+id: peirce_eval
+title: Формулы из стрелок Пирса
+difficulty: 1
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {f: 'x \downarrow x', ans: '$\neg x$'}
+      - {f: '(x \downarrow y) \downarrow (x \downarrow y)', ans: '$x \vee y$'}
+      - {f: '(x \downarrow x) \downarrow (y \downarrow y)', ans: '$x \wedge y$'}
+      - {f: 'x \downarrow (x \downarrow x)', ans: '$\mathbf{0}$'}
+      - {f: '(x \downarrow (x \downarrow x)) \downarrow (x \downarrow (x \downarrow x))', ans: '$\mathbf{1}$'}
+      - {f: '(x \downarrow x) \downarrow y', ans: '$x \wedge \neg y$'}
+      - {f: 'x \downarrow (y \downarrow y)', ans: '$\neg x \wedge y$'}
+statement: 'Какую функцию задаёт формула $<<q.f>>$?'
+config:
+  options: ['$\neg x$', '$x \vee y$', '$x \wedge y$', '$\mathbf{0}$', '$\mathbf{1}$', '$x \wedge \neg y$', '$\neg x \wedge y$']
+answer: '<<q.ans>>'
+hint: '$a \downarrow b = \neg(a \vee b) = \neg a \wedge \neg b$. Вычисляйте изнутри наружу.'

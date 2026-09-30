@@ -1,0 +1,76 @@
+id: post_04
+title: Метод треугольника
+character: zhegalkin
+background: library
+nodes:
+  start:
+    - speaker: zhegalkin
+      emotion: smile
+      text: 'Раскрывать скобки долго. Найдём полином сразу по таблице! Запишем полином от трёх переменных с неизвестными коэффициентами: $$f = a \oplus a_z z \oplus a_y y \oplus a_{yz} yz \oplus a_x x \oplus \ldots \oplus a_{xyz} xyz.$$'
+    - speaker: zhegalkin
+      emotion: thinking
+      text: 'Подставим $000$: все мономы, кроме $1$, обнулятся, так что $a = f(000)$. Подставим $001$: останутся $a$ и $a_z$, то есть $a_z = f(001) \oplus f(000)$. Это метод неопределённых коэффициентов.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А для $a_{yz}$? Подставим $011$: живут мономы $1$, $z$, $y$, $yz$…'
+    - speaker: zhegalkin
+      emotion: happy
+      text: 'И получится $a_{yz} = f(011) \oplus f(010) \oplus f(001) \oplus f(000)$. Общая формула: коэффициент при мономе из переменных $S$ равен сумме по модулю два значений $f$ на всех наборах, где единицы стоят только внутри $S$: $$a_S = \bigoplus_{T \subseteq S} f(T).$$'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Формула красивая, но для $xyz$ придётся складывать все восемь значений. Быстрее нельзя?'
+    - speaker: zhegalkin
+      emotion: happy
+      text: 'Можно — треугольником! Пишем вектор значений строкой. Под каждой парой соседних чисел пишем их сумму по модулю два. Строка укорачивается на одно число, и так до одного числа. Левый край треугольника — это коэффициенты.'
+    - speaker: zhegalkin
+      emotion: smile
+      text: 'Пример: $x \vee y$, вектор $0111$. Строки: $0111$, потом $100$, потом $10$, потом $1$. Левый край сверху вниз: $0, 1, 1, 1$.'
+    - speaker: zhegalkin
+      emotion: thinking
+      text: 'Порядок мономов — как у наборов: $00 \to 1$, $01 \to y$, $10 \to x$, $11 \to xy$. Набор говорит, какие переменные входят в моном. Значит, коэффициенты $0, 1, 1, 1$ дают $y \oplus x \oplus xy$. Сходится!'
+    - choice:
+        question: 'Какой полином даёт треугольник для вектора $1001$?'
+        options:
+          - text: '$x \oplus y$'
+            goto: wrong
+          - text: '$x \oplus y \oplus 1$'
+            goto: right
+          - text: '$xy \oplus 1$'
+            goto: wrong
+  wrong:
+    - speaker: zhegalkin
+      emotion: thinking
+      text: 'Построим: $1001$, ниже $1 \oplus 0, 0 \oplus 0, 0 \oplus 1 = 101$, ниже $11$, ниже $0$. Левый край: $1, 1, 1, 0$ — это коэффициенты при $1$, $y$, $x$, $xy$.'
+    - goto: right
+  right:
+    - speaker: zhegalkin
+      emotion: happy
+      text: 'Строки $1001$, $101$, $11$, $0$. Левый край $1, 1, 1, 0$: $1 \oplus y \oplus x$. Это эквивалентность $x \equiv y$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Работает, но почему? Это какая-то магия.'
+    - speaker: zhegalkin
+      emotion: smile
+      text: 'Треугольник — это треугольник Паскаля по модулю два. Число в строке $k$ на левом краю — сумма исходных значений $f_j$ с коэффициентами $\binom{k}{j}$: $$\bigoplus_{j} \binom{k}{j} f_j \pmod 2.$$ Нечётные биномиальные коэффициенты оставляют $f_j$, чётные — выкидывают.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А по формуле нужно брать $f_j$ ровно для $j \subseteq k$ — где единицы $j$ стоят только внутри единиц $k$. Значит, $\binom{k}{j}$ должен быть нечётным ровно в этих случаях?'
+    - speaker: zhegalkin
+      emotion: happy
+      text: 'Именно это и верно — теорема Люка: $\binom{k}{j}$ нечётен тогда и только тогда, когда в двоичной записи $j$ единицы стоят только там, где они есть у $k$.'
+    - speaker: zhegalkin
+      emotion: thinking
+      text: 'Доказательство. $(1 + x)^2 = 1 + 2x + x^2 \equiv 1 + x^2 \pmod 2$ — средний член чётен. По индукции $(1 + x)^{2^m} \equiv 1 + x^{2^m}$.'
+    - speaker: zhegalkin
+      emotion: thinking
+      text: 'Разложим $k$ по степеням двойки: $k = 2^{m_1} + \ldots + 2^{m_r}$. Тогда $(1 + x)^k \equiv \prod_i (1 + x^{2^{m_i}})$. Раскроем скобки: из каждой берём $1$ или $x^{2^{m_i}}$. Каждый показатель получается ровно одним способом — как сумма части двоичных разрядов $k$.'
+    - speaker: zhegalkin
+      emotion: happy
+      text: 'Значит, коэффициент при $x^j$ равен $1$, если $j$ — сумма части разрядов $k$, и $0$ иначе. А коэффициент при $x^j$ в $(1 + x)^k$ — это и есть $\binom{k}{j}$. Готово!'
+    - speaker: student_b
+      emotion: happy
+      text: 'Тогда в строке $k$ треугольника Паскаля нечётных чисел ровно $2^{(\text{число единиц в } k)}$! Для $k = 7$ все восемь нечётные.'
+    - speaker: post
+      emotion: smile
+      text: 'Отличное следствие. Кстати, по треугольнику сразу видна и линейность: функция линейна, если на левом краю единицы стоят только в строках $0$ и степеней двойки — там, где моном состоит из одной переменной.'
+unlocks: [triangle_coef, lucas_odd]

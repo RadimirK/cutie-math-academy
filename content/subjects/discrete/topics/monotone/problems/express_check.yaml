@@ -1,0 +1,26 @@
+id: express_check
+title: Можно ли выразить?
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {g: 'x \wedge y', sys: '\{\vee, \mathbf{0}\}', ans: 'Нет'}
+      - {g: 'x \wedge (y \vee z)', sys: '\{\wedge, \vee\}', ans: 'Да'}
+      - {g: 'x \oplus y', sys: '\{\equiv\}', ans: 'Нет'}
+      - {g: 'x \oplus y', sys: '\{\equiv, \mathbf{0}\}', ans: 'Да'}
+      - {g: '\neg x', sys: '\{\to\}', ans: 'Нет'}
+      - {g: '\mathbf{1}', sys: '\{\to\}', ans: 'Да'}
+      - {g: '\mathbf{0}', sys: '\{\to\}', ans: 'Нет'}
+      - {g: 'x \vee y', sys: '\{\to\}', ans: 'Да'}
+      - {g: 'x \wedge y', sys: '\{\to\}', ans: 'Нет'}
+      - {g: 'x \to y', sys: '\{\vee, \neg\}', ans: 'Да'}
+      - {g: 'x \oplus y \oplus z', sys: '\{\oplus\}', ans: 'Да'}
+      - {g: 'x \equiv y', sys: '\{\oplus\}', ans: 'Нет'}
+      - {g: 'x \oplus y', sys: '\{x \oplus y \oplus z\}', ans: 'Нет'}
+statement: 'Можно ли выразить $<<q.g>>$ формулой над системой $<<q.sys>>$?'
+config:
+  options: [Да, Нет]
+answer: '<<q.ans>>'
+hint: 'Для «нет» найдите свойство, общее для всей системы и сохраняющееся при подстановках, которого нет у $g$ (класс Поста — не единственный вариант). Для «да» предъявите формулу.'

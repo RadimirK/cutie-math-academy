@@ -1,0 +1,23 @@
+id: median_express
+title: Что умеет медиана
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {g: 'x \wedge y', sys: '\{\langle xyz \rangle, \mathbf{0}\}', ans: 'Да'}
+      - {g: 'x \vee y', sys: '\{\langle xyz \rangle\}', ans: 'Нет'}
+      - {g: '\neg x', sys: '\{\langle xyz \rangle, \mathbf{0}, \mathbf{1}\}', ans: 'Нет'}
+      - {g: 'x \oplus y', sys: '\{\langle xyz \rangle, \neg\}', ans: 'Нет'}
+      - {g: 'x \oplus y \oplus z', sys: '\{\langle xyz \rangle, \neg\}', ans: 'Да'}
+      - {g: 'x \wedge (y \vee z)', sys: '\{\langle xyz \rangle, \mathbf{0}, \mathbf{1}\}', ans: 'Да'}
+      - {g: 'x \to y', sys: '\{\langle xyz \rangle, \neg, \mathbf{1}\}', ans: 'Да'}
+      - {g: '\langle x_1 x_2 x_3 x_4 x_5 \rangle', sys: '\{\langle xyz \rangle\}', ans: 'Да'}
+      - {g: '\langle xyz \rangle', sys: '\{\wedge, \vee\}', ans: 'Да'}
+      - {g: 'x \wedge y', sys: '\{\langle xyz \rangle, \neg\}', ans: 'Нет'}
+statement: 'Можно ли выразить $<<q.g>>$ формулой над системой $<<q.sys>>$?'
+config:
+  options: [Да, Нет]
+answer: '<<q.ans>>'
+hint: 'Для «нет» найдите класс Поста, содержащий всю систему, но не $g$. Для «да» вспомните $\langle xy0 \rangle$, $\langle xy1 \rangle$ и теорему о монотонных самодвойственных функциях.'

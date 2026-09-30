@@ -2,7 +2,7 @@ id: boole
 name: Буль
 rarity: 4
 subject: discrete
-topics: [boolean_functions]
+topics: [boolean_functions, special_functions]
 description: 'Отвечает только «да» или «нет», но всегда может объяснить почему. Любой спор раскладывает в таблицу истинности.'
 sprites:
   smile: boole/smile.png

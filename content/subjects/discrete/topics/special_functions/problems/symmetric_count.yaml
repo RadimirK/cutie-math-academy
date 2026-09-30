@@ -1,0 +1,6 @@
+id: symmetric_count
+title: Симметричные функции
+difficulty: 2
+answer_type: number
+generator: generators/symmetric_count.py
+hint: 'Симметричная функция задаётся вектором значений по весам $\langle v_0, \ldots, v_n \rangle$. Переведите условие на язык этого вектора.'

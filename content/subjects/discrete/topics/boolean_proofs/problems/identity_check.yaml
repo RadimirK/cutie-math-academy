@@ -1,0 +1,26 @@
+id: identity_check
+title: Верно ли тождество?
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {id: '\langle x, y, x \equiv y \rangle = x \wedge y', ans: 'Верно'}
+      - {id: '\langle x, y, x \oplus y \rangle = x \vee y', ans: 'Верно'}
+      - {id: '\langle x, \neg x, y \rangle = y', ans: 'Верно'}
+      - {id: '\langle xyz \rangle = (x \vee y)(y \vee z)(x \vee z)', ans: 'Верно'}
+      - {id: '(x \to y) \to x = x', ans: 'Верно'}
+      - {id: '(x \to y) \to y = x \vee y', ans: 'Верно'}
+      - {id: 'x \to (y \to x) = \mathbf{1}', ans: 'Верно'}
+      - {id: '(x \downarrow y) \downarrow z = x \downarrow (y \downarrow z)', ans: 'Неверно'}
+      - {id: 'x \oplus (y \vee z) = (x \oplus y) \vee (x \oplus z)', ans: 'Неверно'}
+      - {id: 'x \vee (y \wedge \neg x) = x \vee y', ans: 'Верно'}
+      - {id: '\neg (x \oplus y) = \neg x \oplus y', ans: 'Верно'}
+      - {id: 'x \wedge (y \oplus z) = (x \wedge y) \oplus (x \wedge z)', ans: 'Верно'}
+      - {id: 'x \vee (y \oplus z) = (x \vee y) \oplus (x \vee z)', ans: 'Неверно'}
+statement: 'Верно ли тождество $<<q.id>>$?'
+config:
+  options: [Верно, Неверно]
+answer: '<<q.ans>>'
+hint: 'Разберите случаи по одной переменной (например, $x = 0$ и $x = 1$) или по соотношению переменных ($x = y$ и $x \ne y$).'

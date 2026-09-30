@@ -1,0 +1,6 @@
+id: boolean_proofs
+title: Приёмы решения задач
+description: Инварианты для невыразимости, доказательство тождеств, подсчёт с включениями-исключениями, примеры, контрпримеры и корректность алгоритмов.
+requires: [monotone, normal_forms]
+main_character: post
+main_scenes: [post_07, post_08, post_09, post_10]

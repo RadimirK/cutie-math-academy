@@ -1,0 +1,6 @@
+id: monotone
+title: Монотонные функции и длина формул
+description: Нижние единицы и формулы без отрицаний, монотонные самодвойственные функции через медиану, короткие формулы через стрелку Пирса.
+requires: [zhegalkin_post, special_functions]
+main_character: post
+main_scenes: [post_05, post_06]

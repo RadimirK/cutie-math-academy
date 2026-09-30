@@ -1,0 +1,82 @@
+id: proof_01
+title: Из чего сделано доказательство
+character: cantor
+background: classroom
+nodes:
+  start:
+    - narration: 'Хината сдаёт первое домашнее задание. Кантор читает и хмурится.'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Хината, в задаче просили доказать, что все функции из класса обладают свойством. А ты проверила две функции.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Ну для двух же работает! Значит, и для остальных.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Давай разберёмся, как устроено доказательство, — это пригодится во всех задачах курса. Почти любая теорема имеет вид $$\forall x\ \big(P(x) \Rightarrow Q(x)\big):$$ «для любого $x$ с условием $P$ верно $Q$».'
+    - speaker: cantor
+      emotion: smile
+      text: 'Стандартное начало: «Возьмём произвольный $x$, для которого верно $P(x)$». Произвольный — значит, мы ничего не знаем о нём, кроме $P(x)$. Дальше выводим $Q(x)$. Раз $x$ был любым, утверждение доказано для всех.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А примеры тогда вообще бесполезны?'
+    - speaker: cantor
+      emotion: happy
+      text: 'Для «$\forall$» примеры ничего не доказывают, но помогают увидеть идею. А вот опровергнуть «$\forall$» можно одним примером — контрпримером. С «$\exists$» всё наоборот: чтобы доказать, предъяви пример и проверь все условия; чтобы опровергнуть — докажи «для всех не».'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Значит, очень важно уметь строить отрицание. Правила: $\neg \forall x\, P \equiv \exists x\, \neg P$, $\neg \exists x\, P \equiv \forall x\, \neg P$, $\neg(P \Rightarrow Q) \equiv P \wedge \neg Q$, $\neg(P \wedge Q) \equiv \neg P \vee \neg Q$. Кванторы переворачиваются, а отрицание уходит внутрь.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Пример. «$f$ инъективна»: $\forall x_1, x_2\ (x_1 \ne x_2 \Rightarrow f(x_1) \ne f(x_2))$. Отрицание: $\exists x_1, x_2\colon x_1 \ne x_2 \wedge f(x_1) = f(x_2)$. Ровно это и надо предъявить, чтобы доказать, что функция не инъективна.'
+    - choice:
+        question: 'Как звучит отрицание утверждения «$f$ монотонна», то есть $\forall \alpha, \beta\ (\alpha \le \beta \Rightarrow f(\alpha) \le f(\beta))$?'
+        options:
+          - text: '$\forall \alpha, \beta\ (\alpha \le \beta \Rightarrow f(\alpha) > f(\beta))$'
+            goto: wrong_forall
+          - text: '$\exists \alpha, \beta\colon \alpha \le \beta \wedge f(\alpha) > f(\beta)$'
+            goto: right
+          - text: '$\exists \alpha, \beta\colon \alpha > \beta \wedge f(\alpha) \le f(\beta)$'
+            goto: wrong_swap
+  wrong_forall:
+    - speaker: cantor
+      emotion: thinking
+      text: 'Это «функция монотонно убывает на всех сравнимых парах» — гораздо сильнее, чем «не монотонна». Отрицание $\forall$ — это $\exists$: достаточно одной плохой пары.'
+    - goto: right
+  wrong_swap:
+    - speaker: cantor
+      emotion: thinking
+      text: 'Посылку импликации не отрицают! $\neg(P \Rightarrow Q) = P \wedge \neg Q$: условие $\alpha \le \beta$ остаётся, а отрицается вывод.'
+    - goto: right
+  right:
+    - speaker: cantor
+      emotion: happy
+      text: 'Верно: существует пара $\alpha \le \beta$, на которой значение падает. Чтобы доказать немонотонность, надо предъявить такую пару.'
+    - speaker: cantor
+      emotion: smile
+      text: 'Три главных способа доказать $P \Rightarrow Q$. Первый — прямой: из $P$ шаг за шагом выводим $Q$. Второй — контрапозиция: $P \Rightarrow Q$ равносильно $\neg Q \Rightarrow \neg P$. Иногда из «не $Q$» выводить удобнее.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Пример контрапозиции?'
+    - speaker: cantor
+      emotion: smile
+      text: '«Если $n^2$ чётно, то $n$ чётно». Прямо неудобно. Контрапозиция: «если $n$ нечётно, то $n^2$ нечётно». $n = 2k + 1$, $n^2 = 4k^2 + 4k + 1$ — нечётно. Готово.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А я бы доказала так: пусть $n$ чётно, $n = 2k$, тогда $n^2 = 4k^2$ чётно.'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Это обратное утверждение: $Q \Rightarrow P$. Оно тоже верно, но доказывали не его! $P \Rightarrow Q$ и $Q \Rightarrow P$ — разные утверждения: «если идёт дождь, то мокро» не значит «если мокро, то идёт дождь».'
+    - speaker: cantor
+      emotion: smile
+      text: 'Третий способ — от противного. Предположим, что утверждение неверно, и выведем противоречие — нечто заведомо ложное. Так мы доказали, что множества всех множеств нет, а Буль — что $x \oplus y$ не пороговая.'
+    - speaker: cantor
+      emotion: thinking
+      text: 'Ещё два шаблона. «$\iff$» — это две импликации, доказывай обе стороны отдельно. Равенство множеств — два включения, $A \subseteq B$ и $B \subseteq A$. Равенство функций — совпадение значений на всех аргументах.'
+    - speaker: student_b
+      emotion: happy
+      text: 'То есть в моей домашке надо было взять произвольную функцию из класса, а не две конкретные.'
+    - speaker: cantor
+      emotion: happy
+      text: 'Именно. И последнее: слово «очевидно» — сигнал, что пропущен шаг. Если шаг правда очевиден, его легко написать в одну строку.'
+unlocks: [negation_pick, proof_error]

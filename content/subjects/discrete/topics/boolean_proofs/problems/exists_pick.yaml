@@ -1,0 +1,24 @@
+id: exists_pick
+title: Пример или «такой нет»
+difficulty: 3
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {cond: 'лежит в $T_0$ и $T_1$, но не монотонна', x: '$x \oplus y \oplus z$', y: '$x \wedge y$', z: '$\langle xyz \rangle$', ans: '$x \oplus y \oplus z$'}
+      - {cond: 'лежит в $M$ и $S$, но не линейна', x: '$x$', y: '$\langle xyz \rangle$', z: '$x \wedge y$', ans: '$\langle xyz \rangle$'}
+      - {cond: 'лежит в $L$ и $S$ и существенно зависит от трёх переменных', x: '$x \oplus y$', y: '$\langle xyz \rangle$', z: '$x \oplus y \oplus z$', ans: '$x \oplus y \oplus z$'}
+      - {cond: 'лежит в $T_1$ и ни в одном другом классе Поста', x: '$x \to y$', y: '$x \equiv y$', z: '$x \vee y$', ans: '$x \to y$'}
+      - {cond: 'лежит в $T_0$ и ни в одном другом классе Поста', x: '$x \oplus y$', y: '$x \wedge \neg y$', z: '$x \wedge y$', ans: '$x \wedge \neg y$'}
+      - {cond: 'не лежит ни в одном классе Поста', x: '$x \to y$', y: '$\neg x$', z: '$x \downarrow y$', ans: '$x \downarrow y$'}
+      - {cond: 'лежит во всех классах Поста, кроме $L$', x: '$\langle xyz \rangle$', y: '$x \wedge y$', z: '$x \oplus y \oplus z$', ans: '$\langle xyz \rangle$'}
+      - {cond: 'лежит во всех классах Поста, кроме $M$', x: '$\neg x$', y: '$x \oplus y \oplus z$', z: '$x$', ans: '$x \oplus y \oplus z$'}
+      - {cond: 'лежит во всех классах Поста, кроме $S$', x: '$x \wedge y$', y: '$x$', z: 'такой нет', ans: 'такой нет'}
+      - {cond: 'лежит во всех классах Поста, кроме $T_0$', x: 'такой нет', y: '$\mathbf{1}$', z: '$x \to y$', ans: 'такой нет'}
+      - {cond: 'лежит в $M$ и $L$ и существенно зависит от двух переменных', x: '$x \oplus y$', y: 'такой нет', z: '$x \wedge y$', ans: 'такой нет'}
+statement: 'Выберите функцию, которая <<q.cond>>.'
+config:
+  options: ['<<q.x>>', '<<q.y>>', '<<q.z>>']
+answer: '<<q.ans>>'
+hint: 'Выпишите классы Поста для каждого кандидата. Если все отпадают, вспомните, что $M \cap L$ — только константы и переменные.'

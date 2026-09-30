@@ -1,0 +1,6 @@
+id: lucas_odd
+title: Теорема Люка
+difficulty: 2
+answer_type: number
+generator: generators/lucas_odd.py
+hint: '$\binom{n}{k}$ нечётно, когда единицы двоичной записи $k$ стоят только там, где они есть у $n$.'

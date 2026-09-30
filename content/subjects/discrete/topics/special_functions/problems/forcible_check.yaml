@@ -1,0 +1,6 @@
+id: forcible_check
+title: Форсируема ли функция?
+difficulty: 2
+answer_type: choice
+generator: generators/forcible_check.py
+hint: 'Для каждой переменной и каждого её значения посмотрите на строки таблицы с этим значением: все ли $f$ в них одинаковы?'

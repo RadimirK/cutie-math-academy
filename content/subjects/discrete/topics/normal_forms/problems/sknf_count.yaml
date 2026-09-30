@@ -1,0 +1,6 @@
+id: sknf_count
+title: Считаем СКНФ
+difficulty: 1
+answer_type: number
+generator: generators/sknf_count.py
+hint: 'Каждой строке с $f = 0$ соответствует одна дизъюнкция, в которой переменные, равные $1$, берутся с отрицанием.'

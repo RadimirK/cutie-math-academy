@@ -1,0 +1,6 @@
+id: chow_params
+title: Параметры Чоу
+difficulty: 1
+answer_type: number
+generator: generators/chow_params.py
+hint: 'Выпишите все наборы, на которых $f = 1$, и сложите их покоординатно как обычные числа.'

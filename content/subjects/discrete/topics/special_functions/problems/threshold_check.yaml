@@ -1,0 +1,25 @@
+id: threshold_check
+title: Пороговая или нет?
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {f: 'x \wedge y', ans: 'Да'}
+      - {f: 'x \to y', ans: 'Да'}
+      - {f: 'x \oplus y', ans: 'Нет'}
+      - {f: 'x \equiv y', ans: 'Нет'}
+      - {f: 'x \wedge \neg y', ans: 'Да'}
+      - {f: '\langle xyz \rangle', ans: 'Да'}
+      - {f: 'x \wedge (y \vee z)', ans: 'Да'}
+      - {f: 'xy \vee z', ans: 'Да'}
+      - {f: 'xy \vee zt', ans: 'Нет'}
+      - {f: 'xyz \vee \neg x \neg y \neg z', ans: 'Нет'}
+      - {f: 'x \oplus y \oplus z', ans: 'Нет'}
+      - {f: 'x \vee \neg y \vee z', ans: 'Да'}
+statement: 'Является ли функция $<<q.f>>$ пороговой?'
+config:
+  options: [Да, Нет]
+answer: '<<q.ans>>'
+hint: 'Чтобы доказать «да», подберите веса и порог. Чтобы доказать «нет», найдите одинаковое число единичных и нулевых наборов с равными суммами.'

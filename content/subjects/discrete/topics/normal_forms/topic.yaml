@@ -1,0 +1,6 @@
+id: normal_forms
+title: Двойственность и нормальные формы
+description: Двойственные функции и СКНФ, КНФ Хорна и алгоритм выполнимости, 2-КНФ Крома и медиана.
+requires: [boolean_functions]
+main_character: horn
+main_scenes: [horn_01, horn_02, horn_03]

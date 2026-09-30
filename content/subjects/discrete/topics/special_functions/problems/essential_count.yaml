@@ -1,0 +1,7 @@
+id: essential_count
+title: Сколько функций зависят от всех
+difficulty: 3
+starred: true
+answer_type: number
+generator: generators/essential_count.py
+hint: 'Разбейте все $2^{2^n}$ функций по множеству существенных переменных: $2^{2^n} = \sum_k \binom{n}{k} E(k)$.'

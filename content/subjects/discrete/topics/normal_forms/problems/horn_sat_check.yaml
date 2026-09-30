@@ -1,0 +1,6 @@
+id: horn_sat_check
+title: Выполнима ли КНФ Хорна?
+difficulty: 2
+answer_type: choice
+generator: generators/horn_sat_check.py
+hint: 'Начните со всех нулей. Пока есть ложный дизъюнкт: если в нём есть переменная без отрицания, поставьте её в $1$, иначе формула невыполнима.'

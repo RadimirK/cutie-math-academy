@@ -170,3 +170,78 @@ POST_CLASSES = [
     ('S', is_self_dual),
     ('L', is_linear),
 ]
+
+
+# ---------- other properties ----------
+
+def dual(v):
+    """f*(x) = ¬f(¬x): the vector read backwards and negated."""
+    return tuple(1 - b for b in reversed(v))
+
+
+def essential_count(v, n):
+    return sum(depends_on(v, n, j) for j in range(n))
+
+
+def is_symmetric(v, n):
+    by_weight = {}
+    for p, b in zip(points(n), v):
+        if by_weight.setdefault(sum(p), b) != b:
+            return False
+    return True
+
+
+def is_forcible(v, n):
+    """Some x_i = c turns f into a constant."""
+    ps = points(n)
+    return any(
+        len({b for p, b in zip(ps, v) if p[i] == c}) == 1
+        for i in range(n)
+        for c in (0, 1)
+    )
+
+
+def minimal_ones(v, n):
+    ones = [p for p, b in zip(points(n), v) if b]
+    return [p for p in ones if not any(q != p and all(a <= b for a, b in zip(q, p)) for q in ones)]
+
+
+def closed_under(v, n, op):
+    """Whether the set of ones is closed under the componentwise application of op
+    (a function of 2 or 3 bits)."""
+    ones = [p for p, b in zip(points(n), v) if b]
+    ones_set = set(ones)
+    arity = op.__code__.co_argcount
+    return all(
+        tuple(op(*bits) for bits in zip(*args)) in ones_set
+        for args in product(ones, repeat=arity)
+    )
+
+
+def maj(a, b, c):
+    return (a & b) | (b & c) | (a & c)
+
+
+# ---------- CNF ----------
+# A clause is a tuple of literals (i, positive): variable index and whether it is not negated.
+
+def clause_tex(clause):
+    lits = [NAMES[i] if pos else f'\\neg {NAMES[i]}' for i, pos in clause]
+    return lits[0] if len(lits) == 1 else '(' + ' \\vee '.join(lits) + ')'
+
+
+def cnf_tex(clauses):
+    return ' \\wedge '.join(clause_tex(c) for c in clauses)
+
+
+def horn_least_model(clauses, n):
+    """Forward chaining from all zeros: the least satisfying set, or None if unsatisfiable."""
+    x = [0] * n
+    while True:
+        broken = next((c for c in clauses if not any(x[i] == pos for i, pos in c)), None)
+        if broken is None:
+            return x
+        head = [i for i, pos in broken if pos]
+        if not head:
+            return None
+        x[head[0]] = 1

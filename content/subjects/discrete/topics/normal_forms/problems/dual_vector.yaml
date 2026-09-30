@@ -1,0 +1,6 @@
+id: dual_vector
+title: Двойственная функция
+difficulty: 1
+answer_type: matrix
+generator: generators/dual_vector.py
+hint: 'Прочитайте вектор значений задом наперёд и инвертируйте каждую цифру.'

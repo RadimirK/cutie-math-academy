@@ -1,0 +1,6 @@
+id: min_ones
+title: Нижние единицы
+difficulty: 2
+answer_type: number
+generator: generators/min_ones.py
+hint: 'Единичный набор нижний, если, заменив любую его единицу нулём, попадаем в ноль функции.'

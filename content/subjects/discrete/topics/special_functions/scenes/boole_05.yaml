@@ -1,0 +1,63 @@
+id: boole_05
+title: Медиана
+character: boole
+background: library
+nodes:
+  start:
+    - narration: 'В библиотеке спорят три студентки, идти ли на пару. Буль поднимает голову от книги.'
+    - speaker: boole
+      emotion: happy
+      text: 'Вот вам и функция голосования! Медиана $\langle xyz \rangle$ равна $1$, если хотя бы два аргумента из трёх равны $1$. Вектор значений $0001\,0111$. Формулы: $\langle xyz \rangle = xy \vee yz \vee xz = xy \oplus yz \oplus xz$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Почему «медиана»? Это же статистика.'
+    - speaker: boole
+      emotion: smile
+      text: 'Упорядочим три бита по возрастанию и возьмём средний. Если единиц хотя бы две, средний — единица. Та же самая медиана, что в статистике.'
+    - speaker: boole
+      emotion: smile
+      text: 'Её паспорт по классам Поста: симметрична, монотонна (больше голосов «за» не уменьшит результат), самодвойственна (все передумали — результат перевернулся), сохраняет $0$ и $1$. И нелинейна: в полиноме есть произведения.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Получается, она не лежит только в $L$.'
+    - speaker: boole
+      emotion: happy
+      text: 'Да. А теперь фокус. Подставим константу: $\langle x y 0 \rangle$ — третий голос «против», и для победы нужны оба оставшихся: это $x \wedge y$. А $\langle x y 1 \rangle$ — третий голос «за», хватит одного: это $x \vee y$.'
+    - speaker: student_b
+      emotion: happy
+      text: 'То есть медиана — это переключаемая конъюнкция-дизъюнкция!'
+    - choice:
+        question: 'Полна ли система $\{\langle xyz \rangle, \mathbf{0}, \mathbf{1}\}$?'
+        options:
+          - text: 'Да: есть $\wedge$ и $\vee$, а значит, всё'
+            goto: wrong
+          - text: 'Нет'
+            goto: right
+  wrong:
+    - speaker: boole
+      emotion: thinking
+      text: 'Для полноты нужно ещё отрицание! А все три функции монотонны: $\mathbf{0}$ и $\mathbf{1}$ тоже. Значит, всё замыкание лежит в $M$, и $\neg$ не выразить.'
+    - goto: right
+  right:
+    - speaker: boole
+      emotion: happy
+      text: 'Не полна: все три функции монотонны, и замыкание не выходит из $M$. А вот добавь отрицание — и получишь базис.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А если без констант, $\{\langle xyz \rangle, \neg\}$?'
+    - speaker: boole
+      emotion: smile
+      text: 'Проверь сама по Посту: какой класс содержит обе функции? Подсказка: отрицание переворачивает всё, медиана — тоже.'
+    - speaker: boole
+      emotion: smile
+      text: 'Обобщение: медиана от $2n + 1$ аргументов равна $1$, если единиц больше половины, то есть хотя бы $n + 1$. Она тоже симметрична, монотонна и самодвойственна: при $2n + 1$ голосах ничьей не бывает.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А медиану пяти можно собрать из медиан трёх?'
+    - speaker: boole
+      emotion: happy
+      text: 'Можно! Более того, медианой трёх выражается вообще любая монотонная самодвойственная функция. Это красивая теорема, её докажет Пост в теме про монотонные функции. Ключ — хитрое тождество с медианой.'
+    - speaker: boole
+      emotion: thinking
+      text: 'Ещё одно свойство пригодится у Хорн: медиана коммутирует с отрицанием, $\langle \neg a, \neg b, \neg c \rangle = \neg \langle abc \rangle$. Это и есть самодвойственность.'
+unlocks: [median_express]

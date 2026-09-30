@@ -1,0 +1,6 @@
+id: proofs
+title: Как доказывать
+description: Устройство доказательства, отрицание кванторов, контрапозиция и от противного, индукция с усилением и рекурренты.
+requires: []
+main_character: cantor
+main_scenes: [proof_01, proof_02]

@@ -1,0 +1,76 @@
+id: post_05
+title: Монотонные функции
+character: post
+background: classroom
+nodes:
+  start:
+    - speaker: post
+      emotion: smile
+      text: 'Формулы из $\wedge$, $\vee$, $\mathbf{0}$, $\mathbf{1}$ всегда монотонны: $M$ — ловушка. А верно ли обратное: любая монотонная функция выражается через $\wedge$, $\vee$, $\mathbf{0}$, $\mathbf{1}$?'
+    - speaker: student_a
+      emotion: thinking
+      text: 'СДНФ не подходит — там отрицания.'
+    - speaker: post
+      emotion: smile
+      text: 'Верно, нужна другая конструкция. Назовём единичный набор $\alpha$ функции $f$ минимальным (нижней единицей), если ниже него единиц нет: уменьшив любую его единицу до нуля, получим ноль функции.'
+    - speaker: post
+      emotion: thinking
+      text: 'Каждой нижней единице $\alpha$ сопоставим конъюнкцию переменных, равных в ней $1$ — без всяких отрицаний. Например, $\alpha = 101$ даёт $x \wedge z$. Эта конъюнкция равна $1$ ровно на наборах выше $\alpha$.'
+    - speaker: post
+      emotion: smile
+      text: 'Теорема. Если $f$ монотонна и не константа, то $f$ — дизъюнкция конъюнкций всех своих нижних единиц.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Почему?'
+    - speaker: post
+      emotion: thinking
+      text: 'Если $f(x) = 1$, спускаемся от $x$ вниз, пока остаёмся в единицах, — придём к нижней единице $\alpha \le x$, и её конъюнкция на $x$ истинна. Обратно: если конъюнкция $\alpha$ на $x$ истинна, то $x \ge \alpha$, и по монотонности $f(x) \ge f(\alpha) = 1$.'
+    - speaker: post
+      emotion: smile
+      text: 'Константы: если $f(0, \ldots, 0) = 1$, то по монотонности $f \equiv 1$. Если единиц нет — $f \equiv 0$. Так что $M = [\{\wedge, \vee, \mathbf{0}, \mathbf{1}\}]$.'
+    - choice:
+        question: 'Сколько нижних единиц у медианы $\langle xyz \rangle$?'
+        options:
+          - text: '$1$'
+            goto: wrong
+          - text: '$3$'
+            goto: right
+          - text: '$4$'
+            goto: wrong
+  wrong:
+    - speaker: post
+      emotion: thinking
+      text: 'Единицы медианы: $011$, $101$, $110$, $111$. Набор $111$ не нижний — под ним $011$. А у $011$, $101$, $110$ убрать единицу нельзя: останется одна единица из трёх, и медиана даст $0$.'
+    - goto: right
+  right:
+    - speaker: post
+      emotion: happy
+      text: 'Три: $011$, $101$, $110$. Отсюда $\langle xyz \rangle = yz \vee xz \vee xy$ — ровно известная формула.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А какие функции одновременно монотонные и линейные?'
+    - speaker: post
+      emotion: thinking
+      text: 'Линейная: $a_0 \oplus x_{i_1} \oplus \ldots \oplus x_{i_k}$. Если $k \ge 2$, обнулим все переменные, кроме $x_{i_1}$ и $x_{i_2}$, а $x_{i_2}$ выберем так, чтобы при $x_{i_1} = 0$ функция была равна $1$. Увеличим $x_{i_1}$ до $1$ — значение упадёт до $0$. Если $k = 1$ и $a_0 = 1$, это $\neg x_i$. Итого $M \cap L$ — только константы и переменные.'
+    - speaker: student_b
+      emotion: happy
+      text: 'Значит, функции, существенно зависящей хотя бы от двух переменных, в $M \cap L$ нет вовсе.'
+    - speaker: post
+      emotion: smile
+      text: 'Верно. Теперь обещанная теорема: любая монотонная самодвойственная функция выражается через медиану $\langle xyz \rangle$. Ключ — тождество. Для монотонной $f$ от $n \ge 3$ переменных: $$f = \langle f(x_1, x_1, x_3, \ldots),\ f(x_1, x_2, x_2, \ldots),\ f(x_3, x_2, x_3, \ldots) \rangle.$$'
+    - speaker: student_a
+      emotion: thinking
+      text: 'В каждой функции справа какие-то две из первых трёх переменных склеены в одну. Почему медиана трёх таких склеек равна $f$?'
+    - speaker: post
+      emotion: thinking
+      text: 'Из трёх битов $x_1, x_2, x_3$ два всегда равны. Пусть $x_1 = x_2 = a$, $x_3 = \neg a$. Первая склейка тогда совпадает с $f(x)$. Вторая равна $f(a, a, a, \ldots)$, третья — $f(\neg a, a, \neg a, \ldots)$.'
+    - speaker: post
+      emotion: thinking
+      text: 'Наборы $\langle a, a, a \rangle$, $\langle a, a, \neg a \rangle$, $\langle \neg a, a, \neg a \rangle$ идут цепочкой по порядку (вверх или вниз, в зависимости от $a$). По монотонности $f(x)$ лежит между двумя другими значениями — значит, это их медиана. Остальные случаи симметричны.'
+    - speaker: post
+      emotion: happy
+      text: 'Склейка переменных сохраняет монотонность и самодвойственность, а переменных становится меньше. Индукция спускает нас к функциям от двух переменных, а монотонные самодвойственные функции от двух переменных — это просто $x$ или $y$. Теорема доказана!'
+    - speaker: boole
+      emotion: happy
+      text: 'И медиана от $2n + 1$ аргументов монотонна и самодвойственна, так что выражается через медиану трёх. Тождество даже подсказывает, как именно.'
+unlocks: [min_ones, monotone_count, express_check]

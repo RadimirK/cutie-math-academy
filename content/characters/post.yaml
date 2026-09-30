@@ -2,7 +2,7 @@ id: post
 name: Пост
 rarity: 4
 subject: discrete
-topics: [zhegalkin_post]
+topics: [zhegalkin_post, monotone, boolean_proofs]
 description: 'Сторожит пять классов, как пять ворот. Систему функций назовёт полной, только если та вырвалась из каждого.'
 sprites:
   smile: post/smile.png

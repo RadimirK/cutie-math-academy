@@ -1,0 +1,20 @@
+id: invariant_pick
+title: Подбери инвариант
+difficulty: 2
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {g: 'x \vee y', sys: '\{\wedge\}', x: '$f(\alpha \wedge \beta) = f(\alpha) \wedge f(\beta)$ для всех $\alpha, \beta$', y: 'монотонность', z: 'сохранение нуля', ans: '$f(\alpha \wedge \beta) = f(\alpha) \wedge f(\beta)$ для всех $\alpha, \beta$'}
+      - {g: 'x \wedge y', sys: '\{\vee, \mathbf{0}\}', x: 'монотонность', y: '$f(\alpha \vee \beta) = f(\alpha) \vee f(\beta)$ для всех $\alpha, \beta$', z: 'сохранение единицы', ans: '$f(\alpha \vee \beta) = f(\alpha) \vee f(\beta)$ для всех $\alpha, \beta$'}
+      - {g: 'x \vee y', sys: '\{\neg\}', x: 'сохранение нуля', y: 'монотонность', z: 'существенная зависимость не более чем от одной переменной', ans: 'существенная зависимость не более чем от одной переменной'}
+      - {g: 'x \equiv y', sys: '\{\oplus\}', x: 'сохранение нуля', y: 'линейность', z: 'самодвойственность', ans: 'сохранение нуля'}
+      - {g: 'x \wedge y', sys: '\{\to\}', x: 'сохранение единицы', y: 'существует $i$, что $f(\alpha) \ge \alpha_i$ на всех наборах', z: '$f(0, \ldots, 0) = 1$', ans: 'существует $i$, что $f(\alpha) \ge \alpha_i$ на всех наборах'}
+      - {g: 'x \wedge y', sys: '\{\langle xyz \rangle, \neg\}', x: 'монотонность', y: 'сохранение нуля', z: 'самодвойственность', ans: 'самодвойственность'}
+      - {g: '\neg x', sys: '\{\wedge, \vee, \mathbf{0}, \mathbf{1}\}', x: 'монотонность', y: 'сохранение нуля', z: 'линейность', ans: 'монотонность'}
+statement: 'Какое свойство доказывает, что $<<q.g>>$ нельзя выразить через систему $<<q.sys>>$?'
+config:
+  options: ['<<q.x>>', '<<q.y>>', '<<q.z>>']
+answer: '<<q.ans>>'
+hint: 'Свойство должно быть у всех функций системы и у переменных, сохраняться при подстановках и отсутствовать у $g$. Проверьте каждый вариант по всем пунктам.'

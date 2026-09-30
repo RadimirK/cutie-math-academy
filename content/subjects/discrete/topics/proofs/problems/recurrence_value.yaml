@@ -1,0 +1,6 @@
+id: recurrence_value
+title: Разворачиваем рекурренту
+difficulty: 1
+answer_type: number
+generator: generators/recurrence_value.py
+hint: 'Считайте по шагам от $T(1)$ или разверните рекурренту в закрытую формулу.'

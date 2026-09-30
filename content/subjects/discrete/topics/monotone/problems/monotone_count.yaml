@@ -1,0 +1,7 @@
+id: monotone_count
+title: Сколько монотонных функций
+difficulty: 3
+starred: true
+answer_type: number
+generator: generators/monotone_count.py
+hint: 'Монотонная функция определяется набором своих нижних единиц — попарно несравнимых наборов. Для самодвойственных вспомните разложение $f = \langle x_1, f_0, f_1 \rangle$ и то, что $f_0 = f_1^*$.'

@@ -1,0 +1,6 @@
+id: horn_min_model
+title: Минимальный набор Хорна
+difficulty: 2
+answer_type: number
+generator: generators/horn_min_model.py
+hint: 'Алгоритм, начинающий со всех нулей, ставит в $1$ только вынужденные переменные — он и находит минимальный набор.'

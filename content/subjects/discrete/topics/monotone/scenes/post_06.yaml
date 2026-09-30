@@ -1,0 +1,67 @@
+id: post_06
+title: Длина формул
+character: post
+background: library
+nodes:
+  start:
+    - speaker: post
+      emotion: smile
+      text: 'Сколько места занимает формула? Длина формулы — число вхождений переменных в неё. У СДНФ от $n$ переменных до $2^n$ термов по $n$ литералов: длина до $n \cdot 2^n$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А через стрелку Пирса? Это же базис, просто подставим вместо $\wedge$, $\vee$, $\neg$ их выражения.'
+    - speaker: post
+      emotion: thinking
+      text: 'Посмотрим. $x \vee y = (x \downarrow y) \downarrow (x \downarrow y)$ — формула $x \downarrow y$ скопирована дважды. Если вместо $x$ и $y$ стоят большие подформулы, каждая $\vee$ удваивает их длину. Глубина СДНФ растёт с $n$, и длина взрывается в разы сильнее $2^n$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Значит, надо писать формулу так, чтобы каждая подформула использовалась один раз?'
+    - speaker: post
+      emotion: smile
+      text: 'Именно. Начнём с разложения Шеннона по переменной $x$: $$f = (\neg x \wedge f_0) \vee (x \wedge f_1),$$ где $f_0 = f(0, \ldots)$ и $f_1 = f(1, \ldots)$ — функции от $n - 1$ переменных.'
+    - speaker: post
+      emotion: thinking
+      text: 'Если $L(n)$ — длина формулы, то $L(n) \le 2L(n - 1) + c$, при условии что $f_0$ и $f_1$ входят по одному разу. Тогда $L(n) = O(2^n)$. Но при переводе в $\downarrow$ отрицания снова требуют копий…'
+    - speaker: student_a
+      emotion: happy
+      text: 'А если хранить сразу две формулы — для $f$ и для $\neg f$? Тогда отрицание подформулы бесплатно: берём готовую формулу для $\neg f_0$!'
+    - speaker: post
+      emotion: happy
+      text: 'Блестяще! Проверим. $x \downarrow \neg f_0 = \neg x \wedge f_0$, а $(x \downarrow x) \downarrow \neg f_1 = x \wedge f_1$. Стрелка Пирса от этих двух даёт $\neg\big((\neg x \wedge f_0) \vee (x \wedge f_1)\big) = \neg f$.'
+    - choice:
+        question: 'Как тогда записать саму $f$, используя $f_0$ и $f_1$ по одному разу?'
+        options:
+          - text: '$(x \downarrow f_0) \downarrow ((x \downarrow x) \downarrow f_1)$'
+            goto: right
+          - text: '$(x \downarrow \neg f_0) \downarrow (x \downarrow \neg f_1)$'
+            goto: wrong
+          - text: 'Никак, только через копию формулы для $\neg f$'
+            goto: wrong
+  wrong:
+    - speaker: post
+      emotion: thinking
+      text: 'Подставим в формулу для $\neg f$ вместо $\neg f_0$, $\neg f_1$ сами $f_0$, $f_1$: это формула для $\neg$ от функции с «перевёрнутыми» половинами, то есть для $\neg(\neg f) = f$.'
+    - goto: right
+  right:
+    - speaker: post
+      emotion: happy
+      text: '$x \downarrow f_0 = \neg x \wedge \neg f_0$ и $(x \downarrow x) \downarrow f_1 = x \wedge \neg f_1$. Их стрелка Пирса — отрицание от $\neg f$, то есть $f$. Каждая из $f_0, \neg f_0, f_1, \neg f_1$ использована ровно один раз.'
+    - speaker: post
+      emotion: thinking
+      text: 'Итог: пара формул для $(f, \neg f)$ строится из пар для $(f_0, \neg f_0)$ и $(f_1, \neg f_1)$ плюс три вхождения $x$ в каждую. $L(n) \le 2L(n - 1) + 3$, откуда $L(n) = O(2^n)$. Нижний уровень — функции от одной переменной, у них длина константа.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А меньше, чем $2^n$, бывает?'
+    - speaker: post
+      emotion: smile
+      text: 'Для конкретных функций — конечно: у $x_1 \wedge \ldots \wedge x_n$ длина $n$. А для почти всех функций — нет, по порядку роста: можно доказать, что почти каждой функции нужна длина порядка $2^n / \log n$. Функций слишком много, а коротких формул слишком мало.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Как это «слишком мало»?'
+    - speaker: post
+      emotion: happy
+      text: 'Подсчёт, как у Кантора! Формул длины $\ell$ от $n$ переменных над фиксированным базисом не больше $(Cn)^{\ell}$ для некоторой константы $C$: форма дерева и связки дают $C^{\ell}$, а каждый лист — одна из $n$ переменных. Функций же $2^{2^n}$. Чтобы коротких формул хватило на всех, нужно $(Cn)^{\ell} \ge 2^{2^n}$, то есть $\ell \ge 2^n / \log_2(Cn)$.'
+    - speaker: post
+      emotion: smile
+      text: 'Напоследок ещё раз про независимость моих классов. Для каждого класса полезно найти функцию, лежащую только в нём, и функцию, лежащую во всех, кроме него. Инструменты у тебя есть: $x \oplus y \oplus z$, медиана, $\wedge$, $\to$, $\equiv$, константы. Задачи ждут!'
+unlocks: [peirce_eval]

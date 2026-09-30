@@ -1,0 +1,10 @@
+id: zhegalkin
+name: Жегалкин
+rarity: 4
+subject: discrete
+topics: [zhegalkin_post]
+description: 'Складывает по модулю два быстрее, чем ты моргаешь. Строит треугольники из нулей и единиц и находит в них полиномы.'
+sprites:
+  smile: zhegalkin/smile.png
+  thinking: zhegalkin/thinking.png
+  happy: zhegalkin/happy.png

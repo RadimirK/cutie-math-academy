@@ -1,0 +1,6 @@
+id: closure_kind
+title: Хорн или Кром?
+difficulty: 3
+answer_type: choice
+generator: generators/closure_kind.py
+hint: 'Проверьте все пары (или тройки) единичных наборов: лежит ли их покомпонентная конъюнкция (медиана) среди единиц?'
