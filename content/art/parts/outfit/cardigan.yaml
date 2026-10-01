@@ -1,0 +1,67 @@
+id: cardigan
+desc: Длинный мягкий кардиган нараспашку поверх белой рубашки с бантом или галстуком, мешковатые рукава.
+material: cloth
+params:
+  neck: { options: [ribbon, tie, none], default: ribbon, desc: что на шее }
+  hem: { range: [3.8, 5.2], default: 4.6, desc: нижний край кардигана }
+  sleeve: { range: [2.3, 4.7], default: 4.65, desc: длина рукава }
+shapes:
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, 4.0], [-2.2, 4.0]]
+    clip: torso
+    grow: 1
+  # полы ниже бёдер свободно висят
+  - poly: [[-0.98, 3.7], [0.98, 3.7], [1.08, '$hem'], [-1.08, '$hem']]
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, 4.0], [-2.2, 4.0]]
+    clip: chest
+    seam: true
+    shadow: true
+    when: { chest: { min: 0.2 } }
+  # распахнутый перед
+  - poly: [[-0.2, 1.3], [0.2, 1.3], [0.32, 3.0], [0.44, '$hem + 0.1'], [-0.44, '$hem + 0.1'], [-0.32, 3.0]]
+    erase: true
+  # рубашка в разрезе, ниже пояса видна юбка
+  - poly: [[-0.5, 1.3], [0.5, 1.3], [0.5, 3.38], [-0.5, 3.38]]
+    material: cloth2
+    clip: torso
+  # края кардигана
+  - stroke: [[-0.21, 1.4], [-0.33, 3.0], [-0.45, '$hem']]
+    tone: 3
+    mirror: true
+  - stroke: [[-1.05, '$hem - 0.12'], [-0.52, '$hem - 0.12']]
+    tone: 1
+    mirror: true
+  # карманы
+  - stroke: [[-0.95, 3.95], [-0.6, 3.95]]
+    tone: 1
+    mirror: true
+  # воротник рубашки и бант или галстук
+  - poly: [[-0.27, 1.3], [-0.02, 1.5], [-0.12, 1.68], [-0.42, 1.5]]
+    material: cloth2
+    mirror: true
+  - poly: [[-0.38, 1.5], [-0.05, 1.6], [-0.38, 1.78]]
+    material: accent
+    mirror: true
+    shadow: true
+    when: { neck: ribbon }
+  - ellipse: { at: [0, 1.6], r: [0.09, 0.09] }
+    material: accent
+    when: { neck: ribbon }
+  - poly: [[-0.09, 1.53], [0.09, 1.53], [0.12, 2.35], [0, 2.5], [-0.12, 2.35]]
+    material: accent
+    shadow: true
+    when: { neck: tie }
+  # мешковатые рукава с отворотом
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: arms
+    grow: 2
+    seam: true
+    shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: arms
+    grow: 2
+    seam: true
+    shadow: true
+  - poly: [[-2.4, '$sleeve - 0.24'], [2.4, '$sleeve - 0.24'], [2.4, '$sleeve'], [-2.4, '$sleeve']]
+    clip: arms
+    grow: 2
+    tone: 1

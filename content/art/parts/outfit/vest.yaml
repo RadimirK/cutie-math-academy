@@ -1,0 +1,63 @@
+id: vest
+desc: Вязаный жилет с V-вырезом поверх рубашки (рукава рубашки цвета cloth2), галстук или бант.
+material: cloth
+params:
+  neck: { options: [ribbon, tie], default: tie, desc: что на шее }
+  hem: { range: [3.4, 4.3], default: 3.85, desc: нижний край жилета }
+  sleeve: { range: [2.3, 4.6], default: 4.55, desc: 'длина рукава рубашки: 2.3 — короткий' }
+shapes:
+  # рубашка
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, 3.5], [-2.2, 3.5]]
+    material: cloth2
+    clip: torso
+    grow: 1
+  # жилет
+  - poly: [[-2.2, 1.2], [-0.3, 1.2], [0, 2.4], [0.3, 1.2], [2.2, 1.2], [2.2, '$hem'], [-2.2, '$hem']]
+    clip: torso
+    grow: 1
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '$hem'], [-2.2, '$hem']]
+    clip: chest
+    seam: true
+    shadow: true
+    when: { chest: { min: 0.2 } }
+  # резинка по краю
+  - stroke: [[-0.3, 1.36], [0, 2.46], [0.3, 1.36]]
+    tone: 3
+  - poly: [[-2.2, '$hem - 0.22'], [2.2, '$hem - 0.22'], [2.2, '$hem'], [-2.2, '$hem']]
+    clip: torso
+    grow: 1
+    tone: 1
+  # ромбик вязки
+  - stroke: [[-0.62, 2.8], [-0.4, 3.1], [-0.62, 3.4], [-0.84, 3.1]]
+    closed: true
+    tone: 3
+    mirror: true
+  # воротник рубашки
+  - poly: [[-0.27, 1.3], [-0.02, 1.5], [-0.12, 1.68], [-0.42, 1.5]]
+    material: cloth2
+    mirror: true
+  - poly: [[-0.38, 1.5], [-0.05, 1.6], [-0.38, 1.78]]
+    material: accent
+    mirror: true
+    shadow: true
+    when: { neck: ribbon }
+  - ellipse: { at: [0, 1.6], r: [0.09, 0.09] }
+    material: accent
+    when: { neck: ribbon }
+  - poly: [[-0.09, 1.53], [0.09, 1.53], [0.12, 2.3], [0, 2.42], [-0.12, 2.3]]
+    material: accent
+    shadow: true
+    when: { neck: tie }
+  # рукава рубашки
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    material: cloth2
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    material: cloth2
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true

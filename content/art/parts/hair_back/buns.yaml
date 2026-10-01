@@ -1,0 +1,24 @@
+id: buns
+desc: Два круглых пучка на макушке, похожих на рожки; из пучков могут свисать короткие хвостики.
+material: hair
+seams: true
+params:
+  size: { range: [0.25, 0.48], default: 0.36, desc: размер пучков }
+  tails: { range: [0, 3.5], default: 0, desc: 'длина хвостиков из пучков, 0 — без них' }
+shapes:
+  - ellipse: { at: [0, -0.12], r: [1.04, 1.06] }
+  - strand: { from: [-0.84, -0.9], to: ['-1.3', '$tails'], bend: 0.1, width: [0.34, 0.08] }
+    mirror: true
+    slot: outfit
+    shadow: true
+    when: { tails: { min: 0.3 } }
+  - ellipse: { at: [-0.74, -1.02], r: '$size' }
+    mirror: true
+    slot: accessory
+    shadow: true
+  # завиток пучка
+  - stroke: [['-0.74 - $size * 0.5', -1.04], [-0.74, '-1.02 - $size * 0.45'], ['-0.74 + $size * 0.45', -0.98]]
+    smooth: true
+    tone: 1
+    mirror: true
+    slot: accessory

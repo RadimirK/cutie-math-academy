@@ -8,3 +8,32 @@ sprites:
   smile: weierstrass/smile.png
   thinking: weierstrass/thinking.png
   happy: weierstrass/happy.png
+look:
+  head: 0.96
+  chest: 0.75
+  palette:
+    skin: '#f6e0d6'
+    hair: '#b4a6e2'
+    eyes: '#8a4fd6'
+    cloth: '#e9ecf4'
+    cloth2: '#3a2f4f'
+    skirt: '#3a2f4f'
+    accent: '#8a4fd6'
+    legwear: '#2b2535'
+    shoes: '#3a2f4f'
+  parts:
+    hair_back: { part: wavy_long, style: zigzag, length: 6.6, width: 1.45 }
+    hair_front: { part: side_swept, length: 0.2, side: 1.8 }
+    eyes: { part: sharp, shape: half }
+    outfit: { part: labcoat, hem: 6.4 }
+    bottom: { part: pleated_skirt, length: 5.6, flare: 1.2 }
+    legwear: { part: stockings }
+    shoes: { part: loafers }
+  emotions:
+    smile:
+      eyes: { shape: half }
+      mouth: { shape: smirk }
+    thinking:
+      body: { pose: hip }
+      eyes: { look_x: 1, look_y: -1 }
+      mouth: { shape: smirk }

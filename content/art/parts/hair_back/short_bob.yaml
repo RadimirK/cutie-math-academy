@@ -1,0 +1,30 @@
+id: short_bob
+desc: Каре до подбородка или чуть ниже, пышное у щёк, кончики подвёрнуты внутрь.
+material: hair
+params:
+  length: { range: [0.7, 1.9], default: 1.15, desc: 'где кончаются: 1.1 — подбородок, 1.8 — плечи' }
+  width: { range: [1.1, 1.45], default: 1.24, desc: ширина копны у щёк }
+shapes:
+  - poly:
+      - [0, -1.22]
+      - [-0.86, -0.96]
+      - [-1.12, -0.4]
+      - ['-$width', 0.3]
+      - ['-$width + 0.02', '$length - 0.3']
+      - ['-$width + 0.14', '$length - 0.04']
+      - ['-$width + 0.36', '$length + 0.02']
+      - ['-$width + 0.5', '$length - 0.1']
+      - [0, '$length - 0.2']
+      - ['$width - 0.5', '$length - 0.1']
+      - ['$width - 0.36', '$length + 0.02']
+      - ['$width - 0.14', '$length - 0.04']
+      - ['$width - 0.02', '$length - 0.3']
+      - ['$width', 0.3]
+      - [1.12, -0.4]
+      - [0.86, -0.96]
+    smooth: true
+  # пряди
+  - stroke: [[-1.08, 0.1], ['-$width + 0.22', '$length - 0.12']]
+    smooth: true
+    tone: 1
+    mirror: true

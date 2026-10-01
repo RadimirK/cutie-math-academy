@@ -1,0 +1,46 @@
+id: hairclip
+desc: 'Заколка на чёлке цвета metal: pins — две шпильки, star — звёздочка, triangle — треугольник, bits — цифры 0 и 1, infinity — знак бесконечности, pens — три шпильки разных цветов, как цветные ручки.'
+material: metal
+shade: none
+outline: false
+params:
+  kind: { options: [pins, star, triangle, bits, infinity, pens], default: pins }
+  x: { range: [-0.95, 0.95], default: -0.66, desc: 'где по горизонтали: минус — слева на картинке' }
+  y: { range: [-1.0, 0.0], default: -0.5, desc: где по вертикали }
+shapes:
+  - stamp:
+      at: ['$x', '$y']
+      rows: ['oaao....', '.oaaaao.', '...oaao.', '........', 'oaao....', '.oaaaao.', '...oaao.']
+      key: { a: 'metal:3', o: 'metal:0' }
+      flip: false
+    when: { kind: pins }
+  - stamp:
+      at: ['$x', '$y']
+      rows: ['...o...', '..oao..', 'ooaaaoo', '.oaaao.', '.oaoao.', '.o...o.']
+      key: { a: 'metal:3', o: 'metal:0' }
+      flip: false
+    when: { kind: star }
+  - stamp:
+      at: ['$x', '$y']
+      rows: ['...o...', '..oao..', '.oaaao.', 'ooooooo']
+      key: { a: 'metal:3', o: 'metal:0' }
+      flip: false
+    when: { kind: triangle }
+  - stamp:
+      at: ['$x', '$y']
+      rows: ['ooooo.oooo.', 'oaaao.oaao.', 'oaoao..oao.', 'oaoao..oao.', 'oaoao..oao.', 'oaaao.oaaao', 'ooooo.ooooo']
+      key: { a: 'metal:3', o: 'metal:0' }
+      flip: false
+    when: { kind: bits }
+  - stamp:
+      at: ['$x', '$y']
+      rows: ['.ooo...ooo.', 'oaaao.oaaao', 'oa.oaoao.ao', 'oaaao.oaaao', '.ooo...ooo.']
+      key: { a: 'metal:3', o: 'metal:0' }
+      flip: false
+    when: { kind: infinity }
+  - stamp:
+      at: ['$x', '$y']
+      rows: ['rrr.......', '.Rrrr.....', '...Rr.....', 'bbb.......', '.Bbbb.....', '...Bb.....', 'ggg.......', '.Gggg.....', '...Gg.....']
+      key: { r: '#ff5d73', R: '#a82d42', b: '#5aa8ff', B: '#2e5fa8', g: '#5fd47e', G: '#2f8a4a' }
+      flip: false
+    when: { kind: pens }

@@ -1,0 +1,14 @@
+id: square_glasses
+desc: Прямоугольные очки в тонкой оправе, как у библиотекаря.
+material: metal
+shade: none
+outline: false
+shapes:
+  - stroke: [[-0.72, 0.18], [-0.14, 0.18], [-0.14, 0.48], [-0.24, 0.54], [-0.66, 0.54], [-0.72, 0.48]]
+    closed: true
+    mirror: true
+  - stroke: [[-0.14, 0.24], [0.14, 0.24]]
+  - stroke: [[-0.72, 0.24], [-0.98, 0.2]]
+    mirror: true
+  - stamp: { at: [-0.6, 0.26], rows: ['ss', 's.'], key: { s: shine }, flip: false }
+    mirror: true

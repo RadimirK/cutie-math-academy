@@ -1,0 +1,54 @@
+id: labcoat
+desc: Длинный лабораторный халат нараспашку до колен с широкими отворотами и карманами; под ним тёмная рубашка цвета cloth2 и галстук.
+material: cloth
+params:
+  hem: { range: [5.0, 7.2], default: 6.3, desc: нижний край халата }
+  flare: { range: [1.1, 1.7], default: 1.4, desc: ширина подола }
+  sleeve: { range: [3.6, 4.7], default: 4.6, desc: длина рукава }
+shapes:
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, 4.0], [-2.2, 4.0]]
+    clip: torso
+    grow: 1
+  - poly: [[-0.97, 3.6], [0.97, 3.6], ['$flare', '$hem'], ['-$flare', '$hem']]
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, 4.0], [-2.2, 4.0]]
+    clip: chest
+    seam: true
+    shadow: true
+    when: { chest: { min: 0.2 } }
+  # распахнутые полы
+  - poly: [[-0.3, 1.3], [0.3, 1.3], [0.4, 3.2], [0.62, '$hem + 0.1'], [-0.62, '$hem + 0.1'], [-0.4, 3.2]]
+    erase: true
+  - poly: [[-0.5, 1.3], [0.5, 1.3], [0.5, 3.38], [-0.5, 3.38]]
+    material: cloth2
+    clip: torso
+  # отвороты
+  - poly: [[-0.3, 1.36], [-0.68, 1.5], [-0.62, 1.95], [-0.4, 2.9], [-0.38, 2.2], [-0.32, 1.6]]
+    mirror: true
+    seam: true
+    shadow: true
+  - stroke: [[-0.41, 3.0], [-0.62, '$hem']]
+    tone: 1
+    mirror: true
+  # карманы
+  - poly: [[-1.18, 4.5], [-0.66, 4.5], [-0.68, 5.0], [-1.18, 5.0]]
+    seam: true
+    mirror: true
+    when: { hem: { min: 5.3 } }
+  - stamp: { at: [-0.98, 2.4], rows: ['m', 'm', 'm'], key: { m: 'accent:2' } }
+  # воротник рубашки и галстук
+  - poly: [[-0.27, 1.3], [-0.02, 1.5], [-0.12, 1.68], [-0.42, 1.5]]
+    material: cloth2
+    mirror: true
+  - poly: [[-0.09, 1.53], [0.09, 1.53], [0.12, 2.35], [0, 2.5], [-0.12, 2.35]]
+    material: accent
+    shadow: true
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true

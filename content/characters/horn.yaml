@@ -8,3 +8,26 @@ sprites:
   smile: horn/smile.png
   thinking: horn/thinking.png
   happy: horn/happy.png
+look:
+  head: 1.05
+  chest: 0.35
+  palette:
+    skin: '#fbe3d4'
+    hair: '#4cc3c9'
+    eyes: '#f08a3c'
+    cloth: '#f7f6fb'
+    skirt: '#e8604f'
+    accent: '#ffcd4a'
+    legwear: '#f4f2f7'
+    shoes: '#8a3a32'
+  parts:
+    hair_back: { part: buns, size: 0.38, tails: 2.4 }
+    hair_front: { part: spiky_bangs, length: 0.12, side: 0.9 }
+    eyes: { part: soft }
+    outfit: { part: sailor, sleeve: 2.6 }
+    bottom: { part: pleated_skirt, length: 5.5, flare: 1.55 }
+    legwear: { part: stockings, top: 8.3 }
+    shoes: { part: loafers }
+  emotions:
+    smile:
+      mouth: { shape: open }

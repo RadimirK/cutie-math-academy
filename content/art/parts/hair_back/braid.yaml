@@ -1,0 +1,55 @@
+id: braid
+desc: Волосы собраны в одну толстую косу, перекинутую через плечо вперёд (справа на картинке), с завязкой на конце.
+material: hair
+seams: true
+params:
+  length: { range: [2.5, 5.5], default: 4.0, desc: докуда коса }
+  thick: { range: [0.16, 0.3], default: 0.23, desc: толщина косы }
+shapes:
+  - poly:
+      - [0, -1.22]
+      - [-0.85, -0.95]
+      - [-1.15, -0.2]
+      - [-1.16, 0.7]
+      - [-0.9, 1.3]
+      - [0, 1.2]
+      - [0.9, 1.3]
+      - [1.16, 0.7]
+      - [1.15, -0.2]
+      - [0.85, -0.95]
+    smooth: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.000 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.000'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: 28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.125 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.125'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: -28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.250 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.250'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: 28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.375 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.375'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: -28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.500 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.500'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: 28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.625 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.625'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: -28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.750 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.750'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: 28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 0.875 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 0.875'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: -28 }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * 1.000 * ($length - 0.6) / 3.4', '0.7 + ($length - 0.9) * 1.000'], r: ['$thick', '($length - 0.9) * 0.075 + 0.02'], rot: 28 }
+    slot: outfit
+    shadow: true
+  # кончик и завязка
+  - strand: { from: ['0.78 + 0.22 * ($length - 0.6) / 3.4', '$length - 0.15'], to: ['0.86 + 0.22 * ($length - 0.6) / 3.4', '$length + 0.45'], bend: -0.1, width: ['$thick * 1.6', 0.06] }
+    slot: outfit
+    shadow: true
+  - ellipse: { at: ['0.78 + 0.22 * ($length - 0.6) / 3.4', '$length - 0.12'], r: ['$thick * 0.75', 0.08] }
+    material: accent
+    slot: outfit
+    seam: true

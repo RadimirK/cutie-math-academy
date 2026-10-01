@@ -8,3 +8,31 @@ sprites:
   smile: post/smile.png
   thinking: post/thinking.png
   happy: post/happy.png
+look:
+  shoulders: 1.06
+  chest: 0.45
+  palette:
+    skin: '#f6dfd2'
+    hair: '#5b3a72'
+    eyes: '#e09a2e'
+    cloth: '#2d4a3d'
+    skirt: '#2a3a33'
+    accent: '#d9b24a'
+    legwear: '#24222b'
+    shoes: '#2b2328'
+    metal: '#26302c'
+  parts:
+    hair_back: { part: ponytail, length: 2.5, swing: 1.75 }
+    hair_front: { part: blunt_bangs, length: 0.0, side: 1.6 }
+    eyes: { part: sharp }
+    brows: { part: thin, mood: stern }
+    outfit: { part: blazer, neck: tie, hem: 4.3 }
+    bottom: { part: pleated_skirt, length: 6.3, flare: 1.25 }
+    legwear: { part: stockings }
+    shoes: { part: loafers }
+    accessory: [{ part: cap }]
+  emotions:
+    smile:
+      brows: { mood: stern }
+    thinking:
+      eyes: { look_x: 1, look_y: -1 }

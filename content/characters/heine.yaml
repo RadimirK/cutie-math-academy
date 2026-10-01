@@ -8,3 +8,26 @@ sprites:
   smile: heine/smile.png
   thinking: heine/thinking.png
   happy: heine/happy.png
+look:
+  chest: 0.45
+  palette:
+    skin: '#f9e3d5'
+    hair: '#5cc49a'
+    eyes: '#d0477f'
+    cloth: '#f4f6fb'
+    skirt: '#2f5b8c'
+    accent: '#e8566c'
+    legwear: '#f1f2f7'
+    shoes: '#3a3550'
+  parts:
+    hair_back: { part: long_straight, length: 3.3, width: 1.25 }
+    hair_front: { part: side_swept, length: 0.08, side: 1.4 }
+    eyes: { part: soft }
+    outfit: { part: sailor }
+    bottom: { part: pleated_skirt, length: 5.9 }
+    legwear: { part: stockings, top: 7.9 }
+    shoes: { part: loafers }
+    accessory: [{ part: headband, bow: side }]
+  emotions:
+    smile:
+      body: { pose: hip }

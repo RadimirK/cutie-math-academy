@@ -8,3 +8,28 @@ sprites:
   smile: cantor/smile.png
   thinking: cantor/thinking.png
   happy: cantor/happy.png
+look:
+  chest: 0.55
+  palette:
+    skin: '#fae6da'
+    hair: '#f2d8a0'
+    eyes: '#2e9e9a'
+    cloth: '#2f2862'
+    skirt: '#2f2862'
+    cloth2: '#f3eedf'
+    accent: '#e8b54a'
+    legwear: '#2a2440'
+    shoes: '#3b2f72'
+    metal: '#f0c24f'
+  parts:
+    hair_back: { part: wavy_long, style: wave, length: 7.0, width: 1.45 }
+    hair_front: { part: parted, forehead: -0.8, side: 2.4 }
+    eyes: { part: soft }
+    outfit: { part: sailor, hem: 3.7 }
+    bottom: { part: pleated_skirt, length: 6.5, flare: 1.5 }
+    legwear: { part: stockings }
+    shoes: { part: loafers }
+    accessory: [{ part: hairclip, kind: infinity, x: 0.6, y: -0.62 }]
+  emotions:
+    thinking:
+      eyes: { look_x: 1, look_y: -1 }

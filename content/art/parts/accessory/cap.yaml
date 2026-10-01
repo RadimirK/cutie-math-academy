@@ -1,0 +1,21 @@
+id: cap
+desc: 'Строгая фуражка: тулья цвета cloth, околыш accent, тёмный козырёк metal и пятиугольная кокарда.'
+material: cloth
+shadow: true
+shapes:
+  # тулья шире головы
+  - poly: [[-1.12, -0.72], [-1.28, -1.22], [-0.7, -1.52], [0, -1.6], [0.7, -1.52], [1.28, -1.22], [1.12, -0.72]]
+    smooth: true
+  - poly: [[-1.12, -0.92], [1.12, -0.92], [1.1, -0.68], [-1.1, -0.68]]
+    material: accent
+    seam: true
+  # козырёк
+  - poly: [[-0.98, -0.72], [0.98, -0.72], [0.74, -0.46], [0, -0.4], [-0.74, -0.46]]
+    smooth: true
+    material: metal
+    seam: true
+  # кокарда
+  - stamp:
+      at: [0, -1.1]
+      rows: ['...o...', '..oao..', '.oaaao.', 'oaaaaao', '.oaaao.', '.ooooo.']
+      key: { a: 'accent:4', o: 'accent:0' }

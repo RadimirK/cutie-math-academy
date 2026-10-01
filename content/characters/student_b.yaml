@@ -8,3 +8,25 @@ sprites:
   smile: student_b/smile.png
   thinking: student_b/thinking.png
   happy: student_b/happy.png
+look:
+  chest: 0.5
+  palette:
+    skin: '#f7dccb'
+    hair: '#e8833a'
+    eyes: '#4aa36a'
+    cloth: '#d9c7a2'
+    skirt: '#3f4f80'
+    accent: '#e0485e'
+    legwear: '#f2f2f6'
+    shoes: '#5b4039'
+  parts:
+    hair_back: { part: ponytail, length: 2.6, swing: 1.65 }
+    hair_front: { part: spiky_bangs, length: 0.2, side: 1.0, ahoge: curl }
+    eyes: { part: soft }
+    outfit: { part: blazer, neck: tie, sleeve: 3.5 }
+    bottom: { part: pleated_skirt, length: 5.6 }
+    legwear: { part: stockings, top: 8.4 }
+    shoes: { part: loafers }
+  emotions:
+    smile:
+      mouth: { shape: open }

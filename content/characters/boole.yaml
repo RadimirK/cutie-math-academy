@@ -8,3 +8,30 @@ sprites:
   smile: boole/smile.png
   thinking: boole/thinking.png
   happy: boole/happy.png
+look:
+  chest: 0.15
+  palette:
+    skin: '#f5e4dc'
+    hair: '#26262e'
+    eyes: '#6f7690'
+    cloth: '#2b2b33'
+    cloth2: '#f6f6f9'
+    skirt: '#55555f'
+    accent: '#1d1d24'
+    legwear: '#f1f1f5'
+    shoes: '#1f1f26'
+    metal: '#f4f4f8'
+  parts:
+    hair_back: { part: short_bob, length: 1.2 }
+    hair_front: { part: blunt_bangs, length: 0.1, side: 1.15 }
+    eyes: { part: soft }
+    outfit: { part: vest, neck: tie }
+    bottom: { part: pleated_skirt, length: 6.0, flare: 1.3 }
+    legwear: { part: stockings, top: 7.6 }
+    shoes: { part: loafers }
+    accessory: [{ part: hairclip, kind: bits, x: -0.62, y: -0.5 }]
+  emotions:
+    smile:
+      mouth: { shape: neutral }
+    happy:
+      mouth: { shape: smile }
