@@ -1,0 +1,15 @@
+id: rug
+desc: Овальный ковёр на полу в перспективе, с каймой цвета accent.
+material: fabric
+outline: false
+params:
+  w: { range: [80, 500], default: 260, desc: ширина }
+shapes:
+  # (0, 0) — центр
+  - ellipse: { at: [0, 0], r: ['$w / 2', '$w / 12'] }
+    material: accent
+  - ellipse: { at: [0, 0], r: ['$w / 2 - 8', '$w / 12 - 4'] }
+  - ellipse: { at: [0, 0], r: ['$w / 2 - 18', '$w / 12 - 8'] }
+    hollow: true
+    material: accent
+    tone: 3

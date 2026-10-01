@@ -1,0 +1,60 @@
+id: room
+desc: 'Комната анфас на весь холст: потолок, стена с деревянными панелями снизу, плинтус и пол из досок, уходящих в перспективу к центру.'
+material: wall
+outline: false
+params:
+  floor: { range: [220, 330], default: 268, desc: где стена встречается с полом }
+  panel: { range: [0, 120], default: 64, desc: 'высота деревянных панелей внизу стены, 0 — без них' }
+  ceiling: { range: [0, 40], default: 16, desc: 'высота полосы потолка, 0 — без неё' }
+  boards: { range: [20, 120], default: 56, int: true, desc: ширина доски пола у нижнего края }
+shapes:
+  - poly: [[0, 0], [640, 0], [640, '$floor'], [0, '$floor']]
+  # обои: едва заметные вертикальные полосы
+  - stroke: [[12, '$ceiling'], [12, '$floor - $panel']]
+    tone: 3
+    repeat: { count: 27, step: [24, 0] }
+  - poly: [[0, '$floor - $panel'], [640, '$floor - $panel'], [640, '$floor'], [0, '$floor']]
+    material: trim
+    when: { panel: { min: 1 } }
+  - poly: [[0, '$floor - $panel - 4'], [640, '$floor - $panel - 4'], [640, '$floor - $panel'], [0, '$floor - $panel']]
+    material: dark_wood
+    when: { panel: { min: 1 } }
+  - stroke: [[0, '$floor - $panel - 4'], [640, '$floor - $panel - 4']]
+    material: dark_wood
+    tone: 3
+    when: { panel: { min: 1 } }
+  # филёнки панелей
+  - stroke: [[14, '$floor - $panel + 8'], [66, '$floor - $panel + 8'], [66, '$floor - 14'], [14, '$floor - 14']]
+    closed: true
+    material: trim
+    tone: 1
+    repeat: { count: 8, step: [80, 0] }
+    when: { panel: { min: 30 } }
+  - stroke: [[15, '$floor - 13'], [67, '$floor - 13'], [67, '$floor - $panel + 9']]
+    material: trim
+    tone: 3
+    repeat: { count: 8, step: [80, 0] }
+    when: { panel: { min: 30 } }
+  # плинтус
+  - poly: [[0, '$floor - 8'], [640, '$floor - 8'], [640, '$floor'], [0, '$floor']]
+    material: dark_wood
+  - poly: [[0, 0], [640, 0], [640, '$ceiling'], [0, '$ceiling']]
+    material: ceiling
+    when: { ceiling: { min: 1 } }
+  - poly: [[0, '$ceiling'], [640, '$ceiling'], [640, '$ceiling + 3'], [0, '$ceiling + 3']]
+    material: trim
+    when: { ceiling: { min: 1 } }
+  # пол: доски сходятся к точке схода в центре
+  - poly: [[0, '$floor'], [640, '$floor'], [640, 360], [0, 360]]
+    material: floor
+    name: floor_area
+  - stroke: [['320 + ($i - 12) * $boards', 360], ['320 + ($i - 12) * $boards * 0.42', '$floor']]
+    material: floor
+    tone: 1
+    clip: floor_area
+    repeat: { count: 25, step: [0, 0] }
+  - stroke: [[0, '$floor + 3 + 3 * $i * $i'], [640, '$floor + 3 + 3 * $i * $i']]
+    material: floor
+    tone: 3
+    clip: floor_area
+    repeat: { count: 6, step: [0, 0] }

@@ -173,9 +173,14 @@ export function strandPolygon(a: Pt, b: Pt, bend: number, w0: number, w1: number
   return [...left, ...right.reverse()];
 }
 
-export function flipX(m: Mask, { w, h }: Size): Mask {
+/** Mirror image about the vertical line x = axis2 / 2 (pixels that land off the canvas are lost). */
+export function flipAbout(m: Mask, { w, h }: Size, axis2: number): Mask {
   const out = new Uint8Array(m.length);
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) out[y * w + x] = m[y * w + (w - 1 - x)]!;
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const sx = axis2 - 1 - x;
+      if (sx >= 0 && sx < w) out[y * w + x] = m[y * w + sx]!;
+    }
   return out;
 }
 

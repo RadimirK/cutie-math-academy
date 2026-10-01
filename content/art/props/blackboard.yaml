@@ -1,0 +1,148 @@
+id: blackboard
+desc: 'Зелёная классная доска в деревянной раме с полочкой для мела, мелом и тряпкой; на доске могут быть записи мелом: limits — график сходящейся последовательности и полоса ε, logic — таблица истинности и формула.'
+material: board
+outline: true
+shadow: true
+params:
+  w: { range: [120, 480], default: 340, desc: ширина доски }
+  h: { range: [80, 200], default: 130, desc: высота доски }
+  writing: { options: [none, limits, logic], default: none, desc: что написано мелом }
+shapes:
+  # (0, 0) — верхний центр рамы
+  - poly: [['-$w / 2 - 7', -7], ['$w / 2 + 7', -7], ['$w / 2 + 7', '$h + 7'], ['-$w / 2 - 7', '$h + 7']]
+    material: wood
+    seam: true
+  - poly: [['-$w / 2', 0], ['$w / 2', 0], ['$w / 2', '$h'], ['-$w / 2', '$h']]
+    seam: true
+    shadow: false
+  # меловые разводы
+  - stroke: [['-$w / 2 + 20', '$h * 0.62'], ['-$w / 2 + 80', '$h * 0.58'], ['-$w / 2 + 130', '$h * 0.66']]
+    smooth: true
+    tone: 3
+  - stroke: [['$w / 2 - 150', '$h * 0.3'], ['$w / 2 - 60', '$h * 0.26'], ['$w / 2 - 20', '$h * 0.34']]
+    smooth: true
+    tone: 3
+  # полочка, мел и тряпка
+  - poly: [['-$w / 2 - 10', '$h + 5'], ['$w / 2 + 10', '$h + 5'], ['$w / 2 + 6', '$h + 12'], ['-$w / 2 - 6', '$h + 12']]
+    material: wood
+    seam: true
+  - poly: [['$w / 2 - 70', '$h + 1'], ['$w / 2 - 52', '$h + 1'], ['$w / 2 - 52', '$h + 5'], ['$w / 2 - 70', '$h + 5']]
+    material: chalk
+    seam: true
+  - poly: [['$w / 2 - 46', '$h + 2'], ['$w / 2 - 36', '$h + 2'], ['$w / 2 - 36', '$h + 5'], ['$w / 2 - 46', '$h + 5']]
+    material: accent
+    seam: true
+  - poly: [['-$w / 2 + 30', '$h - 3'], ['-$w / 2 + 58', '$h - 3'], ['-$w / 2 + 56', '$h + 5'], ['-$w / 2 + 32', '$h + 5']]
+    material: dark_wood
+    seam: true
+  # limits: оси, полоса ε и точки x_n, сходящиеся к пределу
+  - stroke: [['-$w / 2 + 24', 16], ['-$w / 2 + 24', '$h - 16'], ['-$w / 2 + 24 + $w * 0.5', '$h - 16']]
+    material: chalk
+    when: { writing: limits }
+  - stroke: [['-$w / 2 + 26 + 8 * $i', '$h * 0.42'], ['-$w / 2 + 30 + 8 * $i', '$h * 0.42']]
+    material: chalk
+    tone: 3
+    repeat: { count: 18, step: [0, 0] }
+    when: { writing: limits }
+  - stroke: [['-$w / 2 + 26 + 8 * $i', '$h * 0.42 - 12'], ['-$w / 2 + 29 + 8 * $i', '$h * 0.42 - 12']]
+    material: chalk
+    tone: 1
+    repeat: { count: 18, step: [0, 0] }
+    when: { writing: limits }
+  - stroke: [['-$w / 2 + 26 + 8 * $i', '$h * 0.42 + 12'], ['-$w / 2 + 29 + 8 * $i', '$h * 0.42 + 12']]
+    material: chalk
+    tone: 1
+    repeat: { count: 18, step: [0, 0] }
+    when: { writing: limits }
+  - stamp:
+      at: ['-$w / 2 + 34 + 9 * $i', '$h * 0.42 + (($i % 2) * 2 - 1) * 46 / ($i + 1)']
+      rows: ['.c.', 'ccc', '.c.']
+      key: { c: chalk }
+    repeat: { count: 16, step: [0, 0] }
+    when: { writing: limits }
+  # формулы справа
+  - stamp:
+      at: ['$w / 4', '$h * 0.3']
+      rows:
+        - 'c.c...............................'
+        - 'c.......................ccc.......'
+        - 'c.c.cccc.....c.c................cc'
+        - 'c.c.c.c.c.....c.........ccc....c.c'
+        - 'c.c.c.c.c....c.c.cc.............cc'
+        - '.................c.c..............'
+        - '.................c.c..............'
+      key: { c: chalk }
+    when: { writing: limits }
+  - stamp:
+      at: ['$w / 4', '$h * 0.52']
+      rows:
+        - 'c.c..cc.c...ccc....ccc.c..c'
+        - 'c.c.c....c..c.c......c.cc.c'
+        - 'ccc.cc....c.c.c.....cc.c.cc'
+        - 'c.c.c....c..c.c......c.c..c'
+        - '.c...cc.c...ccc....ccc.c..c'
+      key: { c: chalk }
+    when: { writing: limits }
+  - stroke: [['$w / 4 - 30', '$h * 0.62'], ['$w / 4 + 60', '$h * 0.62']]
+    material: chalk
+    tone: 1
+    when: { writing: limits }
+  # logic: таблица истинности импликации и формула
+  - stamp:
+      at: ['-$w / 4', '$h * 0.5']
+      rows:
+        - '.c.....cc......c.......cc.'
+        - 'c.c....c.c....c.c...c..c.c'
+        - 'ccc....cc.....ccc.cccc.cc.'
+        - 'c.c....c.c....c.c...c..c.c'
+        - 'c.c....cc.....c.c......cc.'
+        - '..........................'
+        - 'ccc....ccc........c.......'
+        - 'c.c....c.c.......cc.......'
+        - 'c.c....c.c........c.......'
+        - 'c.c....c.c........c.......'
+        - 'ccc....ccc.......ccc......'
+        - '..........................'
+        - 'ccc.....c.........c.......'
+        - 'c.c....cc........cc.......'
+        - 'c.c.....c.........c.......'
+        - 'c.c.....c.........c.......'
+        - 'ccc....ccc.......ccc......'
+        - '..........................'
+        - '.c.....ccc.......ccc......'
+        - 'cc.....c.c.......c.c......'
+        - '.c.....c.c.......c.c......'
+        - '.c.....c.c.......c.c......'
+        - 'ccc....ccc.......ccc......'
+        - '..........................'
+        - '.c......c.........c.......'
+        - 'cc.....cc........cc.......'
+        - '.c......c.........c.......'
+        - '.c......c.........c.......'
+        - 'ccc....ccc.......ccc......'
+      key: { c: chalk }
+    when: { writing: logic }
+  - stroke: [['-$w / 4 - 16', '$h * 0.5 - 11'], ['-$w / 4 + 16', '$h * 0.5 - 11']]
+    material: chalk
+    tone: 3
+    when: { writing: logic }
+  - stamp:
+      at: ['$w / 5', '$h * 0.36']
+      rows:
+        - '.cc.......................'
+        - 'c......ccc..........c..c.c'
+        - 'ccc...........c.c.cccc.c.c'
+        - 'c......ccc.....c....c...cc'
+        - 'c.............c.c........c'
+      key: { c: chalk }
+    when: { writing: logic }
+  - stamp:
+      at: ['$w / 5', '$h * 0.58']
+      rows:
+        - '.cc..c.ccc....ccc.c.............c.'
+        - 'c...c..c.c....c.c..c....ccc....cc.'
+        - 'ccc.c..c.c....c.c..c............c.'
+        - 'c...c..c.c....c.c..c....ccc.....c.'
+        - 'c....c.ccc....ccc.c............ccc'
+      key: { c: chalk }
+    when: { writing: logic }

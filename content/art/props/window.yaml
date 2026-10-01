@@ -1,0 +1,115 @@
+id: window
+desc: 'Окно в раме с переплётом, за ним небо с облаками и кроны деревьев; прямое или с аркой сверху, по желанию со шторами и подоконником.'
+material: trim
+shadow: true
+params:
+  w: { range: [40, 220], default: 96, desc: ширина стекла }
+  h: { range: [60, 240], default: 128, desc: высота стекла }
+  cols: { range: [1, 4], default: 2, int: true, desc: створок по горизонтали }
+  rows: { range: [1, 5], default: 3, int: true, desc: створок по вертикали }
+  top: { options: [flat, arch], default: flat }
+  curtains: { options: [none, side], default: none }
+shapes:
+  # (0, 0) — левый верхний угол стекла; у арки — начало полукруга
+  - poly: [[-6, -6], ['$w + 6', -6], ['$w + 6', '$h + 6'], [-6, '$h + 6']]
+    seam: true
+    when: { top: flat }
+  - poly: [[-6, '$w / 2'], ['$w + 6', '$w / 2'], ['$w + 6', '$h + 6'], [-6, '$h + 6']]
+    seam: true
+    when: { top: arch }
+  - ellipse: { at: ['$w / 2', '$w / 2'], r: '$w / 2 + 6' }
+    seam: true
+    when: { top: arch }
+  # небо
+  - poly: [[0, 0], ['$w', 0], ['$w', '$h'], [0, '$h']]
+    material: sky
+    name: pane
+    shadow: false
+    when: { top: flat }
+  - poly: [[0, '$w / 2'], ['$w', '$w / 2'], ['$w', '$h'], [0, '$h']]
+    material: sky
+    name: pane
+    shadow: false
+    when: { top: arch }
+  - ellipse: { at: ['$w / 2', '$w / 2'], r: '$w / 2' }
+    material: sky
+    name: pane
+    shadow: false
+    when: { top: arch }
+  - ellipse: { at: ['$w * 0.3', '$h * 0.3'], r: ['$w * 0.16', 6] }
+    material: cloud
+    clip: pane
+    shadow: false
+  - ellipse: { at: ['$w * 0.42', '$h * 0.27'], r: ['$w * 0.1', 8] }
+    material: cloud
+    clip: pane
+    shadow: false
+  - ellipse: { at: ['$w * 0.78', '$h * 0.5'], r: ['$w * 0.14', 5] }
+    material: cloud
+    clip: pane
+    shadow: false
+  # кроны за окном
+  - ellipse: { at: ['$w * 0.15', '$h + 8'], r: ['$w * 0.3', 26] }
+    material: plant
+    clip: pane
+    shadow: false
+  - ellipse: { at: ['$w * 0.75', '$h + 14'], r: ['$w * 0.35', 30] }
+    material: plant
+    clip: pane
+    shadow: false
+  # блики на стекле
+  - stroke: [['$w * 0.12', '$h * 0.7'], ['$w * 0.42', '$h * 0.35']]
+    material: shine
+    clip: pane
+  - stroke: [['$w * 0.2', '$h * 0.74'], ['$w * 0.46', '$h * 0.43']]
+    material: shine
+    clip: pane
+  # переплёт
+  - poly: [['$w / $cols - 2', -2], ['$w / $cols + 2', -2], ['$w / $cols + 2', '$h + 2'], ['$w / $cols - 2', '$h + 2']]
+    repeat: { count: '$cols - 1', step: ['$w / $cols', 0] }
+    clip: pane
+    grow: 1
+  - poly: [[-2, '$h / $rows - 2'], ['$w + 2', '$h / $rows - 2'], ['$w + 2', '$h / $rows + 1'], [-2, '$h / $rows + 1']]
+    repeat: { count: '$rows - 1', step: [0, '$h / $rows'] }
+    clip: pane
+    grow: 1
+  # подоконник
+  - poly: [[-12, '$h + 4'], ['$w + 12', '$h + 4'], ['$w + 12', '$h + 11'], [-12, '$h + 11']]
+    seam: true
+  # шторы собраны у карниза и подхвачены на высоте 0.6
+  - poly: [[-18, -14], [4, -14], [12, '$h * 0.58'], [6, '$h * 0.64'], [10, '$h + 16'], [-22, '$h + 16'], [-20, '$h * 0.62']]
+    material: fabric
+    seam: true
+    when: { curtains: side }
+  - poly: [['$w + 18', -14], ['$w - 4', -14], ['$w - 12', '$h * 0.58'], ['$w - 6', '$h * 0.64'], ['$w - 10', '$h + 16'], ['$w + 22', '$h + 16'], ['$w + 20', '$h * 0.62']]
+    material: fabric
+    seam: true
+    when: { curtains: side }
+  - stroke: [[-6, -12], [0, '$h * 0.58']]
+    material: fabric
+    tone: 1
+    when: { curtains: side }
+  - stroke: [['$w + 6', -12], ['$w', '$h * 0.58']]
+    material: fabric
+    tone: 1
+    when: { curtains: side }
+  - stroke: [[-8, '$h * 0.66'], [-12, '$h + 14']]
+    material: fabric
+    tone: 1
+    when: { curtains: side }
+  - stroke: [['$w + 8', '$h * 0.66'], ['$w + 12', '$h + 14']]
+    material: fabric
+    tone: 1
+    when: { curtains: side }
+  - poly: [[-22, '$h * 0.6'], [12, '$h * 0.56'], [12, '$h * 0.6'], [-22, '$h * 0.64']]
+    material: accent
+    seam: true
+    when: { curtains: side }
+  - poly: [['$w + 22', '$h * 0.6'], ['$w - 12', '$h * 0.56'], ['$w - 12', '$h * 0.6'], ['$w + 22', '$h * 0.64']]
+    material: accent
+    seam: true
+    when: { curtains: side }
+  - poly: [[-28, -18], ['$w + 28', -18], ['$w + 28', -14], [-28, -14]]
+    material: metal
+    seam: true
+    when: { curtains: side }

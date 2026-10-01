@@ -1,0 +1,25 @@
+id: desk_items
+desc: 'Мелочи на столе: стопка книг, раскрытая тетрадь и кружка.'
+material: paper
+shadow: true
+shapes:
+  # (0, 0) — середина на столешнице
+  - poly: [[-48, -6], [-18, -6], [-18, 0], [-48, 0]]
+    material: book2
+    seam: true
+  - poly: [[-46, -11], [-20, -11], [-20, -6], [-46, -6]]
+    material: book1
+    seam: true
+  - poly: [[-44, -15], [-24, -15], [-24, -11], [-44, -11]]
+    material: book4
+    seam: true
+  - poly: [[-8, -3], [8, -5], [24, -3], [24, 0], [-8, 0]]
+    seam: true
+  - stroke: [[8, -4], [8, 0]]
+    material: metal
+  - poly: [[34, -12], [44, -12], [44, 0], [34, 0]]
+    material: accent
+    seam: true
+  - stroke: [[44, -9], [47, -8], [47, -4], [44, -3]]
+    material: accent
+    tone: 1

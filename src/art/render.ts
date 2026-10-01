@@ -14,16 +14,17 @@ import {
   ellipsePoints,
   emptyMask,
   fillPolygon,
-  flipX,
+  flipAbout,
   shift,
   smoothPath,
   strandPolygon,
   strokePath,
   type Mask,
   type Pt,
+  type Size,
 } from './raster.ts';
-import { SLOTS, type Look, type Material, type Overrides, type Part, type PartOverride, type PartUse, type Shape, type Slot } from './schema.ts';
-import { parseHex } from './color.ts';
+import { SLOTS, type Look, type Overrides, type ParamDef, type Part, type PartOverride, type PartUse, type PropShape, type Shape, type Slot } from './schema.ts';
+import { parseHex, type RGB } from './color.ts';
 import { ANIMATIONS, CAST_OFFSET, DEFAULT_PARTS, EMOTIONS, FRAMES, HEAD, RIG, SHADOW_DIR, SIZE, palette, type Frame } from './style.ts';
 
 export type PartLibrary = Partial<Record<Slot, Record<string, Part>>>;
@@ -53,33 +54,45 @@ export const GLOBAL_PARAMS = ['shoulders', 'chest'] as const;
 export type GlobalParam = (typeof GLOBAL_PARAMS)[number];
 const globals = (look: Look): Record<GlobalParam, number> => ({ shoulders: look.shoulders, chest: look.chest });
 
-function place(slot: Slot, use: PartUse, lib: PartLibrary, g: Record<string, number>): Placed {
-  const part = lib[slot]?.[use.part];
-  if (!part) throw new Error(`${slot}: нет детали ${use.part} (есть: ${Object.keys(lib[slot] ?? {}).join(', ') || 'ничего'})`);
-  const nums: Record<string, number> = { ...g };
+/** Defaults of a part's params, overridden by a use of it; `where` names it in messages. */
+export function resolveParams(
+  id: string,
+  params: Record<string, ParamDef>,
+  use: Record<string, unknown>,
+  where: string,
+  skip: string[],
+  base: Record<string, number> = {},
+): { nums: Record<string, number>; enums: Record<string, string> } {
+  const nums: Record<string, number> = { ...base };
   const enums: Record<string, string> = {};
-  for (const [name, def] of Object.entries(part.params)) {
+  for (const [name, def] of Object.entries(params)) {
     if ('range' in def) nums[name] = def.default;
     else enums[name] = def.default;
   }
   for (const [name, value] of Object.entries(use)) {
-    if (name === 'part') continue;
-    const def = part.params[name];
-    const where = `${slot}.${name}`;
-    if (!def) throw new Error(`${where}: у детали ${part.id} нет параметра ${name} (есть: ${Object.keys(part.params).join(', ') || 'нет'})`);
+    if (skip.includes(name)) continue;
+    const def = params[name];
+    const at = `${where}.${name}`;
+    if (!def) throw new Error(`${at}: у ${id} нет параметра ${name} (есть: ${Object.keys(params).join(', ') || 'нет'})`);
     if ('range' in def) {
-      if (typeof value !== 'number') throw new Error(`${where}: нужно число`);
+      if (typeof value !== 'number') throw new Error(`${at}: нужно число`);
       const [lo, hi] = def.range;
-      if (value < lo || value > hi) throw new Error(`${where}: ${value} вне диапазона [${lo}, ${hi}]`);
-      if (def.int && !Number.isInteger(value)) throw new Error(`${where}: нужно целое число`);
+      if (value < lo || value > hi) throw new Error(`${at}: ${value} вне диапазона [${lo}, ${hi}]`);
+      if (def.int && !Number.isInteger(value)) throw new Error(`${at}: нужно целое число`);
       nums[name] = value;
     } else {
       if (typeof value !== 'string' || !def.options.includes(value))
-        throw new Error(`${where}: «${value}» не из вариантов ${def.options.join(', ')}`);
+        throw new Error(`${at}: «${value}» не из вариантов ${def.options.join(', ')}`);
       enums[name] = value;
     }
   }
-  return { slot, part, nums, enums };
+  return { nums, enums };
+}
+
+function place(slot: Slot, use: PartUse, lib: PartLibrary, g: Record<string, number>): Placed {
+  const part = lib[slot]?.[use.part];
+  if (!part) throw new Error(`${slot}: нет детали ${use.part} (есть: ${Object.keys(lib[slot] ?? {}).join(', ') || 'ничего'})`);
+  return { slot, part, ...resolveParams(`детали ${part.id}`, part.params, use, slot, ['part'], g) };
 }
 
 /** What to draw: an emotion, and on top of it a frame of an animation. */
@@ -149,15 +162,6 @@ function resolveSlot(
   return uses.filter((use) => use.part !== NO_PART).map((use) => place(slot, use, lib, g));
 }
 
-const matches = (when: Shape['when'], pl: Placed) =>
-  !when ||
-  Object.entries(when).every(([k, v]) => {
-    if (typeof v === 'string') return pl.enums[k] === v;
-    if (Array.isArray(v)) return v.includes(pl.enums[k]!);
-    const n = pl.nums[k]!;
-    return (v.min === undefined || n >= v.min) && (v.max === undefined || n <= v.max);
-  });
-
 /** Frames of an animation in a state, or none if it does not apply there (blink with eyes shut). */
 export function animationFrames(
   look: Look,
@@ -179,42 +183,90 @@ export function animationFrames(
 }
 
 /** A material of the palette, or a fixed colour `#rrggbb`. */
-type Paint = Material | `#${string}`;
+type Paint = string;
+
+/** A shape of a character part or of a prop: the painter does not care which materials. */
+type AnyShape = Shape | PropShape;
+
+/**
+ * A part laid onto a canvas: what the painter needs to draw it. Characters and backgrounds
+ * both come down to a list of these.
+ */
+export interface Layer {
+  part: { id: string; material: string; shade: 'round' | 'flat' | 'none'; outline: boolean; seams: boolean; shadow: boolean; highlight?: 'hair_band'; shapes: AnyShape[] };
+  nums: Record<string, number>;
+  enums: Record<string, string>;
+  /** Canvas pixel of the part's (0, 0), which is also its mirror axis, and pixels per unit. */
+  origin: Pt;
+  unit: number;
+  /** Names the part in messages. */
+  where: string;
+  /** Depth of a shape: its own, or of the slot it is moved to (`slot` of a shape). */
+  depth: (slot?: Slot) => { key: string; z: number };
+}
 
 interface Fragment {
   mask: Mask;
   material: Paint;
   /** fixed tone, or null for shaded pixels */
   tone: number | null;
+  /** copy of a repeated shape */
+  copy: number;
 }
 
 /** Every expression a shape contains (for validation). */
-export function shapeExprs(shape: Shape): Expr[] {
+export function shapeExprs(shape: AnyShape): Expr[] {
   const pts = (ps: [Expr, Expr][]) => ps.flat();
+  const rep = shape.repeat ? [shape.repeat.count, ...shape.repeat.step] : [];
   if ('ellipse' in shape) {
     const { at, r, rot } = shape.ellipse;
-    return [...at, ...(Array.isArray(r) ? r : [r]), ...(rot === undefined ? [] : [rot])];
+    return [...rep, ...at, ...(Array.isArray(r) ? r : [r]), ...(rot === undefined ? [] : [rot])];
   }
-  if ('poly' in shape) return pts(shape.poly);
+  if ('poly' in shape) return [...rep, ...pts(shape.poly)];
   if ('strand' in shape) {
     const { from, to, bend, width } = shape.strand;
-    return [...from, ...to, ...width, ...(bend === undefined ? [] : [bend])];
+    return [...rep, ...from, ...to, ...width, ...(bend === undefined ? [] : [bend])];
   }
-  if ('stroke' in shape) return pts(shape.stroke);
-  return [...shape.stamp.at, ...(shape.stamp.shift ?? [])];
+  if ('stroke' in shape) return [...rep, ...pts(shape.stroke)];
+  return [...rep, ...shape.stamp.at, ...(shape.stamp.shift ?? [])];
 }
 
 /** Masks of the shapes that have a `name`, which other shapes can `clip` to. */
 type Names = Map<string, Mask>;
 
-function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[] {
-  const size = SIZE;
+const matches = (when: AnyShape['when'], pl: { nums: Record<string, number>; enums: Record<string, string> }) =>
+  !when ||
+  Object.entries(when).every(([k, v]) => {
+    if (typeof v === 'string') return pl.enums[k] === v;
+    if (Array.isArray(v)) return v.includes(pl.enums[k]!);
+    const n = pl.nums[k]!;
+    return (v.min === undefined || n >= v.min) && (v.max === undefined || n <= v.max);
+  });
+
+/** Most copies a repeated shape may draw: a guard against a runaway `count`. */
+const MAX_COPIES = 400;
+
+function fragments(shape: AnyShape, layer: Layer, names: Names, size: Size): Fragment[] {
+  if (!shape.repeat) return copyFragments(shape, layer, names, size, layer.nums, [0, 0], shape.material ?? layer.part.material, 0);
+  const count = Math.round(evalExpr(shape.repeat.count, layer.nums));
+  if (count > MAX_COPIES) throw new Error(`${layer.where}: repeat.count ${count} больше ${MAX_COPIES}`);
+  const out: Fragment[] = [];
+  for (let i = 0; i < count; i++) {
+    const nums = { ...layer.nums, i };
+    const step = shape.repeat.step.map((e) => evalExpr(e, nums) * i) as Pt;
+    const material = shape.cycle ? shape.cycle[i % shape.cycle.length]! : (shape.material ?? layer.part.material);
+    out.push(...copyFragments(shape, layer, names, size, nums, step, material, i));
+  }
+  return out;
+}
+
+function copyFragments(shape: AnyShape, layer: Layer, names: Names, size: Size, nums: Record<string, number>, off: Pt, material: Paint, copy: number): Fragment[] {
   const clip = (m: Mask): Mask => {
     if (!shape.clip) return m;
     const region = emptyMask(size);
     for (const name of Array.isArray(shape.clip) ? shape.clip : [shape.clip]) {
       const n = names.get(name);
-      if (!n) throw new Error(`${pl.slot}/${pl.part.id}: clip: нет фигуры с name: ${name} (есть: ${[...names.keys()].join(', ') || 'нет'})`);
+      if (!n) throw new Error(`${layer.where}: clip: нет фигуры с name: ${name} (есть: ${[...names.keys()].join(', ') || 'нет'})`);
       for (let i = 0; i < n.length; i++) region[i] = region[i]! | n[i]!;
     }
     const allowed = shape.grow ? dilate(region, size, shape.grow) : region;
@@ -222,12 +274,14 @@ function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[
     for (let i = 0; i < m.length; i++) out[i] = m[i]! & allowed[i]!;
     return out;
   };
-  const num = (e: Expr) => evalExpr(e, pl.nums);
-  const P = ([x, y]: [Expr, Expr]): Pt => [HEAD.cx + num(x) * r, HEAD.cy + num(y) * r];
-  const material = shape.material ?? pl.part.material;
+  const { origin, unit } = layer;
+  const num = (e: Expr) => evalExpr(e, nums);
+  const P = ([x, y]: [Expr, Expr]): Pt => [origin[0] + (num(x) + off[0]) * unit, origin[1] + (num(y) + off[1]) * unit];
+  // Mirroring is about the part's own axis: the face for a character, (0, 0) for a prop.
+  const axis2 = Math.round(origin[0] * 2);
   const mirrored = (m: Mask) => {
     if (!shape.mirror) return m;
-    const f = flipX(m, size);
+    const f = flipAbout(m, size, axis2);
     for (let i = 0; i < m.length; i++) f[i] = f[i]! | m[i]!;
     return f;
   };
@@ -251,7 +305,7 @@ function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[
         if (!key[ch]) throw new Error(`штамп: символ «${ch}» не описан в key`);
         put(ch, x0 + i, y0 + j);
         // Unflipped mirror: the same pixels at the mirrored place (glints stay on one side).
-        if (shape.mirror && flip === false) put(ch, size.w - (x0 + cols) + i, y0 + j);
+        if (shape.mirror && flip === false) put(ch, axis2 - (x0 + cols) + i, y0 + j);
       }),
     );
     const [sx, sy] = (shape.stamp.shift ?? [0, 0]).map((e) => Math.round(num(e)));
@@ -261,6 +315,7 @@ function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[
         mask: clip(shift(flip === false ? m : mirrored(m), size, sx!, sy!)),
         material: mat as Paint,
         tone: shape.tone ?? (t === undefined ? 2 : Number(t)),
+        copy,
       };
     });
   }
@@ -271,7 +326,7 @@ function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[
     const { at, r: radius, rot } = shape.ellipse;
     const [cx, cy] = P(at);
     const [rx, ry] = Array.isArray(radius) ? radius.map(num) : [num(radius), num(radius)];
-    const pts = ellipsePoints(cx, cy, rx! * r, ry! * r, rot === undefined ? 0 : num(rot));
+    const pts = ellipsePoints(cx, cy, rx! * unit, ry! * unit, rot === undefined ? 0 : num(rot));
     mask = shape.hollow ? strokePath(size, pts, true) : fillPolygon(size, pts);
     if (shape.hollow) tone ??= 2;
   } else if ('poly' in shape) {
@@ -279,23 +334,22 @@ function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[
     mask = fillPolygon(size, shape.smooth ? smoothPath(pts, true) : pts);
   } else if ('strand' in shape) {
     const { from, to, bend, width } = shape.strand;
-    mask = fillPolygon(size, strandPolygon(P(from), P(to), bend === undefined ? 0 : num(bend), num(width[0]) * r, num(width[1]) * r));
+    mask = fillPolygon(size, strandPolygon(P(from), P(to), bend === undefined ? 0 : num(bend), num(width[0]) * unit, num(width[1]) * unit));
   } else {
     const pts = shape.stroke.map(P);
     const closed = shape.closed ?? false;
     mask = strokePath(size, shape.smooth ? smoothPath(pts, closed) : pts, closed);
     tone ??= 2; // a one-pixel line is all edge: shading and outlining would eat it
   }
-  return [{ mask: clip(mirrored(mask)), material, tone }];
+  return [{ mask: clip(mirrored(mask)), material, tone, copy }];
 }
 
 interface Region {
   /** depth: later regions are in front */
   order: number;
-  slot: Slot;
   piece: string;
   material: Paint;
-  part: Part;
+  part: Layer['part'];
   fixed: boolean;
   /** casts a shadow onto regions behind it */
   casts: boolean;
@@ -324,22 +378,36 @@ export function crop(s: Sprite, f: { x: number; y: number; w: number; h: number 
 
 /** The whole standing figure on the SIZE canvas. */
 export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = {}): Sprite {
-  const { w, h } = SIZE;
-  const N = w * h;
   const r = HEAD.r * look.head;
-  const placed = resolveLook(look, lib, state);
+  const layers: Layer[] = resolveLook(look, lib, state).map((pl, pi) => ({
+    ...pl,
+    origin: [HEAD.cx, HEAD.cy],
+    unit: r,
+    where: `${pl.slot}/${pl.part.id}`,
+    depth: (slot = pl.slot) => ({ key: `${pi}/${slot}`, z: SLOTS.indexOf(slot) * 1000 + (slot === pl.slot ? 0 : 500) + pi }),
+  }));
+  return paint(layers, SIZE, palette(look.palette), { cx: HEAD.cx, cy: HEAD.cy - 0.38 * r, rx: 0.8 * r, ry: 0.52 * r });
+}
+
+/**
+ * Layers -> pixels: rasterise every shape, paint back to front, shade volumes, cast shadows,
+ * the hair ring (where `ring` is given), the selective outline and the colours of `colors`.
+ */
+export function paint(layers: Layer[], size: Size, colors: Record<string, RGB[]>, ring?: { cx: number; cy: number; rx: number; ry: number }): Sprite {
+  const { w, h } = size;
+  const N = w * h;
 
   // 0. Named shapes first, so that any part can clip to any other.
   const names: Names = new Map();
-  for (const pl of placed)
-    for (const shape of pl.part.shapes) {
-      if (!shape.name || !matches(shape.when, pl)) continue;
-      const m = names.get(shape.name) ?? emptyMask(SIZE);
-      for (const frag of fragments({ ...shape, clip: undefined }, pl, r, names)) for (let p = 0; p < N; p++) m[p] = m[p]! | frag.mask[p]!;
+  for (const layer of layers)
+    for (const shape of layer.part.shapes) {
+      if (!shape.name || !matches(shape.when, layer)) continue;
+      const m = names.get(shape.name) ?? emptyMask(size);
+      for (const frag of fragments({ ...shape, clip: undefined }, layer, names, size)) for (let p = 0; p < N; p++) m[p] = m[p]! | frag.mask[p]!;
       names.set(shape.name, m);
     }
 
-  // 1. Rasterise. A piece is what one placed part draws at one depth.
+  // 1. Rasterise. A piece is what one layer draws at one depth.
   interface Piece {
     z: number;
     reg: Int32Array;
@@ -348,28 +416,28 @@ export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = 
   const pieces = new Map<string, Piece>();
   const regions: Region[] = [];
   const regionIds = new Map<string, number>();
-  placed.forEach((pl, pi) => {
-    pl.part.shapes.forEach((shape, si) => {
-      if (!matches(shape.when, pl)) return;
-      const slot = shape.slot ?? pl.slot;
-      const pieceKey = `${pi}/${slot}`;
+  for (const layer of layers) {
+    layer.part.shapes.forEach((shape, si) => {
+      if (!matches(shape.when, layer)) return;
+      const { key: pieceKey, z } = layer.depth('slot' in shape ? shape.slot : undefined);
       let piece = pieces.get(pieceKey);
       if (!piece) {
-        piece = { z: SLOTS.indexOf(slot) * 1000 + (slot === pl.slot ? 0 : 500) + pi, reg: new Int32Array(N).fill(-1), tone: new Int8Array(N).fill(-1) };
+        piece = { z, reg: new Int32Array(N).fill(-1), tone: new Int8Array(N).fill(-1) };
         pieces.set(pieceKey, piece);
       }
-      for (const frag of fragments(shape, pl, r, names)) {
+      for (const frag of fragments(shape, layer, names, size)) {
         if (shape.erase) {
           for (let p = 0; p < N; p++) if (frag.mask[p]) piece.reg[p] = -1;
           continue;
         }
         const fixed = frag.tone !== null;
-        const casts = !fixed && (shape.shadow ?? pl.part.shadow);
-        const key = `${pieceKey}/${frag.material}/${fixed ? 'fixed' : (shape.seam ?? pl.part.seams) ? si : ''}/${casts ? 'casts' : ''}`;
+        const casts = !fixed && (shape.shadow ?? layer.part.shadow);
+        const own = (shape.seam ?? layer.part.seams) ? `${si}.${frag.copy}` : '';
+        const key = `${pieceKey}/${frag.material}/${fixed ? 'fixed' : own}/${casts ? 'casts' : ''}`;
         let id = regionIds.get(key);
         if (id === undefined) {
           id = regions.length;
-          regions.push({ order: piece.z * 1000 + si, slot, piece: pieceKey, material: frag.material, part: pl.part, fixed, casts, mask: emptyMask(SIZE) });
+          regions.push({ order: piece.z * 1000 + si, piece: pieceKey, material: frag.material, part: layer.part, fixed, casts, mask: emptyMask(size) });
           regionIds.set(key, id);
         }
         for (let p = 0; p < N; p++)
@@ -379,7 +447,7 @@ export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = 
           }
       }
     });
-  });
+  }
 
   // 2. Paint back to front.
   const owner = new Int32Array(N).fill(-1);
@@ -434,18 +502,18 @@ export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = 
   }
 
   // 5. The glossy ring on hair: an arc around the crown, brightest in its middle.
-  const ring = { cx: HEAD.cx, cy: HEAD.cy - 0.38 * r, rx: 0.8 * r, ry: 0.52 * r };
-  for (let p = 0; p < N; p++) {
-    if (!shaded(p) || tone[p]! < 2) continue;
-    if (regions[owner[p]!]!.part.highlight !== 'hair_band') continue;
-    const x = (p % w) + 0.5;
-    const y = Math.floor(p / w) + 0.5;
-    if (y > ring.cy) continue;
-    const d = Math.hypot((x - ring.cx) / ring.rx, (y - ring.cy) / ring.ry);
-    const px = Math.abs(d - 1) * ring.ry;
-    if (px < 0.8) tone[p] = 4;
-    else if (px < 1.9) tone[p] = 3;
-  }
+  if (ring)
+    for (let p = 0; p < N; p++) {
+      if (!shaded(p) || tone[p]! < 2) continue;
+      if (regions[owner[p]!]!.part.highlight !== 'hair_band') continue;
+      const x = (p % w) + 0.5;
+      const y = Math.floor(p / w) + 0.5;
+      if (y > ring.cy) continue;
+      const d = Math.hypot((x - ring.cx) / ring.rx, (y - ring.cy) / ring.ry);
+      const px = Math.abs(d - 1) * ring.ry;
+      if (px < 0.8) tone[p] = 4;
+      else if (px < 1.9) tone[p] = 3;
+    }
 
   // 6. Selective outline: the edge of a region against the void or against what lies behind.
   // Locks of the same part get a softer seam instead of a full line.
@@ -474,24 +542,29 @@ export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = 
   }
 
   // 7. Colours.
-  const colors = palette(look.palette);
   const rgba = new Uint8ClampedArray(N * 4);
   for (let p = 0; p < N; p++) {
     if (owner[p]! < 0) continue;
     const m = regions[owner[p]!]!.material;
-    const c = m.startsWith('#') ? parseHex(m) : colors[m as Material][outlined[p]!]!;
+    const ramp = m.startsWith('#') ? undefined : colors[m];
+    if (!m.startsWith('#') && !ramp) throw new Error(`нет цвета для материала ${m}`);
+    const c = ramp ? ramp[outlined[p]!]! : parseHex(m);
     rgba.set([c[0], c[1], c[2], 255], p * 4);
   }
   return { w, h, rgba };
 }
 
-/** Static checks of a part: params referenced exist, expressions evaluate, `when` is valid. */
-export function partIssues(part: Part): string[] {
+/**
+ * Static checks of a part or a prop: params referenced exist, expressions evaluate, `when` is
+ * valid. `globals` are the params every part sees without declaring them (the body's).
+ */
+export function partIssues(part: { params: Record<string, ParamDef>; shapes: AnyShape[] }, globals: Record<string, number> = { shoulders: 1, chest: 0.35 }): string[] {
   const issues: string[] = [];
-  const nums: Record<string, number> = { shoulders: 1, chest: 0.35 };
+  const nums: Record<string, number> = { ...globals };
   const enums: Record<string, string[]> = {};
   for (const [name, def] of Object.entries(part.params)) {
-    if ((GLOBAL_PARAMS as readonly string[]).includes(name)) issues.push(`params.${name}: имя занято общим параметром тела`);
+    if (name in globals) issues.push(`params.${name}: имя занято общим параметром тела`);
+    if (name === 'i') issues.push('params.i: имя занято номером копии в repeat');
     if ('range' in def) {
       nums[name] = def.default;
       if (def.default < def.range[0] || def.default > def.range[1]) issues.push(`params.${name}: default вне диапазона`);
@@ -502,10 +575,12 @@ export function partIssues(part: Part): string[] {
   }
   part.shapes.forEach((shape, i) => {
     const where = `shapes[${i}]`;
+    const vars = shape.repeat ? { ...nums, i: 0 } : nums;
+    if (shape.cycle && !shape.repeat) issues.push(`${where}: cycle без repeat`);
     for (const e of shapeExprs(shape)) {
-      for (const v of exprVars(e)) if (!(v in nums)) issues.push(`${where}: $${v} не объявлен как числовой параметр`);
+      for (const v of exprVars(e)) if (!(v in vars)) issues.push(`${where}: $${v} не объявлен как числовой параметр`);
       try {
-        evalExpr(e, nums);
+        evalExpr(e, vars);
       } catch (err) {
         issues.push(`${where}: ${(err as Error).message}`);
       }

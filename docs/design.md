@@ -168,9 +168,11 @@ content/
       scenes/*.yaml
       problems/*.yaml
       generators/*.py
-  characters/*.yaml
+  characters/*.yaml          # и рядом *.md с характером
   banners/*.yaml
+  backgrounds/*.yaml         # фоны сцен из предметов, см. docs/backgrounds.md
   art/parts/<slot>/*.yaml   # детали генератора портретов, см. docs/character-art.md
+  art/props/*.yaml          # предметы для фонов
   assets/
 ```
 

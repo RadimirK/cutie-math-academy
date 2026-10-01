@@ -1,6 +1,7 @@
 // Content bundled into the app at build time. CI guarantees it is valid; in dev, problems
 // are shown on screen instead of crashing.
 import { animationFrames, crop, emotionsOf, renderFigure, type FigureState, type Sprite } from '../art/render.ts';
+import { renderBackdrop } from '../art/scenery.ts';
 import type { Overrides } from '../art/schema.ts';
 import { FRAMES, type Frame } from '../art/style.ts';
 import { loadContent } from './load.ts';
@@ -25,12 +26,41 @@ export function assetUrl(path: string): string | undefined {
   return assetUrls[`/content/assets/${path}`];
 }
 
-export function backgroundUrl(name: string): string | undefined {
+/**
+ * Background of a scene: a local picture in content/assets/backgrounds/ if there is one,
+ * otherwise the pixel background drawn from content/backgrounds/<name>.yaml.
+ */
+export function backgroundUrl(name: string): { url: string; pixel: boolean } | undefined {
   for (const ext of ['webp', 'png', 'jpg', 'jpeg', 'svg']) {
     const url = assetUrl(`backgrounds/${name}.${ext}`);
-    if (url) return url;
+    if (url) return { url, pixel: false };
   }
-  return undefined;
+  const url = generatedBackground(name);
+  return url ? { url, pixel: true } : undefined;
+}
+
+const backgrounds = new Map<string, string | undefined>();
+
+function generatedBackground(name: string): string | undefined {
+  if (!backgrounds.has(name)) {
+    let url: string | undefined;
+    const b = content.backgrounds[name];
+    try {
+      if (b) url = spriteToUrl(renderBackdrop(b, content.props));
+    } catch (err) {
+      console.error(`фон ${name}:`, err);
+    }
+    backgrounds.set(name, url);
+  }
+  return backgrounds.get(name);
+}
+
+function spriteToUrl({ w, h, rgba }: Sprite): string {
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  canvas.getContext('2d')!.putImageData(new ImageData(rgba, w, h), 0, 0);
+  return canvas.toDataURL();
 }
 
 export function spriteUrl(characterId: string, emotion = 'smile'): string | undefined {
@@ -64,12 +94,7 @@ export function lookSpriteUrl(
     try {
       let figure = figures.get(figureKey);
       if (!figure) figures.set(figureKey, (figure = renderFigure(look, content.parts, { emotion: e, overlay, globals })));
-      const { w, h, rgba } = crop(figure, FRAMES[frame]);
-      const canvas = document.createElement('canvas');
-      canvas.width = w;
-      canvas.height = h;
-      canvas.getContext('2d')!.putImageData(new ImageData(rgba, w, h), 0, 0);
-      url = canvas.toDataURL();
+      url = spriteToUrl(crop(figure, FRAMES[frame]));
     } catch (err) {
       console.error(`портрет ${characterId}:`, err);
     }

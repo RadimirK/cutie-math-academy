@@ -1,12 +1,14 @@
 // Renders review sheets for every character with a `look`: each emotion enlarged and at 1×,
 // on the card colour of its rarity, as a standing figure (<id>.full.png) and as a bust
 // (<id>.bust.png). For people and for the critic model (docs/character-art.md).
+// Backgrounds go to <id>.bg.png (1×) and <id>.bg.x2.png (2×, docs/backgrounds.md).
 //
-//   npm run art:render -- [out-dir] [character-id ...]
+//   npm run art:render -- [out-dir] [character-or-background-id ...]
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { deflateSync } from 'node:zlib';
 import { emotionsOf, renderLook, type Sprite } from '../src/art/render.ts';
+import { renderBackdrop } from '../src/art/scenery.ts';
 import type { Frame } from '../src/art/style.ts';
 import { parseHex, type RGB } from '../src/art/color.ts';
 import { loadOrDie } from './content-files.ts';
@@ -80,4 +82,22 @@ for (const ch of Object.values(content.characters)) {
     emotions.forEach((e, i) => writeFileSync(join(outDir, `${ch.id}.${frame}.${e ?? 'base'}.png`), encodePng(sprites[i]!)));
   }
   console.log(`${join(outDir, ch.id)}.{full,bust}.png: ${emotions.map((e) => e ?? 'base').join(', ')}`);
+}
+for (const b of Object.values(content.backgrounds)) {
+  if (only.length && !only.includes(b.id)) continue;
+  const t0 = performance.now();
+  const bg = renderBackdrop(b, content.props);
+  writeFileSync(join(outDir, `${b.id}.bg.png`), encodePng(bg));
+  writeFileSync(join(outDir, `${b.id}.bg.x2.png`), encodePng(scaled(bg, 2)));
+  console.log(`${join(outDir, b.id)}.bg.png: ${Math.round(performance.now() - t0)} мс`);
+}
+
+function scaled(s: Sprite, k: number): Sprite {
+  const rgba = new Uint8ClampedArray(s.w * k * s.h * k * 4);
+  for (let y = 0; y < s.h * k; y++)
+    for (let x = 0; x < s.w * k; x++) {
+      const src = (Math.floor(y / k) * s.w + Math.floor(x / k)) * 4;
+      rgba.set(s.rgba.subarray(src, src + 4), (y * s.w * k + x) * 4);
+    }
+  return { w: s.w * k, h: s.h * k, rgba };
 }

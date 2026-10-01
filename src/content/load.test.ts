@@ -19,6 +19,8 @@ function base(): Record<string, string> {
       'id: intro\ncharacter: hero\nbackground: bg\nnodes:\n  start:\n    - speaker: hero\n      text: hi\nunlocks: [p1]\n',
     'subjects/s/topics/a/problems/p1.yaml': "id: p1\ndifficulty: 1\nanswer_type: number\nstatement: 'x'\nanswer: '1'\n",
     'characters/hero.yaml': 'id: hero\nname: H\nrarity: 5\nsubject: s\n',
+    'art/props/wall.yaml': 'id: wall\ndesc: wall\nmaterial: wall\nshapes:\n  - poly: [[0, 0], [640, 0], [640, 360]]\n',
+    'backgrounds/bg.yaml': 'id: bg\nname: BG\nprops:\n  - { prop: wall, at: [0, 0] }\n',
   };
 }
 
@@ -36,9 +38,10 @@ describe('loadContent', () => {
   it('reports broken references', () => {
     const f = base();
     f['subjects/s/topics/a/scenes/intro.yaml'] =
-      'id: intro\ncharacter: ghost\nbackground: bg\nnodes:\n  start:\n    - goto: nowhere\nunlocks: [p9]\n';
+      'id: intro\ncharacter: ghost\nbackground: void\nnodes:\n  start:\n    - goto: nowhere\nunlocks: [p9]\n';
     const e = errors(f).join('\n');
     expect(e).toContain('character: нет персонажа ghost');
+    expect(e).toContain('background: нет фона void');
     expect(e).toContain('goto на несуществующий узел nowhere');
     expect(e).toContain('unlocks: нет шаблона s.a.p9');
   });

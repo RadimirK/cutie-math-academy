@@ -64,7 +64,11 @@ export function ScenePlayer() {
   const figure = boardFigure(scene, normalize(scene, pos));
 
   return (
-    <div className={`relative flex h-screen flex-col overflow-hidden bg-cover bg-center select-none ${bg ? '' : 'sky'}`} style={bg ? { backgroundImage: `url(${bg})` } : undefined} onClick={next}>
+    <div
+      className={`relative flex h-screen flex-col overflow-hidden bg-cover bg-center select-none ${bg ? '' : 'sky'}`}
+      style={bg ? { backgroundImage: `url(${bg.url})`, imageRendering: bg.pixel ? 'pixelated' : undefined } : undefined}
+      onClick={next}
+    >
       <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-3 p-4">
         <span className="plate font-display text-sm font-bold italic shadow">
           <span>{scene.title ?? scene.id}</span>

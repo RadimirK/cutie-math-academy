@@ -1,9 +1,11 @@
-// Arithmetic over part parameters: numbers, `$name`, + - * /, unary minus, parentheses.
+// Arithmetic over part parameters: numbers, `$name`, + - * / %, unary minus, parentheses.
+// `%` is the mathematical remainder (never negative for a positive divisor): with the index
+// `$i` of a repeated shape it varies copies, `'($i * 7) % 3'` gives 0, 1, 2, 0, 1, …
 // Parts write coordinates as `0.4` or `"$length + 0.1"`; this is the whole language.
 
 export type Expr = number | string;
 
-const TOKEN = /\s*(?:(\d+(?:\.\d*)?|\.\d+)|\$([a-z_][a-z0-9_]*)|([-+*/()]))/y;
+const TOKEN = /\s*(?:(\d+(?:\.\d*)?|\.\d+)|\$([a-z_][a-z0-9_]*)|([-+*/%()]))/y;
 
 /** Names of the `$params` an expression refers to. */
 export function exprVars(e: Expr): string[] {
@@ -46,7 +48,11 @@ export function evalExpr(e: Expr, vars: Record<string, number>): number {
   };
   const product = (): number => {
     let v = atom();
-    while (tokens[i] === '*' || tokens[i] === '/') v = tokens[i++] === '*' ? v * atom() : v / atom();
+    while (tokens[i] === '*' || tokens[i] === '/' || tokens[i] === '%') {
+      const op = tokens[i++];
+      const b = atom();
+      v = op === '*' ? v * b : op === '/' ? v / b : ((v % b) + b) % b;
+    }
     return v;
   };
   const sum = (): number => {

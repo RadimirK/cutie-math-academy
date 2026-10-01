@@ -1,0 +1,28 @@
+id: table
+desc: 'Деревянный стол анфас: толстая столешница на четырёх ножках или со сплошной передней панелью (учительский стол).'
+material: wood
+shadow: true
+params:
+  w: { range: [60, 300], default: 160, desc: ширина }
+  h: { range: [30, 90], default: 56, desc: высота от пола до столешницы }
+  front: { options: [legs, panel], default: legs }
+shapes:
+  # (0, 0) — середина на полу
+  - poly: [['-$w / 2 + 6', '-$h'], ['-$w / 2 + 12', '-$h'], ['-$w / 2 + 12', 0], ['-$w / 2 + 6', 0]]
+    material: dark_wood
+    seam: true
+    mirror: true
+    when: { front: legs }
+  - poly: [['-$w / 2 + 4', '-$h'], ['$w / 2 - 4', '-$h'], ['$w / 2 - 4', 0], ['-$w / 2 + 4', 0]]
+    material: dark_wood
+    seam: true
+    when: { front: panel }
+  - stroke: [['-$w / 2 + 12', '-$h + 14'], ['$w / 2 - 12', '-$h + 14'], ['$w / 2 - 12', -6], ['-$w / 2 + 12', -6]]
+    closed: true
+    material: dark_wood
+    tone: 1
+    when: { front: panel }
+  - poly: [['-$w / 2', '-$h - 7'], ['$w / 2', '-$h - 7'], ['$w / 2', '-$h'], ['-$w / 2', '-$h']]
+    seam: true
+  - stroke: [['-$w / 2 + 1', '-$h - 6'], ['$w / 2 - 1', '-$h - 6']]
+    tone: 3

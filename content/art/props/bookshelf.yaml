@@ -1,0 +1,101 @@
+id: bookshelf
+desc: 'Книжный шкаф от пола: полки, плотно уставленные книгами разной высоты и цвета.'
+material: dark_wood
+shadow: true
+params:
+  w: { range: [50, 300], default: 140, desc: ширина }
+  h: { range: [80, 300], default: 200, desc: высота }
+  shelves: { range: [2, 6], default: 4, int: true, desc: число полок }
+shapes:
+  # (0, 0) — левый верхний угол
+  - poly: [[-5, -6], ['$w + 5', -6], ['$w + 5', '$h + 4'], [-5, '$h + 4']]
+    seam: true
+  - poly: [[0, 0], ['$w', 0], ['$w', '$h'], [0, '$h']]
+    tone: 1
+  # карниз
+  - poly: [[-9, -10], ['$w + 9', -10], ['$w + 9', -4], [-9, -4]]
+    seam: true
+  # полка 1
+  - poly: [['4 + 7 * $i', '1 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 0) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 0) % 2', '1 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 0) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 0) % 2', '1 * $h / $shelves - 3'], ['4 + 7 * $i', '1 * $h / $shelves - 3']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book1, book2, book3, book4, book5]
+    seam: true
+    when: { shelves: { min: 1 } }
+  - stroke: [['5 + 7 * $i', '1 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 0) % 5) * 2 + 4'], ['8 + 7 * $i', '1 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 0) % 5) * 2 + 4']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book1, book2, book3, book4, book5]
+    tone: 3
+    when: { shelves: { min: 1 } }
+  - poly: [[0, '1 * $h / $shelves - 3'], ['$w', '1 * $h / $shelves - 3'], ['$w', '1 * $h / $shelves + 1'], [0, '1 * $h / $shelves + 1']]
+    seam: true
+    when: { shelves: { min: 1 } }
+  # полка 2
+  - poly: [['4 + 7 * $i', '2 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 3) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 1) % 2', '2 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 3) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 1) % 2', '2 * $h / $shelves - 3'], ['4 + 7 * $i', '2 * $h / $shelves - 3']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book1, book5, book4, book3, book2]
+    seam: true
+    when: { shelves: { min: 2 } }
+  - stroke: [['5 + 7 * $i', '2 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 3) % 5) * 2 + 4'], ['8 + 7 * $i', '2 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 3) % 5) * 2 + 4']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book1, book5, book4, book3, book2]
+    tone: 3
+    when: { shelves: { min: 2 } }
+  - poly: [[0, '2 * $h / $shelves - 3'], ['$w', '2 * $h / $shelves - 3'], ['$w', '2 * $h / $shelves + 1'], [0, '2 * $h / $shelves + 1']]
+    seam: true
+    when: { shelves: { min: 2 } }
+  # полка 3
+  - poly: [['4 + 7 * $i', '3 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 6) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 2) % 2', '3 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 6) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 2) % 2', '3 * $h / $shelves - 3'], ['4 + 7 * $i', '3 * $h / $shelves - 3']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book3, book4, book5, book1, book2]
+    seam: true
+    when: { shelves: { min: 3 } }
+  - stroke: [['5 + 7 * $i', '3 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 6) % 5) * 2 + 4'], ['8 + 7 * $i', '3 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 6) % 5) * 2 + 4']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book3, book4, book5, book1, book2]
+    tone: 3
+    when: { shelves: { min: 3 } }
+  - poly: [[0, '3 * $h / $shelves - 3'], ['$w', '3 * $h / $shelves - 3'], ['$w', '3 * $h / $shelves + 1'], [0, '3 * $h / $shelves + 1']]
+    seam: true
+    when: { shelves: { min: 3 } }
+  # полка 4
+  - poly: [['4 + 7 * $i', '4 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 9) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 3) % 2', '4 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 9) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 3) % 2', '4 * $h / $shelves - 3'], ['4 + 7 * $i', '4 * $h / $shelves - 3']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book3, book2, book1, book5, book4]
+    seam: true
+    when: { shelves: { min: 4 } }
+  - stroke: [['5 + 7 * $i', '4 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 9) % 5) * 2 + 4'], ['8 + 7 * $i', '4 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 9) % 5) * 2 + 4']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book3, book2, book1, book5, book4]
+    tone: 3
+    when: { shelves: { min: 4 } }
+  - poly: [[0, '4 * $h / $shelves - 3'], ['$w', '4 * $h / $shelves - 3'], ['$w', '4 * $h / $shelves + 1'], [0, '4 * $h / $shelves + 1']]
+    seam: true
+    when: { shelves: { min: 4 } }
+  # полка 5
+  - poly: [['4 + 7 * $i', '5 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 12) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 4) % 2', '5 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 12) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 4) % 2', '5 * $h / $shelves - 3'], ['4 + 7 * $i', '5 * $h / $shelves - 3']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book5, book1, book2, book3, book4]
+    seam: true
+    when: { shelves: { min: 5 } }
+  - stroke: [['5 + 7 * $i', '5 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 12) % 5) * 2 + 4'], ['8 + 7 * $i', '5 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 12) % 5) * 2 + 4']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book5, book1, book2, book3, book4]
+    tone: 3
+    when: { shelves: { min: 5 } }
+  - poly: [[0, '5 * $h / $shelves - 3'], ['$w', '5 * $h / $shelves - 3'], ['$w', '5 * $h / $shelves + 1'], [0, '5 * $h / $shelves + 1']]
+    seam: true
+    when: { shelves: { min: 5 } }
+  # полка 6
+  - poly: [['4 + 7 * $i', '6 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 15) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 5) % 2', '6 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 15) % 5) * 2'], ['9 + 7 * $i + ($i * 3 + 5) % 2', '6 * $h / $shelves - 3'], ['4 + 7 * $i', '6 * $h / $shelves - 3']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book5, book4, book3, book2, book1]
+    seam: true
+    when: { shelves: { min: 6 } }
+  - stroke: [['5 + 7 * $i', '6 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 15) % 5) * 2 + 4'], ['8 + 7 * $i', '6 * $h / $shelves - $h / $shelves + 7 + (($i * 7 + 15) % 5) * 2 + 4']]
+    repeat: { count: '($w - 12) / 7', step: [0, 0] }
+    cycle: [book5, book4, book3, book2, book1]
+    tone: 3
+    when: { shelves: { min: 6 } }
+  - poly: [[0, '6 * $h / $shelves - 3'], ['$w', '6 * $h / $shelves - 3'], ['$w', '6 * $h / $shelves + 1'], [0, '6 * $h / $shelves + 1']]
+    seam: true
+    when: { shelves: { min: 6 } }

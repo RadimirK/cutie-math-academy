@@ -3,7 +3,8 @@
 import { parse as parseYaml } from 'yaml';
 import type { z } from 'zod';
 import { emotionsOf, lookIssues, partIssues, type PartLibrary } from '../art/render.ts';
-import { PartSchema, SLOTS, type Slot } from '../art/schema.ts';
+import { backdropIssues, propIssues, type PropLibrary } from '../art/scenery.ts';
+import { BackdropSchema, PartSchema, PropSchema, SLOTS, type Backdrop, type Slot } from '../art/schema.ts';
 import { answerTypes } from '../answer-types/core.ts';
 import { FILTER_NAMES, placeholders } from '../core/generate.ts';
 import { parseFigure } from '../figures/core.ts';
@@ -57,6 +58,10 @@ export interface Content {
   banners: Record<string, LoadedBanner>;
   /** Art parts by slot, then id (content/art/parts/<slot>/<id>.yaml). */
   parts: PartLibrary;
+  /** Scenery props (content/art/props/<id>.yaml). */
+  props: PropLibrary;
+  /** Backgrounds of scenes (content/backgrounds/<id>.yaml). */
+  backgrounds: Record<string, Backdrop>;
 }
 
 export interface Issue {
@@ -87,6 +92,8 @@ const PATTERNS: { re: RegExp; kind: string }[] = [
   { re: /^characters\/([^/]+)\.yaml$/, kind: 'character' },
   { re: /^banners\/([^/]+)\.yaml$/, kind: 'banner' },
   { re: /^art\/parts\/([^/]+)\/([^/]+)\.yaml$/, kind: 'part' },
+  { re: /^art\/props\/([^/]+)\.yaml$/, kind: 'prop' },
+  { re: /^backgrounds\/([^/]+)\.yaml$/, kind: 'background' },
 ];
 
 /** @param files map from path relative to content/ (e.g. "banners/x.yaml") to file text. */
@@ -104,6 +111,8 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     characters: {},
     banners: {},
     parts: {},
+    props: {},
+    backgrounds: {},
   };
   const fileOf = new Map<string, string>(); // full id (with kind prefix) -> file, for messages
   const generators: Record<string, string> = {};
@@ -229,6 +238,21 @@ export function loadContent(files: Record<string, string>): { content: Content; 
         register(`part.${slot}`, (content.parts[slot] ??= {}), p.id, p, file);
         break;
       }
+      case 'prop': {
+        const p = parse(file, text, PropSchema);
+        if (!p) break;
+        expectName(file, m[1]!, p.id);
+        for (const message of propIssues(p)) err(file, message);
+        register('prop', content.props, p.id, p, file);
+        break;
+      }
+      case 'background': {
+        const b = parse(file, text, BackdropSchema);
+        if (!b) break;
+        expectName(file, m[1]!, b.id);
+        register('background', content.backgrounds, b.id, b, file);
+        break;
+      }
     }
   }
   if (!content.economy && !issues.some((i) => i.file === 'economy.yaml')) err('economy.yaml', 'файл отсутствует');
@@ -251,6 +275,7 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     if (!topic) err(file, `нет topic.yaml для темы ${s.topic}`);
     else topic.scenes.push(s.fullId);
     if (!content.characters[s.character]) err(file, `character: нет персонажа ${s.character}`);
+    if (!content.backgrounds[s.background]) err(file, `background: нет фона ${s.background} (content/backgrounds/${s.background}.yaml)`);
     if (!s.nodes.start) err(file, 'нет узла start');
     const reachable = new Set<string>();
     const visit = (node: string) => {
@@ -332,6 +357,9 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     for (const a of c.affection_scenes) if (!content.scenes[a.scene]) err(file, `affection_scenes: нет сцены ${a.scene}`);
     if (c.look) for (const message of lookIssues(c.look, content.parts)) err(file, `look: ${message}`);
   }
+
+  for (const b of Object.values(content.backgrounds))
+    for (const message of backdropIssues(b, content.props)) err(f('background', b.id), message);
 
   for (const b of Object.values(content.banners)) {
     const file = f('banner', b.id);

@@ -1,7 +1,7 @@
 // The house style. Fixed by people, never by the designer model: this is what keeps every
 // character of the cast looking like one game.
 import { mix, parseHex, ramp, rgbToOklch, oklchToRgb, toHex, type RampSpec, type RGB } from './color.ts';
-import type { Look, Material, Overrides, Slot } from './schema.ts';
+import type { Look, Material, Overrides, SceneryMaterial, Slot } from './schema.ts';
 
 /** The whole standing figure is drawn on this canvas; every frame is a window onto it. */
 export const SIZE = { w: 128, h: 256 };
@@ -132,4 +132,53 @@ export function palette(p: Look['palette']): Record<Material, RGB[]> {
     metal: ramp(p.metal ?? '#4b4f6b'),
     shine: flat('#ffffff'),
   };
+}
+
+/**
+ * The background canvas. At the stage height (72vh for 256 px of the figure) one of its
+ * pixels is about as big as one of the heroine's, so the scene reads as one picture.
+ */
+export const SCENE = { w: 640, h: 360 };
+
+/** Colours of the scenery materials a background's palette leaves out. */
+export const SCENERY_COLORS: Record<SceneryMaterial, string> = {
+  wall: '#efe2cb',
+  trim: '#b98a64',
+  floor: '#b47b4f',
+  ceiling: '#f7f2e8',
+  wood: '#b8794a',
+  dark_wood: '#6e4632',
+  board: '#2f5b4c',
+  chalk: '#eef1e6',
+  glass: '#cfe9f5',
+  sky: '#8ecbf0',
+  cloud: '#ffffff',
+  metal: '#8e95a6',
+  paper: '#f8f4ea',
+  fabric: '#c8d6ee',
+  plant: '#5ca85c',
+  pot: '#c96f4c',
+  cork: '#c99a62',
+  lamp: '#fff4cf',
+  book1: '#b8473f',
+  book2: '#3f6fae',
+  book3: '#4f8f58',
+  book4: '#d9a441',
+  book5: '#7a4f9a',
+  accent: '#e0485e',
+  shine: '#ffffff',
+};
+
+/** Large calm surfaces: walls, floors and sky shade more gently than objects. */
+const SURFACE_RAMP: RampSpec = { steps: [-0.28, -0.07, 0, 0.04, 0.08], hueShift: 40 };
+const SURFACES: SceneryMaterial[] = ['wall', 'ceiling', 'floor', 'sky', 'trim'];
+
+/** Five tones of every scenery material. */
+export function sceneryPalette(p: Partial<Record<SceneryMaterial, string>>): Record<SceneryMaterial, RGB[]> {
+  const out = {} as Record<SceneryMaterial, RGB[]>;
+  for (const [m, def] of Object.entries(SCENERY_COLORS) as [SceneryMaterial, string][]) {
+    const hex = p[m] ?? def;
+    out[m] = m === 'shine' ? Array(5).fill(parseHex(hex)) : ramp(hex, SURFACES.includes(m) ? SURFACE_RAMP : undefined);
+  }
+  return out;
 }

@@ -33,5 +33,6 @@ console.log(
   `✓ контент корректен: ${Object.keys(c.subjects).length} предм., ${Object.keys(c.topics).length} тем, ` +
     `${Object.keys(c.scenes).length} сцен, ${Object.keys(c.templates).length} шаблонов, ` +
     `${Object.keys(c.characters).length} персонажей, ${Object.keys(c.banners).length} баннеров, ` +
-    `${Object.values(c.parts).reduce((n, s) => n + Object.keys(s).length, 0)} деталей арта, ${portraits} кадров портретов`,
+    `${Object.values(c.parts).reduce((n, s) => n + Object.keys(s).length, 0)} деталей арта, ${portraits} кадров портретов, ` +
+    `${Object.keys(c.backgrounds).length} фонов из ${Object.keys(c.props).length} предметов`,
 );

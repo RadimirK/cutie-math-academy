@@ -1,0 +1,22 @@
+id: library
+name: Библиотека кафедры
+palette:
+  wall: '#cdb48c'
+  trim: '#7d5238'
+  floor: '#8c5c3d'
+  ceiling: '#eadcc2'
+  dark_wood: '#5a3626'
+  wood: '#a06a42'
+  accent: '#2f7a55'
+  fabric: '#9e3f3c'
+props:
+  - { prop: room, at: [0, 0], floor: 280, panel: 44, ceiling: 12 }
+  - { prop: window, at: [262, 50], w: 116, h: 178, cols: 2, rows: 4, top: arch, curtains: side }
+  - { prop: sunlight, at: [250, 280], w: 120, len: 50, lean: 30 }
+  - { prop: bookshelf, at: [10, 62], w: 172, h: 216, shelves: 5 }
+  - { prop: bookshelf, at: [458, 62], w: 172, h: 216, shelves: 5 }
+  - { prop: rug, at: [320, 322], w: 320 }
+  - { prop: table, at: [124, 280], w: 170, h: 56 }
+  - { prop: table_lamp, at: [80, 217] }
+  - { prop: desk_items, at: [138, 217] }
+  - { prop: plant, at: [430, 280], size: 0.9 }

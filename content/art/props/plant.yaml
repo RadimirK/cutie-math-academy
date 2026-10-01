@@ -1,0 +1,21 @@
+id: plant
+desc: Комнатное растение в глиняном горшке, длинные листья веером.
+material: plant
+shade: round
+seams: true
+shadow: true
+params:
+  size: { range: [0.6, 2.0], default: 1.0, desc: размер }
+shapes:
+  # (0, 0) — середина дна горшка
+  - strand: { from: [0, '-26 * $size'], to: ['-34 * $size', '-58 * $size'], bend: 0.2, width: ['9 * $size', '2 * $size'] }
+    mirror: true
+  - strand: { from: [0, '-26 * $size'], to: ['-16 * $size', '-74 * $size'], bend: 0.12, width: ['10 * $size', '2 * $size'] }
+    mirror: true
+  - strand: { from: [0, '-26 * $size'], to: ['-40 * $size', '-34 * $size'], bend: 0.3, width: ['8 * $size', '2 * $size'] }
+    mirror: true
+  - strand: { from: [0, '-26 * $size'], to: ['3 * $size', '-80 * $size'], bend: -0.05, width: ['10 * $size', '2 * $size'] }
+  - poly: [['-16 * $size', '-28 * $size'], ['16 * $size', '-28 * $size'], ['12 * $size', 0], ['-12 * $size', 0]]
+    material: pot
+  - poly: [['-18 * $size', '-31 * $size'], ['18 * $size', '-31 * $size'], ['18 * $size', '-25 * $size'], ['-18 * $size', '-25 * $size']]
+    material: pot

@@ -1,6 +1,7 @@
-// Schemas of the character art: parts of the library (content/art/parts/<slot>/<id>.yaml)
-// and a character's look (the `look:` block of content/characters/<id>.yaml).
-// See docs/character-art.md. No React here: CI scripts import it.
+// Schemas of the art: parts of the character library (content/art/parts/<slot>/<id>.yaml),
+// a character's look (the `look:` block of content/characters/<id>.yaml), props of the
+// scenery library (content/art/props/<id>.yaml) and backgrounds (content/backgrounds/<id>.yaml).
+// See docs/character-art.md and docs/backgrounds.md. No React here: CI scripts import it.
 import { z } from 'zod';
 
 /** Slots in painting order, back to front. A part belongs to the slot named by its folder. */
@@ -27,76 +28,93 @@ export const Expr = z.union([z.number(), z.string().min(1)]);
  */
 const Pt = z.tuple([Expr, Expr]);
 
-const common = {
-  material: Material.optional(),
-  /** Fixed tone 0..4 (outline, shadow, base, light, highlight): no shading, no outline. */
-  tone: z.int().min(0).max(4).optional(),
+/** Fields every shape has, whatever its materials. */
+function commonFields<M extends z.ZodType>(material: M) {
+  return {
+    material: material.optional(),
+    /** Fixed tone 0..4 (outline, shadow, base, light, highlight): no shading, no outline. */
+    tone: z.int().min(0).max(4).optional(),
+    /** Also draw the mirror image across the vertical axis of the face (of the prop). */
+    mirror: z.boolean().optional(),
+    /** Other shapes can clip to this one by name (the body's `legs`, `arms`, `torso`). */
+    name: Name.optional(),
+    /** Keep only the part of the shape that lies on these named shapes: clothes follow the body. */
+    clip: z.union([Name, z.array(Name).min(1)]).optional(),
+    /** Grow (or with a negative number shrink) the clip region by whole pixels. */
+    grow: z.int().min(-3).max(3).optional(),
+    /** Cast a shadow onto whatever lies behind (overrides the part's `shadow`). */
+    shadow: z.boolean().optional(),
+    /** Shade and outline this shape on its own, like a lock of `seams` hair (a lapel on a jacket). */
+    seam: z.boolean().optional(),
+    /** Cut the shape out of what the part has drawn so far instead of adding it. */
+    erase: z.boolean().optional(),
+    /**
+     * Draw only when params have these values: an option or a list of options of an enum
+     * param, or `{min, max}` for a numeric one (`{ chest: { min: 0.3 } }`).
+     */
+    when: z.record(Name, z.union([Name, z.array(Name), z.strictObject({ min: z.number().optional(), max: z.number().optional() })])).optional(),
+    /**
+     * Draw `count` copies, each `step` further than the one before: books on a shelf, planks
+     * of a floor. Expressions of the shape see the copy's index as `$i` (0, 1, …).
+     */
+    repeat: z.strictObject({ count: Expr, step: Pt }).optional(),
+    /** Materials the copies of a repeated shape take in turn (book spines of several colours). */
+    cycle: z.array(material).min(1).optional(),
+  };
+}
+
+/** The shapes of parts whose materials are `materials`. */
+function shapeSchema<const M extends readonly [string, ...string[]], E extends z.ZodRawShape = {}>(materials: M, extra: E = {} as E) {
+  const Mat = z.enum(materials);
+  const common = { ...commonFields(Mat), ...extra };
+  const EllipseShape = z.strictObject({
+    ellipse: z.strictObject({ at: Pt, r: z.union([Expr, Pt]), rot: Expr.optional() }),
+    /** Only the one-pixel rim (spectacle frames). */
+    hollow: z.boolean().optional(),
+    ...common,
+  });
+  const PolyShape = z.strictObject({
+    poly: z.array(Pt).min(3),
+    /** A rounded curve through the points instead of straight edges. */
+    smooth: z.boolean().optional(),
+    ...common,
+  });
+  const StrandShape = z.strictObject({
+    /** A hair lock: a curve from root to tip, `bend` bows it sideways, width tapers. */
+    strand: z.strictObject({ from: Pt, to: Pt, bend: Expr.optional(), width: z.tuple([Expr, Expr]) }),
+    ...common,
+  });
+  const StrokeShape = z.strictObject({
+    /** A one-pixel line through the points. */
+    stroke: z.array(Pt).min(2),
+    smooth: z.boolean().optional(),
+    closed: z.boolean().optional(),
+    ...common,
+  });
+  const StampKey = z.string().regex(new RegExp(`^((${materials.join('|')})(:[0-4])?|#[0-9a-fA-F]{6})$`), 'материал, материал:тон или цвет #rrggbb');
+  const StampShape = z.strictObject({
+    /**
+     * Pixels drawn literally, centred on `at`: one character per pixel, `.` or space is empty,
+     * `key` maps the other characters to `material`, `material:tone` or a fixed `#rrggbb`
+     * (sweat drops, anger marks). For tiny things: eyes, mouths, glints. Mirrored stamps are flipped unless `flip: false`.
+     */
+    stamp: z.strictObject({
+      at: Pt,
+      rows: z.array(z.string()).min(1),
+      key: z.record(z.string().length(1), StampKey),
+      flip: z.boolean().optional(),
+      /** Whole pixels to move by, applied after mirroring: both eyes look the same way. */
+      shift: z.tuple([Expr, Expr]).optional(),
+    }),
+    ...common,
+  });
+  return z.union([EllipseShape, PolyShape, StrandShape, StrokeShape, StampShape]);
+}
+
+export const ShapeSchema = shapeSchema(MATERIALS, {
   /** Paint this shape just in front of another slot's own parts (twin tails over the jacket). */
   slot: Slot.optional(),
-  /** Also draw the mirror image across the vertical axis of the face. */
-  mirror: z.boolean().optional(),
-  /** Other shapes can clip to this one by name (the body's `legs`, `arms`, `torso`). */
-  name: Name.optional(),
-  /** Keep only the part of the shape that lies on these named shapes: clothes follow the body. */
-  clip: z.union([Name, z.array(Name).min(1)]).optional(),
-  /** Grow (or with a negative number shrink) the clip region by whole pixels. */
-  grow: z.int().min(-3).max(3).optional(),
-  /** Cast a shadow onto whatever lies behind (overrides the part's `shadow`). */
-  shadow: z.boolean().optional(),
-  /** Shade and outline this shape on its own, like a lock of `seams` hair (a lapel on a jacket). */
-  seam: z.boolean().optional(),
-  /** Cut the shape out of what the part has drawn so far instead of adding it. */
-  erase: z.boolean().optional(),
-  /**
-   * Draw only when params have these values: an option or a list of options of an enum
-   * param, or `{min, max}` for a numeric one (`{ chest: { min: 0.3 } }`).
-   */
-  when: z.record(Name, z.union([Name, z.array(Name), z.strictObject({ min: z.number().optional(), max: z.number().optional() })])).optional(),
-};
-
-const EllipseShape = z.strictObject({
-  ellipse: z.strictObject({ at: Pt, r: z.union([Expr, Pt]), rot: Expr.optional() }),
-  /** Only the one-pixel rim (spectacle frames). */
-  hollow: z.boolean().optional(),
-  ...common,
 });
-const PolyShape = z.strictObject({
-  poly: z.array(Pt).min(3),
-  /** A rounded curve through the points instead of straight edges. */
-  smooth: z.boolean().optional(),
-  ...common,
-});
-const StrandShape = z.strictObject({
-  /** A hair lock: a curve from root to tip, `bend` bows it sideways, width tapers. */
-  strand: z.strictObject({ from: Pt, to: Pt, bend: Expr.optional(), width: z.tuple([Expr, Expr]) }),
-  ...common,
-});
-const StrokeShape = z.strictObject({
-  /** A one-pixel line through the points. */
-  stroke: z.array(Pt).min(2),
-  smooth: z.boolean().optional(),
-  closed: z.boolean().optional(),
-  ...common,
-});
-const StampKey = z.string().regex(new RegExp(`^((${MATERIALS.join('|')})(:[0-4])?|#[0-9a-fA-F]{6})$`), 'материал, материал:тон или цвет #rrggbb');
-const StampShape = z.strictObject({
-  /**
-   * Pixels drawn literally, centred on `at`: one character per pixel, `.` or space is empty,
-   * `key` maps the other characters to `material`, `material:tone` or a fixed `#rrggbb`
-   * (sweat drops, anger marks). For tiny things: eyes, mouths, glints. Mirrored stamps are flipped unless `flip: false`.
-   */
-  stamp: z.strictObject({
-    at: Pt,
-    rows: z.array(z.string()).min(1),
-    key: z.record(z.string().length(1), StampKey),
-    flip: z.boolean().optional(),
-    /** Whole pixels to move by, applied after mirroring: both eyes look the same way. */
-    shift: z.tuple([Expr, Expr]).optional(),
-  }),
-  ...common,
-});
-
-export const ShapeSchema = z.union([EllipseShape, PolyShape, StrandShape, StrokeShape, StampShape]);
 export type Shape = z.infer<typeof ShapeSchema>;
 
 export const ParamDef = z.union([
@@ -171,3 +189,56 @@ export const LookSchema = z.strictObject({
   emotions: z.record(Name, Overrides).default({}),
 });
 export type Look = z.infer<typeof LookSchema>;
+
+// Scenery: props drawn by the same painter, in a room's materials instead of a body's.
+
+/** Materials of the scenery; a background's palette gives them colours (style.ts has defaults). */
+export const SCENERY_MATERIALS = [
+  'wall', 'trim', 'floor', 'ceiling', 'wood', 'dark_wood', 'board', 'chalk', 'glass', 'sky', 'cloud', 'metal',
+  'paper', 'fabric', 'plant', 'pot', 'cork', 'lamp', 'book1', 'book2', 'book3', 'book4', 'book5', 'accent', 'shine',
+] as const;
+export const SceneryMaterial = z.enum(SCENERY_MATERIALS);
+export type SceneryMaterial = z.infer<typeof SceneryMaterial>;
+
+export const PropShapeSchema = shapeSchema(SCENERY_MATERIALS);
+export type PropShape = z.infer<typeof PropShapeSchema>;
+
+/**
+ * A prop: a window, a desk, a bookshelf. Its space is pixels of the background canvas with
+ * (0, 0) where the background places it (`at`), scaled by the placement's `scale`.
+ */
+export const PropSchema = z.strictObject({
+  id: Name,
+  /** What it looks like, in words: the catalogue a designer reads. */
+  desc: z.string().min(1),
+  material: SceneryMaterial,
+  shade: z.enum(['round', 'flat', 'none']).default('flat'),
+  outline: z.boolean().default(true),
+  seams: z.boolean().default(false),
+  shadow: z.boolean().default(false),
+  params: z.record(Name, ParamDef).default({}),
+  shapes: z.array(PropShapeSchema).min(1),
+});
+export type Prop = z.infer<typeof PropSchema>;
+
+/** A prop in a background: `{ prop: window, at: [40, 60], w: 90 }`. */
+export const PropUse = z
+  .object({
+    prop: Name,
+    /** Where the prop's (0, 0) lies on the canvas, in pixels. */
+    at: z.tuple([z.number(), z.number()]),
+    /** Canvas pixels per unit of the prop's space. */
+    scale: z.number().min(0.25).max(4).optional(),
+  })
+  .catchall(ParamValue);
+export type PropUse = z.infer<typeof PropUse>;
+
+export const BackdropSchema = z.strictObject({
+  id: Name,
+  /** Shown while the background is missing or loading, and in the editor. */
+  name: z.string().min(1),
+  palette: z.partialRecord(SceneryMaterial, Hex).default({}),
+  /** Back to front. */
+  props: z.array(PropUse).min(1),
+});
+export type Backdrop = z.infer<typeof BackdropSchema>;

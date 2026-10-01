@@ -1,0 +1,12 @@
+id: sunlight
+desc: Пятно солнечного света от окна на полу, косым параллелограммом.
+material: floor
+outline: false
+params:
+  w: { range: [20, 200], default: 90, desc: ширина у окна }
+  len: { range: [10, 120], default: 50, desc: насколько тянется по полу }
+  lean: { range: [-80, 80], default: 40, desc: наклон вправо }
+shapes:
+  # (0, 0) — левый край у стены
+  - poly: [[0, 0], ['$w', 0], ['$w + $lean', '$len'], ['$lean', '$len']]
+    tone: 3

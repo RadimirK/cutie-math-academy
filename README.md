@@ -91,10 +91,12 @@ supabase/tests/run.sh      # миграции + сценарий RLS/RPC на ч
 
 ## Арт
 
-Картинки персонажей и фонов (`content/assets/characters/`, `content/assets/backgrounds/`)
-в `.gitignore`: это чужой арт, а репозиторий и сайт публичные. Локально он работает,
-на опубликованном сайте вместо него силуэты. Как подключать арт — в `content/assets/CREDITS.md`
-и в описании `sprites` у персонажей.
+Персонажи и фоны рисуются программой в пиксельном стиле из описаний в YAML: внешность `look`
+у персонажей ([docs/character-art.md](docs/character-art.md)) и фоны из предметов
+([docs/backgrounds.md](docs/backgrounds.md)). Готовые картинки (`content/assets/characters/`,
+`content/assets/backgrounds/`) в `.gitignore`: это чужой арт, а репозиторий и сайт публичные.
+Локально такая картинка заменяет сгенерированную. Как подключать арт — в
+`content/assets/CREDITS.md` и в описании `sprites` у персонажей.
 
 ## Первичная настройка хостинга
 

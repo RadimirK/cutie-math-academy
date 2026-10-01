@@ -1,0 +1,16 @@
+id: ceiling_lamp
+desc: Длинный светильник с лампой дневного света на двух подвесах.
+material: metal
+params:
+  w: { range: [40, 200], default: 100, desc: длина }
+  drop: { range: [0, 60], default: 14, desc: насколько висит ниже потолка }
+shapes:
+  # (0, 0) — середина у потолка
+  - stroke: [['-$w / 2 + 10', 0], ['-$w / 2 + 10', '$drop']]
+    mirror: true
+    tone: 1
+  - poly: [['-$w / 2', '$drop'], ['$w / 2', '$drop'], ['$w / 2 - 3', '$drop + 7'], ['-$w / 2 + 3', '$drop + 7']]
+    seam: true
+  - poly: [['-$w / 2 + 4', '$drop + 7'], ['$w / 2 - 4', '$drop + 7'], ['$w / 2 - 4', '$drop + 10'], ['-$w / 2 + 4', '$drop + 10']]
+    material: lamp
+    tone: 4

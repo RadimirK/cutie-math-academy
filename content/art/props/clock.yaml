@@ -1,0 +1,28 @@
+id: clock
+desc: Круглые настенные часы в металлическом ободе.
+material: metal
+shade: round
+shadow: true
+params:
+  r: { range: [8, 30], default: 15, desc: радиус циферблата }
+shapes:
+  # (0, 0) — центр
+  - ellipse: { at: [0, 0], r: '$r + 3' }
+    seam: true
+  - ellipse: { at: [0, 0], r: '$r' }
+    material: paper
+    seam: true
+    shadow: false
+  - stamp: { at: [0, '-$r + 3'], rows: ['d', 'd'], key: { d: 'dark_wood:0' } }
+  - stamp: { at: [0, '$r - 3'], rows: ['d', 'd'], key: { d: 'dark_wood:0' } }
+  - stamp: { at: ['-$r + 3', 0], rows: ['dd'], key: { d: 'dark_wood:0' } }
+  - stamp: { at: ['$r - 3', 0], rows: ['dd'], key: { d: 'dark_wood:0' } }
+  - stroke: [[0, 0], [0, '-$r * 0.7']]
+    material: dark_wood
+    tone: 0
+  - stroke: [[0, 0], ['$r * 0.45', '$r * 0.2']]
+    material: dark_wood
+    tone: 0
+  - stroke: [[0, 0], ['-$r * 0.3', '$r * 0.6']]
+    material: accent
+    tone: 2
