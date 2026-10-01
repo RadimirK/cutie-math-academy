@@ -173,7 +173,7 @@ export function Portrait({
 
 export function Stars({ n, className = '' }: { n: number; className?: string }) {
   return (
-    <span className={`inline-flex text-halo-400 [text-shadow:0_0_1px_#b88a00,0_1px_2px_rgb(28_47_74/0.35)] ${className}`} aria-label={`${n} звезды`}>
+    <span className={`inline-flex text-gold-400 [text-shadow:0_0_1px_#b88a00,0_1px_2px_rgb(28_47_74/0.35)] ${className}`} aria-label={`${n} звезды`}>
       {'★'.repeat(n)}
     </span>
   );

@@ -368,7 +368,7 @@ function Splash({ r, field, onDone }: { r: PullResult; field: RefObject<Particle
             </span>
           ))}
         </div>
-        <div className="mt-1 text-3xl text-halo-400 [text-shadow:0_0_12px_#ffdb2e] sm:text-4xl" aria-label={`${r.rarity} звезды`}>
+        <div className="mt-1 text-3xl text-gold-400 [text-shadow:0_0_12px_#ffdb2e] sm:text-4xl" aria-label={`${r.rarity} звезды`}>
           {Array.from({ length: r.rarity }, (_, i) => (
             <span key={i} className="wish-stamp" style={{ animationDelay: `${starsDelay + i * 0.16}s` }}>
               ★

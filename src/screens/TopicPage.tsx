@@ -76,7 +76,7 @@ export function TopicPage() {
             <>
               <div className="flex items-start gap-2">
                 <span className="font-bold text-ink-900">{t.title ?? t.id}</span>
-                {t.starred && <span className="chip ml-auto shrink-0 bg-halo-400 text-ink-900">✶ особая</span>}
+                {t.starred && <span className="chip ml-auto shrink-0 bg-gold-400 text-ink-900">✶ особая</span>}
               </div>
               <div className="mt-3 flex items-center justify-between text-sm">
                 <Difficulty n={t.difficulty} />

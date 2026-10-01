@@ -200,7 +200,7 @@ function Cube(p: CubeProps) {
         const one = p.values?.[v] === '1';
         return (
           <g key={v}>
-            {highlight.has(bits(v)) && <rect x={x - bw / 2 - 5} y={y - 16} width={bw + 10} height={32} rx={16} className="fill-halo-300 stroke-halo-500" strokeWidth={1.5} />}
+            {highlight.has(bits(v)) && <rect x={x - bw / 2 - 5} y={y - 16} width={bw + 10} height={32} rx={16} className="fill-gold-300 stroke-gold-500" strokeWidth={1.5} />}
             <rect x={x - bw / 2} y={y - 11} width={bw} height={22} rx={11} className={one ? 'fill-ba-500 stroke-ba-600' : 'fill-white stroke-ink-500'} strokeWidth={1.5} />
             <text x={x} y={y} textAnchor="middle" dominantBaseline="central" fontSize={13} className={`font-mono font-bold ${one ? 'fill-white' : 'fill-ink-700'}`}>
               {bits(v)}
@@ -278,7 +278,7 @@ function Sequence(p: SequenceProps) {
           n
         </text>
         {showStrip && (
-          <rect x={left} width={W - left - right} y={clampY(p.limit! + eps)} height={clampY(p.limit! - eps) - clampY(p.limit! + eps)} className="fill-halo-300/40" />
+          <rect x={left} width={W - left - right} y={clampY(p.limit! + eps)} height={clampY(p.limit! - eps) - clampY(p.limit! + eps)} className="fill-gold-300/40" />
         )}
         {p.limit !== undefined && <line x1={left} x2={W - right} y1={Y(p.limit)} y2={Y(p.limit)} strokeDasharray="6 4" className="stroke-momo-400" strokeWidth={1.5} />}
         {p.interactive && N > 0 && N < count && (

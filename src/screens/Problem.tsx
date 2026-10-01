@@ -144,7 +144,7 @@ export function ProblemScreen() {
         <div className="panel overflow-hidden">
           <div className="flex flex-wrap items-center gap-3 border-b border-ink-100 bg-ba-50 px-6 py-2.5 text-sm">
             <span className="font-display text-xs font-bold tracking-widest text-ba-500 uppercase">Задача</span>
-            {t.starred && <span className="chip bg-halo-400 text-ink-900">✶ особая</span>}
+            {t.starred && <span className="chip bg-gold-400 text-ink-900">✶ особая</span>}
             <span className="ml-auto">
               <Difficulty n={t.difficulty} />
             </span>
@@ -179,7 +179,7 @@ export function ProblemScreen() {
                 {feedback && (
                   <p
                     className={`mt-4 animate-fade rounded-md border-l-4 p-3 text-sm font-bold ${
-                      feedback.kind === 'wrong' ? 'border-momo-500 bg-momo-100 text-momo-500' : 'border-halo-500 bg-halo-100 text-ink-700'
+                      feedback.kind === 'wrong' ? 'border-momo-500 bg-momo-100 text-momo-500' : 'border-gold-500 bg-gold-100 text-ink-700'
                     }`}
                   >
                     {feedback.kind === 'wrong'
@@ -239,8 +239,8 @@ export function ProblemScreen() {
 
 function RewardBanner({ solved, onNext, topicId }: { solved: Reward | 'demo'; onNext(): void; topicId: string }) {
   return (
-    <div className="mt-6 animate-rise overflow-hidden rounded-md border border-halo-400 bg-gradient-to-r from-halo-100 to-white">
-      <div className="bg-halo-400 px-5 py-1 font-display text-sm font-black tracking-widest text-ink-900 italic">MISSION CLEAR</div>
+    <div className="mt-6 animate-rise overflow-hidden rounded-md border border-gold-400 bg-gradient-to-r from-gold-100 to-white">
+      <div className="bg-gold-400 px-5 py-1 font-display text-sm font-black tracking-widest text-ink-900 italic">MISSION CLEAR</div>
       <div className="p-5">
         {solved === 'demo' ? (
           <p className="font-bold text-ink-900">Верно! В демо-режиме кристаллы не начисляются.</p>

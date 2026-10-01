@@ -85,7 +85,7 @@ function MenuTile(props: { to: string; icon: React.ReactNode; title: string; sub
       className="group relative flex animate-slide items-center gap-4 bg-white/95 py-3 pr-5 pl-6 shadow-[0_6px_18px_-8px_rgb(28_47_74/0.35)] transition hover:translate-x-1 hover:bg-white"
       style={{ clipPath: 'polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%)', animationDelay: `${props.delay}ms` }}
     >
-      <div className={`grid h-12 w-12 shrink-0 -skew-x-12 place-items-center ${props.accent ? 'bg-halo-400 text-ink-900' : 'bg-ba-500 text-white'}`}>
+      <div className={`grid h-12 w-12 shrink-0 -skew-x-12 place-items-center ${props.accent ? 'bg-gold-400 text-ink-900' : 'bg-ba-500 text-white'}`}>
         <span className="skew-x-12">{props.icon}</span>
       </div>
       <div className="min-w-0">

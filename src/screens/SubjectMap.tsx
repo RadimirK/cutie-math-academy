@@ -9,7 +9,7 @@ import { Portrait } from '../ui/Portrait.tsx';
 
 const STATUS = {
   locked: { label: 'закрыта', chip: 'bg-ink-100 text-ink-500', ring: 'opacity-60 grayscale' },
-  new: { label: 'NEW', chip: 'bg-halo-400 text-ink-900', ring: 'ring-2 ring-ba-400 shadow-[0_0_24px_-6px_rgb(18_140_255/0.8)]' },
+  new: { label: 'NEW', chip: 'bg-gold-400 text-ink-900', ring: 'ring-2 ring-ba-400 shadow-[0_0_24px_-6px_rgb(18_140_255/0.8)]' },
   in_progress: { label: 'в процессе', chip: 'bg-ba-100 text-ba-700', ring: 'ring-2 ring-ba-300' },
   completed: { label: 'CLEAR', chip: 'bg-emerald-100 text-emerald-700', ring: '' },
 } as const;

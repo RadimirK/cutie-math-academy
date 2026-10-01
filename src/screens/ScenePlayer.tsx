@@ -107,7 +107,7 @@ export function ScenePlayer() {
             <button
               key={o.goto + o.text}
               onClick={() => setPos(choose(scene, o.goto))}
-              className="w-full max-w-xl animate-rise border-l-4 border-ba-500 bg-white/95 px-6 py-3 text-center font-bold text-ink-900 shadow-md transition-colors hover:border-halo-400 hover:bg-ba-50"
+              className="w-full max-w-xl animate-rise border-l-4 border-ba-500 bg-white/95 px-6 py-3 text-center font-bold text-ink-900 shadow-md transition-colors hover:border-gold-400 hover:bg-ba-50"
               style={{ animationDelay: `${i * 70}ms` }}
             >
               <MathText text={o.text} />
@@ -145,7 +145,7 @@ export function ScenePlayer() {
                 text={v.kind === 'line' ? v.step.text : v.text}
                 className={`block min-h-[5.5rem] animate-fade text-lg leading-relaxed text-white ${v.kind === 'narration' ? 'text-center text-white/80 italic' : ''}`}
               />
-              <span className="absolute right-8 bottom-4 animate-bounce-soft text-halo-400">▼</span>
+              <span className="absolute right-8 bottom-4 animate-bounce-soft text-gold-400">▼</span>
             </div>
           </div>
         )

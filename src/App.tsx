@@ -82,7 +82,7 @@ function Layout() {
           </nav>
           <div className="ml-auto flex items-center gap-3 text-sm">
             {demo ? (
-              <span className="chip bg-halo-100 py-1 text-ink-700 ring-1 ring-halo-400" title="Сборка без Supabase: прогресс не сохраняется">
+              <span className="chip bg-gold-100 py-1 text-ink-700 ring-1 ring-gold-400" title="Сборка без Supabase: прогресс не сохраняется">
                 демо-режим
               </span>
             ) : (
@@ -125,7 +125,7 @@ export function CurrencyPill({ amount }: { amount: number }) {
         <Gem className="h-5 w-5" />
         {amount.toLocaleString('ru-RU')}
       </span>
-      <Link to="/study" title="Заработать: решай задачи" className="grid h-7 w-7 place-items-center bg-halo-400 text-base leading-none text-ink-900 hover:bg-halo-300">
+      <Link to="/study" title="Заработать: решай задачи" className="grid h-7 w-7 place-items-center bg-gold-400 text-base leading-none text-ink-900 hover:bg-gold-300">
         +
       </Link>
     </span>
