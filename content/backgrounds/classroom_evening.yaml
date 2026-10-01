@@ -1,0 +1,14 @@
+id: classroom_evening
+name: Аудитория вечером
+base: classroom
+palette:
+  wall: '#e7c9a8'
+  trim: '#a26f50'
+  floor: '#a2643f'
+  ceiling: '#eed7bd'
+  sky: '#f08d5c'
+  cloud: '#ffd3a6'
+  plant: '#5a7f52'
+  fabric: '#e9b9a0'
+props:
+  - { prop: sunlight, at: [18, 272], w: 96, len: 88, lean: 170 }

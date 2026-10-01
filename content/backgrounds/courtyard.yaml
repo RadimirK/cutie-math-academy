@@ -1,0 +1,17 @@
+id: courtyard
+name: Школьный двор
+palette:
+  wall: '#f0e4d0'
+  trim: '#b46a52'
+  floor: '#d9c3a0'
+  plant: '#6bb35c'
+props:
+  - { prop: sky, at: [0, 0], horizon: 230 }
+  - { prop: cloud, at: [560, 60], size: 1.2 }
+  - { prop: cloud, at: [70, 40], size: 0.8 }
+  - { prop: building, at: [80, 222], w: 480, h: 156, floors: 3, cols: 8 }
+  - { prop: ground, at: [0, 0], top: 222, surface: grass }
+  - { prop: tree, at: [70, 300], size: 1.35, kind: bloom }
+  - { prop: tree, at: [590, 296], size: 1.1, kind: bloom }
+  - { prop: bench, at: [470, 282], w: 100 }
+  - { prop: petals, at: [0, 0] }

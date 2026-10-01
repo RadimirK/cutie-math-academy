@@ -1,7 +1,7 @@
 id: cauchy_01
 title: Что значит «сходится»
 character: cauchy
-background: classroom
+background: lecture_hall
 nodes:
   start:
     - narration: 'Первая пара. В аудитории пахнет мелом и кофе.'

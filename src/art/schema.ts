@@ -195,7 +195,7 @@ export type Look = z.infer<typeof LookSchema>;
 /** Materials of the scenery; a background's palette gives them colours (style.ts has defaults). */
 export const SCENERY_MATERIALS = [
   'wall', 'trim', 'floor', 'ceiling', 'wood', 'dark_wood', 'board', 'chalk', 'glass', 'sky', 'cloud', 'metal',
-  'paper', 'fabric', 'plant', 'pot', 'cork', 'lamp', 'book1', 'book2', 'book3', 'book4', 'book5', 'accent', 'shine',
+  'paper', 'fabric', 'plant', 'blossom', 'pot', 'cork', 'haze', 'lamp', 'book1', 'book2', 'book3', 'book4', 'book5', 'accent', 'shine',
 ] as const;
 export const SceneryMaterial = z.enum(SCENERY_MATERIALS);
 export type SceneryMaterial = z.infer<typeof SceneryMaterial>;
@@ -233,12 +233,19 @@ export const PropUse = z
   .catchall(ParamValue);
 export type PropUse = z.infer<typeof PropUse>;
 
-export const BackdropSchema = z.strictObject({
-  id: Name,
-  /** Shown while the background is missing or loading, and in the editor. */
-  name: z.string().min(1),
-  palette: z.partialRecord(SceneryMaterial, Hex).default({}),
-  /** Back to front. */
-  props: z.array(PropUse).min(1),
-});
+export const BackdropSchema = z
+  .strictObject({
+    id: Name,
+    /** Shown while the background is missing or loading, and in the editor. */
+    name: z.string().min(1),
+    /**
+     * Another background this one varies (the same room in the evening): its palette under
+     * this one's, its props under this one's.
+     */
+    base: Name.optional(),
+    palette: z.partialRecord(SceneryMaterial, Hex).default({}),
+    /** Back to front. */
+    props: z.array(PropUse).default([]),
+  })
+  .refine((b) => b.base || b.props.length > 0, { message: 'нужны props или base', path: ['props'] });
 export type Backdrop = z.infer<typeof BackdropSchema>;

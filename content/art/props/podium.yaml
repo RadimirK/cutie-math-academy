@@ -1,0 +1,18 @@
+id: podium
+desc: Кафедра лектора с наклонной столешницей и эмблемой спереди.
+material: wood
+shadow: true
+shapes:
+  # (0, 0) — середина основания на полу
+  - poly: [[-26, -74], [26, -74], [22, 0], [-22, 0]]
+    seam: true
+  - poly: [[-32, -84], [32, -80], [32, -74], [-32, -76]]
+    material: dark_wood
+    seam: true
+  - ellipse: { at: [0, -50], r: 9 }
+    material: accent
+    seam: true
+  - stamp: { at: [0, -50], rows: ['.s.', 'sss', '.s.'], key: { s: 'accent:4' } }
+  - poly: [[-10, -90], [12, -88], [12, -84], [-10, -85]]
+    material: paper
+    seam: true

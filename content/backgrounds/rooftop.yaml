@@ -1,0 +1,16 @@
+id: rooftop
+name: Крыша
+palette:
+  floor: '#aaa69c'
+  metal: '#5f8f6c'
+  sky: '#7fc0ee'
+  haze: '#8fa5c6'
+props:
+  - { prop: sky, at: [0, 0], horizon: 232 }
+  - { prop: cloud, at: [90, 70], size: 1.4 }
+  - { prop: cloud, at: [470, 46], size: 1.0 }
+  - { prop: cloud, at: [600, 110], size: 0.7 }
+  - { prop: skyline, at: [0, 232] }
+  - { prop: ground, at: [0, 0], top: 232, surface: tiles }
+  - { prop: fence, at: [0, 168], h: 64 }
+  - { prop: bench, at: [520, 300], w: 120 }

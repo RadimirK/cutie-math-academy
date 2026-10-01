@@ -1,0 +1,19 @@
+id: corridor
+name: Коридор
+palette:
+  wall: '#e6ebe1'
+  trim: '#a3b09a'
+  floor: '#9aa3a8'
+  metal: '#6f9fc4'
+props:
+  - { prop: room, at: [0, 0], floor: 272, panel: 70, ceiling: 14 }
+  - { prop: door, at: [26, 272] }
+  - { prop: window, at: [118, 60], w: 84, h: 92, rows: 2 }
+  - { prop: window, at: [226, 60], w: 84, h: 92, rows: 2 }
+  - { prop: sunlight, at: [110, 272], w: 90, len: 50, lean: 50 }
+  - { prop: sunlight, at: [218, 272], w: 90, len: 50, lean: 50 }
+  - { prop: notice_board, at: [120, 176], w: 76, h: 50 }
+  - { prop: lockers, at: [342, 272], count: 9, w: 32, h: 150 }
+  - { prop: ceiling_lamp, at: [170, 14], w: 120 }
+  - { prop: ceiling_lamp, at: [470, 14], w: 120 }
+  - { prop: plant, at: [322, 272], size: 0.8 }

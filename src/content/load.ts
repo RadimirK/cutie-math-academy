@@ -358,7 +358,25 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     if (c.look) for (const message of lookIssues(c.look, content.parts)) err(file, `look: ${message}`);
   }
 
-  for (const b of Object.values(content.backgrounds))
+  // A variant of a background gets its base's palette and props under its own.
+  const resolved = new Map<string, Backdrop>();
+  const inherit = (b: Backdrop, chain: string[]): Backdrop => {
+    if (!b.base) return b;
+    if (chain.includes(b.id)) throw new Error(`base: цикл ${[...chain, b.id].join(' → ')}`);
+    const base = content.backgrounds[b.base];
+    if (!base) throw new Error(`base: нет фона ${b.base}`);
+    const r = resolved.get(base.id) ?? inherit(base, [...chain, b.id]);
+    return { ...b, palette: { ...r.palette, ...b.palette }, props: [...r.props, ...b.props] };
+  };
+  for (const b of Object.values(content.backgrounds)) {
+    try {
+      resolved.set(b.id, inherit(b, []));
+    } catch (e) {
+      err(f('background', b.id), (e as Error).message);
+    }
+  }
+  for (const [id, b] of resolved) content.backgrounds[id] = b;
+  for (const b of resolved.values())
     for (const message of backdropIssues(b, content.props)) err(f('background', b.id), message);
 
   for (const b of Object.values(content.banners)) {

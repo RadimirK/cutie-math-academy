@@ -1,0 +1,13 @@
+id: petals
+desc: Лепестки сакуры, рассыпанные в воздухе по всей сцене.
+material: blossom
+outline: false
+params:
+  count: { range: [5, 80], default: 34, int: true }
+shapes:
+  # (0, 0) — левый верхний угол холста
+  - stamp:
+      at: ['($i * 173 + 20) % 640', '($i * 71 + 30) % 300']
+      rows: ['bb.', '.bB']
+      key: { b: 'blossom:3', B: 'blossom:1' }
+    repeat: { count: '$count', step: [0, 0] }

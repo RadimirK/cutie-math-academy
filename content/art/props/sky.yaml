@@ -1,0 +1,39 @@
+id: sky
+desc: 'Небо на всю ширину до горизонта: полосы от глубокого цвета вверху к светлому у горизонта; ночью по желанию звёзды.'
+material: sky
+outline: false
+params:
+  horizon: { range: [80, 360], default: 220, desc: где кончается небо }
+  stars: { options: [none, some], default: none, desc: звёзды (для ночной палитры) }
+shapes:
+  # (0, 0) — левый верхний угол холста
+  - poly: [[0, 0], [640, 0], [640, '$horizon'], [0, '$horizon']]
+    tone: 1
+  - poly: [[0, '$horizon * 0.34'], [640, '$horizon * 0.34'], [640, '$horizon'], [0, '$horizon']]
+    tone: 2
+  - poly: [[0, '$horizon * 0.64'], [640, '$horizon * 0.64'], [640, '$horizon'], [0, '$horizon']]
+    tone: 3
+  - poly: [[0, '$horizon * 0.86'], [640, '$horizon * 0.86'], [640, '$horizon'], [0, '$horizon']]
+    tone: 4
+  # переходы между полосами: пунктир из пикселей
+  - stroke: [['($i % 2) * 3', '$horizon * 0.34 - 1'], ['($i % 2) * 3 + 1', '$horizon * 0.34 - 1']]
+    tone: 2
+    repeat: { count: 107, step: [6, 0] }
+  - stroke: [['($i % 2) * 3', '$horizon * 0.64 - 1'], ['($i % 2) * 3 + 1', '$horizon * 0.64 - 1']]
+    tone: 3
+    repeat: { count: 107, step: [6, 0] }
+  - stroke: [['($i % 2) * 3', '$horizon * 0.86 - 1'], ['($i % 2) * 3 + 1', '$horizon * 0.86 - 1']]
+    tone: 4
+    repeat: { count: 107, step: [6, 0] }
+  - stamp:
+      at: ['($i * 233) % 640', '(($i * 89) % 100) / 100 * $horizon * 0.7 + 4']
+      rows: ['s']
+      key: { s: shine }
+    repeat: { count: 60, step: [0, 0] }
+    when: { stars: some }
+  - stamp:
+      at: ['($i * 151 + 40) % 640', '(($i * 53) % 100) / 100 * $horizon * 0.5 + 6']
+      rows: ['.s.', 'sss', '.s.']
+      key: { s: 'shine' }
+    repeat: { count: 9, step: [0, 0] }
+    when: { stars: some }

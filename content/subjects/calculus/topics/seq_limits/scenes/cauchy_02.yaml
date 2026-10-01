@@ -1,7 +1,7 @@
 id: cauchy_02
 title: Арифметика пределов и число e
 character: cauchy
-background: classroom
+background: lecture_hall
 nodes:
   start:
     - speaker: cauchy

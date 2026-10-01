@@ -1,0 +1,31 @@
+id: door
+desc: Дверь класса с окошком, табличкой и ручкой, в деревянной коробке.
+material: wood
+shadow: true
+params:
+  w: { range: [40, 90], default: 62 }
+  h: { range: [90, 180], default: 136 }
+shapes:
+  # (0, 0) — левый нижний угол на полу
+  - poly: [[-6, '-$h - 6'], ['$w + 6', '-$h - 6'], ['$w + 6', 0], [-6, 0]]
+    material: trim
+    seam: true
+  - poly: [[0, '-$h'], ['$w', '-$h'], ['$w', 0], [0, 0]]
+    seam: true
+  - poly: [[10, '-$h + 12'], ['$w - 10', '-$h + 12'], ['$w - 10', '-$h * 0.6'], [10, '-$h * 0.6']]
+    material: glass
+    seam: true
+  - stroke: [[14, '-$h * 0.62'], ['$w * 0.45', '-$h + 16']]
+    material: shine
+  - poly: [[10, '-$h * 0.5'], ['$w - 10', '-$h * 0.5'], ['$w - 10', -10], [10, -10]]
+    material: dark_wood
+    tone: 1
+  - poly: [['$w - 12', '-$h * 0.47'], ['$w - 5', '-$h * 0.47'], ['$w - 5', '-$h * 0.47 + 3'], ['$w - 12', '-$h * 0.47 + 3']]
+    material: metal
+    seam: true
+  # табличка над дверью
+  - poly: [['$w / 2 - 18', '-$h - 22'], ['$w / 2 + 18', '-$h - 22'], ['$w / 2 + 18', '-$h - 10'], ['$w / 2 - 18', '-$h - 10']]
+    material: paper
+    seam: true
+  - stroke: [['$w / 2 - 12', '-$h - 16'], ['$w / 2 + 12', '-$h - 16']]
+    material: book2

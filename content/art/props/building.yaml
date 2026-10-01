@@ -1,0 +1,81 @@
+id: building
+desc: 'Фасад школьного здания: этажи с рядами окон, карниз, крыльцо с дверью посередине и часы под крышей.'
+material: wall
+shadow: true
+params:
+  w: { range: [120, 640], default: 480, desc: ширина }
+  h: { range: [60, 260], default: 150, desc: высота }
+  floors: { range: [1, 5], default: 3, int: true, desc: этажей }
+  cols: { range: [2, 16], default: 8, int: true, desc: окон в ряду }
+shapes:
+  # (0, 0) — левый нижний угол на земле
+  - poly: [[0, '-$h'], ['$w', '-$h'], ['$w', 0], [0, 0]]
+    seam: true
+  - poly: [[-6, '-$h - 8'], ['$w + 6', '-$h - 8'], ['$w + 6', '-$h + 2'], [-6, '-$h + 2']]
+    material: trim
+    seam: true
+  - stroke: [[0, '-$h + 24 + $i * ($h - 34) / $floors - 4'], ['$w', '-$h + 24 + $i * ($h - 34) / $floors - 4']]
+    material: wall
+    tone: 1
+    repeat: { count: '$floors', step: [0, 0] }
+  - poly: [['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 0 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 0 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 0 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6'], ['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 0 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6']]
+    material: glass
+    seam: true
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 1 } }
+  - stroke: [['$w / $cols * $i + $w / $cols * 0.26', '-$h + 27 + 0 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.4', '-$h + 27 + 0 * ($h - 34) / $floors']]
+    material: shine
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 1 } }
+  - poly: [['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 1 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 1 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 1 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6'], ['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 1 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6']]
+    material: glass
+    seam: true
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 2 } }
+  - stroke: [['$w / $cols * $i + $w / $cols * 0.26', '-$h + 27 + 1 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.4', '-$h + 27 + 1 * ($h - 34) / $floors']]
+    material: shine
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 2 } }
+  - poly: [['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 2 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 2 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 2 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6'], ['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 2 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6']]
+    material: glass
+    seam: true
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 3 } }
+  - stroke: [['$w / $cols * $i + $w / $cols * 0.26', '-$h + 27 + 2 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.4', '-$h + 27 + 2 * ($h - 34) / $floors']]
+    material: shine
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 3 } }
+  - poly: [['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 3 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 3 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 3 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6'], ['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 3 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6']]
+    material: glass
+    seam: true
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 4 } }
+  - stroke: [['$w / $cols * $i + $w / $cols * 0.26', '-$h + 27 + 3 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.4', '-$h + 27 + 3 * ($h - 34) / $floors']]
+    material: shine
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 4 } }
+  - poly: [['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 4 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 4 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.78', '-$h + 24 + 4 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6'], ['$w / $cols * $i + $w / $cols * 0.22', '-$h + 24 + 4 * ($h - 34) / $floors + ($h - 34) / $floors * 0.6']]
+    material: glass
+    seam: true
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 5 } }
+  - stroke: [['$w / $cols * $i + $w / $cols * 0.26', '-$h + 27 + 4 * ($h - 34) / $floors'], ['$w / $cols * $i + $w / $cols * 0.4', '-$h + 27 + 4 * ($h - 34) / $floors']]
+    material: shine
+    repeat: { count: '$cols', step: [0, 0] }
+    when: { floors: { min: 5 } }
+  # крыльцо и дверь
+  - poly: [['$w / 2 - 34', -6], ['$w / 2 + 34', -6], ['$w / 2 + 40', 0], ['$w / 2 - 40', 0]]
+    material: trim
+    seam: true
+  - poly: [['$w / 2 - 20', -40], ['$w / 2 + 20', -40], ['$w / 2 + 20', -6], ['$w / 2 - 20', -6]]
+    material: dark_wood
+    seam: true
+  - stroke: [['$w / 2', -40], ['$w / 2', -6]]
+    material: dark_wood
+    tone: 0
+  - ellipse: { at: ['$w / 2', '-$h + 12'], r: 9 }
+    material: paper
+    seam: true
+  - stroke: [['$w / 2', '-$h + 12'], ['$w / 2', '-$h + 6'], ['$w / 2 + 4', '-$h + 12']]
+    material: dark_wood
+    tone: 0

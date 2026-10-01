@@ -1,0 +1,47 @@
+id: tree
+desc: 'Дерево с толстым стволом и пышной кроной из нескольких шапок; bloom — цветущая сакура цвета blossom.'
+material: plant
+shade: round
+shadow: true
+params:
+  size: { range: [0.5, 2.5], default: 1.0 }
+  kind: { options: [green, bloom], default: green }
+shapes:
+  # (0, 0) — основание ствола
+  - strand: { from: [0, 0], to: ['4 * $size', '-70 * $size'], bend: 0.04, width: ['16 * $size', '9 * $size'] }
+    material: dark_wood
+    seam: true
+  - strand: { from: ['2 * $size', '-46 * $size'], to: ['-30 * $size', '-82 * $size'], bend: -0.1, width: ['7 * $size', '3 * $size'] }
+    material: dark_wood
+    seam: true
+  - strand: { from: ['4 * $size', '-52 * $size'], to: ['34 * $size', '-88 * $size'], bend: 0.1, width: ['7 * $size', '3 * $size'] }
+    material: dark_wood
+    seam: true
+  - ellipse: { at: ['-34 * $size', '-92 * $size'], r: ['34 * $size', '26 * $size'] }
+    when: { kind: green }
+  - ellipse: { at: ['30 * $size', '-96 * $size'], r: ['36 * $size', '28 * $size'] }
+    when: { kind: green }
+  - ellipse: { at: ['0 * $size', '-122 * $size'], r: ['40 * $size', '30 * $size'] }
+    when: { kind: green }
+  - ellipse: { at: ['-34 * $size', '-92 * $size'], r: ['34 * $size', '26 * $size'] }
+    material: blossom
+    when: { kind: bloom }
+  - ellipse: { at: ['30 * $size', '-96 * $size'], r: ['36 * $size', '28 * $size'] }
+    material: blossom
+    when: { kind: bloom }
+  - ellipse: { at: ['0 * $size', '-122 * $size'], r: ['40 * $size', '30 * $size'] }
+    material: blossom
+    when: { kind: bloom }
+  # пятна листвы и цветов
+  - stamp:
+      at: ['(($i * 37) % 120 - 60) * $size', '(-80 - ($i * 23) % 64) * $size']
+      rows: ['.l.', 'lll']
+      key: { l: 'plant:3' }
+    repeat: { count: 24, step: [0, 0] }
+    when: { kind: green }
+  - stamp:
+      at: ['(($i * 37) % 120 - 60) * $size', '(-80 - ($i * 23) % 64) * $size']
+      rows: ['.b.', 'bwb', '.b.']
+      key: { b: 'blossom:3', w: 'blossom:4' }
+    repeat: { count: 30, step: [0, 0] }
+    when: { kind: bloom }

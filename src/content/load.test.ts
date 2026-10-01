@@ -35,6 +35,18 @@ describe('loadContent', () => {
     expect(content.scenes['s.a.intro']!.unlocks).toEqual(['s.a.p1']);
   });
 
+  it('builds a background variant on its base', () => {
+    const f = base();
+    f['backgrounds/bg.yaml'] = "id: bg\nname: BG\npalette: { wall: '#111111', floor: '#222222' }\nprops:\n  - { prop: wall, at: [0, 0] }\n";
+    f['backgrounds/bg_night.yaml'] = "id: bg_night\nname: N\nbase: bg\npalette: { wall: '#333333' }\nprops:\n  - { prop: wall, at: [5, 5] }\n";
+    const { content, issues } = loadContent(f);
+    expect(issues.filter((i) => i.level === 'error')).toEqual([]);
+    expect(content.backgrounds.bg_night!.palette).toEqual({ wall: '#333333', floor: '#222222' });
+    expect(content.backgrounds.bg_night!.props.map((p) => p.at)).toEqual([[0, 0], [5, 5]]);
+    f['backgrounds/bg.yaml'] = 'id: bg\nname: BG\nbase: bg_night\n';
+    expect(errors(f).join('\n')).toContain('base: цикл');
+  });
+
   it('reports broken references', () => {
     const f = base();
     f['subjects/s/topics/a/scenes/intro.yaml'] =

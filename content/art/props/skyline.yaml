@@ -1,0 +1,27 @@
+id: skyline
+desc: 'Город вдали у горизонта: два ряда домов разной высоты в дымке, светящиеся окна.'
+material: haze
+outline: false
+params:
+  w: { range: [100, 640], default: 640, desc: ширина }
+  lights: { options: [day, night], default: day, desc: 'night — окна светятся' }
+shapes:
+  # (0, 0) — левый край на линии горизонта
+  - poly: [['26 * $i', '-30 - (($i * 5) % 7) * 7'], ['26 * $i + 24', '-30 - (($i * 5) % 7) * 7'], ['26 * $i + 24', 0], ['26 * $i', 0]]
+    tone: 3
+    repeat: { count: '$w / 26 + 1', step: [0, 0] }
+  - poly: [['34 * $i + 10', '-16 - (($i * 3) % 5) * 9'], ['34 * $i + 10 + 22 + ($i % 3) * 4', '-16 - (($i * 3) % 5) * 9'], ['34 * $i + 10 + 22 + ($i % 3) * 4', 0], ['34 * $i + 10', 0]]
+    tone: 2
+    repeat: { count: '$w / 34', step: [0, 0] }
+  - stamp:
+      at: ['34 * $i + 21', '-8 - (($i * 3) % 5) * 4']
+      rows: ['w.w.w', '.....', 'w.w.w', '.....', 'w.w.w']
+      key: { w: 'haze:3' }
+    repeat: { count: '$w / 34', step: [0, 0] }
+    when: { lights: day }
+  - stamp:
+      at: ['34 * $i + 21', '-8 - (($i * 3) % 5) * 4']
+      rows: ['w.w.w', '.....', 'w...w', '.....', '..w.w']
+      key: { w: 'lamp:3' }
+    repeat: { count: '$w / 34', step: [0, 0] }
+    when: { lights: night }

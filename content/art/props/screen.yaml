@@ -1,0 +1,23 @@
+id: screen
+desc: Экран проектора в футляре под потолком, спущенный на часть высоты.
+material: metal
+shadow: true
+params:
+  w: { range: [80, 400], default: 220 }
+  down: { range: [0, 160], default: 26, desc: 'насколько спущен, 0 — свёрнут' }
+shapes:
+  # (0, 0) — середина футляра
+  - poly: [['-$w / 2 - 6', -5], ['$w / 2 + 6', -5], ['$w / 2 + 6', 5], ['-$w / 2 - 6', 5]]
+    seam: true
+  - poly: [['-$w / 2', 5], ['$w / 2', 5], ['$w / 2', '5 + $down'], ['-$w / 2', '5 + $down']]
+    material: paper
+    seam: true
+    when: { down: { min: 2 } }
+  - poly: [['-$w / 2', '3 + $down'], ['$w / 2', '3 + $down'], ['$w / 2', '7 + $down'], ['-$w / 2', '7 + $down']]
+    material: dark_wood
+    seam: true
+    when: { down: { min: 2 } }
+  - stroke: [[0, '7 + $down'], [0, '16 + $down']]
+    material: dark_wood
+    tone: 1
+    when: { down: { min: 2 } }

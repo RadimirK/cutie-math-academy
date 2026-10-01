@@ -1,0 +1,20 @@
+id: lecture_hall
+name: Лекционная аудитория
+palette:
+  wall: '#e9e2d4'
+  trim: '#8f6a52'
+  floor: '#9c6b4a'
+  board: '#2c4f5e'
+  accent: '#c7354b'
+props:
+  - { prop: room, at: [0, 0], floor: 286, panel: 80, ceiling: 20 }
+  - { prop: window, at: [18, 52], w: 70, h: 172, cols: 1, rows: 4 }
+  - { prop: window, at: [552, 52], w: 70, h: 172, cols: 1, rows: 4 }
+  - { prop: sunlight, at: [8, 286], w: 76, len: 60, lean: 70 }
+  - { prop: blackboard, at: [320, 62], w: 400, h: 150, writing: limits }
+  - { prop: screen, at: [320, 36], w: 260, down: 0 }
+  - { prop: ceiling_lamp, at: [140, 20], w: 110 }
+  - { prop: ceiling_lamp, at: [500, 20], w: 110 }
+  - { prop: podium, at: [530, 286] }
+  - { prop: table, at: [150, 286], w: 160, h: 56, front: panel }
+  - { prop: desk_items, at: [150, 223] }

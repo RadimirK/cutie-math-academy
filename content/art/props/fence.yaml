@@ -1,0 +1,28 @@
+id: fence
+desc: Сетчатый забор крыши со столбами и перилами.
+material: metal
+shadow: true
+params:
+  w: { range: [60, 640], default: 640, desc: ширина }
+  h: { range: [30, 140], default: 72, desc: высота }
+  gap: { range: [40, 160], default: 80, desc: расстояние между столбами }
+shapes:
+  # (0, 0) — левый верхний угол
+  - poly: [[0, 0], ['$w', 0], ['$w', '$h'], [0, '$h']]
+    name: mesh
+    erase: true
+  - stroke: [['8 * $i - $h', 0], ['8 * $i', '$h']]
+    tone: 2
+    clip: mesh
+    repeat: { count: '($w + $h) / 8 + 1', step: [0, 0] }
+  - stroke: [['8 * $i', 0], ['8 * $i - $h', '$h']]
+    tone: 1
+    clip: mesh
+    repeat: { count: '($w + $h) / 8 + 1', step: [0, 0] }
+  - poly: [[-2, -4], [3, -4], [3, '$h'], [-2, '$h']]
+    seam: true
+    repeat: { count: '$w / $gap + 1', step: ['$gap', 0] }
+  - poly: [[0, -6], ['$w', -6], ['$w', -1], [0, -1]]
+    seam: true
+  - poly: [[0, '$h - 3'], ['$w', '$h - 3'], ['$w', '$h'], [0, '$h']]
+    seam: true

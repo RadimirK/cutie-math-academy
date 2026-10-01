@@ -1,0 +1,35 @@
+id: lockers
+desc: Ряд школьных шкафчиков с решётками вентиляции, ручками и номерками.
+material: metal
+shadow: true
+params:
+  count: { range: [1, 20], default: 8, int: true }
+  w: { range: [20, 50], default: 32, desc: ширина шкафчика }
+  h: { range: [60, 200], default: 150 }
+shapes:
+  # (0, 0) — левый нижний угол на полу
+  - poly: [[0, '-$h'], ['$w - 1', '-$h'], ['$w - 1', 0], [0, 0]]
+    seam: true
+    repeat: { count: '$count', step: ['$w', 0] }
+  - stroke: [[6, '-$h + 12'], ['$w - 7', '-$h + 12']]
+    tone: 1
+    repeat: { count: '$count', step: ['$w', 0] }
+  - stroke: [[6, '-$h + 16'], ['$w - 7', '-$h + 16']]
+    tone: 1
+    repeat: { count: '$count', step: ['$w', 0] }
+  - stroke: [[6, '-$h + 20'], ['$w - 7', '-$h + 20']]
+    tone: 1
+    repeat: { count: '$count', step: ['$w', 0] }
+  - stroke: [[6, '-$h + 24'], ['$w - 7', '-$h + 24']]
+    tone: 1
+    repeat: { count: '$count', step: ['$w', 0] }
+  - poly: [['$w - 8', '-$h * 0.55'], ['$w - 5', '-$h * 0.55'], ['$w - 5', '-$h * 0.55 + 10'], ['$w - 8', '-$h * 0.55 + 10']]
+    material: dark_wood
+    repeat: { count: '$count', step: ['$w', 0] }
+  - stamp:
+      at: ['$w / 2', '-$h + 32']
+      rows: ['pppp', 'pppp']
+      key: { p: 'paper:2' }
+    repeat: { count: '$count', step: ['$w', 0] }
+  - poly: [[-3, '-$h - 4'], ['$w * $count + 2', '-$h - 4'], ['$w * $count + 2', '-$h'], [-3, '-$h']]
+    seam: true
