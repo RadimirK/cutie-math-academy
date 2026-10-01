@@ -19,7 +19,7 @@ nodes:
       emotion: thinking
       text: 'Каждой нижней единице $\alpha$ сопоставим конъюнкцию переменных, равных в ней $1$ — без всяких отрицаний. Например, $\alpha = 101$ даёт $x \wedge z$. Эта конъюнкция равна $1$ ровно на наборах выше $\alpha$.'
     - speaker: post
-      emotion: smile
+      emotion: explain
       text: 'Теорема. Если $f$ монотонна и не константа, то $f$ — дизъюнкция конъюнкций всех своих нижних единиц.'
     - speaker: student_b
       emotion: thinking

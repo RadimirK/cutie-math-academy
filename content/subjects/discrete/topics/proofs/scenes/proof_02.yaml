@@ -5,7 +5,7 @@ background: library
 nodes:
   start:
     - speaker: cantor
-      emotion: smile
+      emotion: explain
       text: 'Главный инструмент дискретки — математическая индукция. Хотим доказать $P(n)$ для всех $n \ge 1$. База: доказываем $P(1)$. Переход: доказываем, что из $P(n)$ следует $P(n + 1)$ для любого $n$. Тогда $P$ верно для всех: от $1$ по цепочке доберёмся до любого $n$.'
     - speaker: cantor
       emotion: smile

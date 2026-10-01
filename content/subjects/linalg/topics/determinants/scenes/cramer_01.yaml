@@ -33,6 +33,6 @@ nodes:
       emotion: happy
       text: 'Не меняется! Поэтому метод Гаусса — лучший способ считать определители: приводим к треугольному виду, и $\det$ равен произведению диагонали.'
     - speaker: cramer
-      emotion: smile
+      emotion: explain
       text: 'И главное: $A$ обратима тогда и только тогда, когда $\det A \ne 0$. Если $\det A = \pm 1$ и элементы целые, то и $A^{-1}$ целочисленная.'
 unlocks: [det_3x3, det_unimodular, inverse_unimodular]

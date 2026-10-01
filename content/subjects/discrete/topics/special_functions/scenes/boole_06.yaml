@@ -23,7 +23,7 @@ nodes:
       emotion: thinking
       text: 'Тогда, может, все функции пороговые? Раз уж $\wedge$, $\vee$, $\neg$ пороговые, а через них выражается всё.'
     - speaker: boole
-      emotion: thinking
+      emotion: explain
       text: 'Ловушка! Выразимость через пороговые не делает функцию пороговой: пороговые функции не замкнуты относительно композиции. Докажем, что $x \oplus y$ не пороговая.'
     - speaker: boole
       emotion: thinking

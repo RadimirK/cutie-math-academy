@@ -5,7 +5,7 @@ background: library
 nodes:
   start:
     - speaker: post
-      emotion: smile
+      emotion: explain
       text: 'Теорема Поста (критерий полноты). Система $A$ — базис тогда и только тогда, когда в ней есть функция не из $T_0$, функция не из $T_1$, немонотонная, несамодвойственная и нелинейная.'
     - speaker: student_a
       emotion: thinking

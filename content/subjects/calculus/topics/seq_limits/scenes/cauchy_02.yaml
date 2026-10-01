@@ -21,7 +21,7 @@ nodes:
             goto: wrong_inf
   wrong_one:
     - speaker: cauchy
-      emotion: thinking
+      emotion: explain
       text: 'Ловушка! Основание стремится к $1$, но показатель растёт. Это неопределённость вида $1^\infty$, и арифметика пределов тут не работает.'
     - goto: right
   wrong_inf:
@@ -34,6 +34,6 @@ nodes:
       emotion: happy
       text: 'Ответ: $e \approx 2.718$. Это второй замечательный предел, а последовательность монотонно растёт и ограничена.'
     - speaker: cauchy
-      emotion: smile
+      emotion: explain
       text: 'Полезное обобщение: $\left(1 + \dfrac{a}{n}\right)^{bn} \to e^{ab}$. А ещё пригодится приём с сопряжённым: $\sqrt{n^2 + an} - n = \dfrac{an}{\sqrt{n^2 + an} + n} \to \dfrac{a}{2}$.'
 unlocks: [lim_exp_1, lim_sqrt_diff, lim_power_sum]

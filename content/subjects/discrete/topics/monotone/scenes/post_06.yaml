@@ -47,7 +47,7 @@ nodes:
       emotion: happy
       text: '$x \downarrow f_0 = \neg x \wedge \neg f_0$ и $(x \downarrow x) \downarrow f_1 = x \wedge \neg f_1$. Их стрелка Пирса — отрицание от $\neg f$, то есть $f$. Каждая из $f_0, \neg f_0, f_1, \neg f_1$ использована ровно один раз.'
     - speaker: post
-      emotion: thinking
+      emotion: explain
       text: 'Итог: пара формул для $(f, \neg f)$ строится из пар для $(f_0, \neg f_0)$ и $(f_1, \neg f_1)$ плюс три вхождения $x$ в каждую. $L(n) \le 2L(n - 1) + 3$, откуда $L(n) = O(2^n)$. Нижний уровень — функции от одной переменной, у них длина константа.'
     - speaker: student_b
       emotion: thinking

@@ -17,7 +17,7 @@ nodes:
       text: 'Строго: $\lim\limits_{n\to\infty} x_n = a$, если для любого $\varepsilon > 0$ найдётся такой номер $N$, что $|x_n - a| < \varepsilon$ при всех $n > N$.'
       figure: {type: sequence, expr: '1 + (-1)^n/n', count: 25, limit: 1, eps: 0.3, interactive: true}
     - speaker: cauchy
-      emotion: happy
+      emotion: explain
       text: 'Подвигай ползунок $\varepsilon$ на доске. Жёлтая полоса — это $|x - a| < \varepsilon$, красные точки — члены вне её, а $N$ — номер последней красной. Чем у́же полоса, тем дальше $N$, но он всегда находится.'
     - speaker: cauchy
       emotion: thinking

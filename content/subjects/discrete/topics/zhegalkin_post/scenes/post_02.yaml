@@ -5,7 +5,7 @@ background: classroom
 nodes:
   start:
     - speaker: post
-      emotion: smile
+      emotion: explain
       text: 'Мои пять классов — пять «ловушек». Если все функции системы лежат в одном классе, то и всё, что из них выражается, останется в нём. Первые два простые. $T_0$ — функции, сохраняющие ноль: $f(0, \ldots, 0) = 0$. $T_1$ — сохраняющие единицу: $f(1, \ldots, 1) = 1$.'
     - speaker: post
       emotion: smile

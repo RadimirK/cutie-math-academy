@@ -8,7 +8,7 @@ nodes:
       emotion: smile
       text: 'Я Пост. Буль уже показала, что $\{\wedge, \vee, \neg\}$ — базис: любую функцию, кроме $\mathbf{0}$, записывает СДНФ. Сегодня построим другой базис, с арифметикой. Но сначала полезная лемма.'
     - speaker: post
-      emotion: thinking
+      emotion: explain
       text: 'Лемма. Пусть $A$ — базис, и каждую функцию из $A$ можно выразить формулой над $B$. Тогда $B$ тоже базис.'
     - speaker: student_b
       emotion: thinking
@@ -68,7 +68,7 @@ nodes:
       emotion: happy
       text: '$x \to y = \neg(x \wedge \neg y) = x(y \oplus 1) \oplus 1 = xy \oplus x \oplus 1$. Проверка: при $x = 1$, $y = 0$ получаем $0 \oplus 1 \oplus 1 = 0$. Верно.'
     - speaker: post
-      emotion: thinking
+      emotion: explain
       text: 'Теорема: у любой функции, кроме $\mathbf{0}$, приведённый полином единственен с точностью до перестановки слагаемых и множителей.'
     - speaker: student_a
       emotion: thinking
