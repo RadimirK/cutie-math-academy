@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, 
 import { content } from '../content/bundle.ts';
 import { CharacterCard } from './CharacterCard.tsx';
 import { Gem } from './Icons.tsx';
-import { Halo, Portrait } from './Portrait.tsx';
+import { Portrait } from './Portrait.tsx';
 import { rarityOf } from './rarity.ts';
 import { ParticleField } from './wish/particles.ts';
 import { isMuted, setMuted, sfxCharge, sfxFlash, sfxFlip, sfxSplash, sfxStar, sfxTier } from './wish/sfx.ts';
@@ -306,8 +306,7 @@ function CardBack({ rarity, className = '', big }: { rarity: number; className?:
     <div className={`wish-card-back relative overflow-hidden rounded-xl ${className}`} style={cssVars({ '--glow': glow(rarity) })}>
       {rarity === 5 && <div className="wish-prism absolute -inset-1/2 opacity-40 mix-blend-screen" />}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-        <Halo color="#ffffff" className={big ? 'w-24' : 'w-[55%]'} />
-        <span className={`font-display font-black tracking-[0.25em] text-white italic ${big ? 'text-xl' : 'text-[9px] sm:text-xs'}`}>CMA</span>
+        <span className={`font-display font-black tracking-[0.25em] text-white italic ${big ? 'text-3xl' : 'text-xs sm:text-sm'}`}>CMA</span>
       </div>
       <div className="absolute inset-x-0 bottom-2 text-center text-[10px] font-bold tracking-widest text-white/60 max-sm:hidden">{big ? 'STUDENT CARD' : ''}</div>
     </div>

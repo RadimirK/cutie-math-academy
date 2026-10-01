@@ -37,7 +37,6 @@
   --animate-rise: rise 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
   --animate-fade: fade 0.35s ease-out both;
   --animate-slide: slide 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) both;
-  --animate-halo: halo-bob 3.2s ease-in-out infinite;
 
   @keyframes float {
     0%, 100% { transform: translateY(0); }
@@ -62,10 +61,6 @@
   @keyframes slide {
     from { opacity: 0; transform: translateX(-28px); }
     to { opacity: 1; transform: none; }
-  }
-  @keyframes halo-bob {
-    0%, 100% { transform: translateY(0) rotate(-4deg); }
-    50% { transform: translateY(-5px) rotate(-2deg); }
   }
 }
 
@@ -258,7 +253,7 @@ body::after {
 .wish-spin { animation: spin 14s linear infinite; }
 .wish-spin-rev { animation: spin 9s linear infinite reverse; }
 
-/* The sealed student card: navy back with a halo emblem, glowing in the rarity colour. */
+/* The sealed student card: navy back with the academy initials, glowing in the rarity colour. */
 .wish-card-back {
   background:
     repeating-linear-gradient(135deg, rgb(255 255 255 / 0.06) 0 10px, transparent 10px 20px),

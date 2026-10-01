@@ -10,7 +10,7 @@ export const HEAD = { cx: 64, cy: 36, r: 22 };
 
 /**
  * full: the standing figure (scenes, lobby, banners). bust: 3:4 like the collection cards,
- * the head a little lower than on the full canvas so a halo fits above it.
+ * with some air above the head.
  */
 export const FRAMES = {
   full: { x: 0, y: 0, w: 128, h: 256 },

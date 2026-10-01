@@ -1,49 +1,33 @@
 import type { CSSProperties } from 'react';
 import { content, lookSpriteUrl, spriteUrl } from '../content/bundle.ts';
-import { haloColor, rarityOf } from './rarity.ts';
+import { rarityOf } from './rarity.ts';
 
 // A character is drawn from her sprite file if there is one, else from her generated pixel
-// portrait (`look`), else as a white silhouette with a halo.
+// portrait (`look`), else as a white silhouette.
 
-/** A tilted halo ring with small spikes, drawn in the heroine's colour. */
-export function Halo({ color, className = '', style }: { color: string; className?: string; style?: CSSProperties }) {
+function BustSilhouette() {
   return (
-    <svg viewBox="0 0 120 40" className={className} style={{ filter: `drop-shadow(0 0 6px ${color})`, ...style }} aria-hidden>
-      <ellipse cx="60" cy="20" rx="44" ry="11" fill="none" stroke={color} strokeWidth="4" />
-      <ellipse cx="60" cy="20" rx="44" ry="11" fill="none" stroke="#fff" strokeWidth="1.2" strokeOpacity="0.8" />
-      {[18, 42, 60, 78, 102].map((x, i) => (
-        <path key={x} d={`M${x} ${i % 2 ? 7 : 11} l3 -7 l3 7 z`} fill={color} transform={i === 2 ? 'translate(-3 -2)' : 'translate(-3 0)'} />
-      ))}
+    <svg
+      viewBox="0 0 100 120"
+      className="absolute inset-x-0 bottom-0 h-[84%] w-full"
+      style={{ filter: 'drop-shadow(0 2px 6px rgb(28 47 74 / 0.35))' }}
+      aria-hidden
+    >
+      {/* long hair behind */}
+      <path d="M22 50 C 20 22, 80 22, 78 50 C 80 70, 84 92, 76 104 L 24 104 C 16 92, 20 70, 22 50 Z" fill="#fff" opacity="0.55" />
+      {/* shoulders */}
+      <path d="M12 120 C 14 96, 32 86, 50 86 C 68 86, 86 96, 88 120 Z" fill="#fff" />
+      <rect x="43" y="68" width="14" height="20" rx="6" fill="#fff" />
+      {/* head + fringe */}
+      <circle cx="50" cy="50" r="21" fill="#fff" />
+      <path d="M28 48 C 28 28, 72 28, 72 48 C 64 38, 56 42, 50 36 C 44 42, 36 38, 28 48 Z" fill="#f4f8fc" />
+      {/* ribbon */}
+      <path d="M66 30 l 12 -8 l -2 12 z M66 30 l 4 12 l 8 -6 z" fill="#fff" />
     </svg>
   );
 }
 
-function BustSilhouette({ halo }: { halo: string }) {
-  return (
-    <>
-      <svg
-        viewBox="0 0 100 120"
-        className="absolute inset-x-0 bottom-0 h-[84%] w-full"
-        style={{ filter: 'drop-shadow(0 2px 6px rgb(28 47 74 / 0.35))' }}
-        aria-hidden
-      >
-        {/* long hair behind */}
-        <path d="M22 50 C 20 22, 80 22, 78 50 C 80 70, 84 92, 76 104 L 24 104 C 16 92, 20 70, 22 50 Z" fill="#fff" opacity="0.55" />
-        {/* shoulders */}
-        <path d="M12 120 C 14 96, 32 86, 50 86 C 68 86, 86 96, 88 120 Z" fill="#fff" />
-        <rect x="43" y="68" width="14" height="20" rx="6" fill="#fff" />
-        {/* head + fringe */}
-        <circle cx="50" cy="50" r="21" fill="#fff" />
-        <path d="M28 48 C 28 28, 72 28, 72 48 C 64 38, 56 42, 50 36 C 44 42, 36 38, 28 48 Z" fill="#f4f8fc" />
-        {/* ribbon */}
-        <path d="M66 30 l 12 -8 l -2 12 z M66 30 l 4 12 l 8 -6 z" fill="#fff" />
-      </svg>
-      <Halo color={halo} className="absolute top-[23%] left-1/2 w-[46%] -translate-x-1/2 -rotate-6" />
-    </>
-  );
-}
-
-function StandingSilhouette({ glow, halo }: { glow: string; halo: string }) {
+function StandingSilhouette({ glow }: { glow: string }) {
   return (
     <div className="relative h-full w-full">
       <svg viewBox="0 0 200 420" className="h-full w-full" aria-hidden style={{ filter: `drop-shadow(0 0 1.5px ${glow}) drop-shadow(0 8px 18px rgb(28 47 74 / 0.3))` }}>
@@ -74,7 +58,6 @@ function StandingSilhouette({ glow, halo }: { glow: string; halo: string }) {
         <path d="M62 76 C 60 36, 140 36, 138 76 C 126 58, 112 66, 100 54 C 88 66, 74 58, 62 76 Z" fill="#f4f8fc" />
         <path d="M126 40 l 20 -12 l -3 20 z M126 40 l 6 20 l 14 -10 z" fill="#fff" />
       </svg>
-      <Halo color={halo} className="absolute top-0 left-1/2 w-[52%] -translate-x-1/2 animate-halo" />
     </div>
   );
 }
@@ -100,7 +83,6 @@ export function Portrait({
   const r = rarityOf(ch?.rarity);
   const url = spriteUrl(id, emotion);
   const pixel = url ? undefined : lookSpriteUrl(id, emotion ?? 'smile', variant === 'stage' ? 'full' : 'bust');
-  const halo = haloColor(id);
 
   if (variant === 'stage') {
     return (
@@ -115,7 +97,7 @@ export function Portrait({
             style={{ filter: 'drop-shadow(0 10px 24px rgb(28 47 74 / 0.3))' }}
           />
         ) : (
-          <StandingSilhouette glow={r.glow} halo={halo} />
+          <StandingSilhouette glow={r.glow} />
         )}
       </div>
     );
@@ -132,7 +114,7 @@ export function Portrait({
       ) : pixel ? (
         <img src={pixel} alt={ch?.name ?? id} className="absolute inset-0 h-full w-full object-cover object-top [image-rendering:pixelated]" />
       ) : (
-        <BustSilhouette halo={halo} />
+        <BustSilhouette />
       )}
     </div>
   );
