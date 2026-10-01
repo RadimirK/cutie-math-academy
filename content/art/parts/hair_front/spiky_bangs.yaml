@@ -1,0 +1,32 @@
+id: spiky_bangs
+desc: Чёлка из острых прядей разной длины, одна падает между глаз; узкие пряди у висков.
+material: hair
+seams: true
+highlight: hair_band
+params:
+  length: { range: [-0.1, 0.35], default: 0.2, desc: длина самых длинных прядей }
+  side: { range: [0.5, 2.0], default: 1.1, desc: длина прядей у висков }
+  ahoge: { options: [none, curl], default: none, desc: торчащая прядь на макушке }
+shapes:
+  - poly:
+      - [-1.08, 0.1]
+      - [-1.1, -0.45]
+      - [-0.84, -0.98]
+      - [0, -1.18]
+      - [0.84, -0.98]
+      - [1.1, -0.45]
+      - [1.08, 0.1]
+      - [0.72, -0.42]
+      - [0, -0.58]
+      - [-0.72, -0.42]
+    smooth: true
+  - strand: { from: [-0.86, -0.7], to: [-1.04, '$side'], bend: 0.05, width: [0.4, 0.06] }
+    mirror: true
+  - strand: { from: [-0.72, -0.98], to: [-0.9, '$length - 0.08'], bend: 0.1, width: [0.44, 0.02] }
+  - strand: { from: [0.74, -0.98], to: [0.88, '$length - 0.16'], bend: -0.1, width: [0.44, 0.02] }
+  - strand: { from: [-0.38, -1.06], to: [-0.6, '$length - 0.14'], bend: 0.08, width: [0.44, 0.02] }
+  - strand: { from: [0.44, -1.06], to: [0.5, '$length - 0.04'], bend: -0.07, width: [0.44, 0.02] }
+  - strand: { from: [-0.04, -1.12], to: [-0.3, '$length'], bend: 0.06, width: [0.44, 0.02] }
+  - strand: { from: [0.18, -1.1], to: [0.06, '$length - 0.1'], bend: -0.04, width: [0.36, 0.02] }
+  - strand: { from: [0.05, -1.1], to: [0.42, -1.58], bend: -0.45, width: [0.14, 0.02] }
+    when: { ahoge: curl }

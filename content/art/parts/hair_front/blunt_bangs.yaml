@@ -1,0 +1,30 @@
+id: blunt_bangs
+desc: Ровная густая чёлка до бровей и длинные пряди по бокам лица.
+material: hair
+seams: true
+highlight: hair_band
+params:
+  length: { range: [-0.25, 0.15], default: 0.05, desc: докуда чёлка (0.1 — до глаз) }
+  side: { range: [0.5, 3.2], default: 1.0, desc: длина боковых прядей }
+shapes:
+  - poly:
+      - [-1.08, 0.1]
+      - [-1.1, -0.45]
+      - [-0.84, -0.98]
+      - [0, -1.18]
+      - [0.84, -0.98]
+      - [1.1, -0.45]
+      - [1.08, 0.1]
+      - [0.72, -0.42]
+      - [0, -0.58]
+      - [-0.72, -0.42]
+    smooth: true
+  - strand: { from: [-0.88, -0.7], to: ['-1.18', '$side'], bend: 0.06, width: [0.5, 0.2] }
+    mirror: true
+  - strand: { from: [-0.45, -1.0], to: [-0.82, '$length - 0.02'], bend: 0.06, width: [0.34, 0.3] }
+  - strand: { from: [0.45, -1.0], to: [0.82, '$length - 0.02'], bend: -0.06, width: [0.34, 0.3] }
+  - strand: { from: [-0.3, -1.05], to: [-0.56, '$length + 0.03'], bend: 0.04, width: [0.34, 0.3] }
+  - strand: { from: [0.3, -1.05], to: [0.56, '$length + 0.03'], bend: -0.04, width: [0.34, 0.3] }
+  - strand: { from: [-0.12, -1.1], to: [-0.28, '$length'], bend: 0.02, width: [0.34, 0.3] }
+  - strand: { from: [0.12, -1.1], to: [0.28, '$length'], bend: -0.02, width: [0.34, 0.3] }
+  - strand: { from: [0, -1.12], to: [0, '$length + 0.04'], width: [0.34, 0.3] }

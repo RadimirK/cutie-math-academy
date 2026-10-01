@@ -1,5 +1,6 @@
 // Content bundled into the app at build time. CI guarantees it is valid; in dev, problems
 // are shown on screen instead of crashing.
+import { renderLook } from '../art/render.ts';
 import { loadContent } from './load.ts';
 
 const raw = import.meta.glob(['/content/**/*.yaml', '/content/**/*.py', '!/content/assets/**'], {
@@ -34,4 +35,31 @@ export function spriteUrl(characterId: string, emotion = 'smile'): string | unde
   const sprites = content.characters[characterId]?.sprites ?? {};
   const path = sprites[emotion] ?? Object.values(sprites)[0];
   return path ? assetUrl(`characters/${path}`) : undefined;
+}
+
+const generated = new Map<string, string | undefined>();
+
+/**
+ * Data URL of the generated pixel portrait (docs/character-art.md), or undefined if the
+ * character has no `look`. An emotion the look does not define falls back to the base look.
+ */
+export function lookSpriteUrl(characterId: string, emotion?: string): string | undefined {
+  const look = content.characters[characterId]?.look;
+  if (!look) return undefined;
+  const key = `${characterId}/${emotion && emotion in look.emotions ? emotion : ''}`;
+  if (!generated.has(key)) {
+    let url: string | undefined;
+    try {
+      const { w, h, rgba } = renderLook(look, content.parts, emotion && emotion in look.emotions ? emotion : undefined);
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d')!.putImageData(new ImageData(rgba, w, h), 0, 0);
+      url = canvas.toDataURL();
+    } catch (e) {
+      console.error(`портрет ${characterId}:`, e);
+    }
+    generated.set(key, url);
+  }
+  return generated.get(key);
 }

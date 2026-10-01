@@ -2,6 +2,8 @@
 // Pure: callers supply the files (Vite glob in the browser, fs in CI scripts).
 import { parse as parseYaml } from 'yaml';
 import type { z } from 'zod';
+import { lookIssues, partIssues, type PartLibrary } from '../art/render.ts';
+import { PartSchema, SLOTS, type Slot } from '../art/schema.ts';
 import { answerTypes } from '../answer-types/core.ts';
 import { FILTER_NAMES, placeholders } from '../core/generate.ts';
 import {
@@ -52,6 +54,8 @@ export interface Content {
   templates: Record<string, LoadedTemplate>;
   characters: Record<string, LoadedCharacter>;
   banners: Record<string, LoadedBanner>;
+  /** Art parts by slot, then id (content/art/parts/<slot>/<id>.yaml). */
+  parts: PartLibrary;
 }
 
 export interface Issue {
@@ -81,6 +85,7 @@ const PATTERNS: { re: RegExp; kind: string }[] = [
   { re: /^subjects\/([^/]+)\/topics\/([^/]+)\/generators\/([^/]+\.py)$/, kind: 'generator' },
   { re: /^characters\/([^/]+)\.yaml$/, kind: 'character' },
   { re: /^banners\/([^/]+)\.yaml$/, kind: 'banner' },
+  { re: /^art\/parts\/([^/]+)\/([^/]+)\.yaml$/, kind: 'part' },
 ];
 
 /** @param files map from path relative to content/ (e.g. "banners/x.yaml") to file text. */
@@ -97,6 +102,7 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     templates: {},
     characters: {},
     banners: {},
+    parts: {},
   };
   const fileOf = new Map<string, string>(); // full id (with kind prefix) -> file, for messages
   const generators: Record<string, string> = {};
@@ -209,6 +215,19 @@ export function loadContent(files: Record<string, string>): { content: Content; 
         register('banner', content.banners, b.id, b, file);
         break;
       }
+      case 'part': {
+        const slot = m[1] as Slot;
+        if (!SLOTS.includes(slot)) {
+          err(file, `нет слота ${slot} (есть: ${SLOTS.join(', ')})`);
+          break;
+        }
+        const p = parse(file, text, PartSchema);
+        if (!p) break;
+        expectName(file, m[2]!, p.id);
+        for (const message of partIssues(p)) err(file, message);
+        register(`part.${slot}`, (content.parts[slot] ??= {}), p.id, p, file);
+        break;
+      }
     }
   }
   if (!content.economy && !issues.some((i) => i.file === 'economy.yaml')) err('economy.yaml', 'файл отсутствует');
@@ -302,6 +321,7 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     if (!content.subjects[c.subject]) err(file, `subject: нет предмета ${c.subject}`);
     for (const t of c.topics) if (!content.topics[t]) err(file, `topics: нет темы ${t}`);
     for (const a of c.affection_scenes) if (!content.scenes[a.scene]) err(file, `affection_scenes: нет сцены ${a.scene}`);
+    if (c.look) for (const message of lookIssues(c.look, content.parts)) err(file, `look: ${message}`);
   }
 
   for (const b of Object.values(content.banners)) {

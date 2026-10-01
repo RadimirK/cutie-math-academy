@@ -1,6 +1,7 @@
 // Zod schemas for everything under content/. Shared by the app and by CI scripts,
 // so this module must stay free of browser- and node-specific imports.
 import { z } from 'zod';
+import { LookSchema } from '../art/schema.ts';
 
 export const LocalId = z.string().regex(/^[a-z][a-z0-9_]*$/, 'id: латиница в нижнем регистре, цифры и _');
 /** A reference to another content object: either a local id or a dotted full id. */
@@ -153,6 +154,8 @@ export const CharacterSchema = z.strictObject({
   description: z.string().optional(),
   /** emotion -> path inside content/assets/characters/. Missing files render as placeholders. */
   sprites: z.record(z.string(), z.string()).default({}),
+  /** Generated pixel portrait (docs/character-art.md). Drawn when there is no sprite file. */
+  look: LookSchema.optional(),
   /** Scene refs; `topic.scene` resolves within `subject`. */
   affection_scenes: z.array(z.strictObject({ threshold: z.int().positive(), scene: Ref })).default([]),
 });

@@ -1,0 +1,24 @@
+id: oval
+desc: Лицо анфас, мягкие щёки, заострённый подбородок, нос одной точкой.
+material: skin
+shade: flat
+params:
+  chin: { range: [0.98, 1.15], default: 1.08, desc: насколько низко подбородок }
+  cheeks: { range: [0.8, 0.95], default: 0.88, desc: ширина щёк }
+shapes:
+  - ellipse: { at: [0, -0.1], r: [0.95, 0.95] }
+  - poly:
+      - [-0.95, -0.2]
+      - ['-$cheeks', 0.34]
+      - ['-$cheeks * 0.68', 0.76]
+      - [-0.24, '$chin - 0.08']
+      - [0, '$chin']
+      - [0.24, '$chin - 0.08']
+      - ['$cheeks * 0.68', 0.76]
+      - ['$cheeks', 0.34]
+      - [0.95, -0.2]
+    smooth: true
+  - stamp:
+      at: [0.05, 0.56]
+      rows: ['n']
+      key: { n: 'skin:1' }

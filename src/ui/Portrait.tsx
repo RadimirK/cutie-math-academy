@@ -1,8 +1,9 @@
 import type { CSSProperties } from 'react';
-import { content, spriteUrl } from '../content/bundle.ts';
+import { content, lookSpriteUrl, spriteUrl } from '../content/bundle.ts';
 import { haloColor, rarityOf } from './rarity.ts';
 
-// Until real art exists, characters are drawn as white silhouettes with a halo.
+// A character is drawn from her sprite file if there is one, else from her generated pixel
+// portrait (`look`), else as a white silhouette with a halo.
 
 /** A tilted halo ring with small spikes, drawn in the heroine's colour. */
 export function Halo({ color, className = '', style }: { color: string; className?: string; style?: CSSProperties }) {
@@ -98,6 +99,7 @@ export function Portrait({
   const ch = content.characters[id];
   const r = rarityOf(ch?.rarity);
   const url = spriteUrl(id, emotion);
+  const pixel = url ? undefined : lookSpriteUrl(id, emotion ?? 'smile');
   const halo = haloColor(id);
 
   if (variant === 'stage') {
@@ -105,6 +107,13 @@ export function Portrait({
       <div className={`relative ${className}`} style={style}>
         {url ? (
           <img src={url} alt={ch?.name ?? id} className="h-full w-full object-contain" style={{ filter: 'drop-shadow(0 10px 24px rgb(28 47 74 / 0.3))' }} />
+        ) : pixel ? (
+          <img
+            src={pixel}
+            alt={ch?.name ?? id}
+            className="h-full w-full object-contain object-bottom [image-rendering:pixelated]"
+            style={{ filter: 'drop-shadow(0 10px 24px rgb(28 47 74 / 0.3))' }}
+          />
         ) : (
           <StandingSilhouette glow={r.glow} halo={halo} />
         )}
@@ -118,7 +127,13 @@ export function Portrait({
         className="absolute inset-0 opacity-60"
         style={{ background: 'repeating-linear-gradient(120deg, transparent 0 14px, rgb(255 255 255 / 0.35) 14px 20px, transparent 20px 44px)' }}
       />
-      {url ? <img src={url} alt={ch?.name ?? id} className="absolute inset-0 h-full w-full object-cover object-top" /> : <BustSilhouette halo={halo} />}
+      {url ? (
+        <img src={url} alt={ch?.name ?? id} className="absolute inset-0 h-full w-full object-cover object-top" />
+      ) : pixel ? (
+        <img src={pixel} alt={ch?.name ?? id} className="absolute inset-0 h-full w-full object-cover object-top [image-rendering:pixelated]" />
+      ) : (
+        <BustSilhouette halo={halo} />
+      )}
     </div>
   );
 }

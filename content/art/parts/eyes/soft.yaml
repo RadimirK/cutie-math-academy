@@ -1,0 +1,109 @@
+id: soft
+desc: Большие мягкие глаза с тёмным верхним веком и бликом с внешней стороны.
+material: eyes
+shade: none
+outline: false
+params:
+  shape:
+    options: [open, half, joy]
+    default: open
+    desc: 'open — открыты, half — прикрыты (сонно, задумчиво), joy — зажмурены дугами ^^'
+  look_x: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вбок, пиксели' }
+  look_y: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вверх-вниз, пиксели' }
+shapes:
+  # белок
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '..wwwww.'
+        - '.wWWWWWw'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '.WWWWWW.'
+        - '..WWWW..'
+        - '........'
+      key: { w: 'eye_white:1', W: 'eye_white:2' }
+    mirror: true
+    when: { shape: [open, half] }
+  # радужка с бликом
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '..DDDDD.'
+        - '..SSDDD.'
+        - '..SdDdI.'
+        - '..IddII.'
+        - '..iIIIi.'
+        - '...ijj..'
+        - '........'
+      key: { D: 'eyes:0', d: 'eyes:1', I: 'eyes:2', i: 'eyes:3', j: 'eyes:4', S: shine }
+      shift: ['$look_x', '$look_y']
+    mirror: true
+    when: { shape: [open, half] }
+  # прикрытое веко срезает верх глаза
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '########'
+        - '########'
+        - '########'
+        - '########'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+      key: { '#': line }
+    mirror: true
+    erase: true
+    when: { shape: half }
+  # ресницы
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '..LLLLL.'
+        - '.LLLLLLL'
+        - 'LL.....L'
+        - 'L.......'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '...ll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: open }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '.LLLLLLL'
+        - 'LL.....L'
+        - '........'
+        - '........'
+        - '........'
+        - '...ll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: half }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '..LLLL..'
+        - '.L....L.'
+        - 'L......L'
+        - '........'
+        - '........'
+      key: { L: line }
+    mirror: true
+    when: { shape: joy }

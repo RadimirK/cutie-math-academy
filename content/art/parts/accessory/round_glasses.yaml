@@ -1,0 +1,14 @@
+id: round_glasses
+desc: Круглые очки в тонкой оправе.
+material: metal
+shade: none
+outline: false
+shapes:
+  - ellipse: { at: [-0.42, 0.33], r: [0.3, 0.27] }
+    hollow: true
+    mirror: true
+  - stroke: [[-0.12, 0.28], [0.12, 0.28]]
+  - stroke: [[-0.72, 0.28], [-0.98, 0.22]]
+    mirror: true
+  - stamp: { at: [-0.56, 0.2], rows: ['s.', '.s'], key: { s: shine }, flip: false }
+    mirror: true

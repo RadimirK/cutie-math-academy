@@ -1,0 +1,16 @@
+id: twin_tails
+desc: Два длинных хвоста по бокам головы, расходятся наружу, затылок короткий.
+material: hair
+seams: true
+params:
+  length: { range: [1.5, 3.9], default: 3.4, desc: докуда хвосты }
+  spread: { range: [1.4, 2.4], default: 2.0, desc: насколько хвосты расходятся в стороны }
+shapes:
+  - ellipse: { at: [0, -0.12], r: [1.04, 1.06] }
+  # хвосты висят перед плечами пиджака, но за лицом
+  - strand: { from: [-0.9, -0.78], to: ['-$spread', '$length'], bend: 0.12, width: [0.66, 0.2] }
+    mirror: true
+    slot: outfit
+  - strand: { from: [-1.0, -0.62], to: ['-$spread + 0.3', '$length * 0.86'], bend: 0.1, width: [0.42, 0.08] }
+    mirror: true
+    slot: outfit

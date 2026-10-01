@@ -1,0 +1,22 @@
+id: simple
+desc: Маленький рот в несколько пикселей.
+material: mouth
+shade: none
+outline: false
+params:
+  shape:
+    options: [neutral, smile, flat, open]
+    default: neutral
+    desc: 'neutral — короткая черта, smile — улыбка, flat — сжатые губы, open — открытая улыбка'
+shapes:
+  - stamp: { at: [0, 0.76], rows: ['.LL.'], key: { L: 'mouth:0' } }
+    when: { shape: neutral }
+  - stamp: { at: [0, 0.76], rows: ['L...L', '.LLL.'], key: { L: 'mouth:0' } }
+    when: { shape: smile }
+  - stamp: { at: [0, 0.76], rows: ['LLL'], key: { L: 'mouth:0' } }
+    when: { shape: flat }
+  - stamp:
+      at: [0, 0.78]
+      rows: ['LLLLL', '.MMM.', '..m..']
+      key: { L: 'mouth:0', M: 'mouth:1', m: 'mouth:3' }
+    when: { shape: open }

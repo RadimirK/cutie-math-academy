@@ -8,3 +8,27 @@ sprites:
   smile: bolzano/smile.png
   thinking: bolzano/thinking.png
   happy: bolzano/happy.png
+look:
+  palette:
+    skin: '#f7dccb'
+    hair: '#3d4f8a'
+    eyes: '#4f8fc9'
+    cloth: '#34405f'
+    accent: '#e0b84a'
+  parts:
+    hair_back: { part: long_straight, length: 3.8 }
+    hair_front: { part: blunt_bangs, length: 0.06, side: 2.6 }
+    eyes: { part: soft, shape: half }
+    outfit: { part: blazer, neck: ribbon }
+    accessory: [{ part: round_glasses }]
+  emotions:
+    smile:
+      eyes: { shape: open }
+      mouth: { shape: smile }
+    thinking:
+      eyes: { shape: half, look_x: -1, look_y: -1 }
+      mouth: { shape: flat }
+    happy:
+      eyes: { shape: joy }
+      mouth: { shape: open }
+      cheeks: { part: blush }

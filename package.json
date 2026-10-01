@@ -12,6 +12,7 @@
     "content:validate": "tsx scripts/validate-content.ts",
     "content:selftest": "tsx scripts/selftest.ts",
     "content:sync": "tsx scripts/sync-content.ts",
+    "art:render": "tsx scripts/render-art.ts",
     "ci": "npm run typecheck && npm run content:validate && npm test && npm run content:selftest"
   },
   "dependencies": {

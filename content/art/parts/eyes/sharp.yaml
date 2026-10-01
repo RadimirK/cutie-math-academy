@@ -1,0 +1,96 @@
+id: sharp
+desc: Раскосые глаза с приподнятым внешним уголком; взгляд строгий или дерзкий.
+material: eyes
+shade: none
+outline: false
+params:
+  shape:
+    options: [open, half, joy]
+    default: open
+    desc: 'open — открыты, half — прикрыты, joy — зажмурены дугами ^^'
+  look_x: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вбок, пиксели' }
+  look_y: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вверх-вниз, пиксели' }
+shapes:
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '.ww.....'
+        - '.WWwwww.'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '..WWWWW.'
+        - '...WWW..'
+        - '........'
+      key: { w: 'eye_white:1', W: 'eye_white:2' }
+    mirror: true
+    when: { shape: [open, half] }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '..DDDDD.'
+        - '..DDDDD.'
+        - '..SSdDD.'
+        - '..SdDdI.'
+        - '..IIdII.'
+        - '...iji..'
+        - '........'
+      key: { D: 'eyes:0', d: 'eyes:1', I: 'eyes:2', i: 'eyes:3', j: 'eyes:4', S: shine }
+      shift: ['$look_x', '$look_y']
+    mirror: true
+    when: { shape: [open, half] }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows: ['########', '########', '########', '########', '........', '........', '........', '........', '........']
+      key: { '#': line }
+    mirror: true
+    erase: true
+    when: { shape: half }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - 'LL......'
+        - '.LLLLL..'
+        - '..LLLLLL'
+        - '.......L'
+        - '........'
+        - '........'
+        - '........'
+        - '...ll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: open }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - 'LL......'
+        - '.LLLLLLL'
+        - '.......L'
+        - '........'
+        - '........'
+        - '........'
+        - '...ll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: half }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '..LLLL..'
+        - '.L....L.'
+        - 'L......L'
+        - '........'
+        - '........'
+      key: { L: line }
+    mirror: true
+    when: { shape: joy }

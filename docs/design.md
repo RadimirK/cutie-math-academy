@@ -168,6 +168,7 @@ content/
       generators/*.py
   characters/*.yaml
   banners/*.yaml
+  art/parts/<slot>/*.yaml   # детали генератора портретов, см. docs/character-art.md
   assets/
 ```
 

@@ -1,0 +1,20 @@
+id: basic
+desc: Шея и плечи, обычное телосложение. Под одеждой видна только шея.
+material: skin
+shade: flat
+shapes:
+  - poly: [[-0.24, 0.7], [0.24, 0.7], [0.27, 1.5], [-0.27, 1.5]]
+  - poly:
+      - [-0.27, 1.32]
+      - [0.27, 1.32]
+      - ['0.9 * $shoulders', 1.5]
+      - ['1.45 * $shoulders', 1.68]
+      - ['1.72 * $shoulders', 2.05]
+      - ['1.82 * $shoulders', 2.8]
+      - ['1.86 * $shoulders', 3.9]
+      - ['-1.86 * $shoulders', 3.9]
+      - ['-1.82 * $shoulders', 2.8]
+      - ['-1.72 * $shoulders', 2.05]
+      - ['-1.45 * $shoulders', 1.68]
+      - ['-0.9 * $shoulders', 1.5]
+    smooth: true

@@ -8,3 +8,27 @@ sprites:
   smile: cauchy/smile.png
   thinking: cauchy/thinking.png
   happy: cauchy/happy.png
+look:
+  palette:
+    skin: '#fbe2d6'
+    hair: '#e5485f'
+    eyes: '#d63650'
+    cloth: '#b3303e'
+    accent: '#2b2632'
+  parts:
+    hair_back: { part: twin_tails, length: 3.8, spread: 2.1 }
+    hair_front: { part: spiky_bangs, length: 0.22, ahoge: curl }
+    eyes: { part: sharp }
+    mouth: { part: simple, shape: flat }
+    outfit: { part: blazer, neck: tie }
+    accessory: [{ part: ribbons, size: 1.15 }]
+  emotions:
+    smile:
+      mouth: { shape: smile }
+    thinking:
+      eyes: { shape: half, look_x: 1, look_y: -1 }
+      mouth: { shape: neutral }
+    happy:
+      eyes: { shape: joy }
+      mouth: { shape: open }
+      cheeks: { part: blush }

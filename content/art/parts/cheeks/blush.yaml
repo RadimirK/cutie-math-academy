@@ -1,0 +1,11 @@
+id: blush
+desc: Румянец штрихами под глазами.
+material: blush
+shade: none
+outline: false
+shapes:
+  - stamp:
+      at: [-0.56, 0.6]
+      rows: ['.bbbbb.', 'bBbBbBb', '.bbbbb.']
+      key: { b: 'blush:3', B: 'blush:1' }
+    mirror: true
