@@ -1,0 +1,46 @@
+id: thick
+desc: Густые тёмные брови в два пикселя толщиной, решительный или упрямый вид (обведены цветом кожи поверх чёлки).
+material: line
+shade: none
+outline: false
+params:
+  mood:
+    options: [calm, raised, worried, angry, stern]
+    default: calm
+    desc: 'calm — спокойно, raised — подняты (радость, удивление), worried — домиком (грусть, смущение), angry — сведены (злость), stern — чуть сведены (строго)'
+shapes:
+  - stamp:
+      at: [-0.44, 0.0]
+      rows: ['.sssss.', 'sBBBBBs', 'BBBBBs.', 'sssss..']
+      key: { B: line, s: 'skin:2' }
+    mirror: true
+    slot: hair_front
+    when: { mood: calm }
+  - stamp:
+      at: [-0.44, -0.09]
+      rows: ['.sssss.', 'sBBBBBs', 'BBBBBs.', 'sssss..']
+      key: { B: line, s: 'skin:2' }
+    mirror: true
+    slot: hair_front
+    when: { mood: raised }
+  - stamp:
+      at: [-0.44, -0.02]
+      rows: ['....sss', '..ssBBs', 'ssBBBBs', 'BBBBss.', 'ssss...']
+      key: { B: line, s: 'skin:2' }
+    mirror: true
+    slot: hair_front
+    when: { mood: worried }
+  - stamp:
+      at: [-0.44, 0.02]
+      rows: ['ss.....', 'BBss...', 'BBBBss.', 'ssBBBBs', '..ssBBs', '....sss']
+      key: { B: line, s: 'skin:2' }
+    mirror: true
+    slot: hair_front
+    when: { mood: angry }
+  - stamp:
+      at: [-0.44, 0.02]
+      rows: ['sss....', 'BBBsss.', 'BBBBBBs', 'sssBBBs', '...sss.']
+      key: { B: line, s: 'skin:2' }
+    mirror: true
+    slot: hair_front
+    when: { mood: stern }

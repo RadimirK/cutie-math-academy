@@ -24,6 +24,7 @@ look:
     hair_front: { part: spiky_bangs, length: 0.2, side: 1.0, ahoge: curl }
     mouth: { part: simple, fang: left }
     eyes: { part: soft }
+    brows: { part: thick }
     outfit: { part: blazer, neck: tie, sleeve: 3.5 }
     bottom: { part: pleated_skirt, length: 5.6, pattern: plaid }
     legwear: { part: stockings, top: 8.4 }

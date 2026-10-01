@@ -1,0 +1,30 @@
+id: pencil_skirt
+desc: Прямая узкая юбка-карандаш по фигуре с разрезом сбоку и, по желанию, тонким поясом цвета accent.
+material: skirt
+shadow: true
+params:
+  length: { range: [5.4, 7.6], default: 6.4, desc: 'докуда юбка: 6.6 — колено' }
+  belt: { options: [none, thin], default: none, desc: пояс }
+shapes:
+  - poly:
+      - [-0.76, 3.35]
+      - [0.76, 3.35]
+      - [0.96, 3.9]
+      - [1.0, 4.4]
+      - [0.92, 5.2]
+      - [0.72, '$length']
+      - [-0.72, '$length']
+      - [-0.92, 5.2]
+      - [-1.0, 4.4]
+      - [-0.96, 3.9]
+    name: pencil
+  # шов посередине и разрез сбоку
+  - stroke: [[0, 4.3], [0, '$length - 0.05']]
+    tone: 2
+  - stroke: [[0.44, '$length - 0.55'], [0.44, '$length']]
+    tone: 0
+  - poly: [[-1.1, 3.35], [1.1, 3.35], [1.1, 3.52], [-1.1, 3.52]]
+    material: accent
+    clip: pencil
+    seam: true
+    when: { belt: thin }

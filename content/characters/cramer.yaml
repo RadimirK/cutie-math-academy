@@ -26,7 +26,7 @@ look:
     hair_front: { part: parted, forehead: -0.72, side: 1.0 }
     eyes: { part: soft, shape: half }
     outfit: { part: cardigan, neck: ribbon, hem: 4.8 }
-    bottom: { part: pleated_skirt, length: 7.3, flare: 1.3 }
+    bottom: { part: pencil_skirt, length: 7.2, belt: thin }
     legwear: { part: stockings }
     shoes: { part: loafers }
     accessory: [{ part: square_glasses }]

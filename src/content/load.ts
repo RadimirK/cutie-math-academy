@@ -2,7 +2,7 @@
 // Pure: callers supply the files (Vite glob in the browser, fs in CI scripts).
 import { parse as parseYaml } from 'yaml';
 import type { z } from 'zod';
-import { lookIssues, partIssues, type PartLibrary } from '../art/render.ts';
+import { emotionsOf, lookIssues, partIssues, type PartLibrary } from '../art/render.ts';
 import { PartSchema, SLOTS, type Slot } from '../art/schema.ts';
 import { answerTypes } from '../answer-types/core.ts';
 import { FILTER_NAMES, placeholders } from '../core/generate.ts';
@@ -273,8 +273,8 @@ export function loadContent(files: Record<string, string>): { content: Content; 
         if ('speaker' in step) {
           const ch = content.characters[step.speaker];
           if (!ch) err(file, `${where}: speaker: нет персонажа ${step.speaker}`);
-          else if (step.emotion && Object.keys(ch.sprites).length && !(step.emotion in ch.sprites))
-            warn(file, `${where}: у ${ch.id} нет спрайта для эмоции ${step.emotion}`);
+          else if (step.emotion && !(step.emotion in ch.sprites) && !(ch.look && emotionsOf(ch.look).includes(step.emotion)))
+            warn(file, `${where}: у ${ch.id} нет ни спрайта, ни эмоции внешности ${step.emotion}`);
         }
         if ('figure' in step && step.figure) {
           const r = parseFigure(step.figure);

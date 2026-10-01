@@ -56,12 +56,24 @@ shapes:
     grow: 2
     seam: true
     shadow: true
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: forearms
+    grow: 2
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
   - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
     clip: arms
     grow: 2
     seam: true
     shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: forearms
+    grow: 2
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
   - poly: [[-2.4, '$sleeve - 0.24'], [2.4, '$sleeve - 0.24'], [2.4, '$sleeve'], [-2.4, '$sleeve']]
-    clip: arms
+    clip: [arms, forearms]
     grow: 2
     tone: 1

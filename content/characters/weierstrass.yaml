@@ -26,7 +26,7 @@ look:
     hair_front: { part: side_swept, length: 0.2, side: 1.8 }
     eyes: { part: sharp, shape: half }
     outfit: { part: labcoat, hem: 6.4 }
-    bottom: { part: pleated_skirt, length: 5.6, flare: 1.2 }
+    bottom: { part: pencil_skirt, length: 6.0 }
     legwear: { part: stockings }
     shoes: { part: loafers }
   emotions:

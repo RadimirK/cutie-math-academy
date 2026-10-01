@@ -26,7 +26,7 @@ export const DEFAULT_PARTS: Partial<Record<Slot, string>> = { body: 'basic', hea
  * options. Emotions and animations are written against it, so they work with any part.
  */
 export const RIG: Partial<Record<Slot, Record<string, string[] | 'number'>>> = {
-  body: { pose: ['down', 'chin', 'hip'] },
+  body: { pose: ['down', 'chin', 'hip'], left: ['down', 'raise'] },
   eyes: { shape: ['open', 'half', 'closed', 'joy', 'wide'], look_x: 'number', look_y: 'number' },
   brows: { mood: ['calm', 'raised', 'worried', 'angry', 'stern'] },
   mouth: { shape: ['neutral', 'smile', 'flat', 'open', 'o', 'frown', 'wavy', 'smirk', 'pout'] },
@@ -63,6 +63,8 @@ export const EMOTIONS: Record<string, Overrides> = {
   confused: { eyes: { shape: 'open', look_x: 1 }, brows: { mood: 'worried' }, mouth: { shape: 'wavy' }, fx: { part: 'marks', kind: 'question' } },
   /** a strict definition, an important point */
   serious: { eyes: { shape: 'open' }, brows: { mood: 'stern' }, mouth: { shape: 'flat' } },
+  /** explaining a point, finger raised */
+  explain: { body: { left: 'raise' }, eyes: { shape: 'open' }, brows: { mood: 'raised' }, mouth: { shape: 'open' } },
 };
 
 /**
