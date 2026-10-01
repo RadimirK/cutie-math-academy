@@ -3,6 +3,8 @@
 Answers reach Python as strings: reference answers from templates and generators, user
 answers from the MathJSON -> sympy converter on the client. sympy's LaTeX parser is not used.
 """
+import re
+
 import sympy
 from sympy.parsing.sympy_parser import (
     auto_number,
@@ -58,7 +60,12 @@ def _sympify_tree(value):
 
 
 def format_answer(value):
-    """Serializes a generator's answer (sympy objects, lists, matrices) back to sympy syntax."""
+    """Serializes a generator's answer (sympy objects, lists, matrices) back to sympy syntax.
+
+    Text labels (choice options with Cyrillic, `$` or `\\`) are not sympy and stay verbatim.
+    """
+    if isinstance(value, str) and re.search(r'[^\x00-\x7f]|[$\\]', value):
+        return value
     if isinstance(value, sympy.MatrixBase):
         value = value.tolist()
     if isinstance(value, (list, tuple)):

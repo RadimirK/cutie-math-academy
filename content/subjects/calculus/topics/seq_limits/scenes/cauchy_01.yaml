@@ -11,9 +11,18 @@ nodes:
     - speaker: cauchy
       emotion: smile
       text: 'Идея простая: начиная с какого-то номера, все члены последовательности оказываются сколь угодно близко к $a$.'
+      figure: {type: sequence, expr: '1 + (-1)^n/n', count: 25, limit: 1}
     - speaker: cauchy
       emotion: thinking
       text: 'Строго: $\lim\limits_{n\to\infty} x_n = a$, если для любого $\varepsilon > 0$ найдётся такой номер $N$, что $|x_n - a| < \varepsilon$ при всех $n > N$.'
+      figure: {type: sequence, expr: '1 + (-1)^n/n', count: 25, limit: 1, eps: 0.3, interactive: true}
+    - speaker: cauchy
+      emotion: happy
+      text: 'Подвигай ползунок $\varepsilon$ на доске. Жёлтая полоса — это $|x - a| < \varepsilon$, красные точки — члены вне её, а $N$ — номер последней красной. Чем у́же полоса, тем дальше $N$, но он всегда находится.'
+    - speaker: cauchy
+      emotion: thinking
+      text: 'А теперь сама. Вот $x_n = (-1)^n$.'
+      figure: {type: sequence, expr: '(-1)^n', count: 12}
     - choice:
         question: 'Сходится ли последовательность $x_n = (-1)^n$?'
         options:
@@ -30,6 +39,7 @@ nodes:
     - speaker: cauchy
       emotion: smile
       text: 'Возьми $\varepsilon = \tfrac12$: ни один член не попадает в интервал $(-\tfrac12, \tfrac12)$.'
+      figure: {type: sequence, expr: '(-1)^n', count: 12, limit: 0, eps: 0.5}
     - goto: right
   wrong_one:
     - speaker: cauchy
@@ -38,6 +48,7 @@ nodes:
     - speaker: cauchy
       emotion: smile
       text: 'Предел должен «притягивать» все члены с какого-то номера, а не только половину.'
+      figure: {type: sequence, expr: '(-1)^n', count: 12, limit: 1, eps: 0.5}
     - goto: right
   right:
     - speaker: cauchy
@@ -45,8 +56,9 @@ nodes:
       text: 'Именно, не сходится! У неё два частичных предела, $1$ и $-1$, а у сходящейся последовательности частичный предел один.'
     - speaker: cauchy
       emotion: smile
-      text: 'А вот $x_n = \dfrac{1}{n}$ сходится к нулю: для $\varepsilon > 0$ подходит $N = \left\lceil \tfrac{1}{\varepsilon} \right\rceil$.'
+      text: 'А вот $x_n = \dfrac{1}{n}$ сходится к нулю: для $\varepsilon > 0$ подходит $N = \left\lceil \tfrac{1}{\varepsilon} \right\rceil$. Проверь ползунком.'
+      figure: {type: sequence, expr: '1/n', count: 30, limit: 0, eps: 0.15, interactive: true}
     - speaker: cauchy
       emotion: happy
       text: 'Попробуй свои силы на задачах, а потом продолжим: поговорим об арифметике пределов и числе $e$.'
-unlocks: [lim_basic_2, lim_rational_1, converges_choice]
+unlocks: [lim_basic_2, lim_rational_1, converges_choice, seq_plot, eps_n]

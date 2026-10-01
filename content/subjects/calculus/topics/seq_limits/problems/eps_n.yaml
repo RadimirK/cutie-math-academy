@@ -1,0 +1,31 @@
+id: eps_n
+title: Найди N по ε
+difficulty: 1
+answer_type: number
+params:
+  s:
+    type: pick
+    # N is the last n with |x_n - a| >= eps. No eps equals some |x_n - a| exactly, so the
+    # strict inequality is never decided by rounding.
+    values:
+      - {tex: '\frac{1}{n}', expr: '1/n', a: 0, eps: 0.12, epstex: '0{,}12', n: 8}
+      - {tex: '\frac{1}{n}', expr: '1/n', a: 0, eps: 0.07, epstex: '0{,}07', n: 14}
+      - {tex: '\frac{(-1)^n}{n}', expr: '(-1)^n/n', a: 0, eps: 0.22, epstex: '0{,}22', n: 4}
+      - {tex: '\frac{1}{n^2}', expr: '1/n^2', a: 0, eps: 0.03, epstex: '0{,}03', n: 5}
+      - {tex: '\frac{1}{2^n}', expr: '2^-n', a: 0, eps: 0.02, epstex: '0{,}02', n: 5}
+      - {tex: '\frac{n + 1}{n}', expr: '(n+1)/n', a: 1, eps: 0.09, epstex: '0{,}09', n: 11}
+      - {tex: '\frac{n}{n + 1}', expr: 'n/(n+1)', a: 1, eps: 0.06, epstex: '0{,}06', n: 15}
+      - {tex: '\frac{3}{n}', expr: '3/n', a: 0, eps: 0.35, epstex: '0{,}35', n: 8}
+      - {tex: '\frac{(-1)^n}{n^2}', expr: '(-1)^n/n^2', a: 0, eps: 0.05, epstex: '0{,}05', n: 4}
+      - {tex: '2 + \frac{(-1)^n}{\sqrt{n}}', expr: '2 + (-1)^n/sqrt(n)', a: 2, eps: 0.3, epstex: '0{,}3', n: 11}
+statement: >-
+  Последовательность $x_n = <<s.tex>>$ сходится к $a = <<s.a>>$. На графике — её первые члены
+  и полоса $|x - a| < <<s.epstex>>$. Найдите наименьшее $N$, такое что $|x_n - a| < <<s.epstex>>$ при всех $n > N$.
+answer: '<<s.n>>'
+figure:
+  type: sequence
+  expr: '<<s.expr>>'
+  count: 20
+  limit: '<<s.a>>'
+  eps: '<<s.eps>>'
+hint: 'Решите неравенство $|x_n - a| \ge \varepsilon$: $N$ — самое большое $n$, при котором оно ещё выполнено. График поможет проверить ответ.'

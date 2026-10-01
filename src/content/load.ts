@@ -6,6 +6,7 @@ import { lookIssues, partIssues, type PartLibrary } from '../art/render.ts';
 import { PartSchema, SLOTS, type Slot } from '../art/schema.ts';
 import { answerTypes } from '../answer-types/core.ts';
 import { FILTER_NAMES, placeholders } from '../core/generate.ts';
+import { parseFigure } from '../figures/core.ts';
 import {
   BannerSchema,
   CharacterSchema,
@@ -275,6 +276,10 @@ export function loadContent(files: Record<string, string>): { content: Content; 
           else if (step.emotion && Object.keys(ch.sprites).length && !(step.emotion in ch.sprites))
             warn(file, `${where}: у ${ch.id} нет спрайта для эмоции ${step.emotion}`);
         }
+        if ('figure' in step && step.figure) {
+          const r = parseFigure(step.figure);
+          if (!r.ok) err(file, `${where}.figure: ${r.error}`);
+        }
       });
     }
     for (const u of s.unlocks) if (!content.templates[u]) err(file, `unlocks: нет шаблона ${u}`);
@@ -295,12 +300,16 @@ export function loadContent(files: Record<string, string>): { content: Content; 
         if (!r.success) for (const i of r.error.issues) err(file, `config.${i.path.join('.')}: ${i.message}`);
       }
     }
+    if (t.figure && !JSON.stringify(t.figure).includes('<<')) {
+      const r = parseFigure(t.figure);
+      if (!r.ok) err(file, `figure: ${r.error}`);
+    }
     if (t.generator) {
       const src = generators[`${t.topic}/${t.generator}`];
       if (src === undefined) err(file, `generator: нет файла ${t.generator}`);
       else t.generatorSource = src;
     } else {
-      const texts = [t.statement!, t.answer!, JSON.stringify(t.config)];
+      const texts = [t.statement!, t.answer!, JSON.stringify(t.config), JSON.stringify(t.figure ?? {})];
       const used = new Set<string>();
       for (const text of texts)
         for (const p of placeholders(text)) {

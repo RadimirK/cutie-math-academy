@@ -1,0 +1,6 @@
+id: relation_graph
+title: Свойства по графу
+difficulty: 2
+answer_type: choice
+generator: generators/relation_graph.py
+hint: 'Рефлексивность — петли у всех вершин. Симметричность — у каждой стрелки есть обратная. Транзитивность — у каждого пути из двух стрелок $x \to y \to z$ есть стрелка $x \to z$ (и при $x = z$ это петля).'

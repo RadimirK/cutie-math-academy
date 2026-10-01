@@ -56,18 +56,26 @@ function NumberInput(props: InputProps) {
 
 function ChoiceInput({ cfg, onChange, disabled }: InputProps) {
   const [picked, setPicked] = useState<string | null>(null);
+  const options = (cfg.options ?? []) as string[];
+  // Long lists get letters, so the options are easy to refer to and scan.
+  const lettered = options.length > 3;
   return (
     <div className="grid gap-2 sm:grid-cols-2">
-      {(cfg.options as string[]).map((o) => (
+      {options.map((o, i) => (
         <button
           key={o}
           type="button"
           disabled={disabled}
           onClick={() => (setPicked(o), onChange({ value: o }))}
-          className={`rounded-md border-2 px-4 py-3 text-left font-bold text-ink-900 transition-colors ${
+          className={`flex items-center gap-3 rounded-md border-2 px-4 py-3 text-left font-bold text-ink-900 transition-colors ${
             picked === o ? 'border-ba-500 bg-ba-100' : 'border-ink-100 bg-white hover:border-ba-300 hover:bg-ba-50'
           }`}
         >
+          {lettered && (
+            <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full font-display text-xs ${picked === o ? 'bg-ba-500 text-white' : 'bg-ink-100 text-ink-500'}`}>
+              {'АБВГДЕЖЗИКЛМ'[i]}
+            </span>
+          )}
           <MathText text={o} />
         </button>
       ))}

@@ -1,0 +1,6 @@
+id: cube_monotone
+title: Монотонность по кубу
+difficulty: 1
+answer_type: choice
+generator: generators/cube_monotone.py
+hint: 'Функция монотонна, если вдоль каждого ребра куба (снизу вверх) значение не падает: над закрашенным набором нет незакрашенных соседей.'

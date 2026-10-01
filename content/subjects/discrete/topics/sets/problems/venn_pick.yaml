@@ -1,0 +1,6 @@
+id: venn_pick
+title: Что закрашено?
+difficulty: 2
+answer_type: choice
+generator: generators/venn_pick.py
+hint: 'Проверьте каждую из восьми областей: в каких из $A$, $B$, $C$ она лежит и попадает ли в множество из ответа.'

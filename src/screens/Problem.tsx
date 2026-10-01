@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
+import { prepareInstance } from '../answer-types/core.ts';
 import { answerInputs, type Draft } from '../answer-types/inputs.tsx';
 import { content } from '../content/bundle.ts';
 import type { LoadedTemplate } from '../content/load.ts';
 import { instantiateDeclarative, type ProblemInstance } from '../core/generate.ts';
+import { Figure } from '../figures/Figure.tsx';
 import { templateUnlocked } from '../core/progress.ts';
 import { checkAnswer, mayNeedPython } from '../lib/checkAnswer.ts';
 import { usePlayer } from '../lib/player.tsx';
@@ -35,7 +37,8 @@ const LINES = {
 const pick = (xs: string[]) => xs[Math.floor(Math.random() * xs.length)]!;
 
 async function instantiate(t: LoadedTemplate, seed: number): Promise<ProblemInstance> {
-  return t.generator ? generateWithPython(t.generatorSource!, seed, t.fullId) : instantiateDeclarative(t, seed);
+  const inst = t.generator ? await generateWithPython(t.generatorSource!, seed, t.fullId) : instantiateDeclarative(t, seed);
+  return prepareInstance(t.answer_type, inst, seed);
 }
 
 export function ProblemScreen() {
@@ -163,6 +166,7 @@ export function ProblemScreen() {
             ) : (
               <>
                 <MathText text={instance.statement} className="block text-xl leading-relaxed text-ink-900" />
+                {instance.figure != null && <Figure spec={instance.figure} className="mx-auto mt-4 max-w-md" />}
 
                 <div className="mt-6">
                   {Input ? (

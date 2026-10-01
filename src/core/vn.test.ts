@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Scene } from '../content/schema.ts';
 import { applySceneProgress, emptyProgress, templateUnlocked, topicOpen } from './progress.ts';
-import { advance, choose, normalize, view } from './vn.ts';
+import { advance, boardFigure, choose, normalize, view } from './vn.ts';
 
 const scene: Scene = {
   id: 'sc', character: 'h', background: 'bg', unlocks: [],
@@ -24,6 +24,21 @@ describe('vn', () => {
     expect(p).toEqual({ node: 'right', index: 0 });
     p = advance(scene, p);
     expect(view(scene, p).kind).toBe('end');
+  });
+});
+
+describe('board', () => {
+  const venn = { type: 'venn', sets: ['A', 'B'] };
+  const sc: Scene = {
+    id: 'sc', character: 'h', background: 'bg', unlocks: [],
+    nodes: {
+      start: [{ narration: 'a' }, { narration: 'b', figure: venn }, { narration: 'c' }, { narration: 'd', figure: null }, { goto: 'next' }],
+      next: [{ narration: 'e' }],
+    },
+  };
+  it('keeps a figure for the rest of its node until cleared', () => {
+    expect([0, 1, 2, 3].map((index) => boardFigure(sc, { node: 'start', index }))).toEqual([null, venn, venn, null]);
+    expect(boardFigure(sc, { node: 'next', index: 0 })).toBeNull();
   });
 });
 

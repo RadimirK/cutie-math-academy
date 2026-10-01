@@ -90,25 +90,42 @@ nodes:
       emotion: thinking
       text: 'С точки зрения парадоксов — да, хотя «человек» определён расплывчато: живые? предки? Хорошие универсумы — $\mathbb{Z}$, $\mathbb{N}$, $\mathbb{R}$. А «множество всех функций» — плохой: из какого множества в какое? Он выводит нас за рамки любого универсума.'
     - narration: 'Кантор стирает доску и рисует два пересекающихся круга.'
+      figure: {type: venn, sets: [A, B]}
     - speaker: cantor
       emotion: smile
-      text: 'Теперь операции. Объединение $A \cup B$ — элементы, лежащие хотя бы в одном. Пересечение $A \cap B$ — лежащие в обоих. Разность $A \setminus B$ — лежащие в $A$, но не в $B$.'
+      text: 'Теперь операции. Объединение $A \cup B$ — элементы, лежащие хотя бы в одном.'
+      figure: {type: venn, sets: [A, B], shade: 'A | B'}
+    - speaker: cantor
+      emotion: smile
+      text: 'Пересечение $A \cap B$ — лежащие в обоих.'
+      figure: {type: venn, sets: [A, B], shade: 'A & B'}
+    - speaker: cantor
+      emotion: smile
+      text: 'Разность $A \setminus B$ — лежащие в $A$, но не в $B$.'
+      figure: {type: venn, sets: [A, B], shade: 'A - B'}
     - speaker: student_b
       emotion: thinking
       text: 'А если $B$ больше $A$? Из маленького вычитать большое нельзя.'
     - speaker: cantor
       emotion: smile
       text: 'Можно! Разность не требует, чтобы $B$ было частью $A$. $\{1, 2\} \setminus \{2, 3, 4, 5\} = \{1\}$: просто выкидываем из $A$ то, что есть в $B$.'
+      figure: {type: venn, sets: [A, B], shade: 'A - B', elements: {A: 1, AB: 2, B: '3 4 5'}}
     - speaker: cantor
       emotion: thinking
       text: 'Симметрическая разность $A \oplus B$ (ещё пишут $A \triangle B$) — элементы, лежащие ровно в одном из двух: $A \oplus B = (A \setminus B) \cup (B \setminus A)$. Значок $\oplus$ ещё встретится нам как «исключающее или».'
+      figure: {type: venn, sets: [A, B], shade: 'A ^ B'}
     - speaker: cantor
       emotion: happy
       text: 'Пример: $A = \{1, 2, 3, 4\}$, $B = \{3, 4, 5\}$. $A \cup B = \{1, 2, 3, 4, 5\}$, $A \cap B = \{3, 4\}$, $A \setminus B = \{1, 2\}$, $A \oplus B = \{1, 2, 5\}$. На кругах Эйлера — Венна это разные закрашенные области.'
+      figure: {type: venn, sets: [A, B], shade: 'A ^ B', elements: {A: '1 2', AB: '3 4', B: 5}}
     - speaker: student_a
       emotion: happy
       text: 'Записала! $|A \oplus B| = |A| + |B| - 2|A \cap B|$ — общую часть мы посчитали дважды и выкинули оба раза.'
     - speaker: cantor
       emotion: happy
       text: 'Отличное наблюдение. Такие формулы подсчёта нам ещё не раз пригодятся.'
-unlocks: [set_ops, set_expr]
+    - speaker: cantor
+      emotion: smile
+      text: 'С тремя множествами областей уже восемь. Например, $(A \cup B) \setminus C$ — всё, что в $A$ или в $B$, кроме попавшего в $C$. Научись читать такие картинки — в задачах они встретятся.'
+      figure: {type: venn, sets: [A, B, C], shade: '(A | B) - C'}
+unlocks: [set_ops, set_expr, venn_pick]

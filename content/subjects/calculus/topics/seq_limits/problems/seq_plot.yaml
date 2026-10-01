@@ -1,0 +1,6 @@
+id: seq_plot
+title: Узнай по графику
+difficulty: 1
+answer_type: choice
+generator: generators/seq_plot.py
+hint: 'Подставьте $n = 1$ и $n = 2$ в формулы и сравните с первыми точками. Потом проверьте, к чему точки приближаются и чередуется ли знак.'

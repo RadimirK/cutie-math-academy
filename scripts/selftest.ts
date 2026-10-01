@@ -6,9 +6,10 @@ import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import katex from 'katex';
-import { answerTypes } from '../src/answer-types/core.ts';
+import { answerTypes, prepareInstance } from '../src/answer-types/core.ts';
 import { instantiateDeclarative, type ProblemInstance } from '../src/core/generate.ts';
 import { splitMath } from '../src/core/mathText.ts';
+import { parseFigure } from '../src/figures/core.ts';
 import { loadOrDie } from './content-files.ts';
 
 export const SELFTEST_SEEDS = Array.from({ length: 20 }, (_, i) => ((i + 1) * 2654435761) % 2147483648);
@@ -70,7 +71,7 @@ for (const t of Object.values(content.templates))
     if (t.generator) genRequests.push({ key, source: t.generatorSource!, seed });
     else {
       try {
-        instances.set(key, instantiateDeclarative(t, seed));
+        instances.set(key, prepareInstance(t.answer_type, instantiateDeclarative(t, seed), seed));
       } catch (e) {
         fail(key, `генерация: ${(e as Error).message}`);
       }
@@ -82,7 +83,7 @@ const generated = runPython({ generate: [...genRequests, ...probes] }).generated
 for (const g of genRequests) {
   const r = generated[g.key];
   if (r.error) fail(g.key, `генератор: ${r.error}${r.trace ? `\n${r.trace}` : ''}`);
-  else instances.set(g.key, r);
+  else instances.set(g.key, prepareInstance(content.templates[g.key.split('#')[0]!]!.answer_type, r, g.seed));
 }
 for (const p of probes) {
   const a = generated[p.key.replace(/#again$/, '')];
@@ -99,13 +100,19 @@ for (const t of Object.values(content.templates)) {
     const key = `${t.fullId}#${seed}`;
     const inst = instances.get(key);
     if (!inst) continue;
-    statements.add(inst.statement);
+    statements.add(inst.statement + JSON.stringify(inst.figure ?? null));
     renderCheck(key, inst.statement);
+    if (inst.figure != null) {
+      const fig = parseFigure(inst.figure);
+      if (!fig.ok) fail(key, `figure: ${fig.error}`);
+    }
     const cfg = at.configSchema.safeParse(inst.config);
     if (!cfg.success) {
       fail(key, `config: ${cfg.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')}`);
       continue;
     }
+    // Options are shown as text with math (choice buttons).
+    for (const o of (cfg.data as { options?: unknown[] }).options ?? []) if (typeof o === 'string') renderCheck(key, o);
     const bad = at.validateInstance?.(inst.answer, cfg.data);
     if (bad) fail(key, bad);
     if (at.check === 'python') pyChecks.push({ key, type: at.id, correct: inst.answer, config: cfg.data });

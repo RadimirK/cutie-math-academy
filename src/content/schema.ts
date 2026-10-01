@@ -63,14 +63,26 @@ export const TopicSchema = z.strictObject({
 });
 export type Topic = z.infer<typeof TopicSchema>;
 
+// ---------- figures ----------
+
+/** `{type, ...props}`; the props are validated by the figure plugin (src/figures/core.ts). */
+export const FigureSpec = z.looseObject({ type: LocalId });
+export type FigureSpec = z.infer<typeof FigureSpec>;
+
 // ---------- scenes ----------
 
+/**
+ * `figure` puts a picture on the board; it stays there for the following steps of the same
+ * node until another `figure` replaces it or `figure: null` clears the board.
+ */
+const Board = { figure: FigureSpec.nullable().optional() };
 const LineStep = z.strictObject({
   speaker: LocalId,
   emotion: z.string().optional(),
   text: z.string().min(1),
+  ...Board,
 });
-const NarrationStep = z.strictObject({ narration: z.string().min(1) });
+const NarrationStep = z.strictObject({ narration: z.string().min(1), ...Board });
 const ChoiceStep = z.strictObject({
   choice: z.strictObject({
     question: z.string().min(1),
@@ -127,10 +139,12 @@ export const TemplateSchema = z
     /** Path relative to the topic folder, e.g. generators/foo.py. */
     generator: z.string().regex(/^generators\/[a-z0-9_]+\.py$/).optional(),
     hint: z.string().optional(),
+    /** A picture under the statement; may contain <<params>>. */
+    figure: FigureSpec.optional(),
   })
   .superRefine((t, ctx) => {
     if (t.generator) {
-      for (const k of ['statement', 'answer', 'params'] as const) {
+      for (const k of ['statement', 'answer', 'params', 'figure'] as const) {
         const v = t[k];
         if (v !== undefined && !(typeof v === 'object' && Object.keys(v).length === 0))
           ctx.addIssue({ code: 'custom', path: [k], message: `с generator поле ${k} задаёт генератор` });

@@ -77,16 +77,30 @@ nodes:
     - speaker: cantor
       emotion: smile
       text: 'Нарисуй граф: элементы — вершины, пара $\langle x, y \rangle$ — стрелка из $x$ в $y$. Рефлексивность — петли у всех вершин. Симметричность — у каждой стрелки есть обратная. Транзитивность — у каждого пути из двух стрелок есть «короткий путь» из одной.'
+      figure: {type: relation, nodes: [1, 2, 3], edges: '1>1 2>2 3>3 1>2 2>3 1>3'}
+    - speaker: cantor
+      emotion: smile
+      text: 'Вот $\le$ на $\{1, 2, 3\}$. Петли у всех — рефлексивно. Обратных стрелок нет — антисимметрично. Путь $1 \to 2 \to 3$ срезан стрелкой $1 \to 3$ — транзитивно.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А если стереть стрелку $1 \to 3$?'
+      figure: {type: relation, nodes: [1, 2, 3], edges: '1>1 2>2 3>3 1>2 2>3'}
+    - speaker: cantor
+      emotion: thinking
+      text: 'Тогда путь $1 \to 2 \to 3$ остался без «короткого пути», и транзитивность пропала. А вот $1 \to 2$ и $2 \to 1$ — путь из двух стрелок, который возвращается в $1$. Его «короткий путь» — петля в $1$.'
+      figure: {type: relation, nodes: [1, 2, 3], edges: '1>2 2>1 1>1 2>2'}
     - speaker: boole
       emotion: thinking
       text: 'И осторожнее с пустыми случаями! Пустое отношение транзитивно и симметрично: посылка «$x \mathrel{R} y$» не выполняется ни разу, а контрпример должен её выполнить.'
+      figure: {type: relation, nodes: [1, 2, 3]}
     - speaker: cantor
       emotion: happy
       text: 'Сколько вообще отношений на $n$-элементном множестве $A$? Отношение — подмножество $A \times A$, где $n^2$ пар. Каждую пару берём или нет, значит, отношений $2^{n^2}$.'
+      figure: null
     - speaker: student_b
       emotion: thinking
       text: 'А рефлексивных?'
     - speaker: cantor
       emotion: smile
       text: 'Считай, какие пары выбираются свободно. У рефлексивного все $n$ диагональных пар обязаны быть, остальные $n^2 - n$ — свободны. Для симметричного выбираем диагональ и по одному решению на каждую пару $\{x, y\}$. Попробуй сама в задачах.'
-unlocks: [relation_props, count_relations, count_antisymmetric]
+unlocks: [relation_props, count_relations, count_antisymmetric, relation_graph]

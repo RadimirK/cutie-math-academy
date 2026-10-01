@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { backgroundUrl, content } from '../content/bundle.ts';
-import { advance, choose, normalize, view, type VnPosition } from '../core/vn.ts';
+import { advance, boardFigure, choose, normalize, view, type VnPosition } from '../core/vn.ts';
+import { Figure } from '../figures/Figure.tsx';
 import { usePlayer } from '../lib/player.tsx';
 import { preloadPython } from '../lib/python.ts';
 import { MathText } from '../ui/MathText.tsx';
@@ -39,12 +40,28 @@ export function ScenePlayer() {
     if (v.kind === 'end') void preloadPython().catch(() => {});
   }, [v]);
 
+  // Space advances the dialogue, like a click. Focused controls (the ε slider, buttons) keep
+  // their own Space; a held key does not fast-forward.
+  const canAdvance = !!scene && v.kind !== 'choice' && v.kind !== 'end';
+  useEffect(() => {
+    if (!canAdvance) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.code !== 'Space' || e.repeat || e.ctrlKey || e.altKey || e.metaKey) return;
+      if (e.target instanceof Element && e.target.closest('input, textarea, select, button, [contenteditable]')) return;
+      e.preventDefault();
+      setPos((p) => advance(scene!, p));
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [scene, canAdvance]);
+
   if (!scene) return <p className="p-8">Нет такой сцены.</p>;
   const bg = backgroundUrl(scene.background);
   const speaker = v.kind === 'line' ? content.characters[v.step.speaker] : undefined;
   const onStage = v.kind === 'line' ? v.step.speaker : scene.character;
-  const next = () => v.kind !== 'choice' && v.kind !== 'end' && setPos(advance(scene, pos));
+  const next = () => canAdvance && setPos(advance(scene, pos));
   const stepKey = `${pos.node}:${pos.index}`;
+  const figure = boardFigure(scene, normalize(scene, pos));
 
   return (
     <div className={`relative flex h-screen flex-col overflow-hidden bg-cover bg-center select-none ${bg ? '' : 'sky'}`} style={bg ? { backgroundImage: `url(${bg})` } : undefined} onClick={next}>
@@ -65,8 +82,20 @@ export function ScenePlayer() {
       </div>
 
       {/* min-h-0 lets a long line (e.g. with a truth table) squeeze the portrait instead of overflowing. */}
-      <div className="flex min-h-0 flex-1 items-end justify-center">
-        <Portrait key={onStage} id={onStage} emotion={emotion} variant="stage" className="mb-[-4rem] h-[72vh] w-[min(24rem,75vw)] animate-fade" />
+      <div className="flex min-h-0 flex-1 items-end justify-center gap-6 px-4">
+        {figure && (
+          // The board: on narrow screens it takes the heroine's place.
+          <div key={JSON.stringify(figure)} className="mt-16 mb-4 max-h-full w-full max-w-lg animate-rise self-center overflow-auto rounded-lg bg-white/95 p-4 shadow-xl ring-4 ring-ba-200/60">
+            <Figure spec={figure} />
+          </div>
+        )}
+        <Portrait
+          key={onStage}
+          id={onStage}
+          emotion={emotion}
+          variant="stage"
+          className={`mb-[-4rem] h-[72vh] w-[min(24rem,75vw)] shrink-0 animate-fade ${figure ? 'hidden md:block' : ''}`}
+        />
       </div>
 
       {v.kind === 'choice' && (

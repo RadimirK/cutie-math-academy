@@ -1,5 +1,5 @@
 // Scene playback state machine, independent of rendering.
-import type { Scene, SceneStep } from '../content/schema.ts';
+import type { FigureSpec, Scene, SceneStep } from '../content/schema.ts';
 
 export interface VnPosition {
   node: string;
@@ -19,6 +19,19 @@ export function view(scene: Scene, pos: VnPosition): VnView {
   if ('narration' in step) return { kind: 'narration', text: step.narration };
   if ('choice' in step) return { kind: 'choice', ...step.choice };
   return view(scene, { node: step.goto, index: 0 }); // goto steps are transparent
+}
+
+/**
+ * The figure on the board at a (normalized) position: the latest `figure` set at or before
+ * it within the same node. The board starts empty in every node, so resuming is exact.
+ */
+export function boardFigure(scene: Scene, pos: VnPosition): FigureSpec | null {
+  const steps = scene.nodes[pos.node] ?? [];
+  for (let i = Math.min(pos.index, steps.length - 1); i >= 0; i--) {
+    const step = steps[i]!;
+    if ('figure' in step && step.figure !== undefined) return step.figure;
+  }
+  return null;
 }
 
 /** Position of the step that view() shows, with gotos followed. */

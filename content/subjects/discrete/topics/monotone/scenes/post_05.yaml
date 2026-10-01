@@ -13,6 +13,8 @@ nodes:
     - speaker: post
       emotion: smile
       text: 'Верно, нужна другая конструкция. Назовём единичный набор $\alpha$ функции $f$ минимальным (нижней единицей), если ниже него единиц нет: уменьшив любую его единицу до нуля, получим ноль функции.'
+    - narration: 'Пост рисует на доске булев куб функции $x \vee yz$. Единицы закрашены, нижние единицы $100$ и $011$ обведены.'
+      figure: {type: cube, values: '00011111', highlight: '100 011'}
     - speaker: post
       emotion: thinking
       text: 'Каждой нижней единице $\alpha$ сопоставим конъюнкцию переменных, равных в ней $1$ — без всяких отрицаний. Например, $\alpha = 101$ даёт $x \wedge z$. Эта конъюнкция равна $1$ ровно на наборах выше $\alpha$.'
@@ -41,11 +43,13 @@ nodes:
     - speaker: post
       emotion: thinking
       text: 'Единицы медианы: $011$, $101$, $110$, $111$. Набор $111$ не нижний — под ним $011$. А у $011$, $101$, $110$ убрать единицу нельзя: останется одна единица из трёх, и медиана даст $0$.'
+      figure: {type: cube, values: '00010111'}
     - goto: right
   right:
     - speaker: post
       emotion: happy
       text: 'Три: $011$, $101$, $110$. Отсюда $\langle xyz \rangle = yz \vee xz \vee xy$ — ровно известная формула.'
+      figure: {type: cube, values: '00010111', highlight: '011 101 110'}
     - speaker: student_a
       emotion: thinking
       text: 'А какие функции одновременно монотонные и линейные?'
@@ -73,4 +77,4 @@ nodes:
     - speaker: boole
       emotion: happy
       text: 'И медиана от $2n + 1$ аргументов монотонна и самодвойственна, так что выражается через медиану трёх. Тождество даже подсказывает, как именно.'
-unlocks: [min_ones, monotone_count, express_check]
+unlocks: [min_ones, monotone_count, express_check, cube_monotone]

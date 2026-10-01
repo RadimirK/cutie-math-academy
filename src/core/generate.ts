@@ -11,6 +11,8 @@ export interface ProblemInstance {
   answer: string;
   config: Record<string, unknown>;
   params: Record<string, ParamValue>;
+  /** Figure spec (see src/figures/core.ts) shown under the statement. */
+  figure?: unknown;
 }
 
 export function sampleParam(p: Param, rng: Rng): Sampled {
@@ -86,5 +88,6 @@ export function instantiateDeclarative(t: Template, seed: number): ProblemInstan
     answer: substitute(t.answer!, params),
     config: substituteDeep(t.config, params) as Record<string, unknown>,
     params,
+    ...(t.figure && { figure: substituteDeep(t.figure, params) }),
   };
 }
