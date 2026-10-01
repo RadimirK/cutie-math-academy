@@ -2,7 +2,6 @@ import { Link } from 'react-router';
 import { content } from '../content/bundle.ts';
 import { usePlayer } from '../lib/player.tsx';
 import { PageHeader } from '../ui/PageHeader.tsx';
-import { Portrait } from '../ui/Portrait.tsx';
 
 const ACCENTS = ['#128cff', '#ff76a8', '#f2b600', '#7a6cff'];
 
@@ -17,12 +16,11 @@ export function Study() {
         {subjects.map((s, i) => {
           const done = s.topics.filter((t) => progress.topics[t] === 'completed').length;
           const accent = ACCENTS[i % ACCENTS.length]!;
-          const guides = [...new Set(s.topics.map((t) => content.topics[t]!.main_character))].slice(0, 3);
           return (
             <Link
               key={s.id}
               to={`/subject/${s.id}`}
-              className="panel panel-hover group relative flex min-h-48 animate-rise overflow-hidden"
+              className="panel panel-hover relative flex min-h-48 animate-rise overflow-hidden"
               style={{ animationDelay: `${i * 70}ms` }}
             >
               <div className="w-2 shrink-0" style={{ background: accent }} />
@@ -30,7 +28,7 @@ export function Study() {
                 className="absolute inset-y-0 right-0 w-1/2 opacity-90"
                 style={{ background: `linear-gradient(115deg, transparent 0 18%, ${accent}22 18%, ${accent}40 100%)` }}
               />
-              <div className="relative min-w-0 flex-1 p-5 pr-24 sm:p-6 sm:pr-28">
+              <div className="relative min-w-0 flex-1 p-5 sm:p-6">
                 <p className="kicker" style={{ color: accent }}>
                   Предмет {String(i + 1).padStart(2, '0')}
                 </p>
@@ -47,11 +45,6 @@ export function Study() {
                     <div className="h-full" style={{ width: `${(done / Math.max(1, s.topics.length)) * 100}%`, background: accent }} />
                   </div>
                 </div>
-              </div>
-              <div className="absolute right-0 bottom-0 flex">
-                {guides.map((g) => (
-                  <Portrait key={g} id={g} variant="stage" className="-ml-10 h-48 w-28 transition group-hover:-translate-y-1" />
-                ))}
               </div>
             </Link>
           );
