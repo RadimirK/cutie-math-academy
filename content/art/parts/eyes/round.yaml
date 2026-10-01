@@ -1,0 +1,161 @@
+id: round
+desc: Большие круглые глаза с крупной радужкой и двумя бликами; взгляд открытый, наивный, восторженный.
+material: eyes
+shade: none
+outline: false
+params:
+  shape:
+    options: [open, half, closed, joy, wide]
+    default: open
+    desc: 'open — открыты, half — прикрыты, closed — спокойно закрыты (и моргание), joy — зажмурены дугами ^^, wide — широко открыты (удивление)'
+  look_x: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вбок, пиксели' }
+  look_y: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вверх-вниз, пиксели' }
+shapes:
+  # белок: круглее и выше, чем у soft
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '..wwww..'
+        - '.wWWWWw.'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '..WWWWW.'
+        - '...WW...'
+      key: { w: 'eye_white:1', W: 'eye_white:2' }
+    mirror: true
+    when: { shape: [open, half] }
+  # радужка во весь глаз, большой блик сверху и маленький снизу
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '..DDDD..'
+        - '.DSSdDD.'
+        - '.DSdDdI.'
+        - '.dIddII.'
+        - '.iIIIsi.'
+        - '..ijji..'
+        - '........'
+      key: { D: 'eyes:0', d: 'eyes:1', I: 'eyes:2', i: 'eyes:3', j: 'eyes:4', S: shine, s: shine }
+      shift: ['$look_x', '$look_y']
+    mirror: true
+    when: { shape: [open, half] }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows: ['########', '########', '########', '########', '########', '........', '........', '........', '........']
+      key: { '#': line }
+    mirror: true
+    erase: true
+    when: { shape: half }
+  # ресницы: ровная дуга с завитком у внешнего угла
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '..LLLL..'
+        - 'LLLLLLL.'
+        - 'L......L'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '..lll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: open }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - 'LLLLLLLL'
+        - 'L......L'
+        - '........'
+        - '........'
+        - '..lll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: half }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '..LLLL..'
+        - '.L....L.'
+        - 'L......L'
+        - '........'
+        - '........'
+      key: { L: line }
+    mirror: true
+    when: { shape: joy }
+  # широко открытые (удивление): маленькая радужка-точка в большом белке
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '..wwww..'
+        - '.wWWWWw.'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '..WWWWW.'
+        - '...WW...'
+      key: { w: 'eye_white:1', W: 'eye_white:2' }
+    mirror: true
+    when: { shape: wide }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '...DDD..'
+        - '..DSdD..'
+        - '..dDdI..'
+        - '...iI...'
+        - '........'
+        - '........'
+      key: { D: 'eyes:0', d: 'eyes:1', I: 'eyes:2', i: 'eyes:3', S: shine }
+      shift: ['$look_x', '$look_y']
+    mirror: true
+    when: { shape: wide }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '..LLLL..'
+        - 'LL....L.'
+        - 'L.......'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '..lll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: wide }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - 'L......L'
+        - '.LLLLLL.'
+        - '........'
+        - '........'
+      key: { L: line }
+    mirror: true
+    when: { shape: closed }

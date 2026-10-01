@@ -23,11 +23,11 @@ look:
   parts:
     hair_back: { part: buns, size: 0.38, tails: 2.4 }
     hair_front: { part: spiky_bangs, length: 0.12, side: 0.9 }
-    eyes: { part: soft }
+    eyes: { part: round }
     outfit: { part: sailor, sleeve: 2.6 }
     bottom: { part: pleated_skirt, length: 5.5, flare: 1.55 }
     legwear: { part: stockings, top: 8.3 }
-    shoes: { part: loafers }
+    shoes: { part: sneakers }
   emotions:
     smile:
       mouth: { shape: open }

@@ -1,5 +1,5 @@
 id: simple
-desc: Маленький рот в несколько пикселей.
+desc: 'Маленький рот в несколько пикселей; fang: left — торчащий клычок (яэба), виден в улыбке.'
 material: mouth
 shade: none
 outline: false
@@ -8,6 +8,7 @@ params:
     options: [neutral, smile, flat, open, o, frown, wavy, smirk, pout]
     default: neutral
     desc: 'neutral — короткая черта, smile — улыбка, flat — сжатые губы, open — открытая улыбка, o — удивлённое «о», frown — уголки вниз, wavy — волнистый (смущение, растерянность), smirk — ухмылка набок, pout — надутые губы'
+  fang: { options: [none, left], default: none, desc: клычок с одной стороны }
 shapes:
   - stamp: { at: [0, 0.76], rows: ['.LL.'], key: { L: 'mouth:0' } }
     when: { shape: neutral }
@@ -30,3 +31,8 @@ shapes:
     when: { shape: smirk }
   - stamp: { at: [0, 0.77], rows: ['.L.', 'L.L'], key: { L: 'mouth:0' } }
     when: { shape: pout }
+  # клычок под линией рта: белый зубик с контуром
+  - stamp: { at: [-0.09, 0.84], rows: ['Lf', '.L'], key: { f: '#ffffff', L: 'mouth:0' }, flip: false }
+    when: { fang: left, shape: [smile, smirk] }
+  - stamp: { at: [-0.06, 0.8], rows: ['f'], key: { f: '#ffffff' }, flip: false }
+    when: { fang: left, shape: open }

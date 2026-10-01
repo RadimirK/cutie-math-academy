@@ -23,9 +23,9 @@ look:
   parts:
     hair_back: { part: short_bob, length: 1.5, width: 1.3 }
     hair_front: { part: side_swept, length: 0.1, side: 1.4 }
-    eyes: { part: soft }
+    eyes: { part: round }
     outfit: { part: blazer, neck: ribbon }
-    bottom: { part: pleated_skirt, length: 5.9 }
+    bottom: { part: pleated_skirt, length: 5.9, pattern: plaid }
     legwear: { part: stockings, top: 7.4 }
     shoes: { part: loafers }
     accessory: [{ part: hairclip, kind: pens, x: 0.5, y: -0.6 }]

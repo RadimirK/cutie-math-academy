@@ -22,11 +22,12 @@ look:
   parts:
     hair_back: { part: ponytail, length: 2.6, swing: 1.65 }
     hair_front: { part: spiky_bangs, length: 0.2, side: 1.0, ahoge: curl }
+    mouth: { part: simple, fang: left }
     eyes: { part: soft }
     outfit: { part: blazer, neck: tie, sleeve: 3.5 }
-    bottom: { part: pleated_skirt, length: 5.6 }
+    bottom: { part: pleated_skirt, length: 5.6, pattern: plaid }
     legwear: { part: stockings, top: 8.4 }
-    shoes: { part: loafers }
+    shoes: { part: sneakers }
   emotions:
     smile:
       mouth: { shape: open }

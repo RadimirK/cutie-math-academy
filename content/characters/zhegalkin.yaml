@@ -24,11 +24,12 @@ look:
   parts:
     hair_back: { part: side_tail, length: 3.4, spread: 2.1 }
     hair_front: { part: spiky_bangs, length: 0.16, side: 0.8, ahoge: curl }
+    mouth: { part: simple, fang: left }
     eyes: { part: sharp }
     outfit: { part: vest, neck: tie, sleeve: 2.5 }
     bottom: { part: pleated_skirt, length: 5.4, flare: 1.45 }
     legwear: { part: stockings, top: 8.2 }
-    shoes: { part: loafers }
+    shoes: { part: sneakers }
     accessory: [{ part: hairclip, kind: triangle, x: -0.6, y: -0.52 }]
   emotions:
     smile:

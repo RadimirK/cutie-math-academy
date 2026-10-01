@@ -1,0 +1,29 @@
+id: boots
+desc: Высокие сапоги до середины икры с каблучком и отворотом цвета accent.
+material: shoes
+shadow: true
+params:
+  top: { range: [7.2, 8.6], default: 7.9, desc: 'верхний край голенища: 7.2 — под коленом, 8.6 — ботильоны' }
+  cuff: { options: [none, band], default: none, desc: отворот цветом accent }
+shapes:
+  - poly: [[-2, '$top'], [0, '$top'], [0, 9.6], [-2, 9.6]]
+    clip: [legs, feet]
+    grow: 1
+    seam: true
+  - poly: [[0, '$top'], [2, '$top'], [2, 9.6], [0, 9.6]]
+    clip: [legs, feet]
+    grow: 1
+    seam: true
+  - poly: [[-2, '$top'], [2, '$top'], [2, '$top + 0.2'], [-2, '$top + 0.2']]
+    material: accent
+    clip: legs
+    grow: 1
+    seam: true
+    when: { cuff: band }
+  # носок и каблук
+  - ellipse: { at: [-0.34, 9.1], r: [0.22, 0.17] }
+    mirror: true
+    seam: true
+  - poly: [[-0.5, 9.16], [-0.2, 9.16], [-0.2, 9.3], [-0.5, 9.3]]
+    tone: 0
+    mirror: true

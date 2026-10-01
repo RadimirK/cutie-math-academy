@@ -1,0 +1,15 @@
+id: sneakers
+desc: Кеды с толстой белой подошвой и белыми шнурками.
+material: shoes
+shapes:
+  - ellipse: { at: [-0.34, 9.06], r: [0.24, 0.19] }
+    mirror: true
+    seam: true
+  - poly: [[-0.6, 9.12], [-0.1, 9.12], [-0.1, 9.28], [-0.6, 9.28]]
+    material: cloth2
+    mirror: true
+    seam: true
+  - stroke: [[-0.42, 8.96], [-0.26, 8.96]]
+    material: cloth2
+    tone: 3
+    mirror: true
