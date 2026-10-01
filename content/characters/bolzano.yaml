@@ -30,6 +30,7 @@ look:
       eyes: { shape: open }
       mouth: { shape: smile }
     thinking:
+      body: { pose: chin }
       eyes: { shape: half, look_x: -1, look_y: -1 }
       mouth: { shape: flat }
     happy:

@@ -29,8 +29,10 @@ look:
     accessory: [{ part: ribbons, size: 1.15 }]
   emotions:
     smile:
+      body: { pose: hip }
       mouth: { shape: smile }
     thinking:
+      body: { pose: chin }
       eyes: { shape: half, look_x: 1, look_y: -1 }
       mouth: { shape: neutral }
     happy:
