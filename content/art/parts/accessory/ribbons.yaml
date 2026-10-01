@@ -1,6 +1,7 @@
 id: ribbons
 desc: Два банта у основания хвостиков.
 material: accent
+shadow: true
 params:
   size: { range: [0.7, 1.3], default: 1, desc: размер бантов }
 shapes:

@@ -1,6 +1,7 @@
 id: pleated_skirt
 desc: Плиссированная школьная юбка, расширяется от бёдер.
 material: skirt
+shadow: true
 params:
   length: { range: [5.0, 7.6], default: 5.8, desc: 'докуда юбка: 5.8 — середина бедра, 6.8 — колено' }
   flare: { range: [1.1, 1.8], default: 1.42, desc: ширина подола }

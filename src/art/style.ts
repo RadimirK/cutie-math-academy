@@ -100,12 +100,8 @@ export const ANIMATIONS: Record<string, Animation> = {
 /** Light comes from the top left: shadows gather on the bottom right of every volume. */
 export const SHADOW_DIR: [number, number] = [1, 1];
 
-/** Upper layers darken what lies under them, shifted by `offset` pixels. */
-export const CAST_SHADOWS: { from: Slot[]; onto: Slot[]; offset: [number, number] }[] = [
-  { from: ['hair_front'], onto: ['head', 'body', 'outfit'], offset: [1, 2] },
-  { from: ['head'], onto: ['body'], offset: [0, 2] },
-  { from: ['hair_front', 'head'], onto: ['hair_back'], offset: [1, 1] },
-];
+/** Where a cast shadow falls relative to its caster, in pixels: down and a little right. */
+export const CAST_OFFSET: [number, number] = [1, 2];
 
 const SKIN_RAMP: RampSpec = { steps: [-0.3, -0.08, 0, 0.04, 0.08], hueShift: 40 };
 const EYES_RAMP: RampSpec = { steps: [-0.38, -0.16, 0, 0.1, 0.22], hueShift: 50 };

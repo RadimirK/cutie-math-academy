@@ -1,6 +1,7 @@
 id: blunt_bangs
 desc: Ровная густая чёлка до бровей и длинные пряди по бокам лица.
 material: hair
+shadow: true
 seams: true
 highlight: hair_band
 params:

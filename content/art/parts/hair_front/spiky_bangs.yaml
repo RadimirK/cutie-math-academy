@@ -1,6 +1,7 @@
 id: spiky_bangs
 desc: Чёлка из острых прядей разной длины, одна падает между глаз; узкие пряди у висков.
 material: hair
+shadow: true
 seams: true
 highlight: hair_band
 params:

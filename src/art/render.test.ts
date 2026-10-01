@@ -136,6 +136,25 @@ describe('frames and clipping', () => {
     const at = (s: { w: number; rgba: Uint8ClampedArray }, px: number, py: number) => Array.from(s.rgba.subarray((py * s.w + px) * 4, (py * s.w + px) * 4 + 4));
     expect(at(bust, 48, 60)).toEqual(at(full, 48 + x, 60 + y));
   });
+  it('a caster darkens what lies behind it, down and to the right', () => {
+    const wall = PartSchema.parse({ id: 'w', desc: 'w', material: 'cloth', shade: 'flat', shapes: [{ poly: [[-2, 0], [2, 0], [2, 4], [-2, 4]] }] });
+    const card = (shadow: boolean) =>
+      PartSchema.parse({ id: 'c', desc: 'c', material: 'accent', shade: 'flat', shadow, shapes: [{ poly: [[-0.5, 1], [0.5, 1], [0.5, 2], [-0.5, 2]] }] });
+    const scene = (shadow: boolean) =>
+      renderFigure(LookSchema.parse({ ...look, parts: { ...look.parts, head: { part: 'none' }, eyes: { part: 'none' }, body: { part: 'w' }, outfit: { part: 'c' } } }), {
+        ...lib, body: { w: wall }, outfit: { c: card(shadow) },
+      });
+    const lit = scene(false);
+    const cast = scene(true);
+    const castPixels = pixels(cast);
+    const diff = pixels(lit).filter((v, i) => v !== castPixels[i]).length;
+    expect(diff).toBeGreaterThan(0);
+    // just right of the card's bottom-right corner the wall is in shadow, far away it is not
+    const at = (s: { w: number; rgba: Uint8ClampedArray }, x: number, y: number) => Array.from(s.rgba.subarray((y * s.w + x) * 4, (y * s.w + x) * 4 + 3));
+    const [cx, cy] = [Math.round(64 + 0.5 * 22), Math.round(36 + 2 * 22)];
+    expect(at(cast, cx, cy + 1)).not.toEqual(at(lit, cx, cy + 1));
+    expect(at(cast, 10, 100)).toEqual(at(lit, 10, 100));
+  });
   it('reports a clip to a missing name', () => {
     expect(() => renderFigure({ ...dressed, parts: { ...dressed.parts, body: { part: 'none' } } }, parts)).toThrow('name: legs');
   });

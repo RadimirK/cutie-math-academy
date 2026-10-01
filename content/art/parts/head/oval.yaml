@@ -2,6 +2,7 @@ id: oval
 desc: Лицо анфас, мягкие щёки, заострённый подбородок, нос одной точкой.
 material: skin
 shade: flat
+shadow: true
 params:
   chin: { range: [0.98, 1.15], default: 1.08, desc: насколько низко подбородок }
   cheeks: { range: [0.8, 0.95], default: 0.88, desc: ширина щёк }

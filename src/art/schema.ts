@@ -41,6 +41,8 @@ const common = {
   clip: z.union([Name, z.array(Name).min(1)]).optional(),
   /** Grow (or with a negative number shrink) the clip region by whole pixels. */
   grow: z.int().min(-3).max(3).optional(),
+  /** Cast a shadow onto whatever lies behind (overrides the part's `shadow`). */
+  shadow: z.boolean().optional(),
   /** Shade and outline this shape on its own, like a lock of `seams` hair (a lapel on a jacket). */
   seam: z.boolean().optional(),
   /** Cut the shape out of what the part has drawn so far instead of adding it. */
@@ -114,6 +116,11 @@ export const PartSchema = z.strictObject({
   outline: z.boolean().default(true),
   /** Every shape is its own lock: shaded and outlined separately (hair). */
   seams: z.boolean().default(false),
+  /**
+   * Shapes of this part cast a shadow onto whatever lies behind them, shifted away from the
+   * light: bangs onto the forehead, the chin onto the neck, a raised arm onto the jacket.
+   */
+  shadow: z.boolean().default(false),
   /** The glossy ring anime hair has. */
   highlight: z.literal('hair_band').optional(),
   params: z.record(Name, ParamDef).default({}),

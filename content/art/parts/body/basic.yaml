@@ -64,52 +64,64 @@ shapes:
   - strand: { from: ['-1.14 * $shoulders', 1.72], to: ['-1.34 * $shoulders', 3.25], bend: 0.03, width: [0.48, 0.35] }
     seam: true
     name: arms
+    shadow: true
   - strand: { from: ['-1.34 * $shoulders', 3.18], to: ['-1.52 * $shoulders', 4.6], width: [0.35, 0.25] }
     seam: true
     name: arms
+    shadow: true
   - ellipse: { at: ['-1.56 * $shoulders', 4.84], r: [0.18, 0.27], rot: 10 }
     seam: true
     slot: outfit
     name: hands
+    shadow: true
   # правая рука: вдоль тела
   - strand: { from: ['1.14 * $shoulders', 1.72], to: ['1.34 * $shoulders', 3.25], bend: -0.03, width: [0.48, 0.35] }
     seam: true
     name: arms
+    shadow: true
     when: { pose: down }
   - strand: { from: ['1.34 * $shoulders', 3.18], to: ['1.52 * $shoulders', 4.6], width: [0.35, 0.25] }
     seam: true
     name: arms
+    shadow: true
     when: { pose: down }
   - ellipse: { at: ['1.56 * $shoulders', 4.84], r: [0.18, 0.27], rot: -10 }
     seam: true
     slot: outfit
     name: hands
+    shadow: true
     when: { pose: down }
   # правая рука: у подбородка, кисть перед лицом
   - strand: { from: ['1.14 * $shoulders', 1.72], to: ['1.1 * $shoulders', 3.1], bend: -0.05, width: [0.48, 0.36] }
     seam: true
     name: arms
+    shadow: true
     when: { pose: chin }
   - strand: { from: ['1.08 * $shoulders', 3.02], to: [0.44, 1.4], bend: 0.06, width: [0.36, 0.26] }
     seam: true
     name: arms
+    shadow: true
     when: { pose: chin }
   - ellipse: { at: [0.34, 1.2], r: [0.2, 0.24], rot: -30 }
     seam: true
     slot: mouth
     name: hands
+    shadow: true
     when: { pose: chin }
   # правая рука: на поясе
   - strand: { from: ['1.14 * $shoulders', 1.72], to: ['1.6 * $shoulders', 2.95], bend: -0.04, width: [0.48, 0.36] }
     seam: true
     name: arms
+    shadow: true
     when: { pose: hip }
   - strand: { from: ['1.58 * $shoulders', 2.9], to: [0.98, 3.68], bend: -0.08, width: [0.36, 0.27] }
     seam: true
     name: arms
+    shadow: true
     when: { pose: hip }
   - ellipse: { at: [0.9, 3.72], r: [0.22, 0.19], rot: 20 }
     seam: true
     slot: outfit
     name: hands
+    shadow: true
     when: { pose: hip }

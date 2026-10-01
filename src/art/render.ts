@@ -24,7 +24,7 @@ import {
 } from './raster.ts';
 import { SLOTS, type Look, type Material, type Overrides, type Part, type PartOverride, type PartUse, type Shape, type Slot } from './schema.ts';
 import { parseHex } from './color.ts';
-import { ANIMATIONS, CAST_SHADOWS, DEFAULT_PARTS, EMOTIONS, FRAMES, HEAD, RIG, SHADOW_DIR, SIZE, palette, type Frame } from './style.ts';
+import { ANIMATIONS, CAST_OFFSET, DEFAULT_PARTS, EMOTIONS, FRAMES, HEAD, RIG, SHADOW_DIR, SIZE, palette, type Frame } from './style.ts';
 
 export type PartLibrary = Partial<Record<Slot, Record<string, Part>>>;
 
@@ -297,6 +297,8 @@ interface Region {
   material: Paint;
   part: Part;
   fixed: boolean;
+  /** casts a shadow onto regions behind it */
+  casts: boolean;
   /** everything the region covers, including what upper layers hide */
   mask: Mask;
 }
@@ -362,11 +364,12 @@ export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = 
           continue;
         }
         const fixed = frag.tone !== null;
-        const key = `${pieceKey}/${frag.material}/${fixed ? 'fixed' : (shape.seam ?? pl.part.seams) ? si : ''}`;
+        const casts = !fixed && (shape.shadow ?? pl.part.shadow);
+        const key = `${pieceKey}/${frag.material}/${fixed ? 'fixed' : (shape.seam ?? pl.part.seams) ? si : ''}/${casts ? 'casts' : ''}`;
         let id = regionIds.get(key);
         if (id === undefined) {
           id = regions.length;
-          regions.push({ order: piece.z * 1000 + si, slot, piece: pieceKey, material: frag.material, part: pl.part, fixed, mask: emptyMask(SIZE) });
+          regions.push({ order: piece.z * 1000 + si, slot, piece: pieceKey, material: frag.material, part: pl.part, fixed, casts, mask: emptyMask(SIZE) });
           regionIds.set(key, id);
         }
         for (let p = 0; p < N; p++)
@@ -416,16 +419,18 @@ export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = 
     }
   });
 
-  // 4. Shadows cast by upper layers.
-  for (const rule of CAST_SHADOWS) {
-    const caster = emptyMask(SIZE);
-    for (const reg of regions) if (rule.from.includes(reg.slot)) for (let p = 0; p < N; p++) caster[p] = caster[p]! | reg.mask[p]!;
-    const cast = shift(caster, SIZE, rule.offset[0], rule.offset[1]);
-    for (let p = 0; p < N; p++) {
-      if (!cast[p] || !shaded(p)) continue;
-      const reg = regions[owner[p]!]!;
-      if (rule.onto.includes(reg.slot) && !rule.from.includes(reg.slot)) tone[p] = Math.min(tone[p]!, 1);
-    }
+  // 4. Cast shadows: a pixel is shaded when, toward the light, a caster lies in front of it.
+  // `front` holds, per pixel, the depth of the front-most caster covering it (hidden or not).
+  const front = new Float64Array(N).fill(-Infinity);
+  for (const reg of regions)
+    if (reg.casts) for (let p = 0; p < N; p++) if (reg.mask[p] && reg.order > front[p]!) front[p] = reg.order;
+  const [ox, oy] = CAST_OFFSET;
+  for (let p = 0; p < N; p++) {
+    if (!shaded(p)) continue;
+    const x = (p % w) - ox;
+    const y = Math.floor(p / w) - oy;
+    if (x < 0 || y < 0 || x >= w) continue;
+    if (front[y * w + x]! > regions[owner[p]!]!.order) tone[p] = Math.min(tone[p]!, 1);
   }
 
   // 5. The glossy ring on hair: an arc around the crown, brightest in its middle.

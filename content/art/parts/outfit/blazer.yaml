@@ -14,16 +14,8 @@ shapes:
   - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '$hem'], [-2.2, '$hem']]
     clip: chest
     seam: true
+    shadow: true
     when: { chest: { min: 0.2 } }
-  # рукава повторяют руки
-  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
-    clip: arms
-    grow: 1
-    seam: true
-  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
-    clip: arms
-    grow: 1
-    seam: true
   # рубашка в вырезе
   - poly: [[-0.3, 1.34], [0.3, 1.34], [0.36, 1.6], [0, 2.75], [-0.36, 1.6]]
     material: cloth2
@@ -31,6 +23,7 @@ shapes:
   - poly: [[-0.33, 1.42], [-0.6, 1.55], [-0.52, 1.95], [-0.04, 2.95], [0, 2.76], [-0.36, 1.6]]
     mirror: true
     seam: true
+    shadow: true
   # борт и пуговицы
   - stroke: [[0.02, 2.95], [0.04, '$hem']]
     tone: 1
@@ -43,10 +36,23 @@ shapes:
   - poly: [[-0.38, 1.5], [-0.05, 1.6], [-0.38, 1.78]]
     material: accent
     mirror: true
+    shadow: true
     when: { neck: ribbon }
   - ellipse: { at: [0, 1.6], r: [0.09, 0.09] }
     material: accent
     when: { neck: ribbon }
   - poly: [[-0.09, 1.53], [0.09, 1.53], [0.12, 2.35], [0, 2.5], [-0.12, 2.35]]
     material: accent
+    shadow: true
     when: { neck: tie }
+  # рукава последними: поднятая рука лежит поверх отворотов и галстука
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
