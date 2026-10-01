@@ -6,7 +6,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { deflateSync } from 'node:zlib';
-import { renderLook, type Sprite } from '../src/art/render.ts';
+import { emotionsOf, renderLook, type Sprite } from '../src/art/render.ts';
 import type { Frame } from '../src/art/style.ts';
 import { parseHex, type RGB } from '../src/art/color.ts';
 import { loadOrDie } from './content-files.ts';
@@ -72,10 +72,10 @@ const content = loadOrDie();
 mkdirSync(outDir, { recursive: true });
 for (const ch of Object.values(content.characters)) {
   if (!ch.look || (only.length && !only.includes(ch.id))) continue;
-  const emotions = [undefined, ...Object.keys(ch.look.emotions)];
+  const emotions = [undefined, ...emotionsOf(ch.look)];
   const bg = parseHex(CARD[ch.rarity] ?? '#dddddd');
   for (const frame of ['full', 'bust'] as const) {
-    const sprites = emotions.map((e) => renderLook(ch.look!, content.parts, e, frame));
+    const sprites = emotions.map((emotion) => renderLook(ch.look!, content.parts, { emotion }, frame));
     writeFileSync(join(outDir, `${ch.id}.${frame}.png`), encodePng(sheet(sprites, bg, SCALE[frame])));
     emotions.forEach((e, i) => writeFileSync(join(outDir, `${ch.id}.${frame}.${e ?? 'base'}.png`), encodePng(sprites[i]!)));
   }

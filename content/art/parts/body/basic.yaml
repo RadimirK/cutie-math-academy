@@ -32,6 +32,12 @@ shapes:
       - ['-0.9 * $shoulders', 1.48]
     smooth: true
     name: torso
+  # грудь: одежда обрезается по фигуре chest и так получает объём
+  - ellipse: { at: [-0.4, '2.18 + 0.06 * $chest'], r: ['0.2 + 0.16 * $chest', '0.14 + 0.16 * $chest'] }
+    mirror: true
+    seam: true
+    name: chest
+    when: { chest: { min: 0.2 } }
   # нога одним контуром: бедро, колено, икра, щиколотка
   - poly:
       - [-0.92, 4.0]

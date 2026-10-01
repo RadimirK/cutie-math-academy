@@ -1,7 +1,7 @@
 // The house style. Fixed by people, never by the designer model: this is what keeps every
 // character of the cast looking like one game.
 import { mix, parseHex, ramp, rgbToOklch, oklchToRgb, toHex, type RampSpec, type RGB } from './color.ts';
-import type { Look, Material, Slot } from './schema.ts';
+import type { Look, Material, Overrides, Slot } from './schema.ts';
 
 /** The whole standing figure is drawn on this canvas; every frame is a window onto it. */
 export const SIZE = { w: 128, h: 256 };
@@ -19,7 +19,83 @@ export const FRAMES = {
 export type Frame = keyof typeof FRAMES;
 
 /** Parts used when a look leaves the slot out. */
-export const DEFAULT_PARTS: Partial<Record<Slot, string>> = { body: 'basic', head: 'oval', mouth: 'simple' };
+export const DEFAULT_PARTS: Partial<Record<Slot, string>> = { body: 'basic', head: 'oval', eyes: 'soft', brows: 'thin', mouth: 'simple' };
+
+/**
+ * The face and body rig: params every part of these slots must have, with at least these
+ * options. Emotions and animations are written against it, so they work with any part.
+ */
+export const RIG: Partial<Record<Slot, Record<string, string[] | 'number'>>> = {
+  body: { pose: ['down', 'chin', 'hip'] },
+  eyes: { shape: ['open', 'half', 'closed', 'joy', 'wide'], look_x: 'number', look_y: 'number' },
+  brows: { mood: ['calm', 'raised', 'worried', 'angry', 'stern'] },
+  mouth: { shape: ['neutral', 'smile', 'flat', 'open', 'o', 'frown', 'wavy', 'smirk', 'pout'] },
+};
+
+/**
+ * The house emotions. A character's `look.emotions` adds to them or changes them; the base
+ * look (no emotion) is calm and neutral.
+ */
+export const EMOTIONS: Record<string, Overrides> = {
+  /** friendly, explaining */
+  smile: { eyes: { shape: 'open' }, brows: { mood: 'calm' }, mouth: { shape: 'smile' } },
+  /** joy, praise for a solved problem */
+  happy: { eyes: { shape: 'joy' }, brows: { mood: 'raised' }, mouth: { shape: 'open' }, cheeks: { part: 'blush' } },
+  /** pondering a question */
+  thinking: { body: { pose: 'chin' }, eyes: { shape: 'half', look_x: -1, look_y: -1 }, brows: { mood: 'calm' }, mouth: { shape: 'flat' } },
+  /** an unexpected answer, a twist */
+  surprised: { eyes: { shape: 'wide' }, brows: { mood: 'raised' }, mouth: { shape: 'o' } },
+  /** a compliment, affection scenes */
+  embarrassed: {
+    eyes: { shape: 'open', look_x: -1, look_y: 1 },
+    brows: { mood: 'worried' },
+    mouth: { shape: 'wavy' },
+    cheeks: { part: 'blush' },
+    fx: { part: 'marks', kind: 'sweat' },
+  },
+  /** a wrong answer, a setback */
+  sad: { eyes: { shape: 'half', look_y: 1 }, brows: { mood: 'worried' }, mouth: { shape: 'frown' } },
+  /** sulking or scolding */
+  angry: { eyes: { shape: 'open' }, brows: { mood: 'angry' }, mouth: { shape: 'pout' }, fx: { part: 'marks', kind: 'anger' } },
+  /** "told you so" */
+  smug: { body: { pose: 'hip' }, eyes: { shape: 'half' }, brows: { mood: 'calm' }, mouth: { shape: 'smirk' } },
+  /** lost the thread */
+  confused: { eyes: { shape: 'open', look_x: 1 }, brows: { mood: 'worried' }, mouth: { shape: 'wavy' }, fx: { part: 'marks', kind: 'question' } },
+  /** a strict definition, an important point */
+  serious: { eyes: { shape: 'open' }, brows: { mood: 'stern' }, mouth: { shape: 'flat' } },
+};
+
+/**
+ * Animations are sequences of frames; a frame is overrides on top of the current emotion,
+ * shown for `ms` milliseconds, and may also change body measurements (`globals`, e.g. a
+ * breathing chest). A frame without `set` is the emotion itself. `when` limits an animation
+ * to states it makes sense in (no blinking with eyes shut tight).
+ */
+export interface Animation {
+  loop: boolean;
+  when?: Partial<Record<Slot, Record<string, string[]>>>;
+  frames: { ms: number; set?: Overrides; globals?: Partial<Record<'shoulders' | 'chest', number>> }[];
+}
+
+export const ANIMATIONS: Record<string, Animation> = {
+  blink: {
+    loop: false,
+    when: { eyes: { shape: ['open', 'half', 'wide'] } },
+    frames: [
+      { ms: 40, set: { eyes: { shape: 'half' } } },
+      { ms: 80, set: { eyes: { shape: 'closed' } } },
+      { ms: 40, set: { eyes: { shape: 'half' } } },
+    ],
+  },
+  talk: {
+    loop: true,
+    frames: [
+      { ms: 110, set: { mouth: { shape: 'open' } } },
+      { ms: 90, set: { mouth: { shape: 'o' } } },
+      { ms: 110 },
+    ],
+  },
+};
 
 /** Light comes from the top left: shadows gather on the bottom right of every volume. */
 export const SHADOW_DIR: [number, number] = [1, 1];

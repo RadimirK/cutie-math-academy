@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { evalExpr } from './expr.ts';
-import { lookIssues, partIssues, renderFigure, renderLook, type PartLibrary } from './render.ts';
+import { animationFrames, lookIssues, partIssues, renderFigure, renderLook, resolveLook, rigIssues, type PartLibrary } from './render.ts';
 import { FRAMES } from './style.ts';
 import { LookSchema, PartSchema } from './schema.ts';
 
@@ -25,7 +25,7 @@ const lib: PartLibrary = {
 };
 const look = LookSchema.parse({
   palette: { skin: '#f7dccb', hair: '#3d4f8a', eyes: '#4f8fc9', cloth: '#34405f' },
-  parts: { head: { part: 'oval' }, eyes: { part: 'dots' }, body: { part: 'none' }, mouth: { part: 'none' } },
+  parts: { head: { part: 'oval' }, eyes: { part: 'dots' }, body: { part: 'none' }, brows: { part: 'none' }, mouth: { part: 'none' } },
   emotions: { sleepy: { eyes: { shape: 'shut' } } },
 });
 
@@ -51,14 +51,61 @@ describe('renderLook', () => {
       for (let x = 0; x < a.w; x++) expect(a.rgba[(y * a.w + x) * 4 + 3]).toBe(a.rgba[(y * a.w + (a.w - 1 - x)) * 4 + 3]);
   });
   it('applies emotion overrides', () => {
-    expect(pixels(renderLook(look, lib, 'sleepy'))).not.toEqual(pixels(renderLook(look, lib)));
-    // an emotion the look does not define is the base look
-    expect(pixels(renderLook(look, lib, 'angry'))).toEqual(pixels(renderLook(look, lib)));
+    expect(pixels(renderLook(look, lib, { emotion: 'sleepy' }))).not.toEqual(pixels(renderLook(look, lib)));
+    // an emotion nobody defines is the base look
+    expect(pixels(renderLook(look, lib, { emotion: 'nonexistent' }))).toEqual(pixels(renderLook(look, lib)));
   });
   it('a param changes the picture', () => {
     const small = { ...look, parts: { ...look.parts, head: { part: 'oval', size: 0.6 } } };
     const opaque = (s: { rgba: Uint8ClampedArray }) => pixels(s).filter((_, i) => i % 4 === 3 && _ > 0).length;
     expect(opaque(renderLook(small, lib))).toBeLessThan(opaque(renderLook(look, lib)));
+  });
+});
+
+describe('emotions and animations', () => {
+  const face = PartSchema.parse({
+    id: 'face', desc: 'eyes', material: 'eyes', shade: 'none',
+    params: {
+      shape: { options: ['open', 'half', 'closed', 'joy', 'wide'], default: 'open' },
+      look_x: { range: [-1, 1], default: 0, int: true },
+      look_y: { range: [-1, 1], default: 0, int: true },
+    },
+    shapes: [{ stamp: { at: [-0.4, 0.2], rows: ['E'], key: { E: 'eyes' } }, mirror: true }],
+  });
+  const rigged = { ...lib, eyes: { face } };
+  const eyes = (l: typeof look, emotion?: string) => resolveLook(l, rigged, { emotion }).find((p) => p.slot === 'eyes')!;
+  const base = LookSchema.parse({ ...look, parts: { ...look.parts, eyes: { part: 'face' } } });
+
+  it('applies the house preset, and the character changes it', () => {
+    expect(eyes(base, 'surprised').enums.shape).toBe('wide');
+    const own = { ...base, emotions: { surprised: { eyes: { look_x: 1 } } } };
+    expect(eyes(own, 'surprised')).toMatchObject({ enums: { shape: 'wide' }, nums: { look_x: 1 } });
+  });
+  it('a preset does not fill a slot the look leaves empty', () => {
+    expect(resolveLook(base, rigged, { emotion: 'smile' }).some((p) => p.slot === 'brows' || p.slot === 'mouth')).toBe(false);
+  });
+  it('blinks only with open eyes', () => {
+    expect(animationFrames(base, rigged, 'blink').length).toBeGreaterThan(1);
+    const squint = { ...base, emotions: { squint: { eyes: { shape: 'joy' } } } };
+    expect(animationFrames(squint, rigged, 'blink', 'squint')).toEqual([]);
+    const shut = animationFrames(base, rigged, 'blink').map((f) => resolveLook(base, rigged, { overlay: f.overlay }).find((p) => p.slot === 'eyes')!.enums.shape);
+    expect(shut).toContain('closed');
+  });
+  it('checks parts against the rig', () => {
+    expect(rigIssues('eyes', face)).toEqual([]);
+    expect(rigIssues('eyes', lib.eyes!.dots!).join('\n')).toContain('look_x');
+  });
+  it('draws shapes by numeric conditions', () => {
+    const p = PartSchema.parse({
+      id: 'b', desc: 'b', material: 'skin',
+      shapes: [{ ellipse: { at: [0, 2], r: 0.5 }, when: { chest: { min: 0.5 } } }],
+    });
+    const l = LookSchema.parse({ ...look, parts: { ...look.parts, body: { part: 'b' } } });
+    const opaque = (s: { rgba: Uint8ClampedArray }) => pixels(s).filter((v, i) => i % 4 === 3 && v > 0).length;
+    const lb = { ...lib, body: { b: p } };
+    expect(opaque(renderFigure({ ...l, chest: 0.8 }, lb))).toBeGreaterThan(opaque(renderFigure({ ...l, chest: 0.2 }, lb)));
+    // a frame of an animation can change a body measurement too
+    expect(pixels(renderFigure({ ...l, chest: 0.2 }, lb, { globals: { chest: 0.8 } }))).toEqual(pixels(renderFigure({ ...l, chest: 0.8 }, lb)));
   });
 });
 
@@ -82,9 +129,9 @@ describe('frames and clipping', () => {
     expect(pixels(renderFigure(dressed, parts))).not.toEqual(pixels(naked));
   });
   it('a frame is a window onto the figure', () => {
-    const full = renderLook(dressed, parts, undefined, 'full');
+    const full = renderLook(dressed, parts, {}, 'full');
     expect([full.w, full.h]).toEqual([FRAMES.full.w, FRAMES.full.h]);
-    const bust = renderLook(dressed, parts, undefined, 'bust');
+    const bust = renderLook(dressed, parts, {}, 'bust');
     const { x, y } = FRAMES.bust;
     const at = (s: { w: number; rgba: Uint8ClampedArray }, px: number, py: number) => Array.from(s.rgba.subarray((py * s.w + px) * 4, (py * s.w + px) * 4 + 4));
     expect(at(bust, 48, 60)).toEqual(at(full, 48 + x, 60 + y));

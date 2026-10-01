@@ -1,7 +1,11 @@
 // Look + part library -> pixels. Deterministic and DOM-free: the same YAML always gives the
 // same sprite, in the browser and in CI.
 //
-// Pipeline: resolve the emotion's overrides -> rasterise every shape into masks -> paint the
+// State: base look -> emotion (house preset + the character's own changes) -> animation frame.
+// Each layer is the same kind of thing, overrides of slot params, so an animation is just a
+// sequence of overrides and needs nothing from the renderer.
+//
+// Pipeline: resolve the state -> rasterise every shape into masks -> paint the
 // parts back to front -> shade volumes -> cast shadows of upper layers -> hair highlight ->
 // selective outline -> colours from the palette's ramps.
 import { evalExpr, exprVars, type Expr } from './expr.ts';
@@ -18,8 +22,9 @@ import {
   type Mask,
   type Pt,
 } from './raster.ts';
-import { SLOTS, type Look, type Material, type Part, type PartUse, type Shape, type Slot } from './schema.ts';
-import { CAST_SHADOWS, DEFAULT_PARTS, FRAMES, HEAD, SHADOW_DIR, SIZE, palette, type Frame } from './style.ts';
+import { SLOTS, type Look, type Material, type Overrides, type Part, type PartOverride, type PartUse, type Shape, type Slot } from './schema.ts';
+import { parseHex } from './color.ts';
+import { ANIMATIONS, CAST_SHADOWS, DEFAULT_PARTS, EMOTIONS, FRAMES, HEAD, RIG, SHADOW_DIR, SIZE, palette, type Frame } from './style.ts';
 
 export type PartLibrary = Partial<Record<Slot, Record<string, Part>>>;
 
@@ -40,14 +45,18 @@ export interface Placed {
 /** The part name that empties a slot, for emotions that drop something (`cheeks: {part: none}`). */
 export const NO_PART = 'none';
 
-/** Body measurements every part can refer to, as `$name`. */
-export const GLOBAL_PARAMS = ['shoulders'] as const;
-const globals = (look: Look): Record<string, number> => ({ shoulders: look.shoulders });
+/**
+ * Body measurements every part can refer to, as `$name`. Frames of an animation can change
+ * them too: a new smooth motion (breathing, swaying hair) is a new one here and in the look.
+ */
+export const GLOBAL_PARAMS = ['shoulders', 'chest'] as const;
+export type GlobalParam = (typeof GLOBAL_PARAMS)[number];
+const globals = (look: Look): Record<GlobalParam, number> => ({ shoulders: look.shoulders, chest: look.chest });
 
-function place(slot: Slot, use: PartUse, lib: PartLibrary, look: Look): Placed {
+function place(slot: Slot, use: PartUse, lib: PartLibrary, g: Record<string, number>): Placed {
   const part = lib[slot]?.[use.part];
   if (!part) throw new Error(`${slot}: нет детали ${use.part} (есть: ${Object.keys(lib[slot] ?? {}).join(', ') || 'ничего'})`);
-  const nums: Record<string, number> = globals(look);
+  const nums: Record<string, number> = { ...g };
   const enums: Record<string, string> = {};
   for (const [name, def] of Object.entries(part.params)) {
     if ('range' in def) nums[name] = def.default;
@@ -73,16 +82,45 @@ function place(slot: Slot, use: PartUse, lib: PartLibrary, look: Look): Placed {
   return { slot, part, nums, enums };
 }
 
+/** What to draw: an emotion, and on top of it a frame of an animation. */
+export interface FigureState {
+  emotion?: string;
+  overlay?: Overrides;
+  /** body measurements of this frame instead of the look's */
+  globals?: Partial<Record<GlobalParam, number>>;
+}
+
+/** Emotions a look can show: the house ones and her own. */
+export function emotionsOf(look: Look): string[] {
+  return [...new Set([...Object.keys(EMOTIONS), ...Object.keys(look.emotions)])];
+}
+
+/** One slot's override followed by another: another part starts from its own defaults. */
+function layer(a: PartOverride | undefined, b: PartOverride | undefined): PartOverride | undefined {
+  if (!a || !b) return a ?? b;
+  return b.part && b.part !== a.part ? b : { ...a, ...b };
+}
+
+/** The house preset of an emotion with the character's changes on top. */
+function emotionOverrides(look: Look, emotion?: string): Overrides {
+  if (!emotion) return {};
+  const preset = EMOTIONS[emotion] ?? {};
+  const own = look.emotions[emotion] ?? {};
+  return Object.fromEntries(SLOTS.map((s) => [s, layer(preset[s], own[s])]).filter(([, o]) => o));
+}
+
 /**
- * The look with an emotion applied: what to draw, in slot order. Throws on the first problem,
- * or collects every problem into `issues` and skips the slots that have one.
+ * The look in a state: what to draw, in slot order. Throws on the first problem, or collects
+ * every problem into `issues` and skips the slots that have one.
  */
-export function resolveLook(look: Look, lib: PartLibrary, emotion?: string, issues?: string[]): Placed[] {
-  const over = (emotion && look.emotions[emotion]) || {};
+export function resolveLook(look: Look, lib: PartLibrary, state: FigureState = {}, issues?: string[]): Placed[] {
+  const emotion = emotionOverrides(look, state.emotion);
+  const overlay = state.overlay ?? {};
+  const g = { ...globals(look), ...state.globals };
   const out: Placed[] = [];
   for (const slot of SLOTS) {
     try {
-      out.push(...resolveSlot(look, lib, slot, over[slot], emotion));
+      out.push(...resolveSlot(look, lib, slot, [emotion[slot], overlay[slot]], g, state.emotion));
     } catch (e) {
       if (!issues) throw e;
       issues.push((e as Error).message);
@@ -91,25 +129,61 @@ export function resolveLook(look: Look, lib: PartLibrary, emotion?: string, issu
   return out;
 }
 
-function resolveSlot(look: Look, lib: PartLibrary, slot: Slot, o: Look['emotions'][string][Slot], emotion?: string): Placed[] {
+function resolveSlot(
+  look: Look,
+  lib: PartLibrary,
+  slot: Slot,
+  overrides: (PartOverride | undefined)[],
+  g: Record<string, number>,
+  emotion?: string,
+): Placed[] {
   const base = look.parts[slot] ?? (DEFAULT_PARTS[slot] ? { part: DEFAULT_PARTS[slot] } : undefined);
   let uses: PartUse[] = base ? (Array.isArray(base) ? base : [base]) : [];
-  if (o) {
+  for (const o of overrides) {
+    if (!o) continue;
+    // A slot the look leaves empty stays empty, unless the override names a part.
+    if (!o.part && (uses.length === 0 || uses[0]!.part === NO_PART)) continue;
     if (uses.length > 1) throw new Error(`эмоция ${emotion}: в слоте ${slot} несколько деталей, его нельзя переопределять`);
-    // Another part starts from its own defaults; the same part keeps the base params.
-    const merged = o.part && o.part !== uses[0]?.part ? { ...o } : { ...uses[0], ...o };
-    if (!merged.part) throw new Error(`эмоция ${emotion}: в слоте ${slot} нет детали, укажите part`);
-    uses = [merged as PartUse];
+    uses = [layer(uses[0], o) as PartUse];
   }
-  return uses.filter((use) => use.part !== NO_PART).map((use) => place(slot, use, lib, look));
+  return uses.filter((use) => use.part !== NO_PART).map((use) => place(slot, use, lib, g));
 }
 
-const matches = (when: Shape['when'], enums: Record<string, string>) =>
-  !when || Object.entries(when).every(([k, v]) => (Array.isArray(v) ? v.includes(enums[k]!) : enums[k] === v));
+const matches = (when: Shape['when'], pl: Placed) =>
+  !when ||
+  Object.entries(when).every(([k, v]) => {
+    if (typeof v === 'string') return pl.enums[k] === v;
+    if (Array.isArray(v)) return v.includes(pl.enums[k]!);
+    const n = pl.nums[k]!;
+    return (v.min === undefined || n >= v.min) && (v.max === undefined || n <= v.max);
+  });
+
+/** Frames of an animation in a state, or none if it does not apply there (blink with eyes shut). */
+export function animationFrames(
+  look: Look,
+  lib: PartLibrary,
+  name: string,
+  emotion?: string,
+): { ms: number; overlay: Overrides; globals?: Partial<Record<GlobalParam, number>> }[] {
+  const anim = ANIMATIONS[name];
+  if (!anim) throw new Error(`нет анимации ${name}`);
+  if (anim.when) {
+    const placed = resolveLook(look, lib, { emotion });
+    for (const [slot, params] of Object.entries(anim.when)) {
+      const pl = placed.find((p) => p.slot === slot);
+      if (!pl) return [];
+      for (const [k, opts] of Object.entries(params)) if (!opts.includes(pl.enums[k]!)) return [];
+    }
+  }
+  return anim.frames.map((f) => ({ ms: f.ms, overlay: f.set ?? {}, globals: f.globals }));
+}
+
+/** A material of the palette, or a fixed colour `#rrggbb`. */
+type Paint = Material | `#${string}`;
 
 interface Fragment {
   mask: Mask;
-  material: Material;
+  material: Paint;
   /** fixed tone, or null for shaded pixels */
   tone: number | null;
 }
@@ -185,7 +259,7 @@ function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[
       const [mat, t] = key[ch]!.split(':');
       return {
         mask: clip(shift(flip === false ? m : mirrored(m), size, sx!, sy!)),
-        material: mat as Material,
+        material: mat as Paint,
         tone: shape.tone ?? (t === undefined ? 2 : Number(t)),
       };
     });
@@ -220,7 +294,7 @@ interface Region {
   order: number;
   slot: Slot;
   piece: string;
-  material: Material;
+  material: Paint;
   part: Part;
   fixed: boolean;
   /** everything the region covers, including what upper layers hide */
@@ -228,8 +302,8 @@ interface Region {
 }
 
 /** The look in one frame: `bust` for cards, `full` for the standing figure. */
-export function renderLook(look: Look, lib: PartLibrary, emotion?: string, frame: Frame = 'bust'): Sprite {
-  return crop(renderFigure(look, lib, emotion), FRAMES[frame]);
+export function renderLook(look: Look, lib: PartLibrary, state: FigureState = {}, frame: Frame = 'bust'): Sprite {
+  return crop(renderFigure(look, lib, state), FRAMES[frame]);
 }
 
 export function crop(s: Sprite, f: { x: number; y: number; w: number; h: number }): Sprite {
@@ -247,17 +321,17 @@ export function crop(s: Sprite, f: { x: number; y: number; w: number; h: number 
 }
 
 /** The whole standing figure on the SIZE canvas. */
-export function renderFigure(look: Look, lib: PartLibrary, emotion?: string): Sprite {
+export function renderFigure(look: Look, lib: PartLibrary, state: FigureState = {}): Sprite {
   const { w, h } = SIZE;
   const N = w * h;
   const r = HEAD.r * look.head;
-  const placed = resolveLook(look, lib, emotion);
+  const placed = resolveLook(look, lib, state);
 
   // 0. Named shapes first, so that any part can clip to any other.
   const names: Names = new Map();
   for (const pl of placed)
     for (const shape of pl.part.shapes) {
-      if (!shape.name || !matches(shape.when, pl.enums)) continue;
+      if (!shape.name || !matches(shape.when, pl)) continue;
       const m = names.get(shape.name) ?? emptyMask(SIZE);
       for (const frag of fragments({ ...shape, clip: undefined }, pl, r, names)) for (let p = 0; p < N; p++) m[p] = m[p]! | frag.mask[p]!;
       names.set(shape.name, m);
@@ -274,7 +348,7 @@ export function renderFigure(look: Look, lib: PartLibrary, emotion?: string): Sp
   const regionIds = new Map<string, number>();
   placed.forEach((pl, pi) => {
     pl.part.shapes.forEach((shape, si) => {
-      if (!matches(shape.when, pl.enums)) return;
+      if (!matches(shape.when, pl)) return;
       const slot = shape.slot ?? pl.slot;
       const pieceKey = `${pi}/${slot}`;
       let piece = pieces.get(pieceKey);
@@ -399,7 +473,8 @@ export function renderFigure(look: Look, lib: PartLibrary, emotion?: string): Sp
   const rgba = new Uint8ClampedArray(N * 4);
   for (let p = 0; p < N; p++) {
     if (owner[p]! < 0) continue;
-    const c = colors[regions[owner[p]!]!.material][outlined[p]!]!;
+    const m = regions[owner[p]!]!.material;
+    const c = m.startsWith('#') ? parseHex(m) : colors[m as Material][outlined[p]!]!;
     rgba.set([c[0], c[1], c[2], 255], p * 4);
   }
   return { w, h, rgba };
@@ -408,7 +483,7 @@ export function renderFigure(look: Look, lib: PartLibrary, emotion?: string): Sp
 /** Static checks of a part: params referenced exist, expressions evaluate, `when` is valid. */
 export function partIssues(part: Part): string[] {
   const issues: string[] = [];
-  const nums: Record<string, number> = { shoulders: 1 };
+  const nums: Record<string, number> = { shoulders: 1, chest: 0.35 };
   const enums: Record<string, string[]> = {};
   for (const [name, def] of Object.entries(part.params)) {
     if ((GLOBAL_PARAMS as readonly string[]).includes(name)) issues.push(`params.${name}: имя занято общим параметром тела`);
@@ -431,7 +506,9 @@ export function partIssues(part: Part): string[] {
       }
     }
     for (const [k, v] of Object.entries(shape.when ?? {})) {
-      if (!enums[k]) issues.push(`${where}.when: ${k} не объявлен как параметр с options`);
+      if (typeof v === 'object' && !Array.isArray(v)) {
+        if (!(k in nums)) issues.push(`${where}.when: ${k} не объявлен как числовой параметр`);
+      } else if (!enums[k]) issues.push(`${where}.when: ${k} не объявлен как параметр с options`);
       else for (const opt of Array.isArray(v) ? v : [v]) if (!enums[k].includes(opt)) issues.push(`${where}.when.${k}: нет варианта ${opt}`);
     }
     if (shape.name && shape.clip) issues.push(`${where}: фигура с name не может сама иметь clip`);
@@ -442,9 +519,34 @@ export function partIssues(part: Part): string[] {
   return issues;
 }
 
-/** Problems of a look against the library, for the base look and every emotion. */
+/** Params a part of this slot lacks to follow the rig (style.ts, RIG). */
+export function rigIssues(slot: Slot, part: Part): string[] {
+  const issues: string[] = [];
+  for (const [name, need] of Object.entries(RIG[slot] ?? {})) {
+    const def = part.params[name];
+    if (need === 'number') {
+      if (!def || !('range' in def)) issues.push(`риг ${slot}: нужен числовой параметр ${name}`);
+    } else if (!def || !('options' in def)) issues.push(`риг ${slot}: нужен параметр ${name} с вариантами ${need.join(', ')}`);
+    else {
+      const missing = need.filter((o) => !def.options.includes(o));
+      if (missing.length) issues.push(`риг ${slot}: у ${name} нет вариантов ${missing.join(', ')}`);
+    }
+  }
+  return issues;
+}
+
+/** Problems of a look against the library, for the base look, every emotion and animation. */
 export function lookIssues(look: Look, lib: PartLibrary): string[] {
   const issues: string[] = [];
-  for (const emotion of [undefined, ...Object.keys(look.emotions)]) resolveLook(look, lib, emotion, issues);
+  for (const emotion of [undefined, ...emotionsOf(look)]) {
+    resolveLook(look, lib, { emotion }, issues);
+    for (const name of Object.keys(ANIMATIONS)) {
+      try {
+        for (const f of animationFrames(look, lib, name, emotion)) resolveLook(look, lib, { emotion, overlay: f.overlay, globals: f.globals }, issues);
+      } catch (e) {
+        issues.push((e as Error).message);
+      }
+    }
+  }
   return [...new Set(issues)];
 }

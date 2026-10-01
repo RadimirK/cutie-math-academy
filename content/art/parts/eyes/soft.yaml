@@ -5,9 +5,9 @@ shade: none
 outline: false
 params:
   shape:
-    options: [open, half, joy]
+    options: [open, half, closed, joy, wide]
     default: open
-    desc: 'open — открыты, half — прикрыты (сонно, задумчиво), joy — зажмурены дугами ^^'
+    desc: 'open — открыты, half — прикрыты (сонно, задумчиво), closed — спокойно закрыты (и моргание), joy — зажмурены дугами ^^, wide — широко открыты (удивление)'
   look_x: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вбок, пиксели' }
   look_y: { range: [-1, 1], default: 0, int: true, desc: 'взгляд вверх-вниз, пиксели' }
 shapes:
@@ -107,3 +107,65 @@ shapes:
       key: { L: line }
     mirror: true
     when: { shape: joy }
+  # широко открытые (удивление): маленькая радужка, много белка
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '..wwww..'
+        - '.wWWWWw.'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '.WWWWWWW'
+        - '.WWWWWW.'
+        - '..WWWW..'
+        - '........'
+      key: { w: 'eye_white:1', W: 'eye_white:2' }
+    mirror: true
+    when: { shape: wide }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '...DDD..'
+        - '...SdD..'
+        - '...dDd..'
+        - '...iIi..'
+        - '........'
+        - '........'
+      key: { D: 'eyes:0', d: 'eyes:1', I: 'eyes:2', i: 'eyes:3', S: shine }
+      shift: ['$look_x', '$look_y']
+    mirror: true
+    when: { shape: wide }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '..LLLLL.'
+        - '.L.....L'
+        - 'L.......'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '...ll...'
+      key: { L: line, l: 'line:3' }
+    mirror: true
+    when: { shape: wide }
+  - stamp:
+      at: [-0.42, 0.32]
+      rows:
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - '........'
+        - 'L......L'
+        - '.LLLLLL.'
+        - '........'
+        - '........'
+      key: { L: line }
+    mirror: true
+    when: { shape: closed }

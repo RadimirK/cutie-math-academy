@@ -5,9 +5,9 @@ shade: none
 outline: false
 params:
   shape:
-    options: [neutral, smile, flat, open]
+    options: [neutral, smile, flat, open, o, frown, wavy, smirk, pout]
     default: neutral
-    desc: 'neutral — короткая черта, smile — улыбка, flat — сжатые губы, open — открытая улыбка'
+    desc: 'neutral — короткая черта, smile — улыбка, flat — сжатые губы, open — открытая улыбка, o — удивлённое «о», frown — уголки вниз, wavy — волнистый (смущение, растерянность), smirk — ухмылка набок, pout — надутые губы'
 shapes:
   - stamp: { at: [0, 0.76], rows: ['.LL.'], key: { L: 'mouth:0' } }
     when: { shape: neutral }
@@ -20,3 +20,13 @@ shapes:
       rows: ['LLLLL', '.MMM.', '..m..']
       key: { L: 'mouth:0', M: 'mouth:1', m: 'mouth:3' }
     when: { shape: open }
+  - stamp: { at: [0, 0.78], rows: ['.LL.', 'LMML', '.LL.'], key: { L: 'mouth:0', M: 'mouth:1' } }
+    when: { shape: o }
+  - stamp: { at: [0, 0.78], rows: ['.LLL.', 'L...L'], key: { L: 'mouth:0' } }
+    when: { shape: frown }
+  - stamp: { at: [0, 0.77], rows: ['.L.L.', 'L.L.L'], key: { L: 'mouth:0' } }
+    when: { shape: wavy }
+  - stamp: { at: [0.04, 0.76], rows: ['....L', 'LLLL.'], key: { L: 'mouth:0' } }
+    when: { shape: smirk }
+  - stamp: { at: [0, 0.77], rows: ['.L.', 'L.L'], key: { L: 'mouth:0' } }
+    when: { shape: pout }

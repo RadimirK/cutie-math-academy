@@ -1,0 +1,29 @@
+id: marks
+desc: 'Значки эмоций у головы: капля пота, «вена» злости, вопрос, искры.'
+material: shine
+shade: none
+outline: false
+params:
+  kind: { options: [sweat, anger, question, sparkle], default: sweat }
+shapes:
+  - stamp:
+      at: [1.02, -0.3]
+      rows: ['..o..', '.oBo.', 'oBWBo', 'oBBBo', '.ooo.']
+      key: { o: '#3f86d1', B: '#9fd8ff', W: '#ffffff' }
+    when: { kind: sweat }
+  - stamp:
+      at: [1.12, -0.5]
+      rows: ['.r...r.', 'rr...rr', '.......', 'rr...rr', '.r...r.']
+      key: { r: '#e8364f' }
+    when: { kind: anger }
+  - stamp:
+      at: [1.38, -1.2]
+      rows: ['.qqq.', 'q...q', '...q.', '..q..', '.....', '..q..']
+      key: { q: '#4a4e8c' }
+    when: { kind: question }
+  - stamp:
+      at: [1.08, -0.72]
+      rows: ['..s..', '..s..', 'ss.ss', '..s..', '..s..']
+      key: { s: '#ffcf33' }
+    mirror: true
+    when: { kind: sparkle }

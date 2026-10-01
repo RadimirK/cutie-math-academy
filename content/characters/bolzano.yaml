@@ -9,6 +9,7 @@ sprites:
   thinking: bolzano/thinking.png
   happy: bolzano/happy.png
 look:
+  chest: 0.6
   palette:
     skin: '#f7dccb'
     hair: '#3d4f8a'
@@ -26,14 +27,5 @@ look:
     shoes: { part: loafers }
     accessory: [{ part: round_glasses }]
   emotions:
-    smile:
-      eyes: { shape: open }
-      mouth: { shape: smile }
     thinking:
-      body: { pose: chin }
-      eyes: { shape: half, look_x: -1, look_y: -1 }
-      mouth: { shape: flat }
-    happy:
-      eyes: { shape: joy }
-      mouth: { shape: open }
-      cheeks: { part: blush }
+      eyes: { look_x: 1, look_y: -1 }

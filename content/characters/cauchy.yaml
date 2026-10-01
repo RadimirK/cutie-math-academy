@@ -9,6 +9,7 @@ sprites:
   thinking: cauchy/thinking.png
   happy: cauchy/happy.png
 look:
+  chest: 0.1
   palette:
     skin: '#fbe2d6'
     hair: '#e5485f'
@@ -22,6 +23,7 @@ look:
     hair_front: { part: spiky_bangs, length: 0.22, ahoge: curl }
     eyes: { part: sharp }
     mouth: { part: simple, shape: flat }
+    brows: { part: thin, mood: stern }
     outfit: { part: blazer, neck: tie }
     bottom: { part: pleated_skirt, length: 5.7, flare: 1.55 }
     legwear: { part: stockings, top: 6.3, band: stripe }
@@ -30,12 +32,5 @@ look:
   emotions:
     smile:
       body: { pose: hip }
-      mouth: { shape: smile }
     thinking:
-      body: { pose: chin }
-      eyes: { shape: half, look_x: 1, look_y: -1 }
-      mouth: { shape: neutral }
-    happy:
-      eyes: { shape: joy }
-      mouth: { shape: open }
-      cheeks: { part: blush }
+      eyes: { look_x: 1, look_y: -1 }

@@ -1,5 +1,6 @@
-import type { CSSProperties } from 'react';
-import { content, lookSpriteUrl, spriteUrl } from '../content/bundle.ts';
+import { useEffect, useState, type CSSProperties } from 'react';
+import type { Frame } from '../art/style.ts';
+import { content, lookAnimation, lookSpriteUrl, spriteUrl } from '../content/bundle.ts';
 import { rarityOf } from './rarity.ts';
 
 // A character is drawn from her sprite file if there is one, else from her generated pixel
@@ -62,27 +63,77 @@ function StandingSilhouette({ glow }: { glow: string }) {
   );
 }
 
+const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * The generated portrait, alive: it blinks now and then and moves its mouth while `talking`.
+ * Frames come from style.ts (ANIMATIONS) and are drawn once, then cached.
+ */
+function useGeneratedPortrait(id: string | undefined, emotion: string, frame: Frame, talking: boolean): string | undefined {
+  const still = id ? lookSpriteUrl(id, emotion, frame) : undefined;
+  const [shown, setShown] = useState<string>();
+  useEffect(() => {
+    if (!id || !still || reducedMotion()) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const play = (frames: { ms: number; url: string }[], loop: boolean, then?: () => void) => {
+      let i = 0;
+      const step = () => {
+        if (i === frames.length) {
+          if (!loop) {
+            setShown(undefined);
+            then?.();
+            return;
+          }
+          i = 0;
+        }
+        setShown(frames[i]!.url);
+        timer = setTimeout(step, frames[i++]!.ms);
+      };
+      step();
+    };
+    if (talking) play(lookAnimation(id, 'talk', emotion, frame), true);
+    else {
+      const blinkLater = () => {
+        timer = setTimeout(() => {
+          const frames = lookAnimation(id, 'blink', emotion, frame);
+          if (frames.length) play(frames, false, blinkLater);
+          else blinkLater();
+        }, 2500 + Math.random() * 3500);
+      };
+      blinkLater();
+    }
+    return () => {
+      clearTimeout(timer);
+      setShown(undefined);
+    };
+  }, [id, still, emotion, frame, talking]);
+  return shown ?? still;
+}
+
 /**
  * variant "card": bust on a rarity gradient (collection, recruitment results, icons).
  * variant "stage": full-height standing figure with no frame (VN, lobby, banners).
+ * `talking`: a generated portrait moves its mouth (while a line is being shown).
  */
 export function Portrait({
   id,
   emotion,
   variant = 'card',
+  talking = false,
   className = '',
   style,
 }: {
   id: string;
   emotion?: string;
   variant?: 'card' | 'stage';
+  talking?: boolean;
   className?: string;
   style?: CSSProperties;
 }) {
   const ch = content.characters[id];
   const r = rarityOf(ch?.rarity);
   const url = spriteUrl(id, emotion);
-  const pixel = url ? undefined : lookSpriteUrl(id, emotion ?? 'smile', variant === 'stage' ? 'full' : 'bust');
+  const pixel = useGeneratedPortrait(url ? undefined : id, emotion ?? 'smile', variant === 'stage' ? 'full' : 'bust', talking);
 
   if (variant === 'stage') {
     return (

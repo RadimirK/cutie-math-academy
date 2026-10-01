@@ -10,6 +10,11 @@ shapes:
   - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '$hem'], [-2.2, '$hem']]
     clip: torso
     grow: 1
+  # объём груди
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '$hem'], [-2.2, '$hem']]
+    clip: chest
+    seam: true
+    when: { chest: { min: 0.2 } }
   # рукава повторяют руки
   - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
     clip: arms

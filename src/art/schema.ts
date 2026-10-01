@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 /** Slots in painting order, back to front. A part belongs to the slot named by its folder. */
 export const SLOTS = [
-  'hair_back', 'body', 'legwear', 'shoes', 'bottom', 'outfit', 'head', 'cheeks', 'eyes', 'brows', 'mouth', 'hair_front', 'accessory',
+  'hair_back', 'body', 'legwear', 'shoes', 'bottom', 'outfit', 'head', 'cheeks', 'eyes', 'brows', 'mouth', 'hair_front', 'accessory', 'fx',
 ] as const;
 export const Slot = z.enum(SLOTS);
 export type Slot = z.infer<typeof Slot>;
@@ -45,8 +45,11 @@ const common = {
   seam: z.boolean().optional(),
   /** Cut the shape out of what the part has drawn so far instead of adding it. */
   erase: z.boolean().optional(),
-  /** Draw only when the enum params have these values. */
-  when: z.record(Name, z.union([Name, z.array(Name)])).optional(),
+  /**
+   * Draw only when params have these values: an option or a list of options of an enum
+   * param, or `{min, max}` for a numeric one (`{ chest: { min: 0.3 } }`).
+   */
+  when: z.record(Name, z.union([Name, z.array(Name), z.strictObject({ min: z.number().optional(), max: z.number().optional() })])).optional(),
 };
 
 const EllipseShape = z.strictObject({
@@ -73,12 +76,12 @@ const StrokeShape = z.strictObject({
   closed: z.boolean().optional(),
   ...common,
 });
-const StampKey = z.string().regex(new RegExp(`^(${MATERIALS.join('|')})(:[0-4])?$`), 'материал или материал:тон');
+const StampKey = z.string().regex(new RegExp(`^((${MATERIALS.join('|')})(:[0-4])?|#[0-9a-fA-F]{6})$`), 'материал, материал:тон или цвет #rrggbb');
 const StampShape = z.strictObject({
   /**
    * Pixels drawn literally, centred on `at`: one character per pixel, `.` or space is empty,
-   * `key` maps the other characters to `material` or `material:tone`. For tiny things:
-   * eyes, mouths, glints. Mirrored stamps are flipped unless `flip: false`.
+   * `key` maps the other characters to `material`, `material:tone` or a fixed `#rrggbb`
+   * (sweat drops, anger marks). For tiny things: eyes, mouths, glints. Mirrored stamps are flipped unless `flip: false`.
    */
   stamp: z.strictObject({
     at: Pt,
@@ -126,12 +129,18 @@ export const PartUse = z.object({ part: Name }).catchall(ParamValue);
 export type PartUse = z.infer<typeof PartUse>;
 /** An emotion's change to a slot: other params, or another part. */
 export const PartOverride = z.object({ part: Name.optional() }).catchall(ParamValue);
+export type PartOverride = z.infer<typeof PartOverride>;
+/** Changes to several slots: an emotion, or a frame of an animation. */
+export const Overrides = z.partialRecord(Slot, PartOverride);
+export type Overrides = z.infer<typeof Overrides>;
 
 export const LookSchema = z.strictObject({
   /** Head size relative to the standard one. */
   head: z.number().min(0.9).max(1.1).default(1),
   /** Shoulder width; every part sees it as `$shoulders`. */
   shoulders: z.number().min(0.85).max(1.15).default(1),
+  /** Bust size, 0 flat to 1 large; every part sees it as `$chest`. */
+  chest: z.number().min(0).max(1).default(0.35),
   palette: z.strictObject({
     skin: Hex,
     hair: Hex,
@@ -148,7 +157,10 @@ export const LookSchema = z.strictObject({
   }),
   /** Slots that are omitted use the style's default part (body, head, mouth) or stay empty. */
   parts: z.partialRecord(Slot, z.union([PartUse, z.array(PartUse).min(1)])),
-  /** emotion -> overrides on top of the base look. */
-  emotions: z.record(Name, z.partialRecord(Slot, PartOverride)).default({}),
+  /**
+   * emotion -> this character's own overrides. They go on top of the house preset of the same
+   * emotion (style.ts, EMOTIONS) or define an emotion of her own.
+   */
+  emotions: z.record(Name, Overrides).default({}),
 });
 export type Look = z.infer<typeof LookSchema>;
