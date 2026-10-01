@@ -15,12 +15,17 @@ look:
     eyes: '#d63650'
     cloth: '#b3303e'
     accent: '#2b2632'
+    legwear: '#2b2632'
+    shoes: '#8e2433'
   parts:
-    hair_back: { part: twin_tails, length: 3.8, spread: 2.1 }
+    hair_back: { part: twin_tails, length: 5.8, spread: 2.1 }
     hair_front: { part: spiky_bangs, length: 0.22, ahoge: curl }
     eyes: { part: sharp }
     mouth: { part: simple, shape: flat }
     outfit: { part: blazer, neck: tie }
+    bottom: { part: pleated_skirt, length: 5.7, flare: 1.55 }
+    legwear: { part: stockings, top: 6.3, band: stripe }
+    shoes: { part: loafers }
     accessory: [{ part: ribbons, size: 1.15 }]
   emotions:
     smile:

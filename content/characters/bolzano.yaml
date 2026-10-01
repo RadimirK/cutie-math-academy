@@ -15,11 +15,15 @@ look:
     eyes: '#4f8fc9'
     cloth: '#34405f'
     accent: '#e0b84a'
+    skirt: '#4a5272'
   parts:
-    hair_back: { part: long_straight, length: 3.8 }
+    hair_back: { part: long_straight, length: 5.0 }
     hair_front: { part: blunt_bangs, length: 0.06, side: 2.6 }
     eyes: { part: soft, shape: half }
     outfit: { part: blazer, neck: ribbon }
+    bottom: { part: pleated_skirt, length: 6.3 }
+    legwear: { part: stockings }
+    shoes: { part: loafers }
     accessory: [{ part: round_glasses }]
   emotions:
     smile:

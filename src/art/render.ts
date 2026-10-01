@@ -6,6 +6,7 @@
 // selective outline -> colours from the palette's ramps.
 import { evalExpr, exprVars, type Expr } from './expr.ts';
 import {
+  dilate,
   ellipsePoints,
   emptyMask,
   fillPolygon,
@@ -18,7 +19,7 @@ import {
   type Pt,
 } from './raster.ts';
 import { SLOTS, type Look, type Material, type Part, type PartUse, type Shape, type Slot } from './schema.ts';
-import { CAST_SHADOWS, DEFAULT_PARTS, HEAD, SHADOW_DIR, SIZE, palette } from './style.ts';
+import { CAST_SHADOWS, DEFAULT_PARTS, FRAMES, HEAD, SHADOW_DIR, SIZE, palette, type Frame } from './style.ts';
 
 export type PartLibrary = Partial<Record<Slot, Record<string, Part>>>;
 
@@ -129,8 +130,24 @@ export function shapeExprs(shape: Shape): Expr[] {
   return [...shape.stamp.at, ...(shape.stamp.shift ?? [])];
 }
 
-function fragments(shape: Shape, pl: Placed, r: number): Fragment[] {
+/** Masks of the shapes that have a `name`, which other shapes can `clip` to. */
+type Names = Map<string, Mask>;
+
+function fragments(shape: Shape, pl: Placed, r: number, names: Names): Fragment[] {
   const size = SIZE;
+  const clip = (m: Mask): Mask => {
+    if (!shape.clip) return m;
+    const region = emptyMask(size);
+    for (const name of Array.isArray(shape.clip) ? shape.clip : [shape.clip]) {
+      const n = names.get(name);
+      if (!n) throw new Error(`${pl.slot}/${pl.part.id}: clip: нет фигуры с name: ${name} (есть: ${[...names.keys()].join(', ') || 'нет'})`);
+      for (let i = 0; i < n.length; i++) region[i] = region[i]! | n[i]!;
+    }
+    const allowed = shape.grow ? dilate(region, size, shape.grow) : region;
+    const out = new Uint8Array(m.length);
+    for (let i = 0; i < m.length; i++) out[i] = m[i]! & allowed[i]!;
+    return out;
+  };
   const num = (e: Expr) => evalExpr(e, pl.nums);
   const P = ([x, y]: [Expr, Expr]): Pt => [HEAD.cx + num(x) * r, HEAD.cy + num(y) * r];
   const material = shape.material ?? pl.part.material;
@@ -167,7 +184,7 @@ function fragments(shape: Shape, pl: Placed, r: number): Fragment[] {
     return [...byChar].map(([ch, m]) => {
       const [mat, t] = key[ch]!.split(':');
       return {
-        mask: shift(flip === false ? m : mirrored(m), size, sx!, sy!),
+        mask: clip(shift(flip === false ? m : mirrored(m), size, sx!, sy!)),
         material: mat as Material,
         tone: shape.tone ?? (t === undefined ? 2 : Number(t)),
       };
@@ -195,7 +212,7 @@ function fragments(shape: Shape, pl: Placed, r: number): Fragment[] {
     mask = strokePath(size, shape.smooth ? smoothPath(pts, closed) : pts, closed);
     tone ??= 2; // a one-pixel line is all edge: shading and outlining would eat it
   }
-  return [{ mask: mirrored(mask), material, tone }];
+  return [{ mask: clip(mirrored(mask)), material, tone }];
 }
 
 interface Region {
@@ -210,11 +227,41 @@ interface Region {
   mask: Mask;
 }
 
-export function renderLook(look: Look, lib: PartLibrary, emotion?: string): Sprite {
+/** The look in one frame: `bust` for cards, `full` for the standing figure. */
+export function renderLook(look: Look, lib: PartLibrary, emotion?: string, frame: Frame = 'bust'): Sprite {
+  return crop(renderFigure(look, lib, emotion), FRAMES[frame]);
+}
+
+export function crop(s: Sprite, f: { x: number; y: number; w: number; h: number }): Sprite {
+  const rgba = new Uint8ClampedArray(f.w * f.h * 4);
+  for (let y = 0; y < f.h; y++) {
+    const sy = y + f.y;
+    if (sy < 0 || sy >= s.h) continue;
+    for (let x = 0; x < f.w; x++) {
+      const sx = x + f.x;
+      if (sx < 0 || sx >= s.w) continue;
+      rgba.set(s.rgba.subarray((sy * s.w + sx) * 4, (sy * s.w + sx) * 4 + 4), (y * f.w + x) * 4);
+    }
+  }
+  return { w: f.w, h: f.h, rgba };
+}
+
+/** The whole standing figure on the SIZE canvas. */
+export function renderFigure(look: Look, lib: PartLibrary, emotion?: string): Sprite {
   const { w, h } = SIZE;
   const N = w * h;
   const r = HEAD.r * look.head;
   const placed = resolveLook(look, lib, emotion);
+
+  // 0. Named shapes first, so that any part can clip to any other.
+  const names: Names = new Map();
+  for (const pl of placed)
+    for (const shape of pl.part.shapes) {
+      if (!shape.name || !matches(shape.when, pl.enums)) continue;
+      const m = names.get(shape.name) ?? emptyMask(SIZE);
+      for (const frag of fragments({ ...shape, clip: undefined }, pl, r, names)) for (let p = 0; p < N; p++) m[p] = m[p]! | frag.mask[p]!;
+      names.set(shape.name, m);
+    }
 
   // 1. Rasterise. A piece is what one placed part draws at one depth.
   interface Piece {
@@ -235,7 +282,7 @@ export function renderLook(look: Look, lib: PartLibrary, emotion?: string): Spri
         piece = { z: SLOTS.indexOf(slot) * 1000 + (slot === pl.slot ? 0 : 500) + pi, reg: new Int32Array(N).fill(-1), tone: new Int8Array(N).fill(-1) };
         pieces.set(pieceKey, piece);
       }
-      for (const frag of fragments(shape, pl, r)) {
+      for (const frag of fragments(shape, pl, r, names)) {
         if (shape.erase) {
           for (let p = 0; p < N; p++) if (frag.mask[p]) piece.reg[p] = -1;
           continue;
@@ -387,6 +434,7 @@ export function partIssues(part: Part): string[] {
       if (!enums[k]) issues.push(`${where}.when: ${k} не объявлен как параметр с options`);
       else for (const opt of Array.isArray(v) ? v : [v]) if (!enums[k].includes(opt)) issues.push(`${where}.when.${k}: нет варианта ${opt}`);
     }
+    if (shape.name && shape.clip) issues.push(`${where}: фигура с name не может сама иметь clip`);
     if ('stamp' in shape)
       for (const row of shape.stamp.rows)
         for (const ch of row) if (ch !== '.' && ch !== ' ' && !shape.stamp.key[ch]) issues.push(`${where}: символ «${ch}» не описан в key`);

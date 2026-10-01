@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { evalExpr } from './expr.ts';
-import { lookIssues, partIssues, renderLook, type PartLibrary } from './render.ts';
+import { lookIssues, partIssues, renderFigure, renderLook, type PartLibrary } from './render.ts';
+import { FRAMES } from './style.ts';
 import { LookSchema, PartSchema } from './schema.ts';
 
 const lib: PartLibrary = {
@@ -58,6 +59,38 @@ describe('renderLook', () => {
     const small = { ...look, parts: { ...look.parts, head: { part: 'oval', size: 0.6 } } };
     const opaque = (s: { rgba: Uint8ClampedArray }) => pixels(s).filter((_, i) => i % 4 === 3 && _ > 0).length;
     expect(opaque(renderLook(small, lib))).toBeLessThan(opaque(renderLook(look, lib)));
+  });
+});
+
+describe('frames and clipping', () => {
+  const body = PartSchema.parse({
+    id: 'stick', desc: 'body', material: 'skin',
+    shapes: [{ poly: [[-0.3, 2], [0.3, 2], [0.3, 8], [-0.3, 8]], name: 'legs' }],
+  });
+  const socks = PartSchema.parse({
+    id: 'socks', desc: 'socks', material: 'legwear',
+    shapes: [{ poly: [[-3, 6], [3, 6], [3, 9], [-3, 9]], clip: 'legs' }],
+  });
+  const dressed = LookSchema.parse({ ...look, parts: { ...look.parts, body: { part: 'stick' }, legwear: { part: 'socks' } } });
+  const parts = { ...lib, body: { stick: body }, legwear: { socks } };
+
+  it('clips clothes to the named body shape', () => {
+    const naked = renderFigure({ ...dressed, parts: { ...dressed.parts, legwear: { part: 'none' } } }, parts);
+    const alpha = (s: { rgba: Uint8ClampedArray }) => pixels(s).filter((_, i) => i % 4 === 3);
+    // a 6-unit-wide rectangle clipped to a thin body adds no pixels to the silhouette
+    expect(alpha(renderFigure(dressed, parts))).toEqual(alpha(naked));
+    expect(pixels(renderFigure(dressed, parts))).not.toEqual(pixels(naked));
+  });
+  it('a frame is a window onto the figure', () => {
+    const full = renderLook(dressed, parts, undefined, 'full');
+    expect([full.w, full.h]).toEqual([FRAMES.full.w, FRAMES.full.h]);
+    const bust = renderLook(dressed, parts, undefined, 'bust');
+    const { x, y } = FRAMES.bust;
+    const at = (s: { w: number; rgba: Uint8ClampedArray }, px: number, py: number) => Array.from(s.rgba.subarray((py * s.w + px) * 4, (py * s.w + px) * 4 + 4));
+    expect(at(bust, 48, 60)).toEqual(at(full, 48 + x, 60 + y));
+  });
+  it('reports a clip to a missing name', () => {
+    expect(() => renderFigure({ ...dressed, parts: { ...dressed.parts, body: { part: 'none' } } }, parts)).toThrow('name: legs');
   });
 });
 

@@ -1,0 +1,21 @@
+id: stockings
+desc: 'Чулки или колготки по ногам: top задаёт верхний край.'
+material: legwear
+params:
+  top: { range: [3.9, 8.6], default: 3.9, desc: 'верхний край: 3.9 — колготки, 6.2 — над коленом, 8.0 — гольфы' }
+  band: { options: [none, stripe], default: none, desc: полоска по верхнему краю цветом accent }
+shapes:
+  - poly: [[-2, '$top'], [0, '$top'], [0, 9.6], [-2, 9.6]]
+    clip: [legs, feet]
+    grow: 1
+    seam: true
+  - poly: [[0, '$top'], [2, '$top'], [2, 9.6], [0, 9.6]]
+    clip: [legs, feet]
+    grow: 1
+    seam: true
+  - poly: [[-2, '$top'], [2, '$top'], [2, '$top + 0.16'], [-2, '$top + 0.16']]
+    clip: legs
+    grow: 1
+    material: accent
+    seam: true
+    when: { band: stripe }

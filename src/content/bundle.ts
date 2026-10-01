@@ -1,6 +1,7 @@
 // Content bundled into the app at build time. CI guarantees it is valid; in dev, problems
 // are shown on screen instead of crashing.
-import { renderLook } from '../art/render.ts';
+import { crop, renderFigure, type Sprite } from '../art/render.ts';
+import { FRAMES, type Frame } from '../art/style.ts';
 import { loadContent } from './load.ts';
 
 const raw = import.meta.glob(['/content/**/*.yaml', '/content/**/*.py', '!/content/assets/**'], {
@@ -37,20 +38,25 @@ export function spriteUrl(characterId: string, emotion = 'smile'): string | unde
   return path ? assetUrl(`characters/${path}`) : undefined;
 }
 
+const figures = new Map<string, Sprite>();
 const generated = new Map<string, string | undefined>();
 
 /**
- * Data URL of the generated pixel portrait (docs/character-art.md), or undefined if the
- * character has no `look`. An emotion the look does not define falls back to the base look.
+ * Data URL of the generated pixel portrait (docs/character-art.md) in a frame, or undefined
+ * if the character has no `look`. An emotion the look does not define is the base look.
  */
-export function lookSpriteUrl(characterId: string, emotion?: string): string | undefined {
+export function lookSpriteUrl(characterId: string, emotion?: string, frame: Frame = 'bust'): string | undefined {
   const look = content.characters[characterId]?.look;
   if (!look) return undefined;
-  const key = `${characterId}/${emotion && emotion in look.emotions ? emotion : ''}`;
+  const e = emotion && emotion in look.emotions ? emotion : undefined;
+  const key = `${characterId}/${e ?? ''}/${frame}`;
   if (!generated.has(key)) {
     let url: string | undefined;
     try {
-      const { w, h, rgba } = renderLook(look, content.parts, emotion && emotion in look.emotions ? emotion : undefined);
+      const figureKey = `${characterId}/${e ?? ''}`;
+      let figure = figures.get(figureKey);
+      if (!figure) figures.set(figureKey, (figure = renderFigure(look, content.parts, e)));
+      const { w, h, rgba } = crop(figure, FRAMES[frame]);
       const canvas = document.createElement('canvas');
       canvas.width = w;
       canvas.height = h;

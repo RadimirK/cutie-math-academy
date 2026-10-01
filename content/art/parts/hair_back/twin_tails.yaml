@@ -3,7 +3,7 @@ desc: Два длинных хвоста по бокам головы, расх�
 material: hair
 seams: true
 params:
-  length: { range: [1.5, 3.9], default: 3.4, desc: докуда хвосты }
+  length: { range: [1.5, 7.0], default: 3.4, desc: докуда хвосты }
   spread: { range: [1.4, 2.4], default: 2.0, desc: насколько хвосты расходятся в стороны }
 shapes:
   - ellipse: { at: [0, -0.12], r: [1.04, 1.06] }

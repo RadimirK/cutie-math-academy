@@ -99,7 +99,7 @@ export function Portrait({
   const ch = content.characters[id];
   const r = rarityOf(ch?.rarity);
   const url = spriteUrl(id, emotion);
-  const pixel = url ? undefined : lookSpriteUrl(id, emotion ?? 'smile');
+  const pixel = url ? undefined : lookSpriteUrl(id, emotion ?? 'smile', variant === 'stage' ? 'full' : 'bust');
   const halo = haloColor(id);
 
   if (variant === 'stage') {

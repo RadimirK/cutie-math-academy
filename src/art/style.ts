@@ -3,10 +3,20 @@
 import { mix, parseHex, ramp, rgbToOklch, oklchToRgb, toHex, type RampSpec, type RGB } from './color.ts';
 import type { Look, Material, Slot } from './schema.ts';
 
-/** Bust sprite, 3:4 like the collection cards. Shown at integer scales only. */
-export const SIZE = { w: 96, h: 128 };
+/** The whole standing figure is drawn on this canvas; every frame is a window onto it. */
+export const SIZE = { w: 128, h: 256 };
 /** Head centre and radius in pixels at `look.head = 1`: the unit of head space. */
-export const HEAD = { cx: 48, cy: 50, r: 22 };
+export const HEAD = { cx: 64, cy: 36, r: 22 };
+
+/**
+ * full: the standing figure (scenes, lobby, banners). bust: 3:4 like the collection cards,
+ * the head a little lower than on the full canvas so a halo fits above it.
+ */
+export const FRAMES = {
+  full: { x: 0, y: 0, w: 128, h: 256 },
+  bust: { x: 16, y: -14, w: 96, h: 128 },
+} as const;
+export type Frame = keyof typeof FRAMES;
 
 /** Parts used when a look leaves the slot out. */
 export const DEFAULT_PARTS: Partial<Record<Slot, string>> = { body: 'basic', head: 'oval', mouth: 'simple' };
@@ -38,6 +48,9 @@ export function palette(p: Look['palette']): Record<Material, RGB[]> {
     eye_white: [parseHex('#5a5470'), parseHex('#cfd2ea'), parseHex('#f8f8ff'), parseHex('#ffffff'), parseHex('#ffffff')],
     cloth: ramp(p.cloth),
     cloth2: ramp(p.cloth2 ?? '#f2f4fa'),
+    skirt: ramp(p.skirt ?? p.cloth),
+    legwear: ramp(p.legwear ?? '#2f2c3c'),
+    shoes: ramp(p.shoes ?? '#5b4039'),
     accent: ramp(p.accent ?? '#d9475b'),
     line: ramp(line, { steps: [-0.1, -0.05, 0, 0.12, 0.25], hueShift: 20 }),
     mouth: ramp(mouth, { steps: [-0.2, -0.1, 0, 0.15, 0.3], hueShift: 20 }),

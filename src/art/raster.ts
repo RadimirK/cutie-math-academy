@@ -179,6 +179,28 @@ export function flipX(m: Mask, { w, h }: Size): Mask {
   return out;
 }
 
+/** Grows the mask by `n` pixels (4-neighbourhood per step), or shrinks it for negative `n`. */
+export function dilate(m: Mask, { w, h }: Size, n: number): Mask {
+  let cur = m;
+  for (let step = 0; step < Math.abs(n); step++) {
+    const grow = n > 0;
+    const out = new Uint8Array(cur);
+    for (let y = 0; y < h; y++)
+      for (let x = 0; x < w; x++) {
+        const p = y * w + x;
+        if (cur[p] === (grow ? 1 : 0)) continue;
+        const near =
+          (x > 0 && cur[p - 1] === (grow ? 1 : 0)) ||
+          (x < w - 1 && cur[p + 1] === (grow ? 1 : 0)) ||
+          (y > 0 && cur[p - w] === (grow ? 1 : 0)) ||
+          (y < h - 1 && cur[p + w] === (grow ? 1 : 0));
+        if (near) out[p] = grow ? 1 : 0;
+      }
+    cur = out;
+  }
+  return cur;
+}
+
 export function shift(m: Mask, { w, h }: Size, dx: number, dy: number): Mask {
   const out = new Uint8Array(m.length);
   for (let y = 0; y < h; y++) {

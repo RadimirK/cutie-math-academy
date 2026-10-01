@@ -1,0 +1,28 @@
+id: pleated_skirt
+desc: Плиссированная школьная юбка, расширяется от бёдер.
+material: skirt
+params:
+  length: { range: [5.0, 7.6], default: 5.8, desc: 'докуда юбка: 5.8 — середина бедра, 6.8 — колено' }
+  flare: { range: [1.1, 1.8], default: 1.42, desc: ширина подола }
+shapes:
+  - poly:
+      - [-0.76, 3.35]
+      - [0.76, 3.35]
+      - [1.0, 4.05]
+      - ['$flare', '$length - 0.05']
+      - ['$flare * 0.75', '$length + 0.05']
+      - ['$flare * 0.5', '$length - 0.03']
+      - ['$flare * 0.25', '$length + 0.06']
+      - [0, '$length - 0.02']
+      - ['-$flare * 0.25', '$length + 0.06']
+      - ['-$flare * 0.5', '$length - 0.03']
+      - ['-$flare * 0.75', '$length + 0.05']
+      - ['-$flare', '$length - 0.05']
+      - [-1.0, 4.05]
+  # складки
+  - stroke: [[-0.22, 4.2], ['-$flare * 0.25', '$length + 0.02']]
+    tone: 1
+    mirror: true
+  - stroke: [[-0.62, 4.15], ['-$flare * 0.75', '$length']]
+    tone: 1
+    mirror: true

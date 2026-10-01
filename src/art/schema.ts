@@ -4,12 +4,16 @@
 import { z } from 'zod';
 
 /** Slots in painting order, back to front. A part belongs to the slot named by its folder. */
-export const SLOTS = ['hair_back', 'body', 'outfit', 'head', 'cheeks', 'eyes', 'brows', 'mouth', 'hair_front', 'accessory'] as const;
+export const SLOTS = [
+  'hair_back', 'body', 'legwear', 'shoes', 'bottom', 'outfit', 'head', 'cheeks', 'eyes', 'brows', 'mouth', 'hair_front', 'accessory',
+] as const;
 export const Slot = z.enum(SLOTS);
 export type Slot = z.infer<typeof Slot>;
 
 /** Shapes carry materials, not colours: the colours come from the character's palette. */
-export const MATERIALS = ['skin', 'hair', 'eyes', 'eye_white', 'cloth', 'cloth2', 'accent', 'line', 'mouth', 'blush', 'metal', 'shine'] as const;
+export const MATERIALS = [
+  'skin', 'hair', 'eyes', 'eye_white', 'cloth', 'cloth2', 'skirt', 'legwear', 'shoes', 'accent', 'line', 'mouth', 'blush', 'metal', 'shine',
+] as const;
 export const Material = z.enum(MATERIALS);
 export type Material = z.infer<typeof Material>;
 
@@ -17,7 +21,10 @@ const Name = z.string().regex(/^[a-z][a-z0-9_]*$/, 'латиница в нижн
 
 /** A number or an arithmetic expression over numeric params: `"$length + 0.1"`. */
 export const Expr = z.union([z.number(), z.string().min(1)]);
-/** A point in head space: (0, 0) is the centre of the head, 1 is the head radius, y points down. */
+/**
+ * A point in head space: (0, 0) is the centre of the head, 1 is the head radius, y points down.
+ * The figure stands from about -1.2 (top of the hair) to 9.3 (soles).
+ */
 const Pt = z.tuple([Expr, Expr]);
 
 const common = {
@@ -28,6 +35,12 @@ const common = {
   slot: Slot.optional(),
   /** Also draw the mirror image across the vertical axis of the face. */
   mirror: z.boolean().optional(),
+  /** Other shapes can clip to this one by name (the body's `legs`, `arms`, `torso`). */
+  name: Name.optional(),
+  /** Keep only the part of the shape that lies on these named shapes: clothes follow the body. */
+  clip: z.union([Name, z.array(Name).min(1)]).optional(),
+  /** Grow (or with a negative number shrink) the clip region by whole pixels. */
+  grow: z.int().min(-3).max(3).optional(),
   /** Shade and outline this shape on its own, like a lock of `seams` hair (a lapel on a jacket). */
   seam: z.boolean().optional(),
   /** Cut the shape out of what the part has drawn so far instead of adding it. */
@@ -125,6 +138,9 @@ export const LookSchema = z.strictObject({
     eyes: Hex,
     cloth: Hex,
     cloth2: Hex.optional(),
+    skirt: Hex.optional(),
+    legwear: Hex.optional(),
+    shoes: Hex.optional(),
     accent: Hex.optional(),
     metal: Hex.optional(),
     blush: Hex.optional(),

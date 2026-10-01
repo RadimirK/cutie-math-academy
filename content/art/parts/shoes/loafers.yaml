@@ -1,0 +1,10 @@
+id: loafers
+desc: Школьные туфли с округлым носом.
+material: shoes
+shapes:
+  - ellipse: { at: [-0.34, 9.1], r: [0.21, 0.17] }
+    mirror: true
+    seam: true
+  - poly: [[-0.5, 8.98], [-0.18, 8.98], [-0.16, 9.08], [-0.52, 9.08]]
+    mirror: true
+    seam: true

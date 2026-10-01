@@ -1,15 +1,17 @@
-// Renders a review sheet for every character with a `look`: each emotion at 1× and enlarged,
-// on the card colour of its rarity. For people and for the critic model (docs/character-art.md).
+// Renders review sheets for every character with a `look`: each emotion enlarged and at 1×,
+// on the card colour of its rarity, as a standing figure (<id>.full.png) and as a bust
+// (<id>.bust.png). For people and for the critic model (docs/character-art.md).
 //
 //   npm run art:render -- [out-dir] [character-id ...]
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { deflateSync } from 'node:zlib';
 import { renderLook, type Sprite } from '../src/art/render.ts';
+import type { Frame } from '../src/art/style.ts';
 import { parseHex, type RGB } from '../src/art/color.ts';
 import { loadOrDie } from './content-files.ts';
 
-const SCALE = 5;
+const SCALE: Record<Frame, number> = { full: 3, bust: 5 };
 const GAP = 8;
 const CARD: Record<number, string> = { 3: '#bfe2ff', 4: '#ffe89a', 5: '#ffc4de' };
 
@@ -47,10 +49,10 @@ export function encodePng({ w, h, rgba }: Sprite): Buffer {
   ]);
 }
 
-function sheet(sprites: Sprite[], bg: RGB): Sprite {
+function sheet(sprites: Sprite[], bg: RGB, scale: number): Sprite {
   const { w, h } = sprites[0]!;
-  const W = GAP + sprites.length * (w * SCALE + GAP) + w + GAP;
-  const H = GAP + h * SCALE + GAP;
+  const W = GAP + sprites.length * (w * scale + GAP) + w + GAP;
+  const H = GAP + Math.max(h * scale, sprites.length * (h + GAP) - GAP) + GAP;
   const rgba = new Uint8ClampedArray(W * H * 4);
   for (let i = 0; i < W * H; i++) rgba.set([...bg, 255], i * 4);
   const blit = (s: Sprite, ox: number, oy: number, k: number) => {
@@ -60,8 +62,8 @@ function sheet(sprites: Sprite[], bg: RGB): Sprite {
         if (s.rgba[src + 3]) rgba.set(s.rgba.subarray(src, src + 4), ((oy + y) * W + ox + x) * 4);
       }
   };
-  sprites.forEach((s, i) => blit(s, GAP + i * (w * SCALE + GAP), GAP, SCALE));
-  sprites.forEach((s, i) => blit(s, GAP + sprites.length * (w * SCALE + GAP), GAP + i * (h + GAP), 1));
+  sprites.forEach((s, i) => blit(s, GAP + i * (w * scale + GAP), GAP, scale));
+  sprites.forEach((s, i) => blit(s, GAP + sprites.length * (w * scale + GAP), GAP + i * (h + GAP), 1));
   return { w: W, h: H, rgba };
 }
 
@@ -71,9 +73,11 @@ mkdirSync(outDir, { recursive: true });
 for (const ch of Object.values(content.characters)) {
   if (!ch.look || (only.length && !only.includes(ch.id))) continue;
   const emotions = [undefined, ...Object.keys(ch.look.emotions)];
-  const sprites = emotions.map((e) => renderLook(ch.look!, content.parts, e));
-  const file = join(outDir, `${ch.id}.png`);
-  writeFileSync(file, encodePng(sheet(sprites, parseHex(CARD[ch.rarity] ?? '#dddddd'))));
-  for (const [e, s] of emotions.map((e, i) => [e ?? 'base', sprites[i]!] as const)) writeFileSync(join(outDir, `${ch.id}.${e}.png`), encodePng(s));
-  console.log(`${file}: ${emotions.map((e) => e ?? 'base').join(', ')}`);
+  const bg = parseHex(CARD[ch.rarity] ?? '#dddddd');
+  for (const frame of ['full', 'bust'] as const) {
+    const sprites = emotions.map((e) => renderLook(ch.look!, content.parts, e, frame));
+    writeFileSync(join(outDir, `${ch.id}.${frame}.png`), encodePng(sheet(sprites, bg, SCALE[frame])));
+    emotions.forEach((e, i) => writeFileSync(join(outDir, `${ch.id}.${frame}.${e ?? 'base'}.png`), encodePng(sprites[i]!)));
+  }
+  console.log(`${join(outDir, ch.id)}.{full,bust}.png: ${emotions.map((e) => e ?? 'base').join(', ')}`);
 }
