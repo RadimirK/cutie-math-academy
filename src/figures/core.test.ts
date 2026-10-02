@@ -48,6 +48,20 @@ describe('relation and cube', () => {
     expect(parseFigure({ type: 'relation', nodes: '1 2 3', edges: '1>2 3>3' })).toMatchObject({ ok: true, props: { nodes: ['1', '2', '3'], edges: [['1', '2'], ['3', '3']] } });
     expect(parseFigure({ type: 'relation', nodes: [1, 2], edges: '1>4' })).toMatchObject({ ok: false });
   });
+  it('resolves mapping arrows column by column', () => {
+    const sets = [
+      { name: 'A', elements: '1 2' },
+      { name: 'B', elements: 'a b' },
+      { name: 'A', elements: '1 2' },
+    ];
+    expect(parseFigure({ type: 'mapping', sets, maps: ['1>a 2>b', 'a>1 b>2'], through: '1>1' })).toMatchObject({
+      ok: true,
+      props: { maps: [[['1', 'a'], ['2', 'b']], [['a', '1'], ['b', '2']]], through: [['1', '1']] },
+    });
+    expect(parseFigure({ type: 'mapping', sets, maps: ['a>1'] })).toMatchObject({ ok: false });
+    expect(parseFigure({ type: 'mapping', sets, through: '1>a' })).toMatchObject({ ok: false });
+    expect(parseFigure({ type: 'mapping', sets, maps: ['1>a', 'a>1', '1>a'] })).toMatchObject({ ok: false });
+  });
   it('checks the cube dimension', () => {
     expect(parseFigure({ type: 'cube', values: '00010111', highlight: '011 101' })).toMatchObject({ ok: true });
     expect(parseFigure({ type: 'cube', values: '010' })).toMatchObject({ ok: false });

@@ -159,6 +159,48 @@ const relation = {
 
 export type RelationProps = z.output<typeof relation.schema>;
 
+// ---------- mapping ----------
+
+/**
+ * Sets drawn as columns of elements with arrows between neighbouring columns: `maps[i]` goes
+ * from `sets[i]` to `sets[i + 1]`. `through` are arcs from the first column to the last, for a
+ * composition. Element names only need to be unique within their own column.
+ */
+const mapping = {
+  id: 'mapping',
+  schema: z
+    .strictObject({
+      type: z.literal('mapping'),
+      sets: z
+        .array(z.strictObject({ name: z.string().min(1), elements: listOf(Label).pipe(z.array(z.string()).min(1).max(6)) }))
+        .min(2)
+        .max(4),
+      maps: z.array(Edges).default([]),
+      /** Names of the maps, drawn above the arrows. */
+      labels: z.array(z.string()).default([]),
+      through: Edges.default([]),
+      through_label: z.string().optional(),
+    })
+    .superRefine((p, ctx) => {
+      const gaps = p.sets.length - 1;
+      if (p.maps.length > gaps) ctx.addIssue({ code: 'custom', path: ['maps'], message: `между ${p.sets.length} множествами ${gaps} промежутков` });
+      if (p.labels.length > gaps) ctx.addIssue({ code: 'custom', path: ['labels'], message: `между ${p.sets.length} множествами ${gaps} промежутков` });
+      p.sets.forEach((s, i) => {
+        if (new Set(s.elements).size !== s.elements.length) ctx.addIssue({ code: 'custom', path: ['sets', i], message: `элементы ${s.name} повторяются` });
+      });
+      const check = (edges: [string, string][], from: number, to: number, path: (string | number)[]) => {
+        for (const [a, b] of edges) {
+          if (!p.sets[from]?.elements.includes(a)) ctx.addIssue({ code: 'custom', path, message: `в ${p.sets[from]?.name} нет ${a}` });
+          if (!p.sets[to]?.elements.includes(b)) ctx.addIssue({ code: 'custom', path, message: `в ${p.sets[to]?.name} нет ${b}` });
+        }
+      };
+      p.maps.forEach((edges, i) => check(edges, i, i + 1, ['maps', i]));
+      check(p.through, 0, gaps, ['through']);
+    }),
+} satisfies FigureTypeCore;
+
+export type MappingProps = z.output<typeof mapping.schema>;
+
 // ---------- cube ----------
 
 const Bits = z.string().regex(/^[01]+$/, 'строка из 0 и 1');
@@ -324,7 +366,7 @@ export function lastOutside(values: number[], limit: number, eps: number): numbe
 
 // ---------- registry ----------
 
-export const figureTypes: Record<string, FigureTypeCore<any>> = Object.fromEntries([venn, relation, cube, sequence].map((f) => [f.id, f]));
+export const figureTypes: Record<string, FigureTypeCore<any>> = Object.fromEntries([venn, relation, mapping, cube, sequence].map((f) => [f.id, f]));
 
 /** Validates a figure spec against its plugin. Returns the parsed props or an error message. */
 export function parseFigure(spec: unknown): { ok: true; type: string; props: any } | { ok: false; error: string } {

@@ -80,6 +80,9 @@ supabase/tests/run.sh      # миграции + сценарий RLS/RPC на ч
 - `{type: venn, sets: [A, B, C], shade: '(A | B) - C', elements: {AB: '3 4'}}` — диаграмма Венна;
   `shade` — выражение (`~` дополнение, `&`, `|`, `-`, `^`) или список областей (`A`, `AB`, `0` — снаружи);
 - `{type: relation, nodes: '1 2 3', edges: '1>2 2>2'}` — граф отношения;
+- `{type: mapping, sets: [{name: A, elements: '1 2'}, {name: B, elements: 'a b'}], maps: ['1>a 2>a'], labels: [f]}` —
+  множества столбцами и стрелки между соседними (`maps[i]` из `sets[i]` в `sets[i + 1]`); `through` и
+  `through_label` рисуют пунктиром композицию из первого множества в последнее;
 - `{type: cube, values: '00010111', highlight: '011 101'}` — булев куб, единицы закрашены;
 - `{type: sequence, expr: '(-1)^n/n', count: 20, limit: 0, eps: 0.1, interactive: true}` — точки
   $x_n$ (или `values: [...]`), предел, полоса $\varepsilon$; `interactive` добавляет ползунок $\varepsilon$

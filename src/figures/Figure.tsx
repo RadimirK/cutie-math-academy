@@ -1,6 +1,6 @@
 // Views of the figure plugins: plain SVG in the app's palette. Props are validated in ./core.ts.
 import { useId, useState, type ComponentType, type ReactNode } from 'react';
-import { cubeDim, lastOutside, parseFigure, sequenceValues, vennRegions, vennShaded, type CubeProps, type RelationProps, type SequenceProps, type VennProps } from './core.ts';
+import { cubeDim, lastOutside, parseFigure, sequenceValues, vennRegions, vennShaded, type CubeProps, type MappingProps, type RelationProps, type SequenceProps, type VennProps } from './core.ts';
 
 /** Renders a figure spec, or the validation error in place of the picture. */
 export function Figure({ spec, className = '' }: { spec: unknown; className?: string }) {
@@ -166,6 +166,84 @@ function Relation(p: RelationProps) {
   );
 }
 
+// ---------- mapping ----------
+
+function Mapping(p: MappingProps) {
+  const id = useId().replace(/:/g, '');
+  const step = 34;
+  const top = 64;
+  const rows = Math.max(...p.sets.map((s) => s.elements.length));
+  const bodyH = rows * step;
+  const arcDepth = p.through.length ? 46 : 0;
+  // Bold 15px labels: about 9px per character.
+  const half = (e: string) => e.length * 4.5;
+  const rx = p.sets.map((s) => Math.max(26, ...s.elements.map(half)) + 12);
+  const xs: number[] = [];
+  rx.forEach((r, i) => xs.push(i === 0 ? r + 12 : xs[i - 1]! + rx[i - 1]! + r + 70));
+  const w = xs[xs.length - 1]! + rx[rx.length - 1]! + 12;
+  const h = top + bodyH + 24 + arcDepth + (p.through_label ? 22 : 0);
+  const pos = p.sets.map((s, i) => {
+    const y0 = top + (bodyH - s.elements.length * step) / 2 + step / 2;
+    return new Map(s.elements.map((e, j) => [e, [xs[i]!, y0 + j * step] as const]));
+  });
+  const arrow = (key: string, a: string, [ax, ay]: readonly [number, number], b: string, [bx, by]: readonly [number, number]) => (
+    <line key={key} x1={ax + half(a) + 5} y1={ay} x2={bx - half(b) - 7} y2={by} />
+  );
+  const bottom = top + bodyH;
+  return (
+    <Svg w={w} h={h} label={`отображения между ${p.sets.map((s) => s.name).join(', ')}`}>
+      <defs>
+        <marker id={`${id}a`} viewBox="0 0 10 10" refX={8} refY={5} markerWidth={9} markerHeight={9} markerUnits="userSpaceOnUse" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" className="fill-ink-700" />
+        </marker>
+        <marker id={`${id}b`} viewBox="0 0 10 10" refX={8} refY={5} markerWidth={9} markerHeight={9} markerUnits="userSpaceOnUse" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" className="fill-ba-500" />
+        </marker>
+      </defs>
+      {p.sets.map((s, i) => {
+        const x = xs[i]!;
+        const ry = (s.elements.length * step) / 2 + 12;
+        return (
+          <g key={i}>
+            <ellipse cx={x} cy={top + bodyH / 2} rx={rx[i]} ry={ry} className="fill-ba-300/30 stroke-ink-300" strokeWidth={1.5} />
+            <text x={x} y={top + bodyH / 2 - ry - 14} textAnchor="middle" dominantBaseline="middle" fontSize={20} className="fill-ink-900" style={nameFont}>
+              {s.name}
+            </text>
+          </g>
+        );
+      })}
+      <g className="stroke-ink-700" strokeWidth={1.8} markerEnd={`url(#${id}a)`}>
+        {p.maps.flatMap((edges, i) => edges.map(([a, b]) => arrow(`${i}:${a}>${b}`, a, pos[i]!.get(a)!, b, pos[i + 1]!.get(b)!)))}
+      </g>
+      {p.labels.map((label, i) => (
+        <text key={i} x={(xs[i]! + xs[i + 1]!) / 2} y={top - 22} textAnchor="middle" dominantBaseline="middle" fontSize={18} className="fill-ink-700" style={nameFont}>
+          {label}
+        </text>
+      ))}
+      <g fill="none" className="stroke-ba-500" strokeWidth={2} strokeDasharray="5 4" markerEnd={`url(#${id}b)`}>
+        {p.through.map(([a, b]) => {
+          const [ax, ay] = pos[0]!.get(a)!;
+          const [bx, by] = pos[pos.length - 1]!.get(b)!;
+          const qy = bottom + arcDepth + 10;
+          return <path key={`${a}>${b}`} d={`M${ax + 6},${ay + 12} Q${(ax + bx) / 2},${qy} ${bx - 6},${by + 14}`} />;
+        })}
+      </g>
+      {p.through_label && (
+        <text x={w / 2} y={h - 12} textAnchor="middle" dominantBaseline="middle" fontSize={18} className="fill-ba-500" style={nameFont}>
+          {p.through_label}
+        </text>
+      )}
+      {pos.map((m, i) =>
+        [...m].map(([e, [x, y]]) => (
+          <text key={`${i}:${e}`} x={x} y={y} textAnchor="middle" dominantBaseline="central" fontSize={15} className="fill-ink-900 font-bold">
+            {e}
+          </text>
+        )),
+      )}
+    </Svg>
+  );
+}
+
 // ---------- cube ----------
 
 function Cube(p: CubeProps) {
@@ -318,4 +396,4 @@ function Sequence(p: SequenceProps) {
   );
 }
 
-const views: Record<string, ComponentType<any>> = { venn: Venn, relation: Relation, cube: Cube, sequence: Sequence };
+const views: Record<string, ComponentType<any>> = { venn: Venn, relation: Relation, mapping: Mapping, cube: Cube, sequence: Sequence };
