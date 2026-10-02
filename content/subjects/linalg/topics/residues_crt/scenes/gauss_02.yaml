@@ -1,0 +1,88 @@
+id: gauss_02
+title: Теорема Эйлера
+character: gauss
+background: library
+nodes:
+  start:
+    - speaker: gauss
+      emotion: smile
+      text: 'Сколько чисел от $1$ до $100$ взаимно просты со $100$? Перебирать не будем. Через минуту ответишь в уме.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Начнём с простого $p$. Все числа от $1$ до $p - 1$ взаимно просты с ним, так что $\varphi(p) = p - 1$. Теперь степень простого, $p^k$. С $p^k$ не взаимно просты только числа, кратные $p$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Кратных $p$ среди чисел от $1$ до $p^k$ ровно $p^{k-1}$: это $p, 2p, 3p, \dots, p^{k-1} \cdot p$. Остальные подходят. $$\varphi(p^k) = p^k - p^{k-1} = p^{k-1}(p - 1).$$'
+    - speaker: gauss
+      emotion: smile
+      text: 'Проверим: $\varphi(9) = 9 - 3 = 6$, это $1, 2, 4, 5, 7, 8$. $\varphi(8) = 8 - 4 = 4$, это $1, 3, 5, 7$. Сходится.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Теперь любое $n$. Разложим на простые: $n = p_1^{k_1} \cdots p_s^{k_s}$. Степени разных простых взаимно просты, так что по мультипликативности $$\varphi(n) = \prod_{i} \varphi(p_i^{k_i}) = \prod_i p_i^{k_i - 1}(p_i - 1).$$'
+    - speaker: gauss
+      emotion: smug
+      text: 'Например, $\varphi(36) = \varphi(4)\varphi(9) = 2 \cdot 6 = 12$. В уме, без перебора.'
+    - choice:
+        question: 'Чему равно $\varphi(100)$?'
+        options:
+          - text: '$40$'
+            goto: phi_right
+          - text: '$50$'
+            goto: phi_wrong
+          - text: '$60$'
+            goto: phi_wrong
+  phi_wrong:
+    - speaker: gauss
+      emotion: thinking
+      text: 'Разложи: $100 = 4 \cdot 25$. $\varphi(4) = 4 - 2 = 2$, $\varphi(25) = 25 - 5 = 20$. Перемножь.'
+    - goto: phi_right
+  phi_right:
+    - speaker: gauss
+      emotion: happy
+      text: '$\varphi(100) = \varphi(4)\varphi(25) = 2 \cdot 20 = 40$. Можно и так: $100 \cdot (1 - \tfrac{1}{2})(1 - \tfrac{1}{5}) = 40$. Убрали каждое второе и каждое пятое.'
+    - goto: theorem
+  theorem:
+    - speaker: gauss
+      emotion: serious
+      text: 'Теорема Эйлера. Если $\gcd(a, n) = 1$, то $$a^{\varphi(n)} \equiv 1 \pmod{n}.$$ Значок $\equiv$ и «$\bmod n$» означают «равны по модулю $n$», то есть $[a^{\varphi(n)}] = [1]$ в $\mathbb{Z}/n\mathbb{Z}$.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Пример до доказательства. $n = 10$, обратимые остатки: $1, 3, 7, 9$. Умножим каждый на $a = 3$: $3, 9, 21, 27$. По модулю $10$ это $3, 9, 1, 7$. Те же четыре числа, только переставленные!'
+    - speaker: student_a
+      emotion: surprised
+      text: 'Ой. Умножение на $3$ их просто перемешало.'
+    - speaker: gauss
+      emotion: smile
+      text: 'И это верно всегда. Пусть $r_1, \dots, r_{\varphi(n)}$ — все обратимые остатки. Числа $a r_1, \dots, a r_{\varphi(n)}$ тоже обратимы: произведение обратимых обратимо. И они попарно различны: если $a r_i \equiv a r_j$, умножаем на $a^{-1}$ и получаем $r_i \equiv r_j$.'
+    - speaker: gauss
+      emotion: smile
+      text: '$\varphi(n)$ различных обратимых остатков — это все обратимые остатки. Значит, $a r_1, \dots, a r_{\varphi(n)}$ — те же $r_1, \dots, r_{\varphi(n)}$ в другом порядке.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Перемножим оба набора. Произведение от порядка не зависит: $$r_1 r_2 \cdots r_{\varphi(n)} \equiv (a r_1)(a r_2) \cdots (a r_{\varphi(n)}) = a^{\varphi(n)} \cdot r_1 r_2 \cdots r_{\varphi(n)}.$$'
+    - speaker: gauss
+      emotion: happy
+      text: 'Произведение $r_1 \cdots r_{\varphi(n)}$ обратимо, сокращаем на него. Остаётся $1 \equiv a^{\varphi(n)}$. Безупречно.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Частный случай для простого $p$: $\varphi(p) = p - 1$, и $a^{p-1} \equiv 1 \pmod p$ для $a$, не делящихся на $p$. Это малая теорема Ферма, она нам ещё понадобится.'
+    - goto: application
+  application:
+    - speaker: gauss
+      emotion: smug
+      text: 'Теперь фокус. Последняя цифра числа $7^{2026}$?'
+    - speaker: student_b
+      emotion: confused
+      text: 'Две тысячи двадцать шестая степень? Я калькулятор не взяла.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Последняя цифра — это остаток по модулю $10$. $\gcd(7, 10) = 1$ и $\varphi(10) = 4$, значит, $7^4 \equiv 1$. $2026 = 4 \cdot 506 + 2$, поэтому $$7^{2026} = (7^4)^{506} \cdot 7^2 \equiv 1 \cdot 49 \equiv 9.$$'
+    - speaker: student_b
+      emotion: surprised
+      text: 'Девятка. За три строчки. Ладно, это было круто.'
+    - speaker: gauss
+      emotion: embarrassed
+      text: 'Не нужно так громко. …Но да, было.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Итог. $\varphi(p^k) = p^k - p^{k-1}$, остальное — мультипликативность. Теорема Эйлера: $a^{\varphi(n)} \equiv 1$, если $a$ и $n$ взаимно просты. Она позволяет уменьшать огромные степени по модулю.'

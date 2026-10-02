@@ -2,7 +2,7 @@ id: cramer
 name: Крамер
 rarity: 4
 subject: linalg
-topics: [determinants]
+topics: [determinants, det_exterior]
 description: 'Библиотекарь кафедры. Решает системы уравнений быстрее, чем ты их записываешь.'
 sprites:
   smile: cramer/smile.png

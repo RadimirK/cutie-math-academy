@@ -1,0 +1,74 @@
+id: grassmann_05
+title: Внешняя алгебра
+character: grassmann
+background: rooftop
+nodes:
+  start:
+    - speaker: grassmann
+      emotion: serious
+      text: 'Тензорные степени. $V^{\otimes 0} = k$, $V^{\otimes 1} = V$, $V^{\otimes 2} = V \otimes V$, и дальше по цепочке: $V^{\otimes n} = V \otimes V^{\otimes (n-1)}$. Базис $V^{\otimes n}$ — все $e_{i_1} \otimes e_{i_2} \otimes \dots \otimes e_{i_n}$, их $(\dim V)^n$ штук.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Если проще: базисный тензор — это слово из букв $e_1, \dots, e_n$. $e_1 \otimes e_2 \otimes e_1$ — слово «121». Порядок букв важен: $e_1 \otimes e_2 \ne e_2 \otimes e_1$.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Тензорная алгебра $TV = \bigoplus_{n \ge 0} V^{\otimes n}$. Её элементы — конечные суммы тензоров разных степеней, как многочлены — суммы одночленов разных степеней. Умножение — $\otimes$: слова склеиваются, а суммы перемножаются по дистрибутивности.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Пример. $(e_1 + e_1 \otimes e_2) \otimes (3\, e_2 \otimes e_1 + 2 e_1)$. Раскрываем скобки, склеивая слова: $3\, e_1 e_2 e_1 + 2\, e_1 e_1 + 3\, e_1 e_2 e_2 e_1 + 2\, e_1 e_2 e_1$. Я опустила значки $\otimes$, чтобы было видно слова.'
+    - speaker: student_a
+      emotion: explain
+      text: 'Первое и последнее слагаемые — одно и то же слово «121»! Значит, итого $5\, e_1 e_2 e_1 + 2\, e_1 e_1 + 3\, e_1 e_2 e_2 e_1$.'
+    - speaker: grassmann
+      emotion: happy
+      text: 'Верно, подобные надо привести. Тензорная алгебра — это многочлены от некоммутирующих переменных. Очень свободная и очень большая.'
+    - goto: exterior
+  exterior:
+    - speaker: grassmann
+      emotion: explain
+      text: 'А теперь моё. Возьмём в $TV$ двусторонний идеал $I$, порождённый всеми $v \otimes v$, $v \in V$. В нём лежат все суммы вида $w_1 \otimes v \otimes v \otimes w_2$. Склеим по нему: $$\Lambda V = TV / I.$$ Это внешняя алгебра. Умножение в ней обозначают $\wedge$.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Главное правило: $v \wedge v = 0$ для любого вектора $v$. Мы его объявили нулём. Отсюда следует антикоммутативность: $a \wedge b = -\, b \wedge a$.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Доказательство: $(a + b) \wedge (a + b) = 0$, ведь это $v \wedge v$ для $v = a + b$. Раскроем: $a \wedge a + a \wedge b + b \wedge a + b \wedge b = 0$. Первое и последнее слагаемые — ноль. Остаётся $a \wedge b + b \wedge a = 0$.'
+    - speaker: student_b
+      emotion: confused
+      text: 'Зачем нам алгебра, где вектор, умноженный на себя, — ноль? Звучит как алгебра, где всё ломается.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Представь две стрелки $a$ и $b$ на плоскости. Они натягивают параллелограмм. $a \wedge b$ — это и есть он, ориентированная площадка: её площадь и направление обхода. $a \wedge a$ — параллелограмм на двух одинаковых стрелках, он сплющен, площадь ноль. $b \wedge a$ — тот же параллелограмм с обратным обходом, площадь со знаком минус.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Посчитаем в $\mathbb{R}^2$. $a = a_1 e_1 + a_2 e_2$, $b = b_1 e_1 + b_2 e_2$. $$a \wedge b = a_1 b_2\, e_1 \wedge e_2 + a_2 b_1\, e_2 \wedge e_1 = (a_1 b_2 - a_2 b_1)\, e_1 \wedge e_2.$$ Слагаемые $e_1 \wedge e_1$ и $e_2 \wedge e_2$ пропали.'
+    - speaker: student_b
+      emotion: surprised
+      text: '$a_1 b_2 - a_2 b_1$ — это же определитель $2 \times 2$! $ad - bc$!'
+    - speaker: grassmann
+      emotion: happy
+      text: 'Да! Определитель — это площадь параллелограмма со знаком, и он сам появился из правила $v \wedge v = 0$. Крамер потом сделает из этого определение определителя для любого размера.'
+    - speaker: grassmann
+      emotion: serious
+      text: '$k$-я внешняя степень $\Lambda^k V$ — образ $V^{\otimes k}$ в $\Lambda V$: линейные комбинации произведений $v_1 \wedge \dots \wedge v_k$ ровно из $k$ векторов. $\Lambda^0 V = k$, $\Lambda^1 V = V$.'
+    - choice:
+        question: 'Чему равно $(e_1 + e_2) \wedge (e_1 - e_2)$?'
+        options:
+          - text: '$-2\, e_1 \wedge e_2$'
+            goto: wedge_right
+          - text: '$0$'
+            goto: wedge_wrong
+          - text: '$2\, e_1 \wedge e_2$'
+            goto: wedge_wrong
+  wedge_wrong:
+    - speaker: grassmann
+      emotion: thinking
+      text: 'Раскроем аккуратно: $e_1 \wedge e_1 - e_1 \wedge e_2 + e_2 \wedge e_1 - e_2 \wedge e_2$. Крайние — ноль. А $e_2 \wedge e_1 = -\, e_1 \wedge e_2$. Сложи.'
+    - goto: wedge_right
+  wedge_right:
+    - speaker: grassmann
+      emotion: happy
+      text: '$-e_1 \wedge e_2 - e_1 \wedge e_2 = -2\, e_1 \wedge e_2$. Проверка через определитель: $a = (1, 1)$, $b = (1, -1)$, $a_1 b_2 - a_2 b_1 = -1 - 1 = -2$. Площадь $2$, обход по часовой стрелке.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'В следующий раз найдём базис $\Lambda^k V$ и посчитаем его размерность. Там будут биномиальные коэффициенты и одно одномерное пространство, очень важное.'

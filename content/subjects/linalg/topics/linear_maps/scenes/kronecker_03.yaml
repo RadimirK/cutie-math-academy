@@ -1,0 +1,72 @@
+id: kronecker_03
+title: Замена базиса и канонический вид
+character: kronecker
+background: classroom_evening
+nodes:
+  start:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Матрица зависит от базиса. Отображение — нет. Сегодня — как матрица меняется при смене базиса и какую самую простую матрицу можно получить.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Пусть в $V$ был базис $e_1, \dots, e_n$, а стал $e''_1, \dots, e''_n$. Матрица перехода $C$: в $j$-м столбце — координаты нового $e''_j$ в старом базисе. Тогда для любого вектора $x_{\text{стар}} = C\, x_{\text{нов}}$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Проверка: если $x_{\text{нов}} = (1, 0, \dots, 0)$, это сам $e''_1$. А $C$, умноженная на этот столбец, даёт первый столбец $C$ — координаты $e''_1$ в старом базисе. Сходится.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Теперь $L\colon V \to W$ с матрицей $A = [L]_{e,f}$. В $V$ меняем базис матрицей $C$, в $W$ — матрицей $D$. Тогда $$[L]_{e'',f''} = D^{-1} A\, C.$$'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Вывод в одну строку. В старых координатах $y_{\text{стар}} = A x_{\text{стар}}$. Подставим $x_{\text{стар}} = C x_{\text{нов}}$ и $y_{\text{стар}} = D y_{\text{нов}}$: $D y_{\text{нов}} = A C x_{\text{нов}}$, то есть $y_{\text{нов}} = D^{-1} A C\, x_{\text{нов}}$.'
+    - speaker: kronecker
+      emotion: thinking
+      text: 'Предупреждение. В конспекте матрицу перехода пишут по строкам, и формула выглядит как $[L]_{e,f} T_1$ и $T_2 [L]_{e,f}$. Это те же матрицы, только транспонированные. На экзамене используй обозначения лектора. Суть одна: куда идёт базис.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Для оператора $L\colon V \to V$ базис один и тот же в обеих частях, $D = C$: $[L]_{e''} = C^{-1} A C$. Пример. $A = \begin{pmatrix} 1 & 1 \\ 0 & 2 \end{pmatrix}$. Возьмём $e''_1 = (1, 0)$, $e''_2 = (1, 1)$. Тогда $A e''_1 = (1, 0) = e''_1$ и $A e''_2 = (2, 2) = 2 e''_2$.'
+    - speaker: kronecker
+      emotion: happy
+      text: 'В новом базисе $[L]_{e''} = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix}$. Диагональная! Удачный базис превратил непонятную матрицу в два растяжения. Как такие базисы искать для операторов — тема Жордан, не моя.'
+    - goto: canonical
+  canonical:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Моя тема — отображения между разными пространствами, где базисы в $V$ и $W$ выбираются независимо. Тут ответ предельно простой.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Теорема о каноническом виде. Для $L\colon V \to W$ найдутся базисы $e$ в $V$ и $f$ в $W$, в которых $$[L]_{e,f} = \begin{pmatrix} E_r & 0 \\ 0 & 0 \end{pmatrix},$$ где $E_r$ — единичная матрица размера $r = \dim \operatorname{Im} L$, а остальное нули.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Построение. Пусть $\dim V = n$. По теореме о ядре и образе $\dim \ker L = n - r$. Возьмём базис ядра и назовём его $e_{r+1}, \dots, e_n$. Дополним до базиса $V$ векторами $e_1, \dots, e_r$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Положим $f_i = L(e_i)$ при $i \le r$. В доказательстве теоремы о ядре и образе мы видели: это базис $\operatorname{Im} L$. Дополним его до базиса $W$ как угодно.'
+    - speaker: kronecker
+      emotion: smug
+      text: 'Куда идёт базис? $L(e_i) = f_i$ при $i \le r$ — столбец с единицей на $i$-м месте. $L(e_i) = 0$ при $i > r$ — нулевой столбец. Вот и единичный блок с нулями. Построено явно.'
+    - speaker: student_b
+      emotion: surprised
+      text: 'Подождите. Значит, все отображения одного ранга выглядят одинаково? Разница только в том, как выбрать базисы?'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. Для отображений между разными пространствами единственный инвариант — ранг $r$. Всё остальное — выбор базиса. С операторами $V \to V$ так не выйдет: там базис один на оба конца, и форма сложнее.'
+    - choice:
+        question: 'Канонический вид проекции $\mathbb{R}^3 \to \mathbb{R}^2$, $(x, y, z) \mapsto (x, y)$?'
+        options:
+          - text: '$\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}$'
+            goto: can_right
+          - text: '$\begin{pmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$'
+            goto: can_wrong
+  can_wrong:
+    - speaker: kronecker
+      emotion: angry
+      text: 'Ноль. Посчитай ранг. Образ — вся плоскость $\mathbb{R}^2$, $r = 2$. Значит, единичный блок $2 \times 2$.'
+    - goto: can_right
+  can_right:
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. Ранг $2$, блок $E_2$ и нулевой столбец для ядра — оси $z$. В стандартных базисах проекция уже в каноническом виде.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Итог темы. Отображение определяется образами базиса. $\dim V = \dim \ker + \dim \operatorname{Im}$. Матрица — образы по столбцам, произведение — композиция, смена базиса — $D^{-1} A C$. Канонический вид — $E_r$ с нулями. Свободны.'

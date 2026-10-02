@@ -1,0 +1,6 @@
+id: modules
+title: Модули над кольцами главных идеалов
+description: Модули, конечнопорождённые и свободные модули, копредставление, нормальная форма Смита, структура конечнопорождённых модулей над ОГИ и абелевых групп.
+requires: [quotients, linear_maps]
+main_character: noether
+main_scenes: [noether_10, noether_11, noether_12]

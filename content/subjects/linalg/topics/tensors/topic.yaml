@@ -1,0 +1,6 @@
+id: tensors
+title: Тензоры и внешняя алгебра
+description: Билинейные отображения, тензорное произведение и тензорная алгебра, внешняя алгебра, базис и размерность внешней степени.
+requires: [duality]
+main_character: grassmann
+main_scenes: [grassmann_04, grassmann_05, grassmann_06]

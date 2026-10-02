@@ -1,0 +1,6 @@
+id: fields
+title: Максимальные идеалы и комплексные числа
+description: Критерии простоты и максимальности идеала, максимальные идеалы в k[x], построение поля комплексных чисел, сопряжение и модуль, основная теорема алгебры.
+requires: [quotients, polynomials]
+main_character: gauss
+main_scenes: [gauss_04, gauss_05]

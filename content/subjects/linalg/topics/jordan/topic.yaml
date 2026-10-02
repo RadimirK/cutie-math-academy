@@ -1,0 +1,6 @@
+id: jordan
+title: Жорданова форма
+description: Характеристический многочлен и теорема Гамильтона — Кэли, пространство как модуль над k[x], существование и единственность жордановой нормальной формы.
+requires: [modules, det_exterior]
+main_character: jordan
+main_scenes: [jordan_01, jordan_02]

@@ -1,0 +1,75 @@
+id: noether_12
+title: Структура модулей и абелевых групп
+character: noether
+background: classroom_evening
+nodes:
+  start:
+    - narration: 'Вечер. Нётер сидит на подоконнике, очки сползли на нос.'
+    - speaker: noether
+      emotion: smile
+      text: 'Сегодня кульминация. Теорема о структуре конечнопорождённых модулей над областью главных идеалов. Звучит длинно, но смысл простой: любой такой модуль собирается из самых простых кирпичиков.'
+    - speaker: noether
+      emotion: serious
+      text: 'Теорема. Пусть $R$ — ОГИ, $M$ — конечнопорождённый $R$-модуль. Тогда $$M \cong R^r \oplus R/(d_1) \oplus R/(d_2) \oplus \dots \oplus R/(d_t),$$ где $d_i$ ненулевые необратимые и $d_1 \mid d_2 \mid \dots \mid d_t$. Число $r$ и элементы $d_i$, с точностью до ассоциированности, определены однозначно.'
+    - speaker: noether
+      emotion: explain
+      text: 'Доказательство — из формы Смита. $M \cong R^n / A R^m$. Пусть $UAV = D$ — диагональная. $V$ обратима, так что $A R^m = AV R^m$: столбцы $AV$ порождают то же самое. А $U$ — изоморфизм $R^n \to R^n$, который переводит $AV R^m$ в $UAV R^m = D R^m$.'
+    - speaker: noether
+      emotion: explain
+      text: 'Значит, $M \cong R^n / D R^m$. А с диагональной матрицей всё видно сразу: $i$-я координата склеивается по $(d_i)$ независимо от остальных. $$R^n / D R^m \cong R/(d_1) \oplus \dots \oplus R/(d_t) \oplus R^{n - t}.$$'
+    - speaker: noether
+      emotion: smile
+      text: 'Если какое-то $d_i$ обратимо, то $R/(d_i) = R/R = 0$, это слагаемое просто пропадает. Остальные — нужные нам кирпичики. $R^r$ с $r = n - t$ называют свободной частью, а сумму $R/(d_i)$ — кручением.'
+    - goto: primary
+  primary:
+    - speaker: noether
+      emotion: explain
+      text: 'Можно разобрать кирпичики ещё мельче. Разложим $d = p_1^{k_1} \cdots p_s^{k_s}$ на простые. Степени разных простых взаимно просты, и по китайской теореме $R/(d) \cong R/(p_1^{k_1}) \oplus \dots \oplus R/(p_s^{k_s})$.'
+    - speaker: noether
+      emotion: serious
+      text: 'Вторая форма теоремы: $M \cong R^r \oplus \bigoplus R/(p^k)$, сумма по некоторому набору степеней простых. Эти $p^k$ называют элементарными делителями.'
+    - speaker: noether
+      emotion: happy
+      text: 'А теперь $R = \mathbb{Z}$. Модули над $\mathbb{Z}$ — это абелевы группы. Получаем классификацию: каждая конечнопорождённая абелева группа изоморфна $$\mathbb{Z}^r \oplus \mathbb{Z}/d_1 \oplus \dots \oplus \mathbb{Z}/d_t, \qquad d_1 \mid d_2 \mid \dots \mid d_t,\ d_1 > 1.$$'
+    - speaker: student_b
+      emotion: surprised
+      text: 'То есть любую такую группу можно записать как кучку часов и несколько копий $\mathbb{Z}$?'
+    - speaker: noether
+      emotion: happy
+      text: 'Кучка циферблатов и несколько бесконечных прямых. Да! Причём однозначно.'
+    - speaker: noether
+      emotion: explain
+      text: 'Пример: все абелевы группы из $12$ элементов. $12 = 4 \cdot 3$. Часть для простого $2$ — $\mathbb{Z}/4$ или $\mathbb{Z}/2 \oplus \mathbb{Z}/2$. Часть для простого $3$ — только $\mathbb{Z}/3$. Значит, групп две: $\mathbb{Z}/4 \oplus \mathbb{Z}/3 \cong \mathbb{Z}/12$ и $\mathbb{Z}/2 \oplus \mathbb{Z}/2 \oplus \mathbb{Z}/3 \cong \mathbb{Z}/2 \oplus \mathbb{Z}/6$.'
+    - choice:
+        question: 'Сколько существует абелевых групп из $8$ элементов (с точностью до изоморфизма)?'
+        options:
+          - text: '$1$'
+            goto: eight_wrong
+          - text: '$2$'
+            goto: eight_wrong
+          - text: '$3$'
+            goto: eight_right
+  eight_wrong:
+    - speaker: noether
+      emotion: thinking
+      text: '$8 = 2^3$. Надо разбить показатель $3$ на слагаемые: $3$, $2 + 1$, $1 + 1 + 1$. Каждому разбиению — своя группа.'
+    - goto: eight_right
+  eight_right:
+    - speaker: noether
+      emotion: happy
+      text: 'Три: $\mathbb{Z}/8$, $\mathbb{Z}/2 \oplus \mathbb{Z}/4$, $\mathbb{Z}/2 \oplus \mathbb{Z}/2 \oplus \mathbb{Z}/2$. По разбиению показателя $3 = 3 = 2 + 1 = 1 + 1 + 1$. Они действительно разные: в первой есть элемент порядка $8$, во второй максимум $4$, в третьей $2$.'
+    - goto: outro
+  outro:
+    - speaker: noether
+      emotion: explain
+      text: 'И последнее, ради чего всё затевалось. Помнишь модуль над $k[x]$ из оператора $A$: $f(x) \cdot v = f(A)v$? Кольцо $k[x]$ — ОГИ, а пространство конечномерно, значит, модуль конечнопорождён. Теорема о структуре применима!'
+    - speaker: noether
+      emotion: happy
+      text: 'Свободной части не будет, а над алгебраически замкнутым полем простые элементы $k[x]$ — это $x - \lambda$. Значит, $V \cong \bigoplus k[x]/((x - \lambda)^m)$. Каждый такой кирпичик — это жорданова клетка. Жорданова форма — частный случай моей теоремы!'
+    - narration: 'В дверях появляется девушка в светлом пиджаке, с папкой в руках.'
+    - speaker: jordan
+      emotion: smug
+      text: 'Внесём в протокол: теорема о модулях — это просто жорданова форма, обобщённая на любые кольца. Следующий пункт повестки — мой.'
+    - speaker: noether
+      emotion: happy
+      text: 'Жордан! Мы спорим об этом уже который год. Ладно, забирай их. Только расскажи про Гамильтона — Кэли, у тебя это красиво выходит.'

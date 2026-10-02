@@ -1,0 +1,6 @@
+id: linear_maps
+title: Линейные отображения и матрицы
+description: Линейные отображения, универсальное свойство базиса, ядро и образ, матрица отображения и композиции, замена базиса и канонический вид.
+requires: [vector_spaces]
+main_character: kronecker
+main_scenes: [kronecker_01, kronecker_02, kronecker_03]

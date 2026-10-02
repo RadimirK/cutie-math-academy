@@ -1,0 +1,107 @@
+id: gauss_03
+title: Китайская теорема для колец
+character: gauss
+background: library_night
+nodes:
+  start:
+    - narration: 'Поздний вечер. В читальном зале горит одна лампа. Гаусс раскладывает карточки с надписями $I + J$, $I \cap J$, $IJ$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Нётер настояла, чтобы я рассказала китайскую теорему «по-взрослому», на языке идеалов. Хорошо. Сначала научимся делать из двух идеалов новые.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Сумма: $I + J = \{i + j \mid i \in I,\ j \in J\}$. Это идеал: $(i_1 + j_1) + (i_2 + j_2) = (i_1 + i_2) + (j_1 + j_2)$ и $r(i + j) = ri + rj$. В $\mathbb{Z}$: $(12) + (18) = \{12m + 18n\} = (6)$ — это НОД, мы уже видели.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Пересечение: $I \cap J$. Тоже идеал: если $a, b$ лежат в обоих, то $a + b$ и $ra$ тоже в обоих. В $\mathbb{Z}$: $(12) \cap (18)$ — числа, кратные и $12$, и $18$, то есть $(36)$. Это НОК.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Произведение: $IJ$ — все конечные суммы $i_1 j_1 + i_2 j_2 + \dots + i_k j_k$, где $i_t \in I$, $j_t \in J$. В $\mathbb{Z}$: $(12)(18) = (216)$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Зачем суммы? Почему не просто все произведения $ij$?'
+    - speaker: gauss
+      emotion: smile
+      text: 'Потому что сумма двух произведений $i_1 j_1 + i_2 j_2$ не обязана быть произведением. А идеал обязан быть замкнут по сложению. Добавили суммы — и замкнутость есть. Умножение на $r$: $r \sum i_t j_t = \sum (r i_t) j_t$, снова такая сумма.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Сравним. $(216) \subseteq (36)$. Это не случайность: всегда $IJ \subseteq I \cap J$. Каждое $ij$ лежит в $I$, потому что $I$ всасывает умножение на $j$, и в $J$ по той же причине. Суммы таких элементов — тоже в обоих.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А когда они равны? В $\mathbb{Z}$ $(3)(5) = (15)$ и $(3) \cap (5) = (15)$ — тут равны.'
+    - speaker: gauss
+      emotion: happy
+      text: 'Ты заметила главное. $3$ и $5$ взаимно просты, а $12$ и $18$ — нет. Переведём «взаимно просты» на язык идеалов.'
+    - goto: coprime
+  coprime:
+    - speaker: gauss
+      emotion: serious
+      text: 'Идеалы $I$ и $J$ взаимно просты, или комаксимальны, если $I + J = R$. Это то же, что $1 \in I + J$: $1 = i + j$ для каких-то $i \in I$, $j \in J$. В $\mathbb{Z}$: $(m) + (n) = (\gcd(m, n))$, так что $(m)$ и $(n)$ взаимно просты ровно при $\gcd(m, n) = 1$.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Лемма. Если $I + J = R$, то $I \cap J = IJ$.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Включение $IJ \subseteq I \cap J$ уже есть. Обратно: возьмём $a \in I \cap J$ и $1 = i + j$. Умножим на $a$: $$a = ai + aj.$$ $a \in J$ и $i \in I$, поэтому $ai$ — произведение элемента $I$ на элемент $J$, оно лежит в $IJ$. $a \in I$ и $j \in J$, поэтому $aj \in IJ$. Сумма в $IJ$.'
+    - speaker: student_a
+      emotion: happy
+      text: 'Всё держится на единице, разложенной в сумму!'
+    - speaker: gauss
+      emotion: smile
+      text: 'Как и китайская теорема, сейчас увидишь.'
+    - goto: crt
+  crt:
+    - speaker: gauss
+      emotion: serious
+      text: 'Китайская теорема об остатках для колец. Если $I$ и $J$ взаимно просты, то $$R/IJ \cong R/I \times R/J.$$'
+    - speaker: gauss
+      emotion: explain
+      text: 'Возьмём гомоморфизм $\varphi\colon R \to R/I \times R/J$, $r \mapsto ([r]_I, [r]_J)$. План: доказать, что он сюръективен и что его ядро — $IJ$. Остальное сделает теорема об изоморфизме.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Сюръективность. $1 = i + j$. Посмотрим на образ $i$: $[i]_I = [0]$, потому что $i \in I$. А $[i]_J = [1 - j]_J = [1]_J$. Значит, $\varphi(i) = (0, 1)$. Так же $\varphi(j) = (1, 0)$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Теперь любую пару $([r]_I, [s]_J)$ получаем так: $\varphi(rj + si) = [r] \cdot (1, 0) + [s] \cdot (0, 1) = ([r], [s])$. Элементы $j$ и $i$ работают как «переключатели» компонент.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Ядро. $\varphi(r) = (0, 0)$ значит $r \in I$ и $r \in J$, то есть $\ker\varphi = I \cap J = IJ$ по лемме. Теорема об изоморфизме: $R/IJ \cong \operatorname{Im}\varphi = R/I \times R/J$.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Решим теперь задачу из первого занятия этим способом. $x \equiv 2 \pmod 3$, $x \equiv 3 \pmod 5$. Разложим единицу: $1 = 10 - 9$, где $i = -9 \in (3)$, $j = 10 \in (5)$.'
+    - choice:
+        question: 'По формуле $x = rj + si$ с $r = 2$, $s = 3$. Чему равно $x$ по модулю $15$?'
+        options:
+          - text: '$8$'
+            goto: crt_right
+          - text: '$7$'
+            goto: crt_wrong
+          - text: '$13$'
+            goto: crt_wrong
+  crt_wrong:
+    - speaker: gauss
+      emotion: thinking
+      text: 'Считаем аккуратно: $x = 2 \cdot 10 + 3 \cdot (-9) = 20 - 27 = -7$. По модулю $15$: $-7 + 15 = 8$.'
+    - goto: crt_right
+  crt_right:
+    - speaker: gauss
+      emotion: happy
+      text: '$x = 20 - 27 = -7 \equiv 8$. Проверка: $8 = 2 \cdot 3 + 2$ и $8 = 5 + 3$. Тот же ответ, что и перебором, но теперь это алгоритм, который работает для огромных чисел.'
+    - speaker: gauss
+      emotion: serious
+      text: 'И более общая форма. Если идеалы $I_1, \dots, I_n$ попарно взаимно просты, то $$R/(I_1 \cdots I_n) \cong R/I_1 \times \dots \times R/I_n.$$'
+    - speaker: gauss
+      emotion: explain
+      text: 'Доказательство — индукция. Достаточно проверить, что $I_1$ взаимно прост с $J = I_2 \cdots I_n$, и применить теорему для двух идеалов. Для каждого $k \ge 2$ разложим $1 = x_k + y_k$, где $x_k \in I_1$, $y_k \in I_k$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Перемножим: $1 = (x_2 + y_2)(x_3 + y_3) \cdots (x_n + y_n)$. Раскроем скобки. Единственное слагаемое без $x$ — это $y_2 y_3 \cdots y_n \in J$. Во всех остальных есть множитель из $I_1$, они лежат в $I_1$. Значит, $1 \in I_1 + J$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Например, $\mathbb{Z}/60 \cong \mathbb{Z}/4 \times \mathbb{Z}/3 \times \mathbb{Z}/5$: $60 = 4 \cdot 3 \cdot 5$, и эти числа попарно взаимно просты. Любое кольцо вычетов раскладывается в произведение колец по степеням простых.'
+    - speaker: student_a
+      emotion: happy
+      text: 'И отсюда сразу мультипликативность $\varphi$ для любого числа множителей!'
+    - speaker: gauss
+      emotion: happy
+      text: 'Безупречно. На сегодня всё. Лампу не выключай, я ещё посижу.'

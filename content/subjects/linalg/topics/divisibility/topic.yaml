@@ -1,0 +1,6 @@
+id: divisibility
+title: Делимость и алгоритм Евклида
+description: Делимость в кольце, делители нуля и области целостности, ассоциированные элементы, евклидовы области, НОД и его линейное представление.
+requires: [structures]
+main_character: bezout
+main_scenes: [bezout_01, bezout_02]

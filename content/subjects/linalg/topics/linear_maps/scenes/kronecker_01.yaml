@@ -1,0 +1,92 @@
+id: kronecker_01
+title: Куда идёт базис
+character: kronecker
+background: classroom
+nodes:
+  start:
+    - narration: 'У доски стоит девушка с пепельными пучками, ниже всех в аудитории. Она молча ждёт, пока все сядут, и постукивает мелом по ладони.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Кронекер. Линейные отображения. Без лирики, Грассман вам её уже дала. Начинаем.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Пусть $V$ и $W$ — векторные пространства над одним полем $k$. Отображение $L\colon V \to W$ линейно, если $L(v + w) = L(v) + L(w)$ и $L(\alpha v) = \alpha L(v)$. Сохраняет сумму и растяжение. Это гомоморфизм пространств.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Примеры. Поворот плоскости на $90^\circ$. Проекция $\mathbb{R}^3$ на плоскость $xy$: $(x, y, z) \mapsto (x, y, 0)$. Производная на многочленах: $(f + g)'' = f'' + g''$, $(\alpha f)'' = \alpha f''$. Умножение столбца на матрицу.'
+    - speaker: kronecker
+      emotion: thinking
+      text: 'Не пример: сдвиг $v \mapsto v + a$ при $a \ne 0$. Линейное отображение обязано переводить ноль в ноль: $L(0) = L(0 \cdot 0) = 0 \cdot L(0) = 0$. А сдвиг переводит ноль в $a$.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Ядро $\ker L = \{v \mid L(v) = 0\}$, образ $\operatorname{Im} L = \{L(v) \mid v \in V\}$. Оба — подпространства, проверка как у Нётер для колец.'
+    - goto: universal
+  universal:
+    - speaker: kronecker
+      emotion: explain
+      text: 'Главный вопрос всей темы: куда идёт базис? Пусть $e_1, \dots, e_n$ — базис $V$. Любой $v$ равен $\sum \alpha_i e_i$, значит, $L(v) = \sum \alpha_i L(e_i)$. Знаешь образы базиса — знаешь всё отображение.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Универсальное свойство базиса. Для любых векторов $w_1, \dots, w_n \in W$ существует ровно одно линейное $L\colon V \to W$ с $L(e_i) = w_i$. Базис можно отправить куда угодно, и это однозначно задаёт отображение.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Построение. Положим $L\left(\sum \alpha_i e_i\right) = \sum \alpha_i w_i$. Определение корректно: координаты в базисе единственны. Линейность: сумма векторов — сумма координат, $L(v + \tilde v) = \sum (\alpha_i + \tilde\alpha_i) w_i = L(v) + L(\tilde v)$. С растяжением так же.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Единственность. Пусть $L$ и $T$ оба подходят. Тогда $(L - T)(e_i) = w_i - w_i = 0$ для всех $i$, и по линейности $(L - T)(v) = \sum \alpha_i \cdot 0 = 0$. Значит, $L = T$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Пример. Поворот на $90^\circ$: $e_1 \mapsto e_2$, $e_2 \mapsto -e_1$. Где окажется $(3, 2) = 3e_1 + 2e_2$? $L(3e_1 + 2e_2) = 3e_2 - 2e_1 = (-2, 3)$. Никаких синусов. Куда идёт базис — туда и всё остальное.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'То есть чтобы задать отображение $\mathbb{R}^3 \to \mathbb{R}^5$, хватит трёх векторов из $\mathbb{R}^5$?'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. В смысле — верно. Три вектора, по одному на каждый базисный.'
+    - goto: rank_nullity
+  rank_nullity:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Теорема о размерности ядра и образа. Если $V$ конечномерно, то $$\dim V = \dim \ker L + \dim \operatorname{Im} L.$$'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Смысл. Сколько направлений $L$ «убивает» — это ядро. Сколько выживает — это образ. Вместе — все направления $V$. Проекция $\mathbb{R}^3$ на плоскость $xy$: убивает ось $z$, $\dim \ker = 1$, а образ — плоскость, $\dim \operatorname{Im} = 2$. $3 = 1 + 2$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Доказательство. Пусть $e_1, \dots, e_k$ — базис $\ker L$. Дополним до базиса $V$: $e_1, \dots, e_n$. Утверждаю: $L(e_{k+1}), \dots, L(e_n)$ — базис $\operatorname{Im} L$.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Порождаемость. Любой $w \in \operatorname{Im} L$ равен $L(v)$, $v = \sum_{i=1}^n \alpha_i e_i$. Тогда $w = \sum_{i=1}^n \alpha_i L(e_i) = \sum_{i > k} \alpha_i L(e_i)$: первые $k$ векторов из ядра, их образы — ноль.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Независимость. Пусть $\sum_{i > k} \beta_i L(e_i) = 0$. Тогда $L\left(\sum_{i > k} \beta_i e_i\right) = 0$, вектор лежит в ядре: $\sum_{i > k} \beta_i e_i = \sum_{i \le k} \gamma_i e_i$. Перенесём всё в одну сторону — комбинация базиса $V$ равна нулю. Все коэффициенты ноль, в том числе $\beta_i$.'
+    - speaker: kronecker
+      emotion: smug
+      text: 'Итого $\dim \operatorname{Im} L = n - k = \dim V - \dim \ker L$. Конструктивно: базис образа предъявлен явно.'
+    - choice:
+        question: '$L\colon \mathbb{R}^5 \to \mathbb{R}^3$ сюръективно. Чему равна $\dim \ker L$?'
+        options:
+          - text: '$2$'
+            goto: rn_right
+          - text: '$3$'
+            goto: rn_wrong
+          - text: '$0$'
+            goto: rn_wrong
+  rn_wrong:
+    - speaker: kronecker
+      emotion: angry
+      text: 'Ноль. В смысле — неверно. Сюръективно значит $\operatorname{Im} L = \mathbb{R}^3$, $\dim \operatorname{Im} L = 3$. А $\dim V = 5$. Вычти.'
+    - goto: rn_right
+  rn_right:
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. $5 = \dim \ker L + 3$, значит, $\dim \ker L = 2$. В частности, отображение из большего пространства в меньшее никогда не инъективно: что-то обязательно уйдёт в ноль.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'И следствие для $L\colon V \to V$ при конечном $\dim V$. Инъективно $\iff$ $\ker L = 0$ $\iff$ $\dim \operatorname{Im} L = \dim V$ $\iff$ сюръективно. Для операторов на конечномерном пространстве одно влечёт другое. Запиши.'
+    - speaker: student_a
+      emotion: smile
+      text: 'Записала синим. Можно вопрос: вы всегда так коротко?'
+    - speaker: kronecker
+      emotion: embarrassed
+      text: 'Всегда. …Хороший конспект, кстати. Дальше — матрицы.'

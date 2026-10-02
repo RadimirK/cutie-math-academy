@@ -1,0 +1,87 @@
+id: grassmann_04
+title: Тензорное произведение
+character: grassmann
+background: library
+nodes:
+  start:
+    - narration: 'Библиотека. Грассман сидит на подоконнике с толстой тетрадью. На обложке выведено: «Учение о протяжённости, том II».'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Привет. Сегодня будет абстрактно, я предупреждаю честно. Но обещаю: каждый раз, когда станет туманно, я скажу «если проще».'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Отображение $\varphi\colon V \times W \to U$ называется билинейным, если оно линейно по каждому аргументу отдельно. При фиксированном $w$ отображение $v \mapsto \varphi(v, w)$ линейно, и при фиксированном $v$ отображение $w \mapsto \varphi(v, w)$ линейно.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Примеры. Скалярное произведение $\mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R}$. Произведение чисел $k \times k \to k$. Подстановка вектора в функционал: $V \times V^* \to k$, $(v, \varphi) \mapsto \varphi(v)$. Векторное произведение в $\mathbb{R}^3$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А билинейное — это не то же самое, что линейное на парах $V \times W$?'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Нет, и это важно. Умножим пару на $2$: $\varphi(2v, 2w) = 2 \cdot 2 \cdot \varphi(v, w) = 4\varphi(v, w)$. А линейное отображение дало бы $2\varphi(v, w)$. Билинейные отображения — другой зверь.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Хочется построить пространство, где билинейные отображения станут обычными линейными. Тогда к ним можно применить всё, что мы знаем: базисы, матрицы, ядра. Это пространство и называется тензорным произведением $V \otimes W$.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Слово «тензор» — от латинского tendere, «тянуть, натягивать». Тензорное произведение натягивает пару векторов в один объект.'
+    - goto: definition
+  definition:
+    - speaker: grassmann
+      emotion: serious
+      text: 'Определение. Тензорное произведение $V$ и $W$ — это пара $(T, \tau)$, где $T$ — пространство, а $\tau\colon V \times W \to T$ билинейно, такая что для любого билинейного $\varphi\colon V \times W \to U$ существует единственное линейное $\tilde\varphi\colon T \to U$ с $\tilde\varphi \circ \tau = \varphi$.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Если проще: $\tau$ — «самое общее» билинейное отображение. Любое другое билинейное отображение получается так: сначала $\tau$, потом что-то линейное. Пишут $T = V \otimes W$ и $\tau(v, w) = v \otimes w$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Это похоже на лемму о пропуске через фактор у Нётер! Там гомоморфизм тоже раскладывался в два шага: сначала проекция, потом $\bar f$.'
+    - speaker: grassmann
+      emotion: happy
+      text: 'Да! Это тот же жанр, универсальное свойство. И у него та же сила: объект с таким свойством единственен с точностью до изоморфизма. Докажем.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Пусть $(T, \tau)$ и $(\tilde T, \tilde\tau)$ оба подходят. Применим свойство $T$ к билинейному $\tilde\tau$: есть линейное $\psi\colon T \to \tilde T$ с $\psi \circ \tau = \tilde\tau$. Применим свойство $\tilde T$ к $\tau$: есть $\tilde\psi\colon \tilde T \to T$ с $\tilde\psi \circ \tilde\tau = \tau$.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Тогда $(\tilde\psi \circ \psi) \circ \tau = \tilde\psi \circ \tilde\tau = \tau$. Но и $\mathrm{id}_T \circ \tau = \tau$. По единственности в определении (применённом к самому $\tau$) $\tilde\psi \circ \psi = \mathrm{id}_T$. Так же $\psi \circ \tilde\psi = \mathrm{id}_{\tilde T}$. Взаимно обратные — изоморфизм.'
+    - goto: existence
+  existence:
+    - speaker: grassmann
+      emotion: serious
+      text: 'Существование докажем построением. Пусть $e_1, \dots, e_n$ — базис $V$, $f_1, \dots, f_m$ — базис $W$. Возьмём пространство $T$ с базисом из $nm$ новых символов $e_i \otimes f_j$.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Определим $\tau$ так: для $v = \sum_i \alpha_i e_i$ и $w = \sum_j \beta_j f_j$ $$\tau(v, w) = \sum_{i, j} \alpha_i \beta_j\, (e_i \otimes f_j).$$ Это билинейно: по $v$ коэффициенты $\alpha_i$ входят линейно, по $w$ — $\beta_j$.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Проверим свойство. Дано билинейное $\varphi$. Отправим базис $T$: $\tilde\varphi(e_i \otimes f_j) = \varphi(e_i, f_j)$. По универсальному свойству базиса такое линейное $\tilde\varphi$ есть и единственно. И $\tilde\varphi(\tau(v, w)) = \sum \alpha_i \beta_j \varphi(e_i, f_j) = \varphi(v, w)$ — по билинейности $\varphi$.'
+    - speaker: grassmann
+      emotion: happy
+      text: 'Значит, $V \otimes W$ существует и $\dim(V \otimes W) = \dim V \cdot \dim W$. Обрати внимание: не сумма, как у $V \times W$, а произведение.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Если проще: $\mathbb{R}^2 \otimes \mathbb{R}^2$ — это четырёхмерное пространство с базисом $e_1 \otimes e_1, e_1 \otimes e_2, e_2 \otimes e_1, e_2 \otimes e_2$. Его удобно представлять матрицами $2 \times 2$: $v \otimes w$ — матрица с элементами $v_i w_j$.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Правила счёта следуют из билинейности: $(v + v'') \otimes w = v \otimes w + v'' \otimes w$, и $(\alpha v) \otimes w = \alpha(v \otimes w) = v \otimes (\alpha w)$. Число можно перекидывать через знак $\otimes$.'
+    - choice:
+        question: 'Можно ли записать $e_1 \otimes e_1 + e_2 \otimes e_2$ в виде $v \otimes w$ для каких-то $v, w \in \mathbb{R}^2$?'
+        options:
+          - text: 'Да'
+            goto: pure_wrong
+          - text: 'Нет'
+            goto: pure_right
+  pure_wrong:
+    - speaker: grassmann
+      emotion: thinking
+      text: 'Посмотри на матрицы. $v \otimes w$ — матрица с элементами $v_i w_j$: все её строки пропорциональны $w$, ранг не больше $1$. А $e_1 \otimes e_1 + e_2 \otimes e_2$ — единичная матрица $2 \times 2$, ранг $2$.'
+    - goto: pure_right
+  pure_right:
+    - speaker: grassmann
+      emotion: happy
+      text: 'Нет. $v \otimes w$ соответствует матрице ранга не больше $1$, а наш тензор — единичной матрице ранга $2$. Тензоры вида $v \otimes w$ называют разложимыми, а общий тензор — сумма разложимых.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Итак: тензорное произведение превращает билинейное в линейное, единственно с точностью до изоморфизма и строится из базисов: $e_i \otimes f_j$. В следующий раз перемножим много пространств и получим алгебру. Мою любимую.'

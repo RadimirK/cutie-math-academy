@@ -1,0 +1,6 @@
+id: residues_crt
+title: Китайская теорема и функция Эйлера
+description: Китайская теорема об остатках, произведение колец, функция Эйлера и теорема Эйлера, операции над идеалами и китайская теорема для колец.
+requires: [quotients]
+main_character: gauss
+main_scenes: [gauss_01, gauss_02, gauss_03]

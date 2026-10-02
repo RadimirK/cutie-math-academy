@@ -1,0 +1,90 @@
+id: grassmann_03
+title: Формула Грассмана
+character: grassmann
+background: courtyard
+nodes:
+  start:
+    - narration: 'Двор. Грассман держит в руках два листа бумаги и пробует поставить их наклонно, чтобы они пересеклись.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Смотри. Два листа — две плоскости, проходящие через одну точку. Как бы я их ни наклоняла, они пересекаются по прямой. Почему? Сегодня это будет формула. Моя формула.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Подпространство $U \subseteq V$ — подмножество, которое само векторное пространство: замкнуто по сложению и умножению на скаляры. Для двух подпространств определим сумму $U + W = \{u + w \mid u \in U,\ w \in W\}$ и пересечение $U \cap W$. Оба — подпространства.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Формула Грассмана. Если $U$ и $W$ конечномерны, то $$\dim(U + W) = \dim U + \dim W - \dim(U \cap W).$$'
+    - speaker: student_a
+      emotion: explain
+      text: 'Это же как у Кантор: $|A \cup B| = |A| + |B| - |A \cap B|$! Общую часть посчитали дважды и одну вычли.'
+    - speaker: grassmann
+      emotion: happy
+      text: 'Да, идея та же. Проверим на листах: $\dim(U + W) \le 3$, ведь мы в $\mathbb{R}^3$. Тогда $\dim(U \cap W) = 2 + 2 - \dim(U + W) \ge 1$. Две разные плоскости через начало координат всегда пересекаются хотя бы по прямой.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Доказательство. Пусть $e_1, \dots, e_k$ — базис $U \cap W$. Это независимые векторы в $U$, по прошлой теореме дополним их до базиса $U$: $e_1, \dots, e_k, u_1, \dots, u_m$. И до базиса $W$: $e_1, \dots, e_k, w_1, \dots, w_n$.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Утверждение: $e_1, \dots, e_k, u_1, \dots, u_m, w_1, \dots, w_n$ — базис $U + W$. Порождаемость видна сразу: любое $u + w$ — комбинация базиса $U$ плюс комбинация базиса $W$.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Независимость. Пусть $\sum \alpha_i e_i + \sum \beta_i u_i + \sum \gamma_i w_i = 0$. Перенесём: $\sum \beta_i u_i = -\sum \alpha_i e_i - \sum \gamma_i w_i$. Слева вектор из $U$, справа из $W$. Значит, он лежит в $U \cap W$ и равен $\sum s_i e_i$.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Тогда $\sum \beta_i u_i - \sum s_i e_i = 0$. Это комбинация базиса $U$, так что все $\beta_i = 0$. Остаётся $\sum \alpha_i e_i + \sum \gamma_i w_i = 0$ — комбинация базиса $W$, все $\alpha_i$ и $\gamma_i$ тоже ноль.'
+    - speaker: grassmann
+      emotion: happy
+      text: 'Считаем: $\dim(U + W) = k + m + n = (k + m) + (k + n) - k = \dim U + \dim W - \dim(U \cap W)$. Вот и всё.'
+    - goto: counter
+  counter:
+    - speaker: student_b
+      emotion: thinking
+      text: 'Для трёх множеств у Кантор была формула включений-исключений. Для трёх подпространств так же?'
+    - speaker: grassmann
+      emotion: thinking
+      text: 'Хочется. Но нет, тут пространства ведут себя иначе, чем множества. Простейший пример: три разные прямые на плоскости через начало координат. Попарно они пересекаются только в нуле.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Если бы формула работала: $1 + 1 + 1 - 0 - 0 - 0 + 0 = 3$. Но три прямые лежат в плоскости, и их сумма — плоскость размерности $2$. Формула врёт.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Пример из конспекта в $\mathbb{R}^3$ с базисом $x, y, z$: $U_1 = \langle x, y \rangle$, $U_2 = \langle x + z \rangle$, $U_3 = \langle z \rangle$. Все пересечения нулевые, «формула» даёт $2 + 1 + 1 = 4$, а сумма лежит в $\mathbb{R}^3$ — размерность $3$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А почему для множеств работает, а здесь нет?'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Потому что сумма подпространств — не объединение. В неё попадают и новые векторы, которых не было ни в одном слагаемом: $x + z$ плюс $y$, например. Пересечения этого «нового» не учитывают.'
+    - goto: direct
+  direct:
+    - speaker: grassmann
+      emotion: serious
+      text: 'Последнее. Сумма $U + W$ называется прямой и обозначается $U \oplus W$, если $U \cap W = 0$. По формуле Грассмана тогда $\dim(U \oplus W) = \dim U + \dim W$.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Критерий. Сумма прямая тогда и только тогда, когда каждый $v \in U + W$ раскладывается в $v = u + w$ единственным способом.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Пусть $U \cap W = 0$ и $v = u_1 + w_1 = u_2 + w_2$. Тогда $u_1 - u_2 = w_2 - w_1$. Слева вектор из $U$, справа из $W$, значит, он в пересечении и равен нулю: $u_1 = u_2$, $w_1 = w_2$.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Обратно, пусть разложение единственно и $v \in U \cap W$. Тогда $v = v + 0$, где $v \in U$, и $v = 0 + v$, где $v \in W$. Два разложения одного вектора должны совпасть, значит, $v = 0$.'
+    - choice:
+        question: 'В $\mathbb{R}^3$: $U$ — плоскость $\langle x, y \rangle$, $W$ — прямая $\langle x + y \rangle$. Сумма $U + W$ прямая?'
+        options:
+          - text: 'Да'
+            goto: direct_wrong
+          - text: 'Нет'
+            goto: direct_right
+  direct_wrong:
+    - speaker: grassmann
+      emotion: thinking
+      text: 'Где лежит вектор $x + y$? Это комбинация $x$ и $y$, значит, он в плоскости $U$. Вся прямая $W$ лежит в $U$, и $U \cap W = W \ne 0$.'
+    - goto: direct_right
+  direct_right:
+    - speaker: grassmann
+      emotion: happy
+      text: 'Нет: прямая $\langle x + y \rangle$ целиком лежит в плоскости $\langle x, y \rangle$. Например, $x + y = (x + y) + 0 = 0 + (x + y)$ — два разных разложения. А вот с $W = \langle z \rangle$ сумма прямая: $\langle x, y \rangle \oplus \langle z \rangle = \mathbb{R}^3$.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'На сегодня всё. Векторы, базис, размерность, формула. Дальше пространствами займётся Кронекер: она будет отображать их друг в друга. Только не шутите при ней про рост, пожалуйста.'

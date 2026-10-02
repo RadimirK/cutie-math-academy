@@ -1,0 +1,77 @@
+id: cramer_02
+title: Во сколько раз меняется объём
+character: cramer
+background: library
+nodes:
+  start:
+    - narration: 'Библиотека кафедры. Крамер ставит на стол две чашки чая и раскладывает карточки каталога.'
+    - speaker: cramer
+      emotion: smile
+      text: 'Садись. Чай с бергамотом. Помнишь, мы считали определитель как число $ad - bc$? Тогда я дала формулу. Сегодня покажу, откуда она берётся, без единой формулы с перестановками.'
+    - speaker: cramer
+      emotion: thinking
+      text: 'Грассман оставила нам внешние степени. Начнём с того, как отображение действует на них. Пусть $L\colon V \to W$ линейно. Определим $\Lambda^k L\colon \Lambda^k V \to \Lambda^k W$ правилом $$\Lambda^k L(v_1 \wedge \dots \wedge v_k) = L v_1 \wedge \dots \wedge L v_k,$$ и дальше по линейности.'
+    - speaker: cramer
+      emotion: smile
+      text: 'Так же определяется $L^{\otimes k}$ на тензорных степенях: $e_{i_1} \otimes \dots \otimes e_{i_k} \mapsto L e_{i_1} \otimes \dots \otimes L e_{i_k}$. А на внешней степени правило корректно, потому что $L^{\otimes k}$ переводит $v \otimes v$ в $Lv \otimes Lv$ — снова в идеал, который мы склеили с нулём.'
+    - speaker: cramer
+      emotion: explain
+      text: 'Полезное свойство: $\Lambda^k(L \circ T) = \Lambda^k L \circ \Lambda^k T$. Проверим на произведении: $(LT)v_1 \wedge \dots \wedge (LT)v_k = L(Tv_1) \wedge \dots \wedge L(Tv_k)$. Это и есть «сначала $\Lambda^k T$, потом $\Lambda^k L$».'
+    - goto: det
+  det:
+    - speaker: cramer
+      emotion: serious
+      text: 'Теперь главное. Пусть $L\colon V \to V$, $\dim V = n$. Пространство $\Lambda^n V$ одномерно. А линейный оператор на одномерном пространстве — просто умножение на число. Это число называется определителем: $$Lv_1 \wedge Lv_2 \wedge \dots \wedge Lv_n = \det L \cdot v_1 \wedge v_2 \wedge \dots \wedge v_n.$$'
+    - speaker: cramer
+      emotion: smile
+      text: 'Если проще: $e_1 \wedge \dots \wedge e_n$ — объём единичного кубика со знаком. $L$ переводит кубик в параллелепипед. $\det L$ — во сколько раз изменился объём и не вывернулась ли фигура наизнанку.'
+    - speaker: cramer
+      emotion: thinking
+      text: 'Заметь: в определении нет базиса. Матрица — это карточка в каталоге, у одной книги их может быть много. А определитель — свойство самой книги, то есть оператора.'
+    - speaker: cramer
+      emotion: explain
+      text: 'Проверим на $2 \times 2$. Матрица $\begin{pmatrix} a & b \\ c & d \end{pmatrix}$: $L e_1 = a e_1 + c e_2$, $L e_2 = b e_1 + d e_2$. $$L e_1 \wedge L e_2 = ad\, e_1 \wedge e_2 + cb\, e_2 \wedge e_1 = (ad - bc)\, e_1 \wedge e_2.$$ Та самая формула.'
+    - speaker: student_a
+      emotion: happy
+      text: 'И все свойства определителя теперь видны! Переставили два столбца — переставили два множителя в $\wedge$, знак сменился. Два одинаковых столбца — $v \wedge v = 0$.'
+    - speaker: cramer
+      emotion: happy
+      text: 'Да. И прибавление к столбцу другого, умноженного на число: $v \wedge (w + tv) = v \wedge w + t\, v \wedge v = v \wedge w$. Не меняется. Поэтому метод Гаусса и работает.'
+    - speaker: cramer
+      emotion: smile
+      text: 'Треугольная матрица: $L e_1 = a e_1$, $L e_2 = b e_1 + d e_2$, $L e_3 = c e_1 + g e_2 + h e_3$. При раскрытии выживает только $a e_1 \wedge d e_2 \wedge h e_3$, остальные слагаемые содержат повторы. $\det = adh$ — произведение диагонали.'
+    - goto: mult
+  mult:
+    - speaker: cramer
+      emotion: serious
+      text: 'Теорема о мультипликативности: $\det(L \circ T) = \det L \cdot \det T$.'
+    - speaker: cramer
+      emotion: explain
+      text: 'Доказательство. $$(LT)e_1 \wedge \dots \wedge (LT)e_n = L(Te_1) \wedge \dots \wedge L(Te_n) = \det L \cdot Te_1 \wedge \dots \wedge Te_n = \det L \cdot \det T \cdot e_1 \wedge \dots \wedge e_n.$$ Второе равенство — определение $\det L$, применённое к векторам $Te_1, \dots, Te_n$.'
+    - speaker: student_b
+      emotion: surprised
+      text: 'И всё? В школе $\det(AB) = \det A \det B$ проверяли перемножением огромных матриц.'
+    - speaker: cramer
+      emotion: smile
+      text: 'Если увеличить объём в три раза, а потом в два, он увеличится в шесть. Вот и вся теорема. Хорошее определение экономит много мела.'
+    - choice:
+        question: '$\dim V = 3$. Чему равен $\det(2L)$?'
+        options:
+          - text: '$2\det L$'
+            goto: scale_wrong
+          - text: '$8\det L$'
+            goto: scale_right
+          - text: '$6\det L$'
+            goto: scale_wrong
+  scale_wrong:
+    - speaker: cramer
+      emotion: thinking
+      text: 'Посчитай по определению: $2Le_1 \wedge 2Le_2 \wedge 2Le_3$. Каждую двойку можно вынести за знак $\wedge$. Сколько двоек вышло?'
+    - goto: scale_right
+  scale_right:
+    - speaker: cramer
+      emotion: happy
+      text: '$2Le_1 \wedge 2Le_2 \wedge 2Le_3 = 2^3 \cdot Le_1 \wedge Le_2 \wedge Le_3$, значит, $\det(2L) = 8 \det L$. Растянули кубик вдвое по каждой из трёх сторон — объём вырос в восемь раз.'
+    - speaker: cramer
+      emotion: smile
+      text: 'Допивай чай. В следующий раз — обратный оператор. Я покажу, откуда берётся моё правило решения систем.'

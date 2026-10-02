@@ -1,0 +1,6 @@
+id: ideals
+title: Идеалы и разложение на множители
+description: Идеалы и главные идеалы, евклидова область как область главных идеалов, стабилизация цепочек, неприводимые и простые элементы, основная теорема арифметики.
+requires: [divisibility]
+main_character: noether
+main_scenes: [noether_04, noether_05, noether_06]

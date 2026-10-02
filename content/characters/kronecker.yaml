@@ -1,0 +1,35 @@
+id: kronecker
+name: Кронекер
+rarity: 4
+subject: linalg
+topics: [linear_maps, duality]
+description: 'Маленького роста и острая на язык. Говорит «один, если совпало, иначе ноль» и не верит ни во что, чего нельзя построить.'
+look:
+  head: 1.1
+  shoulders: 0.9
+  chest: 0.15
+  palette:
+    skin: '#f9e2d4'
+    hair: '#8d93a8'
+    eyes: '#d2455a'
+    cloth: '#262f4a'
+    cloth2: '#f4f4f8'
+    skirt: '#262f4a'
+    accent: '#d2455a'
+    legwear: '#262f4a'
+    shoes: '#1d2236'
+    metal: '#d2455a'
+  parts:
+    hair_back: { part: buns, size: 0.32, tails: 1.2 }
+    hair_front: { part: spiky_bangs, length: 0.1, side: 0.8 }
+    eyes: { part: sharp }
+    brows: { part: thick, mood: stern }
+    outfit: { part: vest, neck: ribbon, hem: 3.7 }
+    bottom: { part: pleated_skirt, length: 5.6, flare: 1.4 }
+    legwear: { part: stockings, top: 6.2 }
+    shoes: { part: boots, top: 8.2 }
+  emotions:
+    smile:
+      mouth: { shape: smirk }
+    thinking:
+      eyes: { look_x: 1, look_y: -1 }

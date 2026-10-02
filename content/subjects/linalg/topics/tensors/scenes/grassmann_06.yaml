@@ -1,0 +1,78 @@
+id: grassmann_06
+title: Базис внешней степени
+character: grassmann
+background: library_night
+nodes:
+  start:
+    - narration: 'Вечер в библиотеке. Грассман рисует в тетради стрелки, площадки и маленький кубик.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Сегодня короткая, но красивая лекция. Пусть $e_1, \dots, e_n$ — базис $V$. Что можно сказать про $\Lambda^k V$?'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Любое $v_1 \wedge \dots \wedge v_k$ раскрывается по базису в сумму произведений $e_{i_1} \wedge \dots \wedge e_{i_k}$. Значит, такие произведения порождают $\Lambda^k V$. Но многие из них лишние.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Два правила. Если индекс повторяется, произведение — ноль: одинаковые векторы можно подвинуть друг к другу перестановками соседних, а там $e_i \wedge e_i = 0$. Если поменять соседние множители, знак меняется: $\dots \wedge e_i \wedge e_j \wedge \dots = -\dots \wedge e_j \wedge e_i \wedge \dots$'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Поэтому любое произведение базисных векторов либо ноль, либо с точностью до знака равно произведению с возрастающими индексами. Например, $e_3 \wedge e_1 = -\, e_1 \wedge e_3$, а $e_2 \wedge e_3 \wedge e_1 = e_1 \wedge e_2 \wedge e_3$: две перестановки соседних, два знака минус.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Теорема. Произведения $e_{i_1} \wedge e_{i_2} \wedge \dots \wedge e_{i_k}$ с $i_1 < i_2 < \dots < i_k$ образуют базис $\Lambda^k V$. Следовательно, $$\dim \Lambda^k V = \binom{n}{k} = C_n^k.$$'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Порождаемость мы только что показали. Сколько их? Возрастающий набор индексов — это просто $k$-элементное подмножество $\{1, \dots, n\}$, порядок уже фиксирован. Таких подмножеств $C_n^k$.'
+    - speaker: grassmann
+      emotion: serious
+      text: 'Линейная независимость требует отдельного аргумента. Для каждого набора $J = \{j_1 < \dots < j_k\}$ строят линейный функционал на $\Lambda^k V$: он берёт векторы $v_1, \dots, v_k$, выписывает их координаты с номерами из $J$ в матрицу $k \times k$ и считает её определитель — минор.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Минор линеен по каждому $v_i$ и обращается в ноль, когда два вектора совпадают. Поэтому он корректно задаёт линейный функционал на $\Lambda^k V$. На $e_{j_1} \wedge \dots \wedge e_{j_k}$ он равен $1$, а на остальных базисных произведениях — $0$. Отсюда независимость, как с двойственным базисом у Кронекер.'
+    - speaker: grassmann
+      emotion: embarrassed
+      text: 'Тут я забежала вперёд: формулу минора мы честно разберём у Крамер. А в вашем конспекте этот шаг вообще опущен — запомни, что он нужен.'
+    - goto: examples
+  examples:
+    - speaker: grassmann
+      emotion: happy
+      text: 'Теперь картинка для $\mathbb{R}^3$. $\Lambda^0$ — числа, размерность $1$. $\Lambda^1$ — стрелки, размерность $3$. $\Lambda^2$ — площадки $e_1 \wedge e_2$, $e_1 \wedge e_3$, $e_2 \wedge e_3$, размерность $3$. $\Lambda^3$ — объёмы, один базисный элемент $e_1 \wedge e_2 \wedge e_3$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А $\Lambda^4$ для $\mathbb{R}^3$?'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Ноль. Из трёх базисных векторов нельзя выбрать четыре разных, какой-то повторится. При $k > n$ всегда $\Lambda^k V = 0$, и это согласуется с $C_n^k = 0$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Подождите, площадок в $\mathbb{R}^3$ три, и стрелок три. Поэтому в $\mathbb{R}^3$ есть векторное произведение? Площадку можно перепутать со стрелкой?'
+    - speaker: grassmann
+      emotion: surprised
+      text: 'Ох. Да. Именно поэтому. Площадке $e_1 \wedge e_2$ сопоставляют перпендикулярную стрелку $e_3$, и так получается векторное произведение. В $\mathbb{R}^4$ площадок уже $C_4^2 = 6$, а стрелок $4$, и такой трюк не работает. Ты сейчас сама придумала то, что я объясняла бы полчаса.'
+    - choice:
+        question: 'Чему равна $\dim \Lambda^2 \mathbb{R}^4$?'
+        options:
+          - text: '$6$'
+            goto: dim_right
+          - text: '$4$'
+            goto: dim_wrong
+          - text: '$8$'
+            goto: dim_wrong
+  dim_wrong:
+    - speaker: grassmann
+      emotion: thinking
+      text: 'Выпиши пары индексов $i < j$ из $\{1, 2, 3, 4\}$: $12, 13, 14, 23, 24, 34$. Сколько их?'
+    - goto: dim_right
+  dim_right:
+    - speaker: grassmann
+      emotion: happy
+      text: '$C_4^2 = 6$: $e_1 \wedge e_2$, $e_1 \wedge e_3$, $e_1 \wedge e_4$, $e_2 \wedge e_3$, $e_2 \wedge e_4$, $e_3 \wedge e_4$.'
+    - speaker: grassmann
+      emotion: smile
+      text: 'Вся внешняя алгебра имеет размерность $\sum_k C_n^k = 2^n$. А самая важная степень — старшая: $\dim \Lambda^n V = C_n^n = 1$. Одномерное пространство, натянутое на $e_1 \wedge \dots \wedge e_n$. Объём.'
+    - speaker: grassmann
+      emotion: explain
+      text: 'Любой оператор $L\colon V \to V$ действует на этом одномерном пространстве, а оператор на одномерном пространстве — это просто умножение на число. Это число и есть определитель. Дальше вас поведёт Крамер.'
+    - speaker: grassmann
+      emotion: happy
+      text: 'Спасибо, что слушаете. Вы правда это видите? Стрелки, площадки, объёмы? Тогда я рада.'

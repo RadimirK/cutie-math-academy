@@ -1,0 +1,74 @@
+id: gauss_07
+title: Квадратичные вычеты
+character: gauss
+background: library
+nodes:
+  start:
+    - speaker: gauss
+      emotion: smile
+      text: 'Вопрос из школы: из каких чисел можно извлечь квадратный корень? Из неотрицательных. А по модулю простого $p$? Здесь знаков нет, и ответ интереснее.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Возведём в квадрат все ненулевые остатки по модулю $7$: $1^2 = 1$, $2^2 = 4$, $3^2 = 9 \equiv 2$, $4^2 = 16 \equiv 2$, $5^2 = 25 \equiv 4$, $6^2 = 36 \equiv 1$. Получились только $1, 2, 4$.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Пусть $p$ — нечётное простое, $a \not\equiv 0$. Если уравнение $x^2 \equiv a \pmod p$ имеет решение, $a$ называется квадратичным вычетом. Иначе — невычетом. По модулю $7$ вычеты: $1, 2, 4$, невычеты: $3, 5, 6$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Ровно половина на половину. И квадраты повторяются парами: $1$ и $6$, $2$ и $5$, $3$ и $4$.'
+    - speaker: gauss
+      emotion: happy
+      text: 'Именно. $6 \equiv -1$, $5 \equiv -2$, $4 \equiv -3$, а $(-x)^2 = x^2$. Обратно, если $x^2 = y^2$, то $(x - y)(x + y) = 0$, и в поле $x = \pm y$. Так что каждый вычет — квадрат ровно двух остатков, и вычетов ровно $\frac{p - 1}{2}$.'
+    - goto: euler
+  euler:
+    - speaker: gauss
+      emotion: serious
+      text: 'Критерий Эйлера. $a$ — квадратичный вычет тогда и только тогда, когда $a^{\frac{p-1}{2}} \equiv 1 \pmod p$. Для невычета $a^{\frac{p-1}{2}} \equiv -1$.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Шаг первый. По малой теореме Ферма $\left(a^{\frac{p-1}{2}}\right)^2 = a^{p-1} \equiv 1$. Значит, $a^{\frac{p-1}{2}}$ — корень уравнения $x^2 = 1$. В поле у него ровно два корня: $1$ и $-1$. Других значений не бывает.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Шаг второй. Возьмём образующий $\gamma$ группы $(\mathbb{Z}/p)^\times$, он есть по прошлой теореме. Тогда $a = \gamma^k$. Если $k$ чётное, $k = 2m$, то $a = (\gamma^m)^2$ — квадрат. Если $a = x^2$ и $x = \gamma^m$, то $\gamma^k = \gamma^{2m}$, $k \equiv 2m \pmod{p - 1}$, и $k$ чётное, ведь $p - 1$ чётно.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Итак, $a$ — вычет ровно когда $k$ чётное. Теперь $a^{\frac{p-1}{2}} = \gamma^{k\frac{p-1}{2}}$. Это $1$ ровно тогда, когда порядок $\gamma$, то есть $p - 1$, делит $k \cdot \frac{p - 1}{2}$. А это значит, что $\frac{k}{2}$ — целое, то есть $k$ чётное. Критерий доказан.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Удобная запись — символ Лежандра: $\left(\frac{a}{p}\right) = 1$, если $a$ — вычет, и $-1$, если невычет. Критерий Эйлера в этой записи: $$\left(\frac{a}{p}\right) \equiv a^{\frac{p-1}{2}} \pmod p.$$'
+    - speaker: gauss
+      emotion: smile
+      text: 'Свойства сразу следуют из формулы. $\left(\frac{a^2}{p}\right) = 1$, это очевидно. И мультипликативность: $\left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right)$, ведь $(ab)^{\frac{p-1}{2}} = a^{\frac{p-1}{2}} b^{\frac{p-1}{2}}$.'
+    - speaker: student_b
+      emotion: surprised
+      text: 'Подождите. То есть невычет на невычет — это вычет? Как минус на минус?'
+    - speaker: gauss
+      emotion: happy
+      text: 'Ровно как минус на минус. Проверим по модулю $7$: $3 \cdot 5 = 15 \equiv 1$, а $1$ — вычет. И $3 \cdot 6 = 18 \equiv 4$, тоже вычет. Безупречно.'
+    - goto: minus_one
+  minus_one:
+    - speaker: gauss
+      emotion: explain
+      text: 'Вычислим $\left(\frac{-1}{p}\right)$. По критерию: $(-1)^{\frac{p-1}{2}}$. Это $1$, если $\frac{p-1}{2}$ чётно, то есть $p - 1$ делится на $4$. Итог: $$\left(\frac{-1}{p}\right) = \begin{cases} 1, & p \equiv 1 \pmod 4, \\ -1, & p \equiv 3 \pmod 4. \end{cases}$$'
+    - speaker: gauss
+      emotion: smile
+      text: 'Проверка. $p = 5$: $2^2 = 4 \equiv -1$, вычет, и $5 \equiv 1 \pmod 4$. $p = 7$: $-1 \equiv 6$, а $6$ среди вычетов $1, 2, 4$ нет. И $7 \equiv 3 \pmod 4$. Сходится.'
+    - choice:
+        question: 'Является ли $-1$ квадратичным вычетом по модулю $13$?'
+        options:
+          - text: 'Да'
+            goto: m13_right
+          - text: 'Нет'
+            goto: m13_wrong
+  m13_wrong:
+    - speaker: gauss
+      emotion: thinking
+      text: '$13 = 3 \cdot 4 + 1$, то есть $13 \equiv 1 \pmod 4$. По формуле $\left(\frac{-1}{13}\right) = 1$. Найди квадрат явно: попробуй $5^2$.'
+    - goto: m13_right
+  m13_right:
+    - speaker: gauss
+      emotion: happy
+      text: 'Да: $13 \equiv 1 \pmod 4$. И явно: $5^2 = 25 = 26 - 1 \equiv -1$. Корень из минус единицы по модулю $13$ — это $5$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Итак: вычетов ровно половина, проверяются они возведением в степень $\frac{p-1}{2}$, символ Лежандра мультипликативен. В следующий раз — как считать $\left(\frac{2}{p}\right)$ и самая красивая теорема арифметики.'

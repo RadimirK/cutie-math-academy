@@ -1,0 +1,86 @@
+id: bezout_05
+title: Кратные корни и формула Тейлора
+character: bezout
+background: classroom
+nodes:
+  start:
+    - narration: 'Дождь, так что сегодня в аудитории. Безу сидит прямо на парте.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Многочлен $(x - 1)^2 = x^2 - 2x + 1$ имеет корень $1$ «дважды», как говорят в школе. Сегодня сделаем «дважды» строгим, и нам понадобится производная.'
+    - speaker: student_b
+      emotion: confused
+      text: 'Производная? Это же матанализ, пределы. Мы же на алгебре!'
+    - speaker: bezout
+      emotion: smug
+      text: 'А нам пределы и не нужны! Производная многочлена — просто правило над коэффициентами: $$(a_0 + a_1 x + a_2 x^2 + \dots + a_n x^n)'' = a_1 + 2a_2 x + 3a_3 x^2 + \dots + n a_n x^{n-1}.$$ Работает в любом поле, даже в $\mathbb{Z}/p$, где никаких пределов нет.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Правила те же, что в школе, и проверяются прямо на одночленах: $(f + g)'' = f'' + g''$, $(fg)'' = f''g + fg''$. Отсюда, например, $((x - a)^m)'' = m(x - a)^{m - 1}$.'
+    - goto: taylor
+  taylor:
+    - speaker: bezout
+      emotion: explain
+      text: 'Формула Тейлора для многочлена. Любой $f$ можно переписать по степеням $(x - c)$ вместо степеней $x$: $$f(x) = b_0 + b_1(x - c) + b_2(x - c)^2 + \dots + b_n(x - c)^n.$$ Просто подставим $x = y + c$, раскроем скобки по степеням $y$ и вернём $y = x - c$.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Утверждение: если $\operatorname{char} k = 0$, то $b_m = \dfrac{f^{(m)}(c)}{m!}$. Здесь $f^{(m)}$ — производная, взятая $m$ раз.'
+    - speaker: bezout
+      emotion: explain
+      text: 'Продифференцируем $m$ раз. Слагаемые $b_0, b_1(x - c), \dots, b_{m-1}(x - c)^{m-1}$ исчезнут: их степень меньше $m$. Слагаемое $b_m(x - c)^m$ превратится в $m! \cdot b_m$. А во всех следующих останется хотя бы один множитель $(x - c)$.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Подставим $x = c$: множители $(x - c)$ занулятся. Останется $f^{(m)}(c) = m! \cdot b_m$. Делим на $m!$, в характеристике $0$ это можно. Готово!'
+    - speaker: bezout
+      emotion: smile
+      text: 'Пример: $f = x^2$, $c = 1$. $f(1) = 1$, $f''(1) = 2$, $f''''(1) = 2$, то есть $b_2 = 2/2 = 1$. Получаем $x^2 = 1 + 2(x - 1) + (x - 1)^2$. Раскрой скобки и проверь!'
+    - speaker: student_a
+      emotion: happy
+      text: '$1 + 2x - 2 + x^2 - 2x + 1 = x^2$. Сошлось!'
+    - goto: multiplicity
+  multiplicity:
+    - speaker: bezout
+      emotion: serious
+      text: 'Определение. Пусть $p \ne 0$. Число $\alpha$ — корень кратности $m$, если $p = (x - \alpha)^m g$, где $g(\alpha) \ne 0$. Корень кратности $m \ge 2$ называется кратным.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Утверждение: $\alpha$ — кратный корень тогда и только тогда, когда $p(\alpha) = 0$ и $p''(\alpha) = 0$.'
+    - speaker: bezout
+      emotion: explain
+      text: 'Туда. Если $p = (x - \alpha)^2 h$, то $p(\alpha) = 0$ и $$p'' = 2(x - \alpha) h + (x - \alpha)^2 h''.$$ В обоих слагаемых есть $(x - \alpha)$, так что $p''(\alpha) = 0$.'
+    - speaker: bezout
+      emotion: explain
+      text: 'Обратно. $p(\alpha) = 0$, по теореме Безу $p = (x - \alpha) s$. Тогда $p'' = s + (x - \alpha) s''$, и $p''(\alpha) = s(\alpha)$. Раз $p''(\alpha) = 0$, то $s(\alpha) = 0$, и снова по Безу $s = (x - \alpha) h$. Значит, $p = (x - \alpha)^2 h$.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Общий вид. В характеристике $0$: $\alpha$ — корень кратности ровно $m$, если $p(\alpha) = p''(\alpha) = \dots = p^{(m-1)}(\alpha) = 0$, а $p^{(m)}(\alpha) \ne 0$. Это прямо видно из Тейлора: кратность — номер первого ненулевого $b_k$ в разложении по степеням $(x - \alpha)$.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Пример. $p = x^3 - 3x + 2$. $p(1) = 1 - 3 + 2 = 0$. $p'' = 3x^2 - 3$, $p''(1) = 0$. $p'''' = 6x$, $p''''(1) = 6$.'
+    - choice:
+        question: 'Какова кратность корня $1$ у $x^3 - 3x + 2$?'
+        options:
+          - text: '$1$'
+            goto: mult_wrong
+          - text: '$2$'
+            goto: mult_right
+          - text: '$3$'
+            goto: mult_wrong
+  mult_wrong:
+    - speaker: bezout
+      emotion: thinking
+      text: 'Смотри на производные: $p(1) = 0$ и $p''(1) = 0$, а вторая уже не ноль: $p''''(1) = 6$. Обнулились значение и первая производная, а вторая нет.'
+    - goto: mult_right
+  mult_right:
+    - speaker: bezout
+      emotion: happy
+      text: 'Кратность $2$: обнулились $p$ и $p''$, а $p'''' \ne 0$. Проверим разложением: $x^3 - 3x + 2 = (x - 1)^2 (x + 2)$. И $x + 2$ в единице даёт $3 \ne 0$. Курс верный!'
+    - speaker: bezout
+      emotion: thinking
+      text: 'Предупреждение для штурманов. В характеристике $p$ признак с высокими производными врёт: в $\mathbb{Z}/p$ производная от $x^p$ равна $p x^{p-1} = 0$. Поэтому там пользуются определением через $(x - \alpha)^m$, а признак «$p(\alpha) = p''(\alpha) = 0$» для кратности $\ge 2$ работает всегда.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'То есть признак кратного корня работает в любом поле, а формула «кратность — первая ненулевая производная» — только в характеристике $0$?'
+    - speaker: bezout
+      emotion: happy
+      text: 'Точно так. Запиши красным, это любят спрашивать на экзамене. Следующее занятие — последнее про многочлены: посчитаем корни с кратностями и проведём кривую через точки.'

@@ -1,0 +1,74 @@
+id: kronecker_06
+title: Теорема Кронекера — Капелли
+character: kronecker
+background: classroom_evening
+nodes:
+  start:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Ранг. У матрицы два ранга. Столбцовый — максимальное число линейно независимых столбцов. Строчный — максимальное число линейно независимых строк.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'На языке отображений. Столбцы $[L]$ — образы базиса, они порождают $\operatorname{Im} L$. Поэтому столбцовый ранг $= \dim \operatorname{Im} L$. Строки $[L]$ — столбцы $[L^*] = A^T$, поэтому строчный ранг $= \dim \operatorname{Im} L^*$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Пример. $A = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \end{pmatrix}$. Вторая строка — удвоенная первая, строчный ранг $1$. Столбцы $(1, 2)$, $(2, 4)$, $(3, 6)$ — все кратны первому, столбцовый ранг тоже $1$.'
+    - speaker: student_b
+      emotion: confused
+      text: 'Но строки — это векторы из $\mathbb{R}^3$, а столбцы — из $\mathbb{R}^2$. Совсем разные векторы. Почему их независимых должно быть поровну?'
+    - speaker: kronecker
+      emotion: happy
+      text: 'Вот! Это и удивительно. Теорема: $\dim \operatorname{Im} L = \dim \operatorname{Im} L^*$. Строчный ранг равен столбцовому. Всегда.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Пусть $L\colon V \to U$, $\dim U = m$. Теорема о ядре и образе для $L^*\colon U^* \to V^*$: $\dim \operatorname{Im} L^* = \dim U^* - \dim \ker L^* = m - \dim \ker L^*$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Прошлый раз: $\ker L^* = \operatorname{Ann}(\operatorname{Im} L)$. Лемма об аннуляторе: $\dim \operatorname{Ann}(\operatorname{Im} L) = m - \dim \operatorname{Im} L$. Подставляем: $$\dim \operatorname{Im} L^* = m - (m - \dim \operatorname{Im} L) = \dim \operatorname{Im} L.$$'
+    - speaker: kronecker
+      emotion: happy
+      text: 'Три строки, и никаких вычислений с матрицами. $\operatorname{rk} A = \operatorname{rk} A^T$. Обожаю.'
+    - speaker: student_a
+      emotion: surprised
+      text: 'Вы… улыбаетесь?'
+    - speaker: kronecker
+      emotion: embarrassed
+      text: 'Не отвлекайся. Ранг отображения $\operatorname{rk} L$ — любой из этих двух рангов, они равны.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Как считать ранг конструктивно. Метод Гаусса: элементарные преобразования строк — это умножение слева на обратимые матрицы, ранг они не меняют. Приводим матрицу к ступенчатому виду, число ненулевых строк — ранг.'
+    - goto: kc
+  kc:
+    - speaker: kronecker
+      emotion: smug
+      text: 'Теперь моя теорема. Кронекера — Капелли. Система $Ax = b$ имеет решение тогда и только тогда, когда $\operatorname{rk} A = \operatorname{rk}(A \mid b)$. Здесь $(A \mid b)$ — матрица $A$ с приписанным справа столбцом $b$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Доказательство. $Ax = x_1 \cdot (\text{столбец } 1) + \dots + x_n \cdot (\text{столбец } n)$. Решение есть $\iff$ $b$ — линейная комбинация столбцов $A$ $\iff$ $b \in \operatorname{Im} L$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Если $b$ — комбинация столбцов, то, приписав его, мы не добавим нового независимого направления: ранг не изменится. Если $b$ не комбинация, он добавит новое направление: ранг вырастет на $1$. Значит, решение есть ровно при равенстве рангов.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Пример. $x + y = 1$, $2x + 2y = 3$. $A = \begin{pmatrix} 1 & 1 \\ 2 & 2 \end{pmatrix}$, ранг $1$. $(A \mid b) = \begin{pmatrix} 1 & 1 & 1 \\ 2 & 2 & 3 \end{pmatrix}$, ранг $2$: вторая строка уже не кратна первой. Решений нет.'
+    - choice:
+        question: 'Система $x + y = 1$, $2x + 2y = c$. При каком $c$ она совместна?'
+        options:
+          - text: '$c = 2$'
+            goto: c_right
+          - text: '$c = 1$'
+            goto: c_wrong
+          - text: 'При любом $c$'
+            goto: c_wrong
+  c_wrong:
+    - speaker: kronecker
+      emotion: angry
+      text: 'Ноль. Ранг $A$ равен $1$. Чтобы ранг $(A \mid b)$ тоже был $1$, вторая строка $(2, 2, c)$ должна быть кратна первой $(1, 1, 1)$. Множитель $2$ — значит, $c = \dots$'
+    - goto: c_right
+  c_right:
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. При $c = 2$ вторая строка ровно вдвое больше первой, ранги равны $1$, и решений бесконечно много: $x = t$, $y = 1 - t$. При остальных $c$ — противоречие, решений нет.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Итог темы. Двойственный базис — $\delta_{ij}$. $V \cong V^{**}$ канонически. Аннулятор и сопряжённое дают $\operatorname{rk} A = \operatorname{rk} A^T$. Система разрешима, когда приписанный столбец не меняет ранг. Дальше — Грассман и тензоры. Ей понадобятся двойственные пространства, так что повтори.'

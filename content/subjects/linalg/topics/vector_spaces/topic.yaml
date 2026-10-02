@@ -1,0 +1,6 @@
+id: vector_spaces
+title: Векторные пространства и базис
+description: Векторное пространство, линейная независимость, три определения базиса, дополнение до базиса, лемма Стейница, размерность, формула Грассмана и прямая сумма.
+requires: [structures]
+main_character: grassmann
+main_scenes: [grassmann_01, grassmann_02, grassmann_03]

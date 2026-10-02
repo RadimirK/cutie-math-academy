@@ -1,0 +1,6 @@
+id: quotients
+title: Фактор-кольца и гомоморфизмы
+description: Фактор-кольцо и корректность операций, кольцо вычетов и его обратимые элементы, гомоморфизмы, ядро и образ, теорема об изоморфизме.
+requires: [ideals]
+main_character: noether
+main_scenes: [noether_07, noether_08, noether_09]

@@ -1,0 +1,6 @@
+id: quadratic_residues
+title: Квадратичные вычеты
+description: Теорема Гаусса о сумме функции Эйлера, цикличность мультипликативной группы поля, квадратичные вычеты и символ Лежандра, лемма Гаусса и закон взаимности.
+requires: [residues_crt, polynomials]
+main_character: gauss
+main_scenes: [gauss_06, gauss_07, gauss_08]

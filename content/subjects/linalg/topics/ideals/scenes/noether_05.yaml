@@ -1,0 +1,88 @@
+id: noether_05
+title: Лестница, которая кончается
+character: noether
+background: corridor
+nodes:
+  start:
+    - narration: 'Лекция продолжается в коридоре: аудиторию заняли. Нётер чертит мелом на стене лесенку.'
+    - speaker: noether
+      emotion: smile
+      text: 'Ничего, коридор — тоже аудитория! Смотри. Если $b \mid a$, то каждое кратное $a$ — кратное $b$. Значит, $(a) \subseteq (b)$. Чем «меньше» элемент по делимости, тем больше его идеал.'
+    - speaker: noether
+      emotion: explain
+      text: 'Построим лестницу в $\mathbb{Z}$: $$(24) \subseteq (12) \subseteq (6) \subseteq (3) \subseteq (1) = \mathbb{Z}.$$ Каждый шаг — делим на что-нибудь. Можно ли подниматься вечно, строго вверх?'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Нет. Делить $24$ можно только конечное число раз, дальше упрёмся в единицу.'
+    - speaker: noether
+      emotion: happy
+      text: 'Именно. Теорема: в ОГИ любая возрастающая цепочка идеалов $I_1 \subseteq I_2 \subseteq I_3 \subseteq \dots$ стабилизируется. То есть найдётся $N$, после которого $I_N = I_{N+1} = I_{N+2} = \dots$'
+    - speaker: noether
+      emotion: embarrassed
+      text: 'Кольца с таким свойством называют нётеровыми. Да, звучит знакомо. Не смотри на меня так, давай доказывать.'
+    - speaker: noether
+      emotion: serious
+      text: 'Объединим всю лестницу: $I_\infty = \bigcup_{k} I_k$. Сначала проверим, что это идеал. Пусть $a, b \in I_\infty$. Тогда $a \in I_{n_1}$, $b \in I_{n_2}$. Цепочка растёт, так что оба лежат в большем из двух, скажем в $I_{n_2}$. Там $a + b \in I_{n_2} \subseteq I_\infty$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Умножение: если $a \in I_n$ и $r \in R$, то $ra \in I_n \subseteq I_\infty$. Значит, $I_\infty$ — идеал.'
+    - speaker: noether
+      emotion: explain
+      text: 'А теперь главный трюк. Мы в ОГИ, так что $I_\infty = (x)$ для какого-то $x$. Этот $x$ лежит в объединении, значит, в каком-то $I_N$.'
+    - speaker: noether
+      emotion: happy
+      text: 'Тогда $(x) \subseteq I_N$, ведь идеал всасывает кратные. Получаем: $$I_\infty = (x) \subseteq I_N \subseteq I_{N+1} \subseteq \dots \subseteq I_\infty.$$ Всё зажато между $I_\infty$ и $I_\infty$, значит, всё равно. Лестница кончилась на шаге $N$!'
+    - speaker: student_a
+      emotion: surprised
+      text: 'Вся лестница помещается в один идеал, а у него одна образующая, и она обязана где-то появиться. Красиво!'
+    - goto: irreducible
+  irreducible:
+    - speaker: noether
+      emotion: explain
+      text: 'Зачем нам эта лестница? Чтобы раскладывать на множители. Сначала определение. Ненулевой необратимый $r$ называется неприводимым, если из $r = st$ следует, что $s$ или $t$ обратим.'
+    - speaker: noether
+      emotion: smile
+      text: 'То есть $r$ нельзя разбить на два «настоящих» множителя. В $\mathbb{Z}$ неприводимые — это $\pm 2, \pm 3, \pm 5, \pm 7, \dots$ Разложение $7 = (-1)(-7)$ не считается: $-1$ обратим. В $\mathbb{R}[x]$ неприводимы, например, $x - 3$ и $x^2 + 1$.'
+    - choice:
+        question: 'Неприводим ли многочлен $x^2 - 1$ в $\mathbb{R}[x]$?'
+        options:
+          - text: 'Да'
+            goto: irr_wrong
+          - text: 'Нет'
+            goto: irr_right
+  irr_wrong:
+    - speaker: noether
+      emotion: thinking
+      text: 'Вспомни формулу разности квадратов: $x^2 - 1 = (x - 1)(x + 1)$. Оба множителя — многочлены первой степени. Обратимы в $\mathbb{R}[x]$ только ненулевые числа, а $x \pm 1$ не числа.'
+    - goto: irr_right
+  irr_right:
+    - speaker: noether
+      emotion: happy
+      text: 'Правильно, $x^2 - 1 = (x - 1)(x + 1)$, оба множителя необратимы. А вот $x^2 + 1$ над $\mathbb{R}$ так не разложить: у него нет вещественных корней.'
+    - speaker: noether
+      emotion: serious
+      text: 'Теорема: в ОГИ каждый ненулевой необратимый элемент раскладывается в произведение неприводимых.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Так это же понятно. Берёшь число, дробишь, пока дробится. $360 = 2 \cdot 180 = 2 \cdot 2 \cdot 90 = \dots = 2^3 \cdot 3^2 \cdot 5$.'
+    - speaker: noether
+      emotion: smile
+      text: 'А почему процесс «дробим, пока дробится» обязательно закончится? В $\mathbb{Z}$ числа уменьшаются. А в произвольном кольце никакого «уменьшаются» нет. Тут и нужна лестница.'
+    - speaker: noether
+      emotion: explain
+      text: 'Доказываем от противного. Пусть $r$ не раскладывается. Тогда $r$ не неприводим, иначе он сам — разложение из одного множителя. Значит, $r = st$, где $s$ и $t$ необратимы.'
+    - speaker: noether
+      emotion: smile
+      text: 'Если бы и $s$, и $t$ раскладывались, то раскладывался бы и $r$: просто склеим разложения. Значит, хотя бы один из них не раскладывается. Назовём его $r_1$.'
+    - speaker: noether
+      emotion: explain
+      text: 'Сравним идеалы. $r_1 \mid r$, так что $(r) \subseteq (r_1)$. Причём строго: если бы $(r) = (r_1)$, то $r \sim r_1$, и второй множитель был бы обратимым, а он необратим.'
+    - speaker: noether
+      emotion: happy
+      text: 'С $r_1$ повторяем то же самое и получаем $r_2$, потом $r_3$… Выходит бесконечная строго растущая лестница $(r) \subsetneq (r_1) \subsetneq (r_2) \subsetneq \dots$ А в ОГИ таких нет! Противоречие, значит, разложение существует.'
+    - speaker: student_a
+      emotion: happy
+      text: 'То есть «дробим, пока дробится» — это шаги вверх по лестнице идеалов, а лестница обязана кончиться!'
+    - speaker: noether
+      emotion: happy
+      text: 'Точно! Существование разложения есть. Но вот вопрос: единственно ли оно? В $\mathbb{Z}$ мы привыкли, что да. В следующий раз докажем это в любой ОГИ, и окажется, что это совсем не очевидно.'

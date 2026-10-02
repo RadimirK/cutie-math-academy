@@ -1,0 +1,87 @@
+id: noether_09
+title: Теорема об изоморфизме
+character: noether
+background: classroom_evening
+nodes:
+  start:
+    - narration: 'Вечер. Нётер сидит на краю стола, в волосах у неё кусочек мела.'
+    - speaker: noether
+      emotion: smile
+      text: 'Вспомним подстановку $\varphi\colon \mathbb{R}[x] \to \mathbb{R}$, $f \mapsto f(2)$. Она не различает многочлены, у которых одинаковое значение в точке $2$. Например, $x^2$ и $4$ для неё одинаковы.'
+    - speaker: noether
+      emotion: explain
+      text: 'Так склеим их! Два многочлена отличаются на элемент ядра — значит, $\varphi$ их не различает. Склеенные многочлены образуют фактор-кольцо $\mathbb{R}[x]/\ker\varphi$. Интуиция подсказывает: получится в точности образ, то есть $\mathbb{R}$.'
+    - speaker: noether
+      emotion: happy
+      text: 'Это и будет главная теорема: $R/\ker f \cong \operatorname{Im} f$. Значок $\cong$ — «изоморфно». Но сначала лемма, на которой всё держится.'
+    - speaker: student_b
+      emotion: embarrassed
+      text: 'Эм, Нётер… У вас мел в волосах.'
+    - speaker: noether
+      emotion: embarrassed
+      text: 'Опять? Спасибо. …Так, лемма!'
+    - goto: lemma
+  lemma:
+    - speaker: noether
+      emotion: serious
+      text: 'Лемма о пропуске через фактор. Пусть $f\colon R \to S$ — гомоморфизм, $I$ — идеал $R$, $\pi\colon R \to R/I$ — проекция. Гомоморфизм $\bar f\colon R/I \to S$ с $\bar f \circ \pi = f$ существует тогда и только тогда, когда $I \subseteq \ker f$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'То есть $f$ можно разбить на два шага: сначала склеить по $I$, потом применить $\bar f$?'
+    - speaker: noether
+      emotion: happy
+      text: 'Именно. «Пропустить $f$ через фактор». И это можно, только если $f$ сама не различает то, что мы склеили. Отсюда и условие.'
+    - speaker: noether
+      emotion: explain
+      text: 'Необходимость. Пусть $\bar f$ есть, $a \in I$. Тогда $[a] = [0]$, и $f(a) = \bar f(\pi(a)) = \bar f([0]) = 0$. Значит, $a \in \ker f$.'
+    - speaker: noether
+      emotion: explain
+      text: 'Достаточность. Пусть $I \subseteq \ker f$. Положим $\bar f([r]) = f(r)$. Опять вопрос корректности: вдруг $[r] = [r'']$, а $f(r) \ne f(r'')$?'
+    - speaker: noether
+      emotion: smile
+      text: 'Не бывает: $r - r'' \in I \subseteq \ker f$, значит, $f(r) - f(r'') = f(r - r'') = 0$. Корректно! Гомоморфизм: $\bar f([a] + [b]) = \bar f([a + b]) = f(a + b) = f(a) + f(b)$, с умножением и единицей так же.'
+    - speaker: noether
+      emotion: smile
+      text: 'Пример. Отображение $\mathbb{Z} \to \mathbb{Z}/6\mathbb{Z}$ можно пропустить через $\mathbb{Z}/12\mathbb{Z}$: $(12) \subseteq (6)$. Посмотрели на двенадцатичасовой циферблат, потом взяли остаток от деления на $6$ — ответ тот же.'
+    - choice:
+        question: 'Можно ли пропустить $\mathbb{Z} \to \mathbb{Z}/6\mathbb{Z}$ через $\mathbb{Z}/4\mathbb{Z}$?'
+        options:
+          - text: 'Можно'
+            goto: four_wrong
+          - text: 'Нельзя'
+            goto: four_right
+  four_wrong:
+    - speaker: noether
+      emotion: thinking
+      text: 'Проверь условие: $(4) \subseteq (6)$? Число $4$ в $(4)$ есть, а на $6$ не делится. В $\mathbb{Z}/4\mathbb{Z}$ числа $0$ и $4$ склеены, а по модулю $6$ это разные остатки. Куда тогда отправить класс $[0]_4$?'
+    - goto: four_right
+  four_right:
+    - speaker: noether
+      emotion: happy
+      text: 'Нельзя: $(4) \not\subseteq (6)$, $4$ не кратно шести. Склеив $0$ и $4$, мы потеряли бы различие, которое $\mathbb{Z}/6\mathbb{Z}$ видит.'
+    - goto: theorem
+  theorem:
+    - speaker: noether
+      emotion: serious
+      text: 'Первая теорема об изоморфизме. Для любого гомоморфизма $f\colon R \to S$: $$R/\ker f \cong \operatorname{Im} f.$$'
+    - speaker: noether
+      emotion: explain
+      text: 'Рассмотрим $f$ как отображение в $\operatorname{Im} f$. По лемме с $I = \ker f$, а $\ker f \subseteq \ker f$ всегда, есть гомоморфизм $\bar f\colon R/\ker f \to \operatorname{Im} f$, $\bar f([r]) = f(r)$. Осталось доказать, что он биекция.'
+    - speaker: noether
+      emotion: smile
+      text: 'Инъективность по ядру: если $\bar f([r]) = 0$, то $f(r) = 0$, $r \in \ker f$, и $[r] = [0]$. Ядро $\bar f$ нулевое.'
+    - speaker: noether
+      emotion: smile
+      text: 'Сюръективность: каждый $s \in \operatorname{Im} f$ равен $f(r)$ для какого-то $r$, и тогда $s = \bar f([r])$. Биективный гомоморфизм — изоморфизм. Готово!'
+    - speaker: noether
+      emotion: happy
+      text: 'Применим к подстановке: ядро — многочлены с корнем $2$, образ — всё $\mathbb{R}$. Ядро равно $(x - 2)$, это Безу докажет в теме про многочлены. Значит, $\mathbb{R}[x]/(x - 2) \cong \mathbb{R}$.'
+    - speaker: student_a
+      emotion: explain
+      text: 'А если подставить не $2$, а какое-нибудь число, которого нет в $\mathbb{R}$? Например, $i$, где $i^2 = -1$?'
+    - speaker: noether
+      emotion: surprised
+      text: 'Ты опередила лекцию на месяц! Получится $\mathbb{R}[x]/(x^2 + 1) \cong \mathbb{C}$. Так Гаусс и построит комплексные числа. Бери идею, она твоя.'
+    - speaker: noether
+      emotion: smile
+      text: 'Итог темы. Склеиваем по идеалу — получаем фактор-кольцо. Гомоморфизм склеивает своё ядро. И фактор по ядру — это в точности образ. Эта теорема ещё много раз сэкономит нам доказательства.'

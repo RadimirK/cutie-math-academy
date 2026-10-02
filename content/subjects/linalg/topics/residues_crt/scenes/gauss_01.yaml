@@ -1,0 +1,96 @@
+id: gauss_01
+title: Китайская теорема об остатках
+character: gauss
+background: library
+nodes:
+  start:
+    - narration: 'В читальном зале за дальним столом сидит девушка с длинными серебристыми волосами. Перед ней лист, исписанный ровными столбиками остатков.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Ты на занятие или за книгой? Впрочем, неважно. Я Гаусс. Сложи мне числа от $1$ до $100$.'
+    - speaker: student_b
+      emotion: confused
+      text: 'Сейчас… $1 + 2 = 3$, $+ 3 = 6$, $+ 4 = 10$…'
+    - speaker: gauss
+      emotion: smug
+      text: 'Пятьдесят пар: $1 + 100$, $2 + 99$, …, $50 + 51$. Каждая по $101$. Итого $5050$. Мне было девять. Думать быстрее, чем считать, — вот всё, чему я буду учить.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Задача из старинного китайского трактата. Число при делении на $3$ даёт остаток $2$, а при делении на $5$ — остаток $3$. Что это за число?'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Остаток $3$ по модулю $5$: $3, 8, 13, \dots$ Из них остаток $2$ при делении на $3$ даёт… $8$!'
+    - speaker: gauss
+      emotion: smile
+      text: 'Верно. И ещё $23$, $38$, … — всё, что отличается от $8$ на кратное $15$. Ответ единственный по модулю $15$. Это не случайность, а теорема. Посмотрим, почему.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Выпишем для каждого числа от $0$ до $14$ пару остатков (по модулю $3$, по модулю $5$): $0 \to (0, 0)$, $1 \to (1, 1)$, $2 \to (2, 2)$, $3 \to (0, 3)$, $4 \to (1, 4)$, $5 \to (2, 0)$, $6 \to (0, 1)$, …, $14 \to (2, 4)$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Пятнадцать чисел, пятнадцать возможных пар, и ни одна пара не повторилась. Значит, каждая пара встречается ровно один раз. Остаток по $15$ и пара остатков по $3$ и $5$ — одно и то же, просто записанное по-разному.'
+    - goto: product
+  product:
+    - speaker: gauss
+      emotion: serious
+      text: 'Чтобы сказать это строго, нужно кольцо пар. Произведение колец $R \times S$ — это пары $(r, s)$ с покомпонентными операциями: $(r_1, s_1) + (r_2, s_2) = (r_1 + r_2, s_1 + s_2)$ и $(r_1, s_1)(r_2, s_2) = (r_1 r_2, s_1 s_2)$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Все аксиомы кольца проверяются в каждой компоненте отдельно: ассоциативность, дистрибутивность. Ноль — $(0, 0)$, единица — $(1, 1)$, минус — $(-r, -s)$. Если $R$ и $S$ конечны, то $|R \times S| = |R| \cdot |S|$: каждый из $|R|$ первых элементов в паре с каждым из $|S|$ вторых.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Китайская теорема об остатках. Если $\gcd(m, n) = 1$, то $$\sigma\colon \mathbb{Z}/mn\mathbb{Z} \to \mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}, \quad [k] \mapsto ([k]_m, [k]_n)$$ — изоморфизм колец.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Доказательство в три шага. Первый: отображение $\mathbb{Z} \to \mathbb{Z}/m \times \mathbb{Z}/n$, $k \mapsto ([k]_m, [k]_n)$, — гомоморфизм: в каждой компоненте это проекция. Его ядро — числа, делящиеся и на $m$, и на $n$.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Второй: при $\gcd(m, n) = 1$ это ровно кратные $mn$. Пусть $k = ma$ и $n \mid ma$. По Безу $1 = mx + ny$, умножим на $a$: $a = max + nay$. Оба слагаемых делятся на $n$, значит, $n \mid a$ и $mn \mid k$. Ядро — $(mn)$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Третий: по теореме об изоморфизме $\mathbb{Z}/mn\mathbb{Z}$ изоморфно образу, то есть $\sigma$ инъективно. А в $\mathbb{Z}/mn\mathbb{Z}$ и в $\mathbb{Z}/m \times \mathbb{Z}/n$ одинаково элементов, $mn$. Инъекция между конечными множествами одного размера — биекция. Безупречно.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А если $m$ и $n$ не взаимно просты? Например, $\mathbb{Z}/4$ и $\mathbb{Z}/2 \times \mathbb{Z}/2$, там тоже по $4$ элемента.'
+    - choice:
+        question: 'Изоморфны ли $\mathbb{Z}/4\mathbb{Z}$ и $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$?'
+        options:
+          - text: 'Да, элементов поровну'
+            goto: four_wrong
+          - text: 'Нет'
+            goto: four_right
+  four_wrong:
+    - speaker: gauss
+      emotion: thinking
+      text: 'Одинакового числа элементов мало. В $\mathbb{Z}/2 \times \mathbb{Z}/2$ любой элемент, сложенный сам с собой, даёт ноль: $(a, b) + (a, b) = (2a, 2b) = (0, 0)$. А в $\mathbb{Z}/4$: $[1] + [1] = [2] \ne [0]$. Изоморфизм сохранял бы это свойство.'
+    - goto: four_right
+  four_right:
+    - speaker: gauss
+      emotion: smile
+      text: 'Нет. В $\mathbb{Z}/2 \times \mathbb{Z}/2$ всегда $x + x = 0$, а в $\mathbb{Z}/4$ это не так для $[1]$. Условие $\gcd(m, n) = 1$ не украшение. Без него ядро — кратные $\operatorname{НОК}(m, n)$, а это меньше $mn$.'
+    - goto: euler
+  euler:
+    - speaker: gauss
+      emotion: serious
+      text: 'Теперь обратимые элементы произведения. Утверждение: $(R \times S)^\times = R^\times \times S^\times$. Пара обратима, только когда обратима каждая компонента.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Если $r$ и $s$ обратимы, то $(r, s)^{-1} = (r^{-1}, s^{-1})$. Обратно: если $(r, s)(t, u) = (1, 1)$, то $rt = 1$ и $su = 1$, оба обратимы.'
+    - speaker: gauss
+      emotion: serious
+      text: 'Функция Эйлера: $\varphi(n)$ — количество чисел $k$ от $1$ до $n$, взаимно простых с $n$. Мы знаем, что именно они обратимы по модулю $n$. Значит, $\varphi(n) = |(\mathbb{Z}/n\mathbb{Z})^\times|$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Примеры: $\varphi(12) = 4$, это $1, 5, 7, 11$. $\varphi(7) = 6$: для простого числа подходят все от $1$ до $6$.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Теорема: если $\gcd(m, n) = 1$, то $\varphi(mn) = \varphi(m)\varphi(n)$. Доказательство — цепочка равенств: $$\varphi(mn) = |(\mathbb{Z}/mn)^\times| = |(\mathbb{Z}/m \times \mathbb{Z}/n)^\times| = |(\mathbb{Z}/m)^\times| \cdot |(\mathbb{Z}/n)^\times| = \varphi(m)\varphi(n).$$'
+    - speaker: gauss
+      emotion: smile
+      text: 'Второе равенство — китайская теорема: изоморфные кольца имеют одинаково обратимых. Третье — только что доказанное про произведение. Проверка: $\varphi(15) = \varphi(3)\varphi(5) = 2 \cdot 4 = 8$. Действительно: $1, 2, 4, 7, 8, 11, 13, 14$.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А $\varphi(4) = 2$, но $\varphi(2) \cdot \varphi(2) = 1$. Тут не работает?'
+    - speaker: gauss
+      emotion: happy
+      text: 'И не должно: $2$ и $2$ не взаимно просты. Ты проверила условие теоремы на примере. Безупречно. В следующий раз — как посчитать $\varphi$ любого числа в уме.'

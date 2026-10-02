@@ -1,0 +1,34 @@
+id: noether
+name: Нётер
+rarity: 5
+subject: linalg
+topics: [structures, ideals, quotients, modules]
+description: 'Говорит «забудь, что это числа» и видит кольцо там, где другие видят арифметику. Раздаёт идеи ученикам, как конфеты.'
+look:
+  head: 1.02
+  chest: 0.6
+  palette:
+    skin: '#f8e0d0'
+    hair: '#7a2e3a'
+    eyes: '#c9772e'
+    cloth: '#e98a6a'
+    cloth2: '#fbf4ea'
+    skirt: '#3e3a5c'
+    accent: '#3e3a5c'
+    legwear: '#34304a'
+    shoes: '#5a2a30'
+    metal: '#4a3a3a'
+  parts:
+    hair_back: { part: short_bob, length: 1.75, width: 1.4 }
+    hair_front: { part: side_swept, length: 0.05, side: 1.7 }
+    eyes: { part: round }
+    outfit: { part: cardigan, neck: tie, hem: 4.3, sleeve: 4.0 }
+    bottom: { part: pleated_skirt, length: 6.6, flare: 1.35 }
+    legwear: { part: stockings }
+    shoes: { part: loafers }
+    accessory: [{ part: round_glasses }]
+  emotions:
+    smile:
+      mouth: { shape: open }
+    thinking:
+      eyes: { look_x: -1, look_y: -1 }

@@ -1,0 +1,93 @@
+id: noether_04
+title: Идеалы
+character: noether
+background: classroom
+nodes:
+  start:
+    - narration: 'Нётер пишет на доске длинный ряд: $\dots, -12, -6, 0, 6, 12, 18, \dots$'
+    - speaker: noether
+      emotion: smile
+      text: 'Смотри на все числа, кратные шести. Обозначим их $6\mathbb{Z}$. Что с ними можно делать, не выходя наружу?'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Складывать: $6 + 12 = 18$, снова кратно шести. И вычитать.'
+    - speaker: noether
+      emotion: explain
+      text: 'А ещё умножать на любое целое число, даже на не кратное шести: $12 \cdot 7 = 84$, и $84$ снова в $6\mathbb{Z}$. Множество как будто «всасывает» всё, что на него умножили. Вот это свойство и будет главным.'
+    - speaker: noether
+      emotion: serious
+      text: 'Пусть $R$ — коммутативное кольцо. Подмножество $I \subseteq R$ называется идеалом, если: 1) $I$ не пусто; 2) $a, b \in I \Rightarrow a + b \in I$; 3) $i \in I,\ r \in R \Rightarrow r i \in I$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'А вычитать? Минусов в определении нет.'
+    - speaker: noether
+      emotion: happy
+      text: 'Они следуют сами! Возьми в пункте 3 $r = -1$: $(-1) \cdot i = -i \in I$. А ноль тоже внутри: $0 = 0 \cdot i$. Так что $(I, +)$ — группа, лежащая внутри $(R, +)$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Примеры идеалов. В $\mathbb{Z}$: $6\mathbb{Z}$, $5\mathbb{Z}$, $\{0\}$, само $\mathbb{Z}$. В $\mathbb{R}[x]$: все многочлены, у которых $f(2) = 0$. Проверим: если $f(2) = g(2) = 0$, то $(f + g)(2) = 0$. А для любого $h$: $(hf)(2) = h(2) \cdot 0 = 0$. Идеал!'
+    - speaker: noether
+      emotion: thinking
+      text: 'Не примеры. $\mathbb{N}$ внутри $\mathbb{Z}$: $3 \in \mathbb{N}$, а $(-1) \cdot 3 \notin \mathbb{N}$. Нечётные числа: $1 + 3 = 4$ уже чётное. И $\mathbb{Z}$ внутри $\mathbb{Q}$: $1 \in \mathbb{Z}$, но $\tfrac{1}{2} \cdot 1 \notin \mathbb{Z}$, не всасывает.'
+    - choice:
+        question: 'Идеал $I$ в кольце с единицей содержит $1$. Что можно сказать про $I$?'
+        options:
+          - text: '$I = R$'
+            goto: one_right
+          - text: '$I = \{0, 1\}$'
+            goto: one_wrong
+          - text: 'Ничего определённого'
+            goto: one_wrong
+  one_wrong:
+    - speaker: noether
+      emotion: thinking
+      text: 'Используй пункт 3. $1 \in I$, умножаем на любое $r \in R$: $r \cdot 1 = r$ лежит в $I$. Какое $r$ ни возьми!'
+    - goto: one_right
+  one_right:
+    - speaker: noether
+      emotion: happy
+      text: 'Да: любое $r = r \cdot 1 \in I$, значит, $I = R$. И то же самое, если в $I$ есть любой обратимый $u$: тогда $1 = u^{-1} u \in I$. Идеал, который захватил обратимый элемент, захватывает всё кольцо.'
+    - goto: principal
+  principal:
+    - speaker: noether
+      emotion: serious
+      text: 'Самый простой способ построить идеал — взять один элемент $x$ и все его кратные: $(x) = \{x r \mid r \in R\}$. Это главный идеал, порождённый $x$. Например, $6\mathbb{Z} = (6)$.'
+    - speaker: noether
+      emotion: smile
+      text: 'А можно взять два элемента: $(a, b) = \{ax + by \mid x, y \in R\}$. Это наименьший идеал, содержащий и $a$, и $b$: он обязан содержать их кратные и суммы кратных.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Подождите. $\{12x + 18y\}$ — это же все выражения из соотношения Безу! Безу говорила, что $6 = 12 \cdot (-1) + 18 \cdot 1$.'
+    - speaker: noether
+      emotion: explain
+      text: 'Вот! Значит, $6 \in (12, 18)$, а с ним и все кратные шести. И наоборот: каждое $12x + 18y$ делится на $6$. Получается $(12, 18) = (6)$. Идеал из двух образующих оказался главным, и его образующая — НОД!'
+    - speaker: noether
+      emotion: serious
+      text: 'Область целостности, где каждый идеал главный, называется областью главных идеалов, коротко ОГИ. Теорема: любая евклидова область — ОГИ.'
+    - speaker: noether
+      emotion: explain
+      text: 'Доказательство. Пусть $I$ — идеал. Если $I = \{0\}$, то $I = (0)$, готово. Иначе в $I$ есть ненулевые элементы. Их нормы — натуральные числа, а среди натуральных чисел всегда есть наименьшее. Возьмём $d \in I$ с наименьшей нормой.'
+    - speaker: noether
+      emotion: smile
+      text: 'Включение $(d) \subseteq I$: $d \in I$, а идеал всасывает все кратные $d$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Включение $I \subseteq (d)$: возьмём $x \in I$ и поделим на $d$ с остатком: $x = dq + r$. Тогда $r = x - dq$. И $x$, и $dq$ лежат в $I$, значит, и $r \in I$.'
+    - speaker: noether
+      emotion: happy
+      text: 'Если $r \ne 0$, то $N(r) < N(d)$. Но $d$ было элементом $I$ с наименьшей нормой! Противоречие. Значит, $r = 0$, $x = dq \in (d)$. Итого $I = (d)$.'
+    - speaker: student_b
+      emotion: smile
+      text: 'То есть образующая идеала — его самый маленький ненулевой элемент. В $\mathbb{Z}$ — самое маленькое положительное число в нём.'
+    - speaker: noether
+      emotion: happy
+      text: 'Именно. Поэтому $\mathbb{Z}$ и многочлены над полем — ОГИ. А вот $\mathbb{Z}[x]$, многочлены с целыми коэффициентами, — уже нет. Там идеал $(2, x)$ не главный.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Почему?'
+    - speaker: noether
+      emotion: explain
+      text: 'Пусть $(2, x) = (g)$. Тогда $g$ делит $2$, значит, $g = \pm 1$ или $\pm 2$. Но $\pm 2$ не делит $x$. Остаётся $g = \pm 1$, и тогда $(g)$ — всё кольцо. Однако у любого $2f + xh$ свободный член чётный, так что $1 \notin (2, x)$. Противоречие.'
+    - speaker: noether
+      emotion: smile
+      text: 'Запомни главное. Идеал — множество, которое всасывает умножение. Главный идеал — все кратные одного элемента. А в евклидовых кольцах других идеалов не бывает, и это мы дальше используем много раз.'

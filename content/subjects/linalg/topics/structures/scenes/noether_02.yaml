@@ -1,0 +1,157 @@
+id: noether_02
+title: Дорога обратно
+character: noether
+background: lecture_hall
+nodes:
+  start:
+    - narration: 'Нётер вбегает за минуту до звонка, на ходу вытирая мел о кардиган.'
+    - speaker: noether
+      emotion: smile
+      text: 'Сегодня учимся ходить по стрелкам назад. Но сначала самое скучное отображение на свете: тождественное. $\mathrm{id}_A\colon A \to A$, $\mathrm{id}_A(a) = a$. Каждый элемент остаётся на месте.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'И зачем нужно отображение, которое ничего не делает?'
+    - speaker: noether
+      emotion: happy
+      text: 'Затем же, зачем нужен ноль! «Ничего не сделать» — тоже действие. С ним удобно сказать «вернулся туда, откуда начал»: композиция равна $\mathrm{id}$.'
+    - speaker: noether
+      emotion: serious
+      text: 'Пусть $f\colon A \to B$. Отображение $g\colon B \to A$ называется обратным слева к $f$, если $g \circ f = \mathrm{id}_A$. То есть сначала идём по $f$, потом по $g$ — и каждый $a$ возвращается домой.'
+      figure: {type: mapping, sets: [{name: A, elements: '1 2'}, {name: B, elements: 'x y z'}, {name: A, elements: '1 2'}], maps: ['1>x 2>z', 'x>1 y>1 z>2'], labels: [f, g]}
+    - speaker: noether
+      emotion: explain
+      text: 'Смотри на картинку: $1 \to x \to 1$ и $2 \to z \to 2$. А куда $g$ отправит $y$, неважно: в $y$ никто из $A$ не приходит. Его можно послать куда угодно.'
+    - speaker: noether
+      emotion: thinking
+      text: 'Вопрос: какое $f$ может иметь обратное слева? Пусть $f$ склеила два элемента: $f(a_1) = f(a_2)$, хотя $a_1 \ne a_2$. Применим $g$: $g(f(a_1)) = g(f(a_2))$. Но слева $a_1$, а справа $a_2$!'
+    - speaker: noether
+      emotion: happy
+      text: 'Противоречие. Значит, если у $f$ есть обратное слева, то $f$ инъективна. Понятно и без формул: если два элемента слиплись, $g$ не сможет вернуть каждый к себе домой, ведь $g$ получает одну и ту же точку.'
+    - speaker: noether
+      emotion: smile
+      text: 'Верно и обратное, если $A$ не пусто: инъективной $f$ строим $g$ так. Если в $b$ кто-то пришёл, этот кто-то единственный, и $g(b)$ — это он. Если никто не пришёл, $g(b)$ — любой элемент $A$.'
+      figure: null
+    - speaker: noether
+      emotion: serious
+      text: 'Теперь с другой стороны. $g\colon B \to A$ — обратное справа к $f$, если $f \circ g = \mathrm{id}_B$. Сначала $g$, потом $f$, и каждый $b$ возвращается к себе.'
+      figure: {type: mapping, sets: [{name: B, elements: 'x y'}, {name: A, elements: '1 2 3'}, {name: B, elements: 'x y'}], maps: ['x>2 y>3', '1>x 2>x 3>y'], labels: [g, f]}
+    - speaker: student_a
+      emotion: thinking
+      text: 'Тогда в каждый $b$ должна приходить хоть одна стрелка $f$? Иначе как $f(g(b))$ станет равно $b$?'
+    - speaker: noether
+      emotion: happy
+      text: 'Точно! Если есть обратное справа, то $f$ сюръективна: $b = f(g(b))$, вот и прообраз. И наоборот: для сюръективной $f$ у каждого $b$ есть прообразы, выбираем любой из них и называем его $g(b)$.'
+    - speaker: noether
+      emotion: smile
+      text: 'На картинке в $x$ приходят и $1$, и $2$. $g$ выбрала $2$, но могла выбрать $1$. Поэтому обратных справа бывает много.'
+      figure: null
+    - choice:
+        question: '$f\colon \mathbb{Z} \to \mathbb{Z}$, $f(n) = 2n$. Что у неё есть?'
+        options:
+          - text: 'Обратное слева, но не справа'
+            goto: double_right
+          - text: 'Обратное справа, но не слева'
+            goto: double_wrong
+          - text: 'Оба'
+            goto: double_wrong
+  double_wrong:
+    - speaker: noether
+      emotion: thinking
+      text: 'Вспомни прошлый раз: $f(n) = 2n$ инъективна, но не сюръективна, в нечётные числа никто не попадает. Инъективность — это обратное слева. Сюръективности нет, значит, обратного справа нет.'
+    - goto: double_right
+  double_right:
+    - speaker: noether
+      emotion: happy
+      text: 'Да! Например, $g(m) = m/2$ для чётных $m$ и $g(m) = 0$ для нечётных. Тогда $g(f(n)) = 2n/2 = n$. А вместо нуля для нечётных можно взять что угодно, так что обратных слева бесконечно много.'
+    - speaker: student_b
+      emotion: confused
+      text: 'Подождите. Обратных слева много, обратных справа много… А где тогда тот самый $f^{-1}$ из школы, один-единственный?'
+    - speaker: noether
+      emotion: explain
+      text: 'Вот главная теорема на сегодня. Если у $f$ есть и обратное слева $g$, и обратное справа $h$, то $g = h$. Доказательство в одну строчку, смотри:'
+    - speaker: noether
+      emotion: serious
+      text: '$$g = g \circ \mathrm{id}_B = g \circ (f \circ h) = (g \circ f) \circ h = \mathrm{id}_A \circ h = h.$$'
+    - speaker: noether
+      emotion: smile
+      text: 'Разберём по шагам. Сначала приписали ничего не делающее $\mathrm{id}_B$. Потом заменили его на $f \circ h$: это можно, $h$ — обратное справа. Потом переставили скобки — это ассоциативность из прошлой лекции! Потом $g \circ f = \mathrm{id}_A$, и осталось $h$.'
+    - speaker: student_a
+      emotion: happy
+      text: 'Ассоциативность пригодилась! Значит, у биекции обратное одно, и оно работает с обеих сторон?'
+    - speaker: noether
+      emotion: happy
+      text: 'Да. Биекция одновременно инъективна и сюръективна, значит, у неё есть обратные с обеих сторон, и они совпадают. Это и есть $f^{-1}$. А у небиекции честного $f^{-1}$ нет.'
+    - goto: operations
+  operations:
+    - narration: 'Нётер вытирает доску и пишет крупно: $M \times M \to M$.'
+    - speaker: noether
+      emotion: explain
+      text: 'А теперь сделаем шаг к алгебре. Бинарная операция на множестве $M$ — это отображение $M \times M \to M$. Берём два элемента, получаем третий, и он снова лежит в $M$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Сложение на $\mathbb{N}$ — бинарная операция. Вычитание на $\mathbb{N}$ — нет: $3 - 5$ выходит за пределы $\mathbb{N}$. Умножение на $\mathbb{N} \cup \{-1\}$ — тоже нет: $(-1) \cdot 2 = -2$, а его в множестве нет.'
+    - speaker: noether
+      emotion: serious
+      text: 'Если операция ассоциативна, $a \cdot (b \cdot c) = (a \cdot b) \cdot c$, то пару $(M, \cdot)$ называют полугруппой. Пример: $(\mathbb{N}, \cdot)$. Не пример: вычитание на $\mathbb{Z}$, ведь $(5 - 3) - 1 = 1$, а $5 - (3 - 1) = 3$.'
+    - speaker: noether
+      emotion: serious
+      text: 'Если ещё есть нейтральный элемент $e$, такой что $e \cdot m = m = m \cdot e$ для всех $m$, это моноид. Пример: $(\mathbb{N} \cup \{0\}, +)$ с нейтральным $0$, или $(\mathbb{N}, \cdot)$ с нейтральным $1$.'
+    - speaker: student_a
+      emotion: explain
+      text: 'Строки в программировании! Склейка строк ассоциативна, а пустая строка — нейтральный элемент. Это моноид?'
+    - speaker: noether
+      emotion: happy
+      text: 'Моноид! И ещё один, совсем рядом: все отображения $A \to A$ с операцией композиции. Ассоциативность мы доказали, а нейтральный элемент — $\mathrm{id}_A$. Видишь, сегодняшняя лекция и есть про моноид.'
+    - speaker: noether
+      emotion: smile
+      text: 'Первое утверждение: нейтральный элемент единственный. Пусть $e_1$ и $e_2$ оба нейтральные. Тогда $e_1 = e_1 \cdot e_2 = e_2$. В первом равенстве нейтрален $e_2$, во втором $e_1$. Всё!'
+    - speaker: student_b
+      emotion: surprised
+      text: 'И всё? Одна строчка?'
+    - speaker: noether
+      emotion: happy
+      text: 'Хорошие доказательства в алгебре часто такие. Смотри дальше. Группа — это моноид, где у каждого элемента $m$ есть обратный $m^{-1}$: $m \cdot m^{-1} = m^{-1} \cdot m = e$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Примеры групп: $(\mathbb{Z}, +)$, обратный к $5$ — это $-5$. $(\mathbb{Q} \setminus \{0\}, \cdot)$, обратный к $\tfrac{2}{3}$ — это $\tfrac{3}{2}$. И все биекции $A \to A$ с композицией: обратный к $f$ — это $f^{-1}$.'
+    - choice:
+        question: 'Какая из этих пар — группа?'
+        options:
+          - text: '$(\mathbb{N} \cup \{0\}, +)$'
+            goto: group_n
+          - text: '$(\mathbb{Q}, \cdot)$'
+            goto: group_q
+          - text: '$(\mathbb{R} \setminus \{0\}, \cdot)$'
+            goto: group_right
+  group_n:
+    - speaker: noether
+      emotion: thinking
+      text: 'Это моноид, но не группа. Какой обратный у $3$? Нужно $3 + x = 0$, то есть $x = -3$. А отрицательных чисел в $\mathbb{N} \cup \{0\}$ нет.'
+    - goto: group_right
+  group_q:
+    - speaker: noether
+      emotion: thinking
+      text: 'Почти! Мешает один элемент — ноль. $0 \cdot x = 1$ не решается ни при каком $x$. Поэтому из $\mathbb{Q}$ ноль выкидывают: $(\mathbb{Q} \setminus \{0\}, \cdot)$ уже группа.'
+    - goto: group_right
+  group_right:
+    - speaker: noether
+      emotion: happy
+      text: '$(\mathbb{R} \setminus \{0\}, \cdot)$ — группа: умножение ассоциативно, нейтральный $1$, обратный к $x$ — это $1/x$, и ноль мы предусмотрительно убрали.'
+    - speaker: noether
+      emotion: explain
+      text: 'Последнее: обратный элемент единственный. Пусть $h_1$ и $h_2$ оба обратные к $g$. Тогда $$h_1 = h_1 \cdot e = h_1 \cdot (g \cdot h_2) = (h_1 \cdot g) \cdot h_2 = e \cdot h_2 = h_2.$$'
+    - speaker: student_a
+      emotion: surprised
+      text: 'Подождите… Это же та же самая строчка, что и про обратное слева и справа! Только вместо $\circ$ точка.'
+    - speaker: noether
+      emotion: happy
+      text: 'Да-а! Забудь, что это отображения. Мы использовали только ассоциативность и нейтральный элемент. Значит, доказательство работает в любом моноиде. Ради таких моментов и стоит заниматься алгеброй.'
+    - speaker: noether
+      emotion: smile
+      text: 'И термин напоследок: если операция ещё и коммутативна, $a \cdot b = b \cdot a$, группу называют абелевой. $(\mathbb{Z}, +)$ абелева. А биекции с композицией — нет: «надеть носки, потом ботинки» и «ботинки, потом носки» дают разный результат.'
+    - speaker: student_b
+      emotion: smile
+      text: 'Ну, со вторым вариантом я как-то раз на пару и пришла.'
+    - speaker: noether
+      emotion: happy
+      text: 'Вот и пример некоммутативности из жизни! В следующий раз у нас будет две операции сразу. Это и есть кольцо.'

@@ -1,0 +1,32 @@
+id: grassmann
+name: Грассман
+rarity: 5
+subject: linalg
+topics: [vector_spaces, tensors]
+description: 'Её учение о протяжённости долго никто не читал. Видит в каждом векторе стрелку, а в каждом произведении — ориентированную площадку.'
+look:
+  head: 1.0
+  chest: 0.5
+  palette:
+    skin: '#f9e6dc'
+    hair: '#86b9ea'
+    eyes: '#3d6fc4'
+    cloth: '#2f3f6e'
+    cloth2: '#f4f6fb'
+    skirt: '#2f3f6e'
+    accent: '#9fd0f2'
+    legwear: '#f2f4f9'
+    shoes: '#5b6a8f'
+    metal: '#f2e08a'
+  parts:
+    hair_back: { part: wavy_long, style: wave, length: 5.8, width: 1.38 }
+    hair_front: { part: parted, forehead: -0.66, side: 2.2 }
+    eyes: { part: soft, shape: half }
+    outfit: { part: sailor, hem: 3.9 }
+    bottom: { part: pleated_skirt, length: 6.9, flare: 1.5 }
+    legwear: { part: stockings, top: 7.8 }
+    shoes: { part: loafers }
+    accessory: [{ part: headband }]
+  emotions:
+    thinking:
+      eyes: { look_x: -1, look_y: -1 }

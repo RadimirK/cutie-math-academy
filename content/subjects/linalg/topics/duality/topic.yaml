@@ -1,0 +1,6 @@
+id: duality
+title: Двойственность и ранг
+description: Двойственное пространство и двойственный базис, канонический изоморфизм с V**, аннулятор, сопряжённое отображение, ранг и теорема Кронекера — Капелли.
+requires: [linear_maps]
+main_character: kronecker
+main_scenes: [kronecker_04, kronecker_05, kronecker_06]

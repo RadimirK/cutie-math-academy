@@ -1,0 +1,34 @@
+id: jordan
+name: Жордан
+rarity: 4
+subject: linalg
+topics: [jordan]
+description: 'Секретарь студсовета. Раскладывает по клеткам всё: расписание, шкаф и любую матрицу над алгебраически замкнутым полем.'
+look:
+  head: 0.96
+  chest: 0.7
+  palette:
+    skin: '#f4dccc'
+    hair: '#1f5c4a'
+    eyes: '#3fae8a'
+    cloth: '#ecebe4'
+    cloth2: '#ffffff'
+    skirt: '#1c3a33'
+    accent: '#1c3a33'
+    legwear: '#1d2422'
+    shoes: '#1c2a26'
+  parts:
+    hair_back: { part: side_tail, length: 5.6, spread: 1.5 }
+    hair_front: { part: parted, forehead: -0.86, side: 2.8 }
+    eyes: { part: sharp, shape: half }
+    outfit: { part: blazer, neck: tie, hem: 4.4 }
+    bottom: { part: pencil_skirt, length: 6.4 }
+    legwear: { part: stockings }
+    shoes: { part: boots, top: 7.8 }
+  emotions:
+    smile:
+      eyes: { shape: half }
+      mouth: { shape: smile }
+    thinking:
+      body: { pose: hip }
+      eyes: { look_x: 1, look_y: -1 }

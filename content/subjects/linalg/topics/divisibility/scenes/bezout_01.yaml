@@ -1,0 +1,109 @@
+id: bezout_01
+title: Кто на кого делится
+character: bezout
+background: courtyard
+nodes:
+  start:
+    - narration: 'Занятие во дворе, на свежем воздухе. Девушка в белой матроске стоит на скамейке, уперев руку в бок.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Свистать всех наверх, кадеты! Я Безу. Нётер построила вам кольца, а я научу в них делить. Честно, по-морскому.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Делить мы и так умеем. Двенадцать на три — четыре.'
+    - speaker: bezout
+      emotion: smug
+      text: 'А семь на два? В целых числах не делится! Вот с этого и начнём: что значит «делится» в кольце, где дробей может и не быть.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Пусть $R$ — коммутативное кольцо. Говорим, что $a$ делит $b$, и пишем $a \mid b$, если найдётся $c \in R$, такой что $b = a \cdot c$. То есть $b$ получается из $a$ умножением на что-то из того же кольца.'
+    - speaker: bezout
+      emotion: smile
+      text: 'В $\mathbb{Z}$: $3 \mid 12$, потому что $12 = 3 \cdot 4$. А $2 \nmid 7$: нет целого $c$ с $7 = 2c$. Порядок важен: $a \mid b$ значит «$b$ кратно $a$», маленькое слева.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А ноль? $5 \mid 0$?'
+    - speaker: bezout
+      emotion: happy
+      text: 'Да! $0 = 5 \cdot 0$. Любой элемент делит ноль. А вот ноль делит только ноль: $0 \cdot c = 0$, так что из нуля ничего другого не получишь.'
+    - speaker: bezout
+      emotion: explain
+      text: 'По местам, важный момент! Делимость зависит от кольца. В $\mathbb{Q}$ двойка делит семёрку: $7 = 2 \cdot \tfrac{7}{2}$, и $\tfrac{7}{2} \in \mathbb{Q}$. В $\mathbb{Q}$ любое ненулевое число делит всё что угодно.'
+    - speaker: student_b
+      emotion: surprised
+      text: 'То есть в $\mathbb{Q}$ делимость вообще бесполезна? Все делят всех?'
+    - speaker: bezout
+      emotion: smile
+      text: 'Бесполезна! Потому что в $\mathbb{Q}$ все ненулевые числа обратимы. Обратимый элемент $u$ — тот, у которого есть $u^{-1}$ с $u \cdot u^{-1} = 1$. Он делит всё: $b = u \cdot (u^{-1} b)$. Множество обратимых обозначают $R^\times$.'
+    - speaker: bezout
+      emotion: smile
+      text: 'В $\mathbb{Z}$ обратимы только $1$ и $-1$: $\mathbb{Z}^\times = \{1, -1\}$. Поэтому в целых числах делимость интересная, а в $\mathbb{Q}$ — нет.'
+    - goto: zero_divisors
+  zero_divisors:
+    - speaker: bezout
+      emotion: explain
+      text: 'Теперь опасные рифы. Ненулевой $r$ называется делителем нуля, если есть ненулевой $s$ с $r \cdot s = 0$. Два не нуля, а в произведении ноль!'
+    - speaker: student_a
+      emotion: confused
+      text: 'Но так же не бывает. Если произведение ноль, то один из множителей ноль, нас так в школе учили.'
+    - speaker: bezout
+      emotion: smile
+      text: 'В числах — не бывает. А на часах бывает! Посчитаем время по модулю $12$: после $12$ снова $0$. Тогда $3 \cdot 4 = 12$, а $12$ на часах — это $0$. Получилось $3 \cdot 4 = 0$, хотя ни $3$, ни $4$ не ноль.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Гаусс потом расскажет про часы подробно. А вот пример попроще для глаз, из матриц: $\begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}$.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Коммутативное кольцо с единицей $1 \ne 0$ без делителей нуля называется областью целостности. В нём школьное правило снова работает: $ab = 0 \Rightarrow a = 0$ или $b = 0$. Примеры: $\mathbb{Z}$, $\mathbb{Q}$, $\mathbb{R}$, многочлены $\mathbb{R}[x]$.'
+    - speaker: bezout
+      emotion: explain
+      text: 'Зачем это нужно? Чтобы сокращать! Утверждение: в области целостности, если $a \ne 0$ и $ab = ac$, то $b = c$. Доказательство: $ab - ac = 0$, то есть $a(b - c) = 0$. Делителей нуля нет, $a \ne 0$, значит, $b - c = 0$.'
+    - choice:
+        question: 'На часах по модулю $12$: $3 \cdot 4 = 3 \cdot 8$? И можно ли сократить на $3$?'
+        options:
+          - text: 'Равенство верно, но сокращать нельзя'
+            goto: cancel_right
+          - text: 'Равенство неверно'
+            goto: cancel_wrong
+          - text: 'Равенство верно, значит, $4 = 8$'
+            goto: cancel_wrong2
+  cancel_wrong:
+    - speaker: bezout
+      emotion: thinking
+      text: 'Проверим. $3 \cdot 4 = 12$, это $0$ на часах. $3 \cdot 8 = 24$, это два полных круга, тоже $0$. Обе стороны ноль, равенство верное!'
+    - goto: cancel_right
+  cancel_wrong2:
+    - speaker: bezout
+      emotion: thinking
+      text: 'Ловушка! $4$ и $8$ на часах — разные числа. Мы сократили на $3$, а $3$ — делитель нуля. Тут сокращение и ломается.'
+    - goto: cancel_right
+  cancel_right:
+    - speaker: bezout
+      emotion: happy
+      text: 'Именно! $3 \cdot 4 = 0 = 3 \cdot 8$, но $4 \ne 8$. В доказательстве сокращения мы опирались на то, что делителей нуля нет. На часах по модулю $12$ они есть, и сокращать нельзя.'
+    - goto: associates
+  associates:
+    - speaker: bezout
+      emotion: smile
+      text: 'Последний пункт на сегодня. В $\mathbb{Z}$ числа $5$ и $-5$ делят друг друга: $-5 = 5 \cdot (-1)$ и $5 = (-5) \cdot (-1)$. Для делимости они как близнецы.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Ненулевые $a$ и $b$ называются ассоциированными, $a \sim b$, если $a \mid b$ и $b \mid a$. Утверждение: в области целостности $a \sim b$ тогда и только тогда, когда $a = u \cdot b$ для обратимого $u$.'
+    - speaker: bezout
+      emotion: explain
+      text: 'Докажем. Пусть $a \mid b$ и $b \mid a$: $b = a c$ и $a = b d$. Подставим второе в первое: $b = b d c$. Перенесём: $b(1 - cd) = 0$.'
+    - speaker: bezout
+      emotion: smile
+      text: '$b \ne 0$, а делителей нуля нет, значит, $1 - cd = 0$, то есть $cd = 1$. Получилось, что $c$ и $d$ обратимы, и $a = d \cdot b$ с обратимым $d$. Вот наш $u$.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Обратно: если $a = ub$, то $b \mid a$. А ещё $b = u^{-1} a$, значит, $a \mid b$. Курс верный, доказано!'
+    - speaker: student_a
+      emotion: explain
+      text: 'То есть ассоциированные — это «одинаковые с точностью до обратимого множителя». В $\mathbb{Z}$ — с точностью до знака.'
+    - speaker: bezout
+      emotion: happy
+      text: 'Отлично сказано! А в многочленах $\mathbb{R}[x]$ обратимы ненулевые числа, поэтому $x + 1 \sim 2x + 2 \sim -\tfrac{1}{3}x - \tfrac{1}{3}$. Для делимости это один и тот же многочлен в разной упаковке.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Отдать швартовы! В следующий раз — деление с остатком и алгоритм Евклида. И там будет теорема с моим именем.'

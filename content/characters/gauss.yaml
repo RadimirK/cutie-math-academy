@@ -1,0 +1,36 @@
+id: gauss
+name: Гаусс
+rarity: 5
+subject: linalg
+topics: [residues_crt, fields, quadratic_residues]
+description: 'Принцесса математиков. Публикует немного, но только безупречное. В детстве сложила числа от 1 до 100 за минуту и до сих пор об этом напоминает.'
+look:
+  head: 0.97
+  chest: 0.65
+  palette:
+    skin: '#fbe7dc'
+    hair: '#e9e4f2'
+    eyes: '#d49a1e'
+    cloth: '#5a1f35'
+    cloth2: '#f7f1e6'
+    skirt: '#3a1424'
+    accent: '#e2b23c'
+    legwear: '#2a1a22'
+    shoes: '#3a1424'
+    metal: '#f0c64a'
+  parts:
+    hair_back: { part: long_straight, length: 6.6, width: 1.42 }
+    hair_front: { part: blunt_bangs, length: 0.02, side: 2.9 }
+    eyes: { part: sharp }
+    brows: { part: thin, mood: calm }
+    outfit: { part: blazer, neck: ribbon, hem: 4.0 }
+    bottom: { part: pencil_skirt, length: 6.8, belt: thin }
+    legwear: { part: stockings }
+    shoes: { part: boots, top: 7.4, cuff: band }
+    accessory: [{ part: hairclip, kind: star, x: 0.6, y: -0.6 }]
+  emotions:
+    smile:
+      eyes: { shape: half }
+      mouth: { shape: smirk }
+    thinking:
+      eyes: { look_x: 1, look_y: -1 }

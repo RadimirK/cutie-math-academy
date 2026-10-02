@@ -1,0 +1,80 @@
+id: kronecker_05
+title: Аннулятор и сопряжённое отображение
+character: kronecker
+background: classroom
+nodes:
+  start:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Пусть $W \subseteq V$ — подпространство. Аннулятор $\operatorname{Ann} W = \{\varphi \in V^* \mid \varphi(w) = 0 \text{ для всех } w \in W\}$. Функционалы, которые на $W$ дают ноль. Это подпространство в $V^*$, проверка очевидна.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Пример. $V = \mathbb{R}^3$, $W$ — плоскость $z = 0$. Какие функционалы $ax + by + cz$ обнуляются на всех $(x, y, 0)$? Нужно $a = b = 0$. Значит, $\operatorname{Ann} W = \{cz\} = \langle e_3^* \rangle$, размерность $1$.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Лемма. $\dim W + \dim \operatorname{Ann} W = \dim V$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Базис $W$: $e_1, \dots, e_k$. Дополним до базиса $V$: $e_1, \dots, e_n$. Возьмём двойственный базис. Утверждаю: $e_{k+1}^*, \dots, e_n^*$ — базис $\operatorname{Ann} W$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Они в аннуляторе: $e_j^*(e_i) = 0$ при $i \le k < j$, а на базисе $W$ ноль — значит, ноль на всём $W$. Независимы: это часть базиса $V^*$. Порождают: если $\varphi \in \operatorname{Ann} W$, то $\varphi = \sum_i \varphi(e_i) e_i^*$, а $\varphi(e_i) = 0$ при $i \le k$. Остались только $e_{k+1}^*, \dots, e_n^*$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Итого $\dim \operatorname{Ann} W = n - k$.'
+    - speaker: student_a
+      emotion: explain
+      text: 'Подождите. Функционалы из аннулятора — это же уравнения, которые задают $W$! Плоскость $z = 0$ задаётся одним уравнением, и аннулятор одномерный.'
+    - speaker: kronecker
+      emotion: surprised
+      text: '…Один. Хорошо сказано. Подпространство размерности $k$ в $n$-мерном пространстве задаётся $n - k$ независимыми линейными уравнениями. Это та же лемма.'
+    - goto: adjoint
+  adjoint:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Теперь сопряжённое отображение. Пусть $L\colon V \to U$. Определим $L^*\colon U^* \to V^*$ формулой $L^*(\varphi) = \varphi \circ L$. Сначала $L$, потом $\varphi$ — получается функционал на $V$.'
+    - speaker: student_b
+      emotion: confused
+      text: 'Стрелка развернулась? $L$ шло из $V$ в $U$, а $L^*$ идёт из $U^*$ в $V^*$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Развернулась. Функционал на $U$ умеет есть векторы из $U$. Чтобы накормить его вектором из $V$, сначала отправь этот вектор в $U$ через $L$. Так функционал на $U$ становится функционалом на $V$.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Матрица. Пусть $A = [L]_{e,f}$, то есть $L(e_j) = \sum_k a_{kj} f_k$. Утверждение: $[L^*]_{f^*, e^*} = A^T$, транспонированная матрица: строки и столбцы меняются местами.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Куда идёт базис $f_i^*$? Подставим в $L^*(f_i^*)$ вектор $e_j$: $$L^*(f_i^*)(e_j) = f_i^*(L(e_j)) = f_i^*\Big(\sum_k a_{kj} f_k\Big) = a_{ij}.$$ Значит, $L^*(f_i^*) = \sum_j a_{ij} e_j^*$.'
+    - speaker: kronecker
+      emotion: smug
+      text: 'Столбец $[L^*]$ номер $i$ — это $(a_{i1}, \dots, a_{in})$, то есть $i$-я строка $A$. Транспонирование. Вот откуда оно берётся.'
+    - choice:
+        question: 'Матрица $L\colon \mathbb{R}^2 \to \mathbb{R}^3$ имеет размер $3 \times 2$. Какого размера матрица $L^*$?'
+        options:
+          - text: '$2 \times 3$'
+            goto: size_right
+          - text: '$3 \times 2$'
+            goto: size_wrong
+  size_wrong:
+    - speaker: kronecker
+      emotion: angry
+      text: 'Ноль. $L^*$ идёт из $(\mathbb{R}^3)^*$ в $(\mathbb{R}^2)^*$. Из трёхмерного в двумерное. Строк столько, какова размерность того, куда идём.'
+    - goto: size_right
+  size_right:
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. $L^*\colon (\mathbb{R}^3)^* \to (\mathbb{R}^2)^*$, матрица $2 \times 3$, она же $A^T$.'
+    - goto: ann_ker
+  ann_ker:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Последнее. Утверждение: $\operatorname{Ann}(\operatorname{Im} L) = \ker L^*$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Цепочка равносильностей. $\varphi \in \operatorname{Ann}(\operatorname{Im} L)$ $\iff$ $\varphi(u) = 0$ для всех $u \in \operatorname{Im} L$ $\iff$ $\varphi(L(v)) = 0$ для всех $v \in V$ $\iff$ $(L^*\varphi)(v) = 0$ для всех $v$ $\iff$ $L^*\varphi = 0$ $\iff$ $\varphi \in \ker L^*$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Каждая стрелка — просто определение. Функционал убивает образ ровно тогда, когда сопряжённое отображение убивает функционал.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Итог. $\dim W + \dim \operatorname{Ann} W = \dim V$. $L^*(\varphi) = \varphi \circ L$, матрица — $A^T$. $\operatorname{Ann} \operatorname{Im} L = \ker L^*$. В следующий раз из этих трёх фактов получим, что строчный ранг равен столбцовому.'

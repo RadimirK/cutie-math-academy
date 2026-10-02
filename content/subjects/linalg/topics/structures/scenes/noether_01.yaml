@@ -1,0 +1,179 @@
+id: noether_01
+title: Стрелки между множествами
+character: noether
+background: lecture_hall
+nodes:
+  start:
+    - narration: 'Первая пара по алгебре. В большую аудиторию влетает девушка в коралловом кардигане, на ходу поправляя круглые очки. На рукаве у неё мел.'
+    - speaker: noether
+      emotion: happy
+      text: 'Привет-привет! Я Нётер. Весь этот курс мы будем делать одно и то же: брать знакомые вещи — числа, многочлены, матрицы — и спрашивать, что у них общего.'
+    - speaker: noether
+      emotion: explain
+      text: 'Но начнём с самого простого. У нас есть два множества, и мы хотим как-то связать их элементы. Стрелками.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Стрелками? Мы что, в детском саду? «Соедини картинку со словом»?'
+    - speaker: noether
+      emotion: smile
+      text: 'Ровно так! Только запишем это строго. Помнишь декартово произведение? $A \times B$ — это множество всех пар $(a, b)$, где $a \in A$ и $b \in B$. Каждая пара — это одна возможная стрелка из $a$ в $b$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Пример. $A = \{\text{Юи}, \text{Хината}, \text{я}\}$, $B = \{\text{чай}, \text{кофе}, \text{какао}\}$. Пар всего $3 \cdot 3 = 9$: (Юи, чай), (Юи, кофе) и так далее.'
+    - speaker: noether
+      emotion: serious
+      text: 'Соответствие из $A$ в $B$ — это просто какое-то подмножество пар $R \subseteq A \times B$. Мы выбираем, какие стрелки нарисовать. Если $(a, b) \in R$, говорят «$a$ соответствует $b$».'
+    - speaker: noether
+      emotion: smile
+      text: 'В нашем конспекте добавляют ещё одно условие: у каждого $a \in A$ должна быть хотя бы одна стрелка. Формально: $\forall a \in A\ \exists b \in B: (a, b) \in R$. Значок $\forall$ читается «для любого», а $\exists$ — «существует».'
+    - speaker: student_a
+      emotion: thinking
+      text: 'То есть «кто что пьёт»? Я пью чай и какао, Хината — только кофе, а вы…'
+    - speaker: noether
+      emotion: happy
+      text: 'А я — всё сразу! Вот и соответствие: $R = \{(\text{Юи}, \text{чай}), (\text{Юи}, \text{какао}), (\text{Хината}, \text{кофе}), (\text{я}, \text{чай}), (\text{я}, \text{кофе}), (\text{я}, \text{какао})\}$.'
+      figure: {type: mapping, sets: [{name: A, elements: [Юи, Хината, Нётер]}, {name: B, elements: [чай, кофе, какао]}], maps: ['Юи>чай Юи>какао Хината>кофе Нётер>чай Нётер>кофе Нётер>какао'], labels: [R]}
+    - speaker: noether
+      emotion: smile
+      text: 'Видишь: из одного элемента может выходить несколько стрелок, а в элемент $B$ может не входить ни одной. Соответствие ничего такого не запрещает.'
+    - speaker: student_a
+      emotion: explain
+      text: 'Кантор называла похожую штуку отношением! Только там пары были из $A \times A$.'
+    - speaker: noether
+      emotion: happy
+      text: 'Именно! Отношение на $A$ — это соответствие из $A$ в $A$. Кантор дала нам множества, а мы будем строить из них кольца. Хорошее разделение труда.'
+      figure: null
+    - goto: composition
+  composition:
+    - speaker: noether
+      emotion: explain
+      text: 'Теперь главное действие со стрелками — композиция. Пусть $R$ — соответствие из $A$ в $B$, а $S$ — из $B$ в $C$. Идём сначала по стрелке $R$, потом по стрелке $S$. Куда можно попасть?'
+    - speaker: noether
+      emotion: serious
+      text: '$$S \circ R = \{(a, c) \in A \times C \mid \exists b \in B: (a, b) \in R \text{ и } (b, c) \in S\}.$$ Словами: из $a$ можно дойти в $c$, если есть промежуточная остановка $b$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Продолжим пример. Пусть $C = \{\text{столовая}, \text{автомат}\}$, а $S$ говорит, где что продаётся: чай — в столовой, кофе — в столовой и в автомате, какао — только в автомате.'
+      figure: {type: mapping, sets: [{name: A, elements: [Юи, Хината]}, {name: B, elements: [чай, кофе, какао]}, {name: C, elements: [столовая, автомат]}], maps: ['Юи>чай Юи>какао Хината>кофе', 'чай>столовая кофе>столовая кофе>автомат какао>автомат'], labels: [R, S]}
+    - choice:
+        question: 'Куда ведёт $S \circ R$ из Хинаты?'
+        options:
+          - text: 'Только в столовую'
+            goto: comp_wrong
+          - text: 'В столовую и в автомат'
+            goto: comp_right
+  comp_wrong:
+    - speaker: noether
+      emotion: thinking
+      text: 'Посмотри внимательнее. Хината пьёт кофе. А кофе продаётся и в столовой, и в автомате. До автомата тоже есть путь: Хината → кофе → автомат.'
+    - goto: comp_right
+  comp_right:
+    - speaker: noether
+      emotion: happy
+      text: 'Да! Хината → кофе → столовая и Хината → кофе → автомат. Значит, в $S \circ R$ есть обе пары. А у Юи тоже обе: через чай в столовую и через какао в автомат.'
+      figure: {type: mapping, sets: [{name: A, elements: [Юи, Хината]}, {name: B, elements: [чай, кофе, какао]}, {name: C, elements: [столовая, автомат]}], maps: ['Юи>чай Юи>какао Хината>кофе', 'чай>столовая кофе>столовая кофе>автомат какао>автомат'], labels: [R, S], through: 'Юи>столовая Юи>автомат Хината>столовая Хината>автомат', through_label: 'S ∘ R'}
+    - speaker: student_b
+      emotion: confused
+      text: 'Стоп. Мы идём сначала по $R$, а пишем $S \circ R$, то есть $S$ первым. Почему задом наперёд?'
+    - speaker: noether
+      emotion: smile
+      text: 'Это привычка из школы. Помнишь $\sin(x^2)$? Сначала возводим в квадрат, потом берём синус, а записываем синус левее. Композиция читается справа налево, как $f(g(x))$: правая буква действует первой.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Ладно, запомню: «справа налево, как у функций».'
+      figure: null
+    - goto: assoc
+  assoc:
+    - speaker: noether
+      emotion: explain
+      text: 'Теперь первая теорема курса! Пусть есть три соответствия: $R$ из $A$ в $B$, $S$ из $B$ в $C$ и $T$ из $C$ в $D$. Тогда $$(T \circ S) \circ R = T \circ (S \circ R).$$ Это и есть ассоциативность: неважно, как расставить скобки.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Как с числами: $(2 + 3) + 4 = 2 + (3 + 4)$?'
+    - speaker: noether
+      emotion: happy
+      text: 'Да! Доказываем. Распишем левую часть по определению. Пара $(a, d)$ лежит в $(T \circ S) \circ R$, если есть $b$ с $(a, b) \in R$ и $(b, d) \in T \circ S$.'
+    - speaker: noether
+      emotion: smile
+      text: 'А $(b, d) \in T \circ S$ значит, что есть $c$ с $(b, c) \in S$ и $(c, d) \in T$. Собираем вместе: существуют $b$ и $c$, такие что $(a, b) \in R$, $(b, c) \in S$, $(c, d) \in T$.'
+    - speaker: noether
+      emotion: smile
+      text: 'Теперь правая часть. $(a, d) \in T \circ (S \circ R)$, если есть $c$ с $(a, c) \in S \circ R$ и $(c, d) \in T$. А $(a, c) \in S \circ R$ значит, что есть $b$ с $(a, b) \in R$ и $(b, c) \in S$.'
+    - speaker: noether
+      emotion: happy
+      text: 'Получилось то же самое условие: есть цепочка $a \to b \to c \to d$ по стрелкам $R$, $S$, $T$. Множества задаются одним и тем же условием, значит, они равны. Готово!'
+    - speaker: student_b
+      emotion: smile
+      text: 'Так это же очевидно: обе стороны — «дойти за три шага».'
+    - speaker: noether
+      emotion: smile
+      text: 'Очевидно, когда видишь картинку. А доказательство — это как раз аккуратная запись того, что ты видишь. Привыкай: в алгебре всё «очевидное» записывают по определению.'
+    - goto: maps
+  maps:
+    - speaker: noether
+      emotion: serious
+      text: 'Теперь особый случай. Отображение $f$ из $A$ в $B$ — это соответствие, в котором из каждого $a$ выходит ровно одна стрелка: $$\forall a \in A\ \exists!\, b \in B: (a, b) \in f.$$ Значок $\exists!$ читается «существует ровно один».'
+    - speaker: noether
+      emotion: smile
+      text: 'Тогда этот единственный $b$ обозначают $f(a)$ и пишут $f\colon A \to B$. Это то самое слово «функция» из школы, только $A$ и $B$ могут быть любыми множествами, не обязательно числами.'
+      figure: {type: mapping, sets: [{name: A, elements: '1 2 3 4'}, {name: B, elements: 'a b c d e'}], maps: ['1>a 2>b 3>b 4>d'], labels: [f]}
+    - speaker: student_a
+      emotion: thinking
+      text: 'А наш «кто что пьёт» — не отображение? Ведь от меня две стрелки.'
+    - speaker: noether
+      emotion: happy
+      text: 'Верно, не отображение. Ещё пример: «$x \mapsto \pm\sqrt{x}$» из $\mathbb{R}$ в $\mathbb{R}$ — тоже нет. Из $4$ выходят две стрелки, в $2$ и в $-2$, а из $-1$ ни одной.'
+    - speaker: noether
+      emotion: explain
+      text: 'У отображений есть два важных свойства. Первое — инъективность: разные элементы идут в разные. Формально: $f(a) = f(a'') \Rightarrow a = a''$. Если значения совпали, то совпали и аргументы.'
+      figure: {type: mapping, sets: [{name: A, elements: '1 2 3'}, {name: B, elements: 'a b c d'}], maps: ['1>a 2>c 3>d'], labels: [f]}
+    - speaker: noether
+      emotion: explain
+      text: 'Второе — сюръективность: в каждый элемент $B$ кто-нибудь попадает. $\forall b \in B\ \exists a \in A: f(a) = b$. Ни один элемент $B$ не остался без стрелки.'
+      figure: {type: mapping, sets: [{name: A, elements: '1 2 3 4'}, {name: B, elements: 'a b c'}], maps: ['1>a 2>a 3>b 4>c'], labels: [f]}
+    - speaker: noether
+      emotion: happy
+      text: 'А если выполнено и то и другое, это биекция: идеальное разбиение на пары, каждому $a$ свой $b$ и наоборот.'
+      figure: {type: mapping, sets: [{name: A, elements: '1 2 3'}, {name: B, elements: 'a b c'}], maps: ['1>b 2>c 3>a'], labels: [f]}
+    - speaker: noether
+      emotion: smile
+      text: 'Пример из школы: $f(x) = x^2$ из $\mathbb{R}$ в $\mathbb{R}$. Не инъективно: $f(-2) = f(2) = 4$. Не сюръективно: в $-1$ не попадает никто, квадрат не бывает отрицательным.'
+    - speaker: noether
+      emotion: smile
+      text: 'А теперь та же формула, но из $[0, +\infty)$ в $[0, +\infty)$. Отрицательных аргументов нет, поэтому инъективно. Отрицательных значений не ждём, поэтому сюръективно. Биекция!'
+      figure: null
+    - speaker: student_b
+      emotion: surprised
+      text: 'То есть формула одна, а свойства разные? Зависит от того, откуда и куда?'
+    - speaker: noether
+      emotion: happy
+      text: 'Именно поэтому отображение — это всегда тройка: откуда, куда и правило. Поменяешь $A$ или $B$ — получишь другое отображение.'
+    - choice:
+        question: 'Отображение $f\colon \mathbb{Z} \to \mathbb{Z}$, $f(n) = 2n$. Какое оно?'
+        options:
+          - text: 'Инъективно, но не сюръективно'
+            goto: double_right
+          - text: 'Сюръективно, но не инъективно'
+            goto: double_wrong_surj
+          - text: 'Биекция'
+            goto: double_wrong_bij
+  double_wrong_surj:
+    - speaker: noether
+      emotion: thinking
+      text: 'Проверим сюръективность: попадём ли в $3$? Нужно $2n = 3$, то есть $n = 1{,}5$. Но это не целое число! В нечётные числа никто не попадает.'
+    - goto: double_right
+  double_wrong_bij:
+    - speaker: noether
+      emotion: thinking
+      text: 'Почти. Инъективность есть: если $2n = 2m$, то $n = m$. А вот в $3$ никто не попадает: $2n = 3$ не решается в целых. Значит, не сюръекция, а потому и не биекция.'
+    - goto: double_right
+  double_right:
+    - speaker: noether
+      emotion: happy
+      text: 'Инъективно: из $2n = 2m$ следует $n = m$. Не сюръективно: нечётные числа никто не получает. А вот как отображение из $\mathbb{Z}$ в множество чётных чисел $2\mathbb{Z}$ оно уже биекция.'
+    - speaker: student_a
+      emotion: happy
+      text: 'Записала: инъекция — «не склеивает», сюръекция — «накрывает всё», биекция — «и то и другое».'
+    - speaker: noether
+      emotion: smile
+      text: 'Отличная шпаргалка! В следующий раз научимся ходить по стрелкам обратно. Окажется, что «вернуться назад» можно двумя разными способами, и это как раз инъекция и сюръекция.'

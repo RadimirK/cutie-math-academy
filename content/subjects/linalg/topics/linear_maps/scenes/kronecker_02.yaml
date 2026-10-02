@@ -1,0 +1,95 @@
+id: kronecker_02
+title: Матрица — это таблица образов
+character: kronecker
+background: classroom
+nodes:
+  start:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Отображение задаётся образами базиса. Образы — векторы в $W$. Запишем их координаты в таблицу. Это и есть матрица. Всё.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Пусть $e = (e_1, \dots, e_n)$ — базис $V$, $f = (f_1, \dots, f_m)$ — базис $W$. Разложим каждый образ: $$L(e_j) = a_{1j} f_1 + a_{2j} f_2 + \dots + a_{mj} f_m.$$ Матрица $[L]_{e,f} = (a_{ij})$ размера $m \times n$: в $j$-м столбце стоят координаты $L(e_j)$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Поворот на $90^\circ$: $L(e_1) = e_2$ — столбец $\binom{0}{1}$. $L(e_2) = -e_1$ — столбец $\binom{-1}{0}$. Матрица $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Как применить? Пусть $v = \sum_j x_j e_j$. Тогда $L(v) = \sum_j x_j L(e_j) = \sum_i \left(\sum_j a_{ij} x_j\right) f_i$. Координаты образа: $y_i = \sum_j a_{ij} x_j$. Это умножение матрицы на столбец: $i$-я строка на столбец $x$.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Проверим: $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 3 \\ 2 \end{pmatrix} = \begin{pmatrix} -2 \\ 3 \end{pmatrix}$. Тот же ответ, что в прошлый раз.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Ещё пример. Производная $D$ на многочленах степени не выше $2$, базис $1, x, x^2$. $D(1) = 0$, $D(x) = 1$, $D(x^2) = 2x$. Столбцы — координаты образов: $$[D] = \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 2 \\ 0 & 0 & 0 \end{pmatrix}.$$'
+    - choice:
+        question: 'Какой столбец в матрице проекции $\mathbb{R}^3 \to \mathbb{R}^2$, $(x, y, z) \mapsto (x, y)$, соответствует $e_3$?'
+        options:
+          - text: '$\binom{0}{0}$'
+            goto: col_right
+          - text: '$\binom{0}{1}$'
+            goto: col_wrong
+  col_wrong:
+    - speaker: kronecker
+      emotion: angry
+      text: 'Ноль. Куда идёт $e_3 = (0, 0, 1)$? Проекция выкидывает третью координату: $(0, 0)$.'
+    - goto: col_right
+  col_right:
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. $e_3 \mapsto (0, 0)$. Матрица $\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}$.'
+    - goto: hom
+  hom:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Теперь все отображения сразу. $\operatorname{Hom}(V, W)$ — множество линейных отображений $V \to W$. Это само векторное пространство: $(L + T)(v) = L(v) + T(v)$, $(\gamma L)(v) = \gamma L(v)$.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Теорема. При $\dim V = n$, $\dim W = m$ отображение $\pi\colon \operatorname{Hom}(V, W) \to M_{m \times n}(k)$, $L \mapsto [L]_{e,f}$, — изоморфизм. В частности, $\operatorname{Hom}(k^n, k^m) \cong M_{m \times n}(k)$ и $\dim \operatorname{Hom}(V, W) = mn$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Линейность: координаты $(L + T)(e_j)$ — сумма координат, матрица суммы — сумма матриц. С $\gamma$ так же. Инъективность по ядру: если $[L] = 0$, то $L(e_j) = 0$ для всех $j$, и по единственности из универсального свойства $L = 0$.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Сюръективность: дана матрица $A$. Отправим базис: $L(e_j) = \sum_i a_{ij} f_i$. По универсальному свойству такое $L$ существует, и $[L] = A$. Биекция и линейность — изоморфизм.'
+    - goto: composition
+  composition:
+    - speaker: student_b
+      emotion: confused
+      text: 'Можно вопрос? Почему матрицы умножают так странно — строку на столбец? Почему не просто поэлементно?'
+    - speaker: kronecker
+      emotion: smug
+      text: 'Правильный вопрос. Ответ: потому что умножение матриц — это композиция. Не выдумка, а следствие. Смотри.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Пусть $L\colon U \to V$ с матрицей $B$ размера $n \times k$ и $T\colon V \to W$ с матрицей $A$ размера $m \times n$. Базисы $u_l$, $e_j$, $f_i$. Куда $T \circ L$ отправляет $u_l$? $$T(L(u_l)) = T\Big(\sum_j b_{jl} e_j\Big) = \sum_j b_{jl} \sum_i a_{ij} f_i = \sum_i \Big(\sum_j a_{ij} b_{jl}\Big) f_i.$$'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Значит, у матрицы композиции на месте $(i, l)$ стоит $\sum_j a_{ij} b_{jl}$: $i$-я строка $A$ на $l$-й столбец $B$. $[T \circ L] = [T] \cdot [L]$. Размер $m \times k$.'
+    - speaker: student_b
+      emotion: surprised
+      text: 'А, то есть правило «строка на столбец» само получается, если честно подставить одно отображение в другое!'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. Отсюда же ассоциативность умножения матриц: композиция ассоциативна. И некоммутативность: «повернуть, потом спроецировать» и «спроецировать, потом повернуть» — разные отображения.'
+    - choice:
+        question: '$A = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ — поворот на $90^\circ$. Чему равно $A^2$?'
+        options:
+          - text: '$\begin{pmatrix} -1 & 0 \\ 0 & -1 \end{pmatrix}$'
+            goto: sq_right
+          - text: '$\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$'
+            goto: sq_wrong
+          - text: '$\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$'
+            goto: sq_wrong
+  sq_wrong:
+    - speaker: kronecker
+      emotion: thinking
+      text: 'Подумай, что это за отображение. Два поворота на $90^\circ$ — поворот на $180^\circ$. Куда он отправляет $e_1$? В $-e_1$. А $e_2$ — в $-e_2$.'
+    - goto: sq_right
+  sq_right:
+    - speaker: kronecker
+      emotion: happy
+      text: '$A^2 = -E$, где $E$ — единичная матрица: поворот на $180^\circ$ отправляет каждый вектор в противоположный. Можно перемножить строки на столбцы, можно подумать, куда идёт базис. Ответ один. Так и должно быть.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Итог. Матрица — координаты образов базиса по столбцам. $\operatorname{Hom}(V, W) \cong M_{m \times n}$. Произведение матриц — композиция. Следующий вопрос: что будет с матрицей, если поменять базис.'

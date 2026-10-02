@@ -1,0 +1,101 @@
+id: bezout_04
+title: Теорема Безу
+character: bezout
+background: rooftop
+nodes:
+  start:
+    - speaker: bezout
+      emotion: smug
+      text: 'Внимание на палубе! Сегодня теорема Безу. Не соотношение Безу, а теорема Безу. Да, у меня их две.'
+    - speaker: bezout
+      emotion: explain
+      text: 'Делим $f$ на $x - a$. Остаток имеет степень меньше $1$, то есть это просто число $r \in k$. Пишем: $f(x) = q(x)(x - a) + r$.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Теорема Безу: остаток от деления $f$ на $x - a$ равен $f(a)$. Доказательство в одну строчку: подставим $x = a$. $$f(a) = q(a)(a - a) + r = q(a) \cdot 0 + r = r.$$'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А подставлять в равенство многочленов можно? Мы же говорили, что многочлен — это список коэффициентов, а не функция.'
+    - speaker: bezout
+      emotion: happy
+      text: 'Хороший вопрос, кадет! Можно. Подстановка $f \mapsto f(a)$ — гомоморфизм колец $k[x] \to k$, Нётер это показывала. Значит, равные многочлены переходят в равные числа, а сумма и произведение — в сумму и произведение.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Пример. Остаток от деления $x^3 - 2x^2 + 4$ на $x - 2$: $f(2) = 8 - 8 + 4 = 4$. Никакого деления уголком!'
+    - choice:
+        question: 'Остаток от деления $x^{100} + 1$ на $x + 1$?'
+        options:
+          - text: '$0$'
+            goto: rem_wrong
+          - text: '$2$'
+            goto: rem_right
+          - text: '$1$'
+            goto: rem_wrong
+  rem_wrong:
+    - speaker: bezout
+      emotion: thinking
+      text: '$x + 1 = x - (-1)$, значит, $a = -1$. Подставляем: $(-1)^{100} + 1$. Сотая степень чётная.'
+    - goto: rem_right
+  rem_right:
+    - speaker: bezout
+      emotion: happy
+      text: '$x + 1 = x - (-1)$, так что остаток $f(-1) = (-1)^{100} + 1 = 1 + 1 = 2$. Деление сотой степени за одну секунду!'
+    - goto: roots
+  roots:
+    - speaker: bezout
+      emotion: serious
+      text: 'Следствие 1. $f(\alpha) = 0$ тогда и только тогда, когда $(x - \alpha) \mid f$. Остаток равен $f(\alpha)$, а делится нацело — значит, остаток ноль.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Есть корень — отрезай скобку: $f = (x - \alpha) q$, и $q$ на степень короче. Кстати, вот и обещанное Нётер: ядро подстановки $f \mapsto f(2)$ — это ровно кратные $x - 2$, то есть идеал $(x - 2)$.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Следствие 2. Ненулевой многочлен степени $n$ имеет не больше $n$ различных корней.'
+    - speaker: bezout
+      emotion: explain
+      text: 'Индукция по $n$. Если корней нет, доказывать нечего. Пусть $a_1$ — корень. Тогда $f = (x - a_1) g$, $\deg g = n - 1$. Возьмём другой корень $a_2 \ne a_1$: $0 = f(a_2) = (a_2 - a_1) g(a_2)$.'
+    - speaker: bezout
+      emotion: smile
+      text: '$a_2 - a_1 \ne 0$, а в поле нет делителей нуля. Значит, $g(a_2) = 0$. Все корни $f$, кроме $a_1$, — корни $g$. У $g$ их не больше $n - 1$ по индукции, у $f$ — не больше $n$.'
+    - speaker: bezout
+      emotion: surprised
+      text: 'И снова — где без поля всё ломается. В $\mathbb{Z}/8$ многочлен $x^2 - 1$ имеет корни $1, 3, 5, 7$. Четыре корня у многочлена второй степени! Например, $3^2 = 9 = 8 + 1$. А всё потому, что $(3 - 1)(3 + 1) = 8 = 0$ — делители нуля.'
+    - speaker: student_b
+      emotion: surprised
+      text: 'Четыре корня у квадратного уравнения. Расскажу в школе — не поверят.'
+    - goto: char
+  char:
+    - speaker: bezout
+      emotion: serious
+      text: 'Ещё одно понятие. Характеристика кольца $\operatorname{char} R$ — наименьшее натуральное $n$, такое что $\underbrace{1 + 1 + \dots + 1}_{n} = 0$. Если такого $n$ нет, считают $\operatorname{char} R = 0$.'
+    - speaker: bezout
+      emotion: smile
+      text: '$\operatorname{char} \mathbb{Q} = \operatorname{char} \mathbb{R} = 0$, а $\operatorname{char} \mathbb{Z}/p\mathbb{Z} = p$: $p$ единиц дают ноль. Если характеристика $0$, кольцо бесконечно: $1, 1 + 1, 1 + 1 + 1, \dots$ все различны.'
+    - speaker: bezout
+      emotion: serious
+      text: 'Теперь обещанное. Многочлены $f$ и $g$ равны формально, если у них одинаковые коэффициенты. Функционально — если $f(c) = g(c)$ для всех $c \in k$. Формально равные, конечно, равны и функционально. А наоборот?'
+    - speaker: bezout
+      emotion: explain
+      text: 'Теорема: если поле $k$ бесконечно, например $\operatorname{char} k = 0$, то из функционального равенства следует формальное. Возьмём $h = f - g$. Каждое $c \in k$ — корень $h$, корней бесконечно много. Ненулевой многочлен имеет корней не больше степени. Значит, $h = 0$, то есть $f = g$.'
+    - choice:
+        question: 'Над $\mathbb{Z}/3\mathbb{Z}$ сравним $x^3$ и $x$ как функции. Совпадают ли значения во всех точках $0, 1, 2$?'
+        options:
+          - text: 'Да, во всех трёх'
+            goto: fermat_right
+          - text: 'Нет, в точке $2$ различаются'
+            goto: fermat_wrong
+  fermat_wrong:
+    - speaker: bezout
+      emotion: thinking
+      text: 'Посчитаем: $2^3 = 8 = 2 \cdot 3 + 2$, то есть $2^3 = 2$ в $\mathbb{Z}/3$. А ещё $0^3 = 0$ и $1^3 = 1$. Совпадают везде!'
+    - goto: fermat_right
+  fermat_right:
+    - speaker: bezout
+      emotion: happy
+      text: 'Совпадают: $0^3 = 0$, $1^3 = 1$, $2^3 = 8 = 2$. Это малая теорема Ферма: в $\mathbb{Z}/p\mathbb{Z}$ всегда $a^p = a$, Гаусс доказывает её в теме про функцию Эйлера. Значит, $x^p$ и $x$ как функции одинаковы, а как многочлены разные: степени $p$ и $1$.'
+    - speaker: student_b
+      emotion: thinking
+      text: 'Так вот почему многочлен — список коэффициентов. Как функции их иногда не отличить.'
+    - speaker: bezout
+      emotion: smile
+      text: 'Именно так. Поле $\mathbb{Z}/p$ конечное, и у многочлена $x^p - x$ корнями оказались все $p$ его элементов. Противоречия нет: степень тоже $p$. Курс на следующий урок: кратные корни.'

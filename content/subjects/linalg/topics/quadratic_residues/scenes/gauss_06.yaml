@@ -1,0 +1,88 @@
+id: gauss_06
+title: Порядок элемента и цикличность
+character: gauss
+background: library
+nodes:
+  start:
+    - speaker: gauss
+      emotion: smile
+      text: 'Прежде чем говорить о квадратах по модулю $p$, нужна одна жемчужина. Начнём с тождества: $$n = \sum_{d \mid n} \varphi(d).$$ Сумма берётся по всем натуральным делителям $d$ числа $n$.'
+    - speaker: gauss
+      emotion: smug
+      text: 'Проверим на $n = 12$. Делители: $1, 2, 3, 4, 6, 12$. Значения $\varphi$: $1, 1, 2, 2, 2, 4$. Сумма — $12$. Очевидно? Не очень. Докажем.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Разложим числа $1, 2, \dots, n$ на кучки по значению $\gcd(k, n)$. Кучка $S_d = \{k \mid \gcd(k, n) = d\}$. Каждое $k$ попадает ровно в одну кучку, поэтому $n = \sum_{d \mid n} |S_d|$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Сколько чисел в $S_d$? Если $\gcd(k, n) = d$, то $k = d k''$, где $1 \le k'' \le n/d$ и $\gcd(k'', n/d) = 1$. Таких $k''$ ровно $\varphi(n/d)$. Значит, $n = \sum_{d \mid n} \varphi(n/d)$.'
+    - speaker: gauss
+      emotion: happy
+      text: 'Когда $d$ пробегает все делители $n$, число $n/d$ тоже пробегает все делители, только в обратном порядке. Значит, $\sum \varphi(n/d) = \sum \varphi(d)$. Это теорема Гаусса. Безупречно.'
+    - goto: order
+  order:
+    - speaker: gauss
+      emotion: serious
+      text: 'Теперь группы. Пусть $G$ — конечная группа с операцией умножения. Порядок элемента $g$, $\operatorname{ord} g$, — наименьшее $d \ge 1$ с $g^d = 1$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Пример: группа $(\mathbb{Z}/7)^\times = \{1, 2, 3, 4, 5, 6\}$. Степени двойки: $2, 4, 8 \equiv 1$. Значит, $\operatorname{ord} 2 = 3$. Степени тройки: $3, 2, 6, 4, 5, 1$. $\operatorname{ord} 3 = 6$, и степени тройки пробежали всю группу!'
+    - speaker: student_a
+      emotion: thinking
+      text: 'Порядки получились $3$ и $6$. Оба делят $6$, число элементов группы. Это совпадение?'
+    - speaker: gauss
+      emotion: happy
+      text: 'Нет. Лемма Лагранжа: если $|G| = n$, то $\operatorname{ord} \alpha$ делит $n$ для любого $\alpha \in G$.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Пусть $d = \operatorname{ord} \alpha$ и $C = \{1, \alpha, \alpha^2, \dots, \alpha^{d-1}\}$. Это $d$ различных элементов: если $\alpha^i = \alpha^j$ при $0 \le i < j < d$, то $\alpha^{j - i} = 1$, а $j - i < d$. Для каждого $g$ рассмотрим «сдвиг» $gC = \{g, g\alpha, \dots, g\alpha^{d-1}\}$. В нём тоже $d$ элементов: умножение на $g$ ничего не склеивает.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Два сдвига либо совпадают, либо не пересекаются. Пусть $z \in gC \cap g''C$: $z = gc_1 = g''c_2$. Тогда $g = g''c_2 c_1^{-1}$, и любой $gc = g''(c_2 c_1^{-1} c) \in g''C$, потому что $C$ замкнуто относительно умножения и обратных. Значит, $gC \subseteq g''C$, и наоборот так же.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Каждый $g$ лежит в своём сдвиге $gC$. Значит, $G$ разбит на непересекающиеся куски по $d$ элементов. Если кусков $m$, то $n = md$. Порядок делит $n$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Полезное следствие: $g^m = 1$ тогда и только тогда, когда $\operatorname{ord} g \mid m$. Разделим $m$ на $d$ с остатком: $m = qd + r$, тогда $g^m = (g^d)^q g^r = g^r$, а $g^r = 1$ при $0 \le r < d$ только когда $r = 0$.'
+    - goto: cyclic
+  cyclic:
+    - speaker: gauss
+      emotion: serious
+      text: 'Главная теорема. Если $F$ — конечное поле, то группа $F^\times = F \setminus \{0\}$ циклическая: есть элемент $\gamma$, степени которого дают все ненулевые элементы. Его называют образующим.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Пусть $|F^\times| = n$, и $\psi(d)$ — количество элементов порядка ровно $d$. Порядок каждого элемента делит $n$, поэтому $\sum_{d \mid n} \psi(d) = n$. План: показать, что $\psi(d) \le \varphi(d)$, и сравнить с тождеством Гаусса.'
+    - speaker: gauss
+      emotion: explain
+      text: 'Пусть есть хоть один $h$ порядка $d$. Тогда $1, h, \dots, h^{d-1}$ — это $d$ различных корней многочлена $x^d - 1$. В поле у него корней не больше $d$. Значит, других корней нет, и любой элемент порядка $d$ — а он тоже корень $x^d - 1$ — равен какому-то $h^k$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Какие $h^k$ имеют порядок ровно $d$? $(h^k)^m = 1$ значит $d \mid km$. Если $\gcd(k, d) = g$, это то же, что $\frac{d}{g} \mid m$, так что $\operatorname{ord}(h^k) = d/g$. Порядок равен $d$ ровно при $\gcd(k, d) = 1$. Таких $k$ от $0$ до $d - 1$ ровно $\varphi(d)$.'
+    - speaker: gauss
+      emotion: happy
+      text: 'Итак, $\psi(d)$ — либо $0$, либо $\varphi(d)$. В любом случае $\psi(d) \le \varphi(d)$. Тогда $$n = \sum_{d \mid n} \psi(d) \le \sum_{d \mid n} \varphi(d) = n.$$ Неравенство превратилось в равенство, значит, $\psi(d) = \varphi(d)$ для каждого $d$.'
+    - speaker: gauss
+      emotion: smug
+      text: 'В частности, $\psi(n) = \varphi(n) \ge 1$. Есть элемент порядка $n$, его степени дают все $n$ элементов. Группа циклическая.'
+    - choice:
+        question: 'Какой элемент — образующий группы $(\mathbb{Z}/7)^\times$?'
+        options:
+          - text: '$2$'
+            goto: gen_wrong
+          - text: '$3$'
+            goto: gen_right
+          - text: '$6$'
+            goto: gen_wrong
+  gen_wrong:
+    - speaker: gauss
+      emotion: thinking
+      text: 'Посчитай степени. $2^3 = 8 \equiv 1$: порядок $3$, а не $6$. $6 \equiv -1$, $6^2 \equiv 1$: порядок $2$. Нам нужен элемент порядка $6$.'
+    - goto: gen_right
+  gen_right:
+    - speaker: gauss
+      emotion: happy
+      text: '$3$: его степени $3, 2, 6, 4, 5, 1$ пробегают всё. По теореме образующих ровно $\varphi(6) = 2$: это $3$ и $5$.'
+    - speaker: gauss
+      emotion: smile
+      text: 'Особенно важно для нас: $(\mathbb{Z}/p)^\times$ циклическая. Каждый ненулевой остаток — это $\gamma^k$ для образующего $\gamma$. С этим знанием квадраты по модулю $p$ становятся прозрачными. О них — в следующий раз.'

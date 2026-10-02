@@ -1,0 +1,6 @@
+id: polynomials
+title: Многочлены
+description: Кольцо многочленов над полем и деление с остатком, теорема Безу и число корней, формальное и функциональное равенство, формула Тейлора, кратные корни, интерполяция Лагранжа.
+requires: [ideals]
+main_character: bezout
+main_scenes: [bezout_03, bezout_04, bezout_05, bezout_06]

@@ -1,0 +1,6 @@
+id: structures
+title: Отображения, группы и кольца
+description: Соответствия и их композиция, инъекции, сюръекции и обратные отображения, моноиды и группы, кольца и их первые свойства.
+requires: []
+main_character: noether
+main_scenes: [noether_01, noether_02, noether_03]

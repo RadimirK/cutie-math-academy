@@ -1,0 +1,80 @@
+id: kronecker_04
+title: Один, если совпало
+character: kronecker
+background: classroom
+nodes:
+  start:
+    - speaker: kronecker
+      emotion: serious
+      text: 'Сегодня моя любимая тема. Линейный функционал — линейное отображение $\varphi\colon V \to k$. Ест вектор, выдаёт число.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Примеры. На $\mathbb{R}^3$: $(x, y, z) \mapsto 2x - y + 3z$. На многочленах: $f \mapsto f(2)$. Или $f \mapsto$ коэффициент при $x^5$. Или «взять первую координату».'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Все функционалы на $V$ образуют двойственное пространство $V^* = \operatorname{Hom}(V, k)$. По прошлой теме $\operatorname{Hom}(V, k) \cong M_{1 \times n}$, так что $\dim V^* = \dim V = n$. Векторы из $V$ — столбцы, функционалы — строки.'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Функционал $2x - y + 3z$ — это строка $(2, -1, 3)$. Применить к вектору — умножить строку на столбец: $(2, -1, 3)\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix} = 4$.'
+    - goto: dual_basis
+  dual_basis:
+    - speaker: kronecker
+      emotion: smug
+      text: 'Теперь моя подпись. Пусть $e_1, \dots, e_n$ — базис $V$. Определим функционалы $e_1^*, \dots, e_n^*$ по образам базиса: $$e_i^*(e_j) = \delta_{ij} = \begin{cases} 1, & i = j, \\ 0, & i \ne j. \end{cases}$$ Один, если совпало, иначе ноль.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Что делает $e_i^*$? $e_i^*\left(\sum_j \alpha_j e_j\right) = \sum_j \alpha_j \delta_{ij} = \alpha_i$. Выдаёт $i$-ю координату. Двойственный базис — это просто координатные функции.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Утверждение: $e_1^*, \dots, e_n^*$ — базис $V^*$. Порождаемость: для любого $\varphi$ $$\varphi = \sum_i \varphi(e_i)\, e_i^*.$$ Проверим на базисном $e_j$: справа $\sum_i \varphi(e_i) \delta_{ij} = \varphi(e_j)$. Совпали на базисе — совпали везде.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Независимость: пусть $\sum_i \gamma_i e_i^* = 0$. Подставим $e_j$: $\gamma_j = 0$. Для каждого $j$. Всё.'
+    - choice:
+        question: 'Разложи $\varphi(x, y, z) = x + 5z$ по двойственному базису $e_1^*, e_2^*, e_3^*$.'
+        options:
+          - text: '$e_1^* + 5e_3^*$'
+            goto: dec_right
+          - text: '$e_1^* + e_2^* + 5e_3^*$'
+            goto: dec_wrong
+  dec_wrong:
+    - speaker: kronecker
+      emotion: angry
+      text: 'Ноль. Коэффициенты — это $\varphi(e_i)$. $\varphi(e_2) = \varphi(0, 1, 0) = 0 + 5 \cdot 0 = 0$. Откуда там единица?'
+    - goto: dec_right
+  dec_right:
+    - speaker: kronecker
+      emotion: smile
+      text: 'Один. $\varphi(e_1) = 1$, $\varphi(e_2) = 0$, $\varphi(e_3) = 5$. Коэффициенты — значения на базисе.'
+    - speaker: kronecker
+      emotion: thinking
+      text: 'Значит, $V \cong V^*$: $e_i \mapsto e_i^*$ — изоморфизм. Но смотри. В $\mathbb{R}$ возьмём базис $e = 1$, тогда $e^*(x) = x$. А возьмём базис $e'' = 2$: тогда $e''^*(2) = 1$, то есть $e''^*(x) = x/2$.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Увеличили базисный вектор вдвое — двойственный уменьшился вдвое. Изоморфизм $e \mapsto e^*$ зависит от выбора базиса. Есть, но не канонический. Такое я не люблю.'
+    - goto: double_dual
+  double_dual:
+    - speaker: kronecker
+      emotion: happy
+      text: 'А вот $V$ и $V^{**}$ изоморфны канонически, без всякого базиса. Это мне нравится.'
+    - speaker: student_b
+      emotion: confused
+      text: 'Стоп. $V^{**}$ — это функционалы на функционалах? Что-то, что ест функции и выдаёт числа?'
+    - speaker: kronecker
+      emotion: smile
+      text: 'Да. И такое «что-то» у тебя уже есть — любой вектор $v$. Подставь в функционал вектор — получишь число. Вектор умеет «есть» функционалы.'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Определим $\zeta\colon V \to V^{**}$, $\zeta(v)(\varphi) = \varphi(v)$. Вектор $v$ превращается в правило «подставь меня в $\varphi$». Базис не нужен.'
+    - speaker: kronecker
+      emotion: explain
+      text: 'Линейность: $\zeta(v_1 + v_2)(\varphi) = \varphi(v_1 + v_2) = \varphi(v_1) + \varphi(v_2)$. С растяжением так же. Инъективность: пусть $v \ne 0$. Дополним $v$ до базиса $v, e_2, \dots, e_n$ и возьмём $v^*$ из двойственного базиса. $\zeta(v)(v^*) = v^*(v) = 1 \ne 0$. Значит, $\zeta(v) \ne 0$, ядро нулевое.'
+    - speaker: kronecker
+      emotion: smug
+      text: 'Размерности: $\dim V = \dim V^* = \dim V^{**}$. Инъективное линейное отображение между пространствами одной конечной размерности — биекция по теореме о ядре и образе. Изоморфизм, и базис выбирали только для проверки, не для построения.'
+    - speaker: student_a
+      emotion: thinking
+      text: 'А для бесконечномерных?'
+    - speaker: kronecker
+      emotion: serious
+      text: 'Там $\zeta$ всё ещё инъективно, но $V^{**}$ бывает больше $V$. Мы работаем с конечномерными. Итог: двойственный базис — $\delta_{ij}$, $V \cong V^*$ через базис, $V \cong V^{**}$ канонически.'

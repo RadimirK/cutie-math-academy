@@ -1,0 +1,33 @@
+id: bezout
+name: Безу
+rarity: 4
+subject: linalg
+topics: [divisibility, polynomials]
+description: 'Учит морских кадетов делить добычу с остатком. Остаток у неё всегда меньше делителя, а корень многочлена — повод отрезать от него скобку.'
+look:
+  head: 1.04
+  chest: 0.4
+  palette:
+    skin: '#f3d6c2'
+    hair: '#c98a4b'
+    eyes: '#2f7fc1'
+    cloth: '#f6f7fb'
+    cloth2: '#f6f7fb'
+    skirt: '#24375e'
+    accent: '#d93a3a'
+    legwear: '#f4f4f8'
+    shoes: '#24375e'
+  parts:
+    hair_back: { part: twin_tails, length: 2.6, spread: 1.6 }
+    hair_front: { part: blunt_bangs, length: 0.08, side: 0.9 }
+    mouth: { part: simple, fang: left }
+    eyes: { part: round }
+    outfit: { part: sailor, hem: 3.5, sleeve: 2.5 }
+    bottom: { part: pleated_skirt, length: 5.5, flare: 1.6 }
+    legwear: { part: stockings, top: 8.1 }
+    shoes: { part: sneakers }
+    accessory: [{ part: hairclip, kind: star, x: -0.55, y: -0.6 }]
+  emotions:
+    smile:
+      body: { pose: hip }
+      mouth: { shape: open }
