@@ -1,0 +1,19 @@
+id: bush
+desc: 'Пышный куст: lilac — цветущая сирень с лиловыми гроздьями, green — просто зелёный.'
+material: plant
+shade: round
+shadow: true
+params:
+  size: { range: [0.5, 2.5], default: 1.0 }
+  kind: { options: [lilac, green], default: lilac }
+shapes:
+  # (0, 0) — середина основания
+  - ellipse: { at: ['-18 * $size', '-16 * $size'], r: ['22 * $size', '17 * $size'] }
+  - ellipse: { at: ['16 * $size', '-18 * $size'], r: ['24 * $size', '19 * $size'] }
+  - ellipse: { at: ['0 * $size', '-32 * $size'], r: ['24 * $size', '18 * $size'] }
+  - stamp:
+      at: ['(($i * 37) % 70 - 35) * $size', '(-10 - ($i * 23) % 36) * $size']
+      rows: ['.ll.', 'lLLl', 'lLLl', 'lLLl', '.ll.']
+      key: { l: 'lilac:1', L: 'lilac:3' }
+    repeat: { count: 26, step: [0, 0] }
+    when: { kind: lilac }

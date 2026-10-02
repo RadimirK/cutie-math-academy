@@ -1,0 +1,21 @@
+id: bulb
+desc: 'Голая лампочка на проводе под потолком и световой конус на стене за ней.'
+material: lamp
+outline: false
+params:
+  drop: { range: [10, 140], default: 50, desc: длина провода }
+  cone: { range: [0, 300], default: 160, desc: 'высота светового конуса на стене, 0 — без него' }
+shapes:
+  # (0, 0) — точка крепления к потолку
+  - poly: [[-6, '$drop + 8'], [6, '$drop + 8'], ['$cone * 0.42', '$drop + 8 + $cone'], ['-$cone * 0.42', '$drop + 8 + $cone']]
+    material: wall
+    tone: 3
+    when: { cone: { min: 1 } }
+  - stroke: [[0, 0], [0, '$drop']]
+    material: dark_wood
+    tone: 0
+  - poly: [[-2, '$drop'], [2, '$drop'], [2, '$drop + 3'], [-2, '$drop + 3']]
+    material: metal
+    tone: 1
+  - ellipse: { at: [0, '$drop + 7'], r: [4, 5] }
+    tone: 4

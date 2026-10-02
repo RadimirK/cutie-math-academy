@@ -1,0 +1,22 @@
+id: awning
+desc: Полосатый тканевый навес над входом на двух столбиках, с фестонами по краю.
+material: fabric
+shadow: true
+params:
+  w: { range: [60, 260], default: 150 }
+  h: { range: [40, 160], default: 92, desc: высота столбиков до земли }
+shapes:
+  # (0, 0) — середина верхнего края у стены
+  - poly: [['-$w / 2 + 3', 10], ['-$w / 2 + 6', 10], ['-$w / 2 + 6', '10 + $h'], ['-$w / 2 + 3', '10 + $h']]
+    material: metal
+    mirror: true
+    seam: true
+  - poly: [['-$w / 2', 0], ['$w / 2', 0], ['$w / 2 + 8', 14], ['-$w / 2 - 8', 14]]
+    seam: true
+  - poly: [['-$w / 2 + $w / 8 * $i', 0], ['-$w / 2 + $w / 8 * ($i + 0.5)', 0], ['-$w / 2 + $w / 8 * ($i + 0.5) - 8 + 16 * ($i + 0.5) / 8', 14], ['-$w / 2 + $w / 8 * $i - 8 + 16 * $i / 8', 14]]
+    material: accent
+    repeat: { count: 8, step: [0, 0] }
+  - ellipse: { at: ['-$w / 2 - 8 + ($w + 16) / 8 * ($i + 0.5)', 14], r: ['($w + 16) / 16', 4] }
+    cycle: [accent, fabric]
+    repeat: { count: 8, step: [0, 0] }
+    seam: true

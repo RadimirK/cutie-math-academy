@@ -164,6 +164,7 @@ export const SCENERY_COLORS: Record<SceneryMaterial, string> = {
   fabric: '#c8d6ee',
   plant: '#5ca85c',
   blossom: '#f6b9cf',
+  lilac: '#b58ad8',
   pot: '#c96f4c',
   haze: '#b8c7df',
   cork: '#c99a62',

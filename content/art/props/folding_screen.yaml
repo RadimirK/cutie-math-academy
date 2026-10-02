@@ -1,0 +1,35 @@
+id: folding_screen
+desc: 'Ширма для переодевания из нескольких створок в рамках: створки чуть повёрнуты, поэтому через одну темнее; на ткани цветы.'
+material: fabric
+shadow: true
+params:
+  panels: { range: [2, 6], default: 3, int: true }
+  w: { range: [20, 70], default: 38, desc: ширина створки }
+  h: { range: [80, 200], default: 128 }
+shapes:
+  # (0, 0) — левый нижний угол на полу
+  - poly: [[1, '-$h + 2'], ['$w - 1', '-$h'], ['$w - 1', -6], [1, -4]]
+    seam: true
+    repeat: { count: '($panels + 1) / 2', step: ['$w * 2', 0] }
+  - poly: [['$w + 1', '-$h'], ['$w * 2 - 1', '-$h + 2'], ['$w * 2 - 1', -4], ['$w + 1', -6]]
+    tone: 1
+    repeat: { count: '$panels / 2', step: ['$w * 2', 0] }
+  - stroke: [[0, '-$h + 2'], ['$w', '-$h'], ['$w', -6], [0, -4]]
+    closed: true
+    material: dark_wood
+    tone: 1
+    repeat: { count: '$panels', step: ['$w', 0] }
+  - stroke: [[0, -4], [0, 0]]
+    material: dark_wood
+    tone: 0
+    repeat: { count: '$panels + 1', step: ['$w', 0] }
+  - stamp:
+      at: ['$w / 2 + ($i % 2) * 6 - 3', '-$h * 0.7 + ($i % 3) * 14']
+      rows: ['.b.', 'bwb', '.b.']
+      key: { b: 'blossom:2', w: 'blossom:4' }
+    repeat: { count: '($panels + 1) / 2', step: ['$w * 2', 0] }
+  - stamp:
+      at: ['$w / 2 + 5', '-$h * 0.4']
+      rows: ['.b.', 'bwb', '.b.']
+      key: { b: 'blossom:2', w: 'blossom:4' }
+    repeat: { count: '($panels + 1) / 2', step: ['$w * 2', 0] }

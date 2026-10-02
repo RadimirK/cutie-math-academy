@@ -1,5 +1,5 @@
 id: loafers
-desc: Школьные туфли с округлым носом.
+desc: Туфли-лоферы с округлым носом.
 material: shoes
 shapes:
   - ellipse: { at: [-0.34, 9.1], r: [0.21, 0.17] }

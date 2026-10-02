@@ -1,0 +1,18 @@
+id: rain
+desc: Косые штрихи дождя по всей сцене и брызги на земле.
+material: cloud
+outline: false
+params:
+  count: { range: [20, 300], default: 160, int: true, desc: густота }
+  ground: { range: [0, 360], default: 300, desc: где земля для брызг }
+shapes:
+  # (0, 0) — левый верхний угол холста
+  - stroke: [['($i * 97) % 660', '($i * 53) % 340'], ['($i * 97) % 660 - 4', '($i * 53) % 340 + 12']]
+    tone: 3
+    repeat: { count: '$count', step: [0, 0] }
+  - stamp:
+      at: ['($i * 61 + 13) % 640', '$ground + ($i * 29) % (360 - $ground)']
+      rows: ['s.s', '.s.']
+      key: { s: 'cloud:3' }
+    repeat: { count: '$count / 5', step: [0, 0] }
+    when: { ground: { max: 350 } }

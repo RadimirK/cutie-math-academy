@@ -1,0 +1,42 @@
+id: sofa
+desc: Маленький мягкий диванчик с подушками и клетчатым пледом на сиденье.
+material: fabric
+shade: round
+shadow: true
+params:
+  w: { range: [70, 220], default: 120 }
+  plaid: { options: [none, yes], default: yes }
+shapes:
+  # (0, 0) — середина на полу
+  - poly: [['-$w / 2 + 6', -60], ['$w / 2 - 6', -60], ['$w / 2 - 6', -26], ['-$w / 2 + 6', -26]]
+    seam: true
+  - poly: [['-$w / 2 + 8', -30], ['$w / 2 - 8', -30], ['$w / 2 - 8', -12], ['-$w / 2 + 8', -12]]
+    seam: true
+  - poly: [['-$w / 2', -42], ['-$w / 2 + 12', -42], ['-$w / 2 + 12', -10], ['-$w / 2', -10]]
+    mirror: true
+    seam: true
+  - poly: [['-$w / 2 + 4', -10], ['-$w / 2 + 8', -10], ['-$w / 2 + 8', 0], ['-$w / 2 + 4', 0]]
+    material: dark_wood
+    mirror: true
+    seam: true
+  - ellipse: { at: ['-$w / 4', -38], r: [14, 10], rot: -10 }
+    material: accent
+    seam: true
+  # плед в клетку
+  - poly: [[-6, -31], ['$w / 2 - 14', -31], ['$w / 2 - 12', -6], [-2, -8]]
+    material: book3
+    name: plaid
+    seam: true
+    when: { plaid: 'yes' }
+  - stroke: [[0, '-28 + 6 * $i'], ['$w / 2 - 12', '-28 + 6 * $i']]
+    material: book4
+    tone: 3
+    clip: plaid
+    repeat: { count: 4, step: [0, 0] }
+    when: { plaid: 'yes' }
+  - stroke: [['4 + 8 * $i', -31], ['4 + 8 * $i', -6]]
+    material: book4
+    tone: 3
+    clip: plaid
+    repeat: { count: '$w / 16', step: [0, 0] }
+    when: { plaid: 'yes' }

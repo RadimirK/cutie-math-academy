@@ -1,0 +1,46 @@
+id: poster
+desc: 'Плакат на стене на скотче: event — афиша со звездой и заголовком, chart — график со столбиками, notice — объявление строчками.'
+material: paper
+shadow: true
+params:
+  w: { range: [24, 120], default: 48 }
+  h: { range: [30, 160], default: 66 }
+  kind: { options: [event, chart, notice], default: event }
+shapes:
+  # (0, 0) — левый верхний угол
+  - poly: [[0, 0], ['$w', 0], ['$w', '$h'], [0, '$h']]
+    seam: true
+  - poly: [[4, 4], ['$w - 4', 4], ['$w - 4', '$h * 0.55'], [4, '$h * 0.55']]
+    material: book5
+    when: { kind: event }
+  - stamp:
+      at: ['$w / 2', '$h * 0.3']
+      rows: ['...y...', '..yyy..', 'yyyyyyy', '.yyyyy.', '.yy.yy.']
+      key: { y: 'book4:4' }
+    when: { kind: event }
+  - stroke: [[6, '$h * 0.65'], ['$w - 6', '$h * 0.65']]
+    material: accent
+    when: { kind: event }
+  - stroke: [[8, '$h * 0.75 + 5 * $i'], ['$w - 10', '$h * 0.75 + 5 * $i']]
+    material: metal
+    repeat: { count: 3, step: [0, 0] }
+    when: { kind: event }
+  - stroke: [[5, '$h - 8'], ['$w - 5', '$h - 8']]
+    material: metal
+    tone: 1
+    when: { kind: chart }
+  - poly: [['8 + $i * ($w - 16) / 4', '$h - 9 - 10 - (($i * 7) % 4) * ($h - 30) / 5'], ['8 + $i * ($w - 16) / 4 + ($w - 16) / 4 - 3', '$h - 9 - 10 - (($i * 7) % 4) * ($h - 30) / 5'], ['8 + $i * ($w - 16) / 4 + ($w - 16) / 4 - 3', '$h - 9'], ['8 + $i * ($w - 16) / 4', '$h - 9']]
+    cycle: [book2, accent, book3, book4]
+    repeat: { count: 4, step: [0, 0] }
+    seam: true
+    when: { kind: chart }
+  - stroke: [[6, 8], ['$w * 0.6', 8]]
+    material: accent
+    when: { kind: notice }
+  - stroke: [[6, '16 + 6 * $i'], ['$w - 6 - ($i % 3) * 6', '16 + 6 * $i']]
+    material: metal
+    repeat: { count: '($h - 22) / 6', step: [0, 0] }
+    when: { kind: notice }
+  # скотч по углам
+  - stamp: { at: [1, 1], rows: ['tt', 'tt'], key: { t: 'glass:3' } }
+  - stamp: { at: ['$w - 1', 1], rows: ['tt', 'tt'], key: { t: 'glass:3' } }

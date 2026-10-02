@@ -1,0 +1,15 @@
+id: corridor_night
+name: Коридор поздним вечером
+base: corridor
+set:
+  window: { night: stars }
+palette:
+  wall: '#8e9994'
+  trim: '#5f6b62'
+  floor: '#5c656b'
+  ceiling: '#98a39e'
+  metal: '#43637b'
+  wood: '#7a5a42'
+  sky: '#1d2a57'
+  cloud: '#3c4d80'
+  plant: '#2e4a3a'

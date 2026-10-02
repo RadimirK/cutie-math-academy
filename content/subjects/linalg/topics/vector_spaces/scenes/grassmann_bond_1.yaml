@@ -1,7 +1,7 @@
 id: grassmann_bond_1
 title: Ветер на крыше
 character: grassmann
-background: rooftop
+background: rooftop_sunset
 nodes:
   start:
     - narration: 'Крыша на закате. На перилах звенит самодельная музыка ветра из ракушек. Грассман сидит рядом со старой книгой на коленях; буквы в ней не латинские.'

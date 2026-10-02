@@ -1,0 +1,13 @@
+id: lecture_hall_evening
+name: Лекционная вечером
+base: lecture_hall
+palette:
+  wall: '#e2c9ad'
+  trim: '#8a6047'
+  floor: '#91603f'
+  ceiling: '#ecd6bd'
+  sky: '#f08d5c'
+  cloud: '#ffd3a6'
+  plant: '#5a7f52'
+props:
+  - { prop: table_lamp, at: [100, 223] }

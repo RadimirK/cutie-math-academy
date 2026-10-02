@@ -1,7 +1,7 @@
 id: weierstrass_bond_1
 title: Молния на спине
 character: weierstrass
-background: seminar_room_evening
+background: dressing_room
 nodes:
   start:
     - narration: 'Вечер. Аудиторию на время превратили в гримёрку театрального кружка: вешалки с костюмами, зеркало, коробки с блёстками. Из-за ширмы доносится сдавленное ворчание.'

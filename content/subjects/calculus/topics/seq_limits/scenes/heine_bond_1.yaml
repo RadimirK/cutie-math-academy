@@ -1,7 +1,7 @@
 id: heine_bond_1
 title: Зрительный контакт
 character: heine
-background: seminar_room
+background: club_room
 nodes:
   start:
     - narration: 'Аудитория дискуссионного клуба. Гейне ходит между рядами, размахивая карточками, и спорит сама с собой на два голоса.'

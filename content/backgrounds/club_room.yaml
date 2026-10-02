@@ -1,0 +1,7 @@
+id: club_room
+name: Аудитория дискуссионного клуба
+base: classroom
+set:
+  blackboard: { writing: none }
+props:
+  - { prop: garland, at: [150, 30], w: 340, sag: 18, count: 16 }

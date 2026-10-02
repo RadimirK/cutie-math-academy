@@ -1,0 +1,16 @@
+id: courtyard_rain
+name: Двор академии в дождь
+base: courtyard
+palette:
+  sky: '#6f7f99'
+  cloud: '#a3adbd'
+  wall: '#d4c9b6'
+  trim: '#97604c'
+  floor: '#a99779'
+  plant: '#4c8649'
+  blossom: '#d99ab3'
+  lilac: '#9876b5'
+  glass: '#a9bccb'
+props:
+  - { prop: awning, at: [320, 150], w: 140, h: 72 }
+  - { prop: rain, at: [0, 0], count: 220, ground: 224 }

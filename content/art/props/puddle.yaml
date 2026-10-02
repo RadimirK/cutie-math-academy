@@ -1,0 +1,24 @@
+id: puddle
+desc: Большая лужа на земле, в ней отражается небо; круги от капель и блики.
+material: sky
+outline: false
+params:
+  w: { range: [40, 500], default: 260 }
+shapes:
+  # (0, 0) — центр
+  - ellipse: { at: [0, 0], r: ['$w / 2', '$w / 10'] }
+    material: floor
+    tone: 1
+  - ellipse: { at: [0, -1], r: ['$w / 2 - 4', '$w / 10 - 3'] }
+    tone: 3
+  - ellipse: { at: ['-$w * 0.15', '-$w * 0.02'], r: ['$w * 0.12', '$w * 0.025'] }
+    material: cloud
+    tone: 3
+  - ellipse: { at: ['$w * 0.2', '$w * 0.02'], r: ['$w * 0.06', '$w * 0.012'] }
+    hollow: true
+    material: shine
+  - ellipse: { at: ['-$w * 0.28', '$w * 0.03'], r: ['$w * 0.04', '$w * 0.008'] }
+    hollow: true
+    material: shine
+  - stroke: [['$w * 0.05', '-$w * 0.04'], ['$w * 0.25', '-$w * 0.04']]
+    material: shine

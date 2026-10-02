@@ -1,0 +1,21 @@
+id: garland
+desc: Гирлянда из разноцветных флажков на провисающем шнуре.
+material: paper
+outline: true
+params:
+  w: { range: [60, 640], default: 300, desc: пролёт }
+  sag: { range: [0, 60], default: 22, desc: провис }
+  count: { range: [3, 40], default: 14, int: true, desc: флажков }
+shapes:
+  # (0, 0) — левый край крепления
+  - stroke: [[0, 0], ['$w / 2', '$sag * 1.1'], ['$w', 0]]
+    smooth: true
+    material: dark_wood
+    tone: 1
+  - poly:
+      - ['$w * ($i + 0.5) / $count - 6', '$sag * 4 * (($i + 0.5) / $count) * (1 - ($i + 0.5) / $count)']
+      - ['$w * ($i + 0.5) / $count + 6', '$sag * 4 * (($i + 0.5) / $count) * (1 - ($i + 0.5) / $count)']
+      - ['$w * ($i + 0.5) / $count', '$sag * 4 * (($i + 0.5) / $count) * (1 - ($i + 0.5) / $count) + 13']
+    cycle: [accent, book4, book2, book3, blossom]
+    repeat: { count: '$count', step: [0, 0] }
+    seam: true

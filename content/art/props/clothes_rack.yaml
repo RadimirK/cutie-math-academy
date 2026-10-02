@@ -1,0 +1,37 @@
+id: clothes_rack
+desc: Передвижная металлическая вешалка с театральными костюмами и платьями разных цветов.
+material: metal
+shadow: true
+params:
+  w: { range: [60, 220], default: 130, desc: ширина }
+  h: { range: [80, 180], default: 120, desc: высота перекладины }
+shapes:
+  # (0, 0) — середина на полу
+  - poly: [['-$w / 2', '-$h'], ['-$w / 2 + 3', '-$h'], ['-$w / 2 + 3', -4], ['-$w / 2', -4]]
+    mirror: true
+    seam: true
+  - poly: [['-$w / 2 - 10', -4], ['-$w / 2 + 12', -4], ['-$w / 2 + 12', -1], ['-$w / 2 - 10', -1]]
+    mirror: true
+    seam: true
+  - stamp: { at: ['-$w / 2 - 8', 0], rows: ['oo'], key: { o: 'dark_wood:0' } }
+    mirror: true
+  - poly: [['-$w / 2', '-$h - 3'], ['$w / 2', '-$h - 3'], ['$w / 2', '-$h'], ['-$w / 2', '-$h']]
+    seam: true
+  # плечики и одежда
+  - stroke: [['-$w / 2 + 14 + 17 * $i', '-$h - 1'], ['-$w / 2 + 14 + 17 * $i', '-$h + 4']]
+    tone: 1
+    repeat: { count: '($w - 20) / 17', step: [0, 0] }
+  - poly:
+      - ['-$w / 2 + 6 + 17 * $i', '-$h + 5']
+      - ['-$w / 2 + 22 + 17 * $i', '-$h + 5']
+      - ['-$w / 2 + 25 + 17 * $i', '-$h + 46 + (($i * 7) % 3) * 12']
+      - ['-$w / 2 + 3 + 17 * $i', '-$h + 46 + (($i * 7) % 3) * 12']
+    material: fabric
+    cycle: [accent, book2, book5, book4, fabric, book3]
+    repeat: { count: '($w - 20) / 17', step: [0, 0] }
+    seam: true
+  - stroke: [['-$w / 2 + 14 + 17 * $i', '-$h + 6'], ['-$w / 2 + 14 + 17 * $i', '-$h + 20']]
+    material: fabric
+    cycle: [accent, book2, book5, book4, fabric, book3]
+    tone: 1
+    repeat: { count: '($w - 20) / 17', step: [0, 0] }

@@ -1,0 +1,31 @@
+id: rack
+desc: Металлический стеллаж кладовки с коробками, банками и рулонами.
+material: metal
+shadow: true
+params:
+  w: { range: [60, 200], default: 110 }
+  h: { range: [80, 260], default: 190 }
+  shelves: { range: [2, 6], default: 4, int: true }
+shapes:
+  # (0, 0) — левый нижний угол на полу
+  - poly: [[0, '-$h'], [4, '-$h'], [4, 0], [0, 0]]
+    seam: true
+  - poly: [['$w - 4', '-$h'], ['$w', '-$h'], ['$w', 0], ['$w - 4', 0]]
+    seam: true
+  - poly: [[0, '-$h + $h / $shelves * $i'], ['$w', '-$h + $h / $shelves * $i'], ['$w', '-$h + $h / $shelves * $i + 3'], [0, '-$h + $h / $shelves * $i + 3']]
+    repeat: { count: '$shelves', step: [0, 0] }
+    seam: true
+  # коробки разной высоты на каждой полке
+  - poly:
+      - ['8 + (($i * 5) % 3) * ($w - 40) / 3', '-$h + $h / $shelves * (($i % $shelves) + 1) - 14 - (($i * 7) % 4) * 4']
+      - ['8 + (($i * 5) % 3) * ($w - 40) / 3 + 26', '-$h + $h / $shelves * (($i % $shelves) + 1) - 14 - (($i * 7) % 4) * 4']
+      - ['8 + (($i * 5) % 3) * ($w - 40) / 3 + 26', '-$h + $h / $shelves * (($i % $shelves) + 1)']
+      - ['8 + (($i * 5) % 3) * ($w - 40) / 3', '-$h + $h / $shelves * (($i % $shelves) + 1)']
+    material: cork
+    cycle: [cork, cork, paper, cork, book2]
+    repeat: { count: '$shelves * 2', step: [0, 0] }
+    seam: true
+  - ellipse: { at: ['$w - 14', '-$h + $h / $shelves * ($i + 1) - 7'], r: [5, 7] }
+    material: glass
+    repeat: { count: '$shelves', step: [0, 0] }
+    seam: true

@@ -1,0 +1,18 @@
+id: dressing_room
+name: Гримёрка театрального кружка
+palette:
+  wall: '#d9c6d8'
+  trim: '#7b5b70'
+  floor: '#8e6a55'
+  ceiling: '#eadfe8'
+  fabric: '#cfd6ee'
+props:
+  - { prop: room, at: [0, 0], floor: 272, panel: 50, ceiling: 14 }
+  - { prop: poster, at: [34, 58], w: 48, h: 66, kind: event }
+  - { prop: poster, at: [92, 72], w: 40, h: 54, kind: event }
+  - { prop: ceiling_lamp, at: [320, 14], w: 120 }
+  - { prop: clothes_rack, at: [130, 272], w: 150, h: 124 }
+  - { prop: boxes, at: [252, 272] }
+  - { prop: folding_screen, at: [372, 272], panels: 4, w: 40, h: 130 }
+  - { prop: table, at: [592, 272], w: 92, h: 54, front: panel }
+  - { prop: mirror, at: [592, 211], w: 62, h: 60 }

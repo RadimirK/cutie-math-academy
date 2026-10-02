@@ -28,3 +28,4 @@ props:
   - { prop: table_lamp, at: [80, 217] }
   - { prop: desk_items, at: [138, 217] }
   - { prop: plant, at: [430, 280], size: 0.9 }
+  - { prop: sofa, at: [540, 280], w: 116 }

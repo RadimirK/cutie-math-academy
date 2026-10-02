@@ -1,7 +1,7 @@
 id: gauss_bond_1
 title: Поправить воротник
 character: gauss
-background: classroom
+background: seminar_room
 nodes:
   start:
     - narration: 'Утро перед занятиями. В пустой аудитории Гаусс стоит перед карманным зеркальцем и очень серьёзно растягивает губы в улыбку. Потом в другую. Потом в третью.'

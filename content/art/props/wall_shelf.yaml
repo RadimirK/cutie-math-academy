@@ -1,0 +1,26 @@
+id: wall_shelf
+desc: Настенная полка с несколькими книгами, горшочком с кактусом и фигуркой.
+material: dark_wood
+shadow: true
+params:
+  w: { range: [40, 160], default: 90 }
+shapes:
+  # (0, 0) — левый край доски
+  - poly: [[0, 0], ['$w', 0], ['$w', 4], [0, 4]]
+    seam: true
+  - poly: [['4 + 6 * $i', '-16 + ($i % 3) * 2'], ['9 + 6 * $i', '-16 + ($i % 3) * 2'], ['9 + 6 * $i', 0], ['4 + 6 * $i', 0]]
+    cycle: [book1, book3, book2, book4, book5]
+    repeat: { count: 5, step: [0, 0] }
+    seam: true
+  - poly: [['$w - 26', -8], ['$w - 16', -8], ['$w - 17', 0], ['$w - 25', 0]]
+    material: pot
+    seam: true
+  - ellipse: { at: ['$w - 21', -13], r: [3, 6] }
+    material: plant
+    seam: true
+  - ellipse: { at: ['$w - 8', -7], r: [4, 4] }
+    material: blossom
+    seam: true
+  - ellipse: { at: ['$w - 8', -13], r: [3, 3] }
+    material: blossom
+    seam: true

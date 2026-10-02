@@ -1,0 +1,13 @@
+id: rooftop_night
+name: Крыша ночью
+base: rooftop
+set:
+  sky: { stars: some }
+  skyline: { lights: night }
+palette:
+  sky: '#17224a'
+  cloud: '#2d3b6b'
+  haze: '#2f3a5c'
+  floor: '#5d5c66'
+  metal: '#3d574a'
+  wood: '#5d4636'

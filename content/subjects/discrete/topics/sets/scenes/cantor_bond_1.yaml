@@ -1,7 +1,7 @@
 id: cantor_bond_1
 title: Под одной курткой
 character: cantor
-background: rooftop
+background: rooftop_night
 nodes:
   start:
     - narration: 'Поздний вечер. Дверь на крышу почему-то не заперта. Наверху ветер и тишина, а на парапете, обхватив колени, сидит Кантор.'

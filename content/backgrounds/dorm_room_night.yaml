@@ -1,0 +1,14 @@
+id: dorm_room_night
+name: Комната в общежитии ночью
+base: dorm_room
+set:
+  window: { night: stars }
+palette:
+  wall: '#8a7c86'
+  trim: '#6f5a54'
+  floor: '#6b5040'
+  ceiling: '#988a92'
+  fabric: '#5f6f96'
+  sky: '#1d2a57'
+  cloud: '#3c4d80'
+  plant: '#2e4a3a'

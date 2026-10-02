@@ -1,0 +1,9 @@
+id: courtyard_after_rain
+name: Двор академии после ливня
+base: courtyard
+palette:
+  sky: '#86ccf4'
+  floor: '#bca382'
+  plant: '#5fae55'
+props:
+  - { prop: puddle, at: [330, 304], w: 300 }

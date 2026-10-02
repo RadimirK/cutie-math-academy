@@ -1,0 +1,9 @@
+id: rooftop_sunset
+name: Крыша на закате
+base: rooftop
+palette:
+  sky: '#e98a5f'
+  cloud: '#ffd0a0'
+  haze: '#b5807e'
+  floor: '#b39488'
+  metal: '#6f6a58'

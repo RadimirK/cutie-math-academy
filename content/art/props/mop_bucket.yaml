@@ -1,0 +1,19 @@
+id: mop_bucket
+desc: Ведро со шваброй, прислонённой к стене.
+material: metal
+shade: round
+shadow: true
+shapes:
+  # (0, 0) — середина ведра на полу
+  - strand: { from: [6, -18], to: [26, -120], width: [3, 3] }
+    material: wood
+    seam: true
+  - poly: [[-14, -22], [14, -22], [11, 0], [-11, 0]]
+    material: book2
+    seam: true
+  - stroke: [[-13, -22], [-6, -32], [6, -32], [13, -22]]
+    smooth: true
+    tone: 1
+  - poly: [[-2, -26], [14, -26], [16, -16], [-4, -16]]
+    material: fabric
+    seam: true

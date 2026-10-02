@@ -1,5 +1,5 @@
 id: courtyard
-name: Школьный двор
+name: Двор академии
 palette:
   wall: '#f0e4d0'
   trim: '#b46a52'
@@ -11,6 +11,8 @@ props:
   - { prop: cloud, at: [70, 40], size: 0.8 }
   - { prop: building, at: [80, 222], w: 480, h: 156, floors: 3, cols: 8 }
   - { prop: ground, at: [0, 0], top: 222, surface: grass }
+  - { prop: bush, at: [176, 228], size: 1.2 }
+  - { prop: bush, at: [478, 230], size: 1.0 }
   - { prop: tree, at: [70, 300], size: 1.35, kind: bloom }
   - { prop: tree, at: [590, 296], size: 1.1, kind: bloom }
   - { prop: bench, at: [470, 282], w: 100 }

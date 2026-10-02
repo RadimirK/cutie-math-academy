@@ -1,7 +1,7 @@
 id: horn_bond_1
 title: Промокшие насквозь
 character: horn
-background: courtyard
+background: courtyard_rain
 nodes:
   start:
     - narration: 'Пятница, вечер. Небо над двором стремительно темнеет. Хорн стоит под навесом и задумчиво смотрит на первые капли.'

@@ -1,7 +1,7 @@
 id: cauchy_bond_1
 title: Пять минут на плече
 character: cauchy
-background: classroom_evening
+background: lecture_hall_evening
 nodes:
   start:
     - narration: 'Вечер. В пустой аудитории горит одна лампа. Коши сидит над стопкой тетрадей, подперев щёку рукой. Галстук ослаблен, верхняя пуговица рубашки расстёгнута.'

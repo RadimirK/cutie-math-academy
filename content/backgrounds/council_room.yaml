@@ -1,0 +1,24 @@
+id: council_room
+name: Комната студсовета вечером
+palette:
+  wall: '#c9bfa8'
+  trim: '#8c6e52'
+  floor: '#87623f'
+  ceiling: '#d8cfbe'
+  sky: '#1f2c5a'
+  cloud: '#3c4d80'
+  plant: '#2e4a3a'
+  fabric: '#a8433f'
+props:
+  - { prop: room, at: [0, 0], floor: 272, panel: 56, ceiling: 14 }
+  - { prop: window, at: [474, 66], w: 100, h: 120, rows: 2, curtains: side, night: stars }
+  - { prop: poster, at: [36, 78], w: 50, h: 64, kind: chart }
+  - { prop: poster, at: [98, 88], w: 38, h: 54, kind: notice }
+  - { prop: poster, at: [148, 76], w: 46, h: 66, kind: event }
+  - { prop: garland, at: [16, 34], w: 610, sag: 26, count: 24 }
+  - { prop: boxes, at: [392, 272], stack: 2 }
+  - { prop: table, at: [200, 272], w: 170, h: 54 }
+  - { prop: desk_items, at: [214, 211] }
+  - { prop: table_lamp, at: [140, 211] }
+  - { prop: chair, at: [262, 272] }
+  - { prop: plant, at: [612, 272], size: 0.8 }

@@ -1,7 +1,7 @@
 id: bezout_bond_1
 title: Человек за бортом
 character: bezout
-background: courtyard
+background: courtyard_after_rain
 nodes:
   start:
     - narration: 'После вчерашнего ливня посреди двора разлилась огромная лужа. На её берегу, уперев руку в бок, стоит Безу со стопкой бумажных корабликов.'

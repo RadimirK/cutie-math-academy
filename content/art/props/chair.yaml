@@ -1,0 +1,18 @@
+id: chair
+desc: Простой стул анфас с деревянными сиденьем и спинкой на металлических ножках.
+material: wood
+shadow: true
+shapes:
+  # (0, 0) — середина на полу
+  - poly: [[-17, -58], [17, -58], [17, -38], [-17, -38]]
+    seam: true
+  - poly: [[-16, -38], [-13, -38], [-13, -28], [-16, -28]]
+    material: metal
+    mirror: true
+    seam: true
+  - poly: [[-19, -28], [19, -28], [19, -22], [-19, -22]]
+    seam: true
+  - poly: [[-17, -22], [-14, -22], [-15, 0], [-18, 0]]
+    material: metal
+    mirror: true
+    seam: true

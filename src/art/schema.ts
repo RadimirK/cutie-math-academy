@@ -195,7 +195,7 @@ export type Look = z.infer<typeof LookSchema>;
 /** Materials of the scenery; a background's palette gives them colours (style.ts has defaults). */
 export const SCENERY_MATERIALS = [
   'wall', 'trim', 'floor', 'ceiling', 'wood', 'dark_wood', 'board', 'chalk', 'glass', 'sky', 'cloud', 'metal',
-  'paper', 'fabric', 'plant', 'blossom', 'pot', 'cork', 'haze', 'lamp', 'book1', 'book2', 'book3', 'book4', 'book5', 'accent', 'shine',
+  'paper', 'fabric', 'plant', 'blossom', 'lilac', 'pot', 'cork', 'haze', 'lamp', 'book1', 'book2', 'book3', 'book4', 'book5', 'accent', 'shine',
 ] as const;
 export const SceneryMaterial = z.enum(SCENERY_MATERIALS);
 export type SceneryMaterial = z.infer<typeof SceneryMaterial>;

@@ -1,0 +1,17 @@
+id: storeroom
+name: Тесная кладовка
+palette:
+  wall: '#9b9588'
+  trim: '#6d675c'
+  floor: '#6c6358'
+  ceiling: '#8a857a'
+  metal: '#7d8794'
+  fabric: '#b6c2cf'
+props:
+  - { prop: room, at: [0, 0], floor: 280, panel: 0, ceiling: 10 }
+  - { prop: bulb, at: [320, 10], drop: 46, cone: 200 }
+  - { prop: rack, at: [24, 280], w: 130, h: 230, shelves: 5 }
+  - { prop: rack, at: [486, 280], w: 130, h: 230, shelves: 5 }
+  - { prop: boxes, at: [196, 280] }
+  - { prop: boxes, at: [418, 280], stack: 2 }
+  - { prop: mop_bucket, at: [460, 280] }

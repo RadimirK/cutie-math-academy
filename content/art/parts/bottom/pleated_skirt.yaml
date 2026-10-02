@@ -1,5 +1,5 @@
 id: pleated_skirt
-desc: 'Плиссированная школьная юбка, расширяется от бёдер; pattern: plaid — в клетку: полосы цвета accent и тонкие линии cloth2.'
+desc: 'Плиссированная юбка формы академии, расширяется от бёдер; pattern: plaid — в клетку: полосы цвета accent и тонкие линии cloth2.'
 material: skirt
 shadow: true
 params:

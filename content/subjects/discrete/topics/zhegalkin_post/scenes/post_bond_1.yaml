@@ -1,7 +1,7 @@
 id: post_bond_1
 title: В кладовке
 character: post
-background: corridor
+background: corridor_night
 nodes:
   start:
     - narration: 'Поздний вечер. Коридор пуст, горит только дежурная лампа. Навстречу, чеканя шаг, идёт Пост в своей неизменной фуражке.'

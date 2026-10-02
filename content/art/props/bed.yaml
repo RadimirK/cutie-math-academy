@@ -1,0 +1,30 @@
+id: bed
+desc: 'Кровать в общежитии вдоль стены, вид сбоку: изголовье, матрас, сбитое одеяло и подушка.'
+material: fabric
+shadow: true
+params:
+  w: { range: [120, 300], default: 210, desc: длина }
+shapes:
+  # (0, 0) — левый нижний угол на полу (изголовье слева)
+  - poly: [[0, -78], [10, -78], [10, 0], [0, 0]]
+    material: wood
+    seam: true
+  - poly: [['$w - 8', -46], ['$w', -46], ['$w', 0], ['$w - 8', 0]]
+    material: wood
+    seam: true
+  - poly: [[10, -24], ['$w - 8', -24], ['$w - 8', -6], [10, -6]]
+    material: wood
+    seam: true
+  - poly: [[10, -38], ['$w - 8', -38], ['$w - 8', -24], [10, -24]]
+    material: paper
+    seam: true
+  - ellipse: { at: [32, -44], r: [20, 9] }
+    material: paper
+    seam: true
+  - poly: [[52, -46], ['$w * 0.55', -48], ['$w * 0.7', -42], ['$w - 10', -40], ['$w - 6', -20], [56, -22]]
+    smooth: true
+    seam: true
+  - stroke: [['$w * 0.4', -44], ['$w * 0.48', -26]]
+    tone: 1
+  - stroke: [['$w * 0.72', -40], ['$w * 0.76', -24]]
+    tone: 1
