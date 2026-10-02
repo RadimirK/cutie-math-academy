@@ -105,3 +105,4 @@ nodes:
     - speaker: gauss
       emotion: happy
       text: 'Безупречно. На сегодня всё. Лампу не выключай, я ещё посижу.'
+unlocks: [ideal_ops]

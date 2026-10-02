@@ -1,0 +1,6 @@
+id: space_dim
+title: Размерность пространства
+difficulty: 2
+answer_type: number
+generator: generators/space_dim.py
+hint: 'Выпишите базис: сколько чисел нужно задать, чтобы однозначно задать элемент?'

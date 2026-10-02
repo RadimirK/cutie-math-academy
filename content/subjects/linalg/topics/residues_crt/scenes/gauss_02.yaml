@@ -86,3 +86,4 @@ nodes:
     - speaker: gauss
       emotion: serious
       text: 'Итог. $\varphi(p^k) = p^k - p^{k-1}$, остальное — мультипликативность. Теорема Эйлера: $a^{\varphi(n)} \equiv 1$, если $a$ и $n$ взаимно просты. Она позволяет уменьшать огромные степени по модулю.'
+unlocks: [euler_phi, euler_power]

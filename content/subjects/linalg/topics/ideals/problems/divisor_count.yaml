@@ -1,0 +1,6 @@
+id: divisor_count
+title: Сколько делителей
+difficulty: 2
+answer_type: number
+generator: generators/divisor_count.py
+hint: 'По основной теореме арифметики делитель $p_1^{a_1} \cdots p_s^{a_s}$ — это выбор показателей $0 \le b_i \le a_i$.'

@@ -1,0 +1,6 @@
+id: cyclic_check
+title: Циклическая ли группа?
+difficulty: 1
+answer_type: choice
+generator: generators/cyclic_check.py
+hint: 'По китайской теореме $\mathbb{Z}/m \oplus \mathbb{Z}/n \cong \mathbb{Z}/mn$ ровно при $\gcd(m, n) = 1$.'

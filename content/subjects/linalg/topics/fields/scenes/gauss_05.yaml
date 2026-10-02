@@ -102,3 +102,4 @@ nodes:
     - speaker: gauss
       emotion: smile
       text: 'Итог. $\mathbb{C}$ — это $\mathbb{R}[x]/(x^2 + 1)$, автоморфизмов над $\mathbb{R}$ два, модуль мультипликативен, а над $\mathbb{C}$ любой многочлен раскладывается на линейные множители. Безупречно. Можешь идти, а я ещё посмотрю на небо.'
+unlocks: [complex_arith, complex_abs]

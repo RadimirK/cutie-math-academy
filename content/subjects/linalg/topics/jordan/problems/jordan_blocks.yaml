@@ -1,0 +1,6 @@
+id: jordan_blocks
+title: Клетки по размерностям ядер
+difficulty: 2
+answer_type: number
+generator: generators/jordan_blocks.py
+hint: 'Клеток размера $\ge k$ ровно $\dim\ker(A - \lambda E)^k - \dim\ker(A - \lambda E)^{k-1}$.'

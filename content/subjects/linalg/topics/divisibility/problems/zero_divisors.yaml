@@ -1,0 +1,6 @@
+id: zero_divisors
+title: Делители нуля на часах
+difficulty: 2
+answer_type: number
+generator: generators/zero_divisors.py
+hint: 'Ненулевой $r$ — делитель нуля, если $r \cdot s = 0$ для какого-то ненулевого $s$. По модулю $n$ это ровно ненулевые $r$, не взаимно простые с $n$.'

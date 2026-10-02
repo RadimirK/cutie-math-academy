@@ -1,0 +1,6 @@
+id: elem_order
+title: Порядок элемента
+difficulty: 1
+answer_type: number
+generator: generators/elem_order.py
+hint: 'Возводите в степени, пока не получится $1$. Порядок обязательно делит $p - 1$, так что проверять можно только делители.'

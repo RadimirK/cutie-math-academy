@@ -1,0 +1,6 @@
+id: legendre
+title: Символ Лежандра
+difficulty: 2
+answer_type: number
+generator: generators/legendre.py
+hint: 'Мультипликативность, $\left(\frac{-1}{p}\right)$, $\left(\frac{2}{p}\right)$ и закон взаимности. Или критерий Эйлера: $a^{(p-1)/2}$.'

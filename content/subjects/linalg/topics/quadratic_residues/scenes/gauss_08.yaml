@@ -85,3 +85,4 @@ nodes:
     - speaker: gauss
       emotion: embarrassed
       text: '…Спасибо, что ты здесь до самой ночи. Это была лучшая часть курса. По крайней мере, для меня.'
+unlocks: [legendre]

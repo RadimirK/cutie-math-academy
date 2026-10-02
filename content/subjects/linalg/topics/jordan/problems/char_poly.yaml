@@ -1,0 +1,8 @@
+id: char_poly
+title: Характеристический многочлен
+difficulty: 1
+answer_type: expression
+config:
+  variables: [x]
+generator: generators/char_poly.py
+hint: '$\chi_A(x) = \det(xE - A)$.'

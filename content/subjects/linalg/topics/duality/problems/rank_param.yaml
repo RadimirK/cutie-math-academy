@@ -1,0 +1,6 @@
+id: rank_param
+title: При каком c совместна?
+difficulty: 2
+answer_type: number
+generator: generators/rank_param.py
+hint: 'Ранг матрицы системы меньше числа уравнений. Приписанный столбец не должен увеличить ранг.'

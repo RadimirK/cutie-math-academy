@@ -1,0 +1,6 @@
+id: tensor_dims
+title: Размерности тензорных пространств
+difficulty: 1
+answer_type: number
+generator: generators/tensor_dims.py
+hint: '$\dim(V \otimes W) = \dim V \cdot \dim W$, $\dim \Lambda^k V = C_n^k$, $\dim \Lambda V = 2^n$.'

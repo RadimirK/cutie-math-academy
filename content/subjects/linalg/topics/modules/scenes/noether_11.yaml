@@ -80,3 +80,4 @@ nodes:
     - speaker: noether
       emotion: smile
       text: 'Итог. Любую матрицу над ОГИ обратимыми преобразованиями строк и столбцов можно привести к диагональной с $d_1 \mid d_2 \mid \dots$. В следующий раз — что это говорит о самих модулях.'
+unlocks: [group_order, smith_factor]

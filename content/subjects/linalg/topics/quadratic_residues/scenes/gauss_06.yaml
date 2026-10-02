@@ -86,3 +86,4 @@ nodes:
     - speaker: gauss
       emotion: smile
       text: 'Особенно важно для нас: $(\mathbb{Z}/p)^\times$ циклическая. Каждый ненулевой остаток — это $\gamma^k$ для образующего $\gamma$. С этим знанием квадраты по модулю $p$ становятся прозрачными. О них — в следующий раз.'
+unlocks: [elem_order, generators_count]

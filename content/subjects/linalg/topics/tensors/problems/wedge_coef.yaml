@@ -1,0 +1,6 @@
+id: wedge_coef
+title: Коэффициент внешнего произведения
+difficulty: 2
+answer_type: number
+generator: generators/wedge_coef.py
+hint: 'Раскройте по дистрибутивности, выбросьте $e_i \wedge e_i = 0$ и используйте $e_j \wedge e_i = -e_i \wedge e_j$.'

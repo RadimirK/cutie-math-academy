@@ -1,0 +1,6 @@
+id: inverse_mod
+title: Обратный по модулю
+difficulty: 2
+answer_type: number
+generator: generators/inverse_mod.py
+hint: 'По соотношению Безу $ak + ny = 1$, тогда $[a]^{-1} = [k]$.'

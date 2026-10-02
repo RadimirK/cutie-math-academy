@@ -1,0 +1,6 @@
+id: geom_mult
+title: Число клеток у матрицы
+difficulty: 2
+answer_type: number
+generator: generators/geom_mult.py
+hint: 'Каждая клетка даёт ровно один собственный вектор, поэтому клеток столько же, сколько $\dim\ker(A - \lambda E) = n - \operatorname{rk}(A - \lambda E)$.'

@@ -1,0 +1,6 @@
+id: gcd_euclid
+title: Алгоритм Евклида
+difficulty: 1
+answer_type: number
+generator: generators/gcd_euclid.py
+hint: 'Делите большее на меньшее с остатком, потом делитель на остаток, пока не разделится нацело.'

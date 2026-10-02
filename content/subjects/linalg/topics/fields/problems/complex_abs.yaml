@@ -1,0 +1,6 @@
+id: complex_abs
+title: Модуль произведения
+difficulty: 1
+answer_type: number
+generator: generators/complex_abs.py
+hint: 'Модуль мультипликативен: $|zw| = |z| \cdot |w|$, а $|a + bi| = \sqrt{a^2 + b^2}$.'

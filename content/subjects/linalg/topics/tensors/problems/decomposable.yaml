@@ -1,0 +1,6 @@
+id: decomposable
+title: Разложимый тензор?
+difficulty: 2
+answer_type: choice
+generator: generators/decomposable.py
+hint: 'Тензору $\sum a_{ij}\, e_i \otimes f_j$ сопоставьте матрицу $(a_{ij})$. Разложимые $v \otimes w$ — это матрицы ранга $1$.'

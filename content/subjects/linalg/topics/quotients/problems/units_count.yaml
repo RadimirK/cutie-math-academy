@@ -1,0 +1,6 @@
+id: units_count
+title: Обратимые классы
+difficulty: 1
+answer_type: number
+generator: generators/units_count.py
+hint: '$[x]$ обратим в $\mathbb{Z}/n\mathbb{Z}$ тогда и только тогда, когда $\gcd(x, n) = 1$.'

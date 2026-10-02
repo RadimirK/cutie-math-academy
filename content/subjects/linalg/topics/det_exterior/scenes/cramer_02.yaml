@@ -75,3 +75,4 @@ nodes:
     - speaker: cramer
       emotion: smile
       text: 'Допивай чай. В следующий раз — обратный оператор. Я покажу, откуда берётся моё правило решения систем.'
+unlocks: [det_rules]

@@ -90,3 +90,4 @@ nodes:
     - speaker: kronecker
       emotion: embarrassed
       text: 'Всегда. …Хороший конспект, кстати. Дальше — матрицы.'
+unlocks: [kernel_dim]

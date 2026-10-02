@@ -1,0 +1,6 @@
+id: dual_basis
+title: Двойственный базис
+difficulty: 2
+answer_type: matrix
+generator: generators/dual_basis.py
+hint: 'Если векторы базиса — столбцы матрицы $B$, то координаты $v_i^*$ — строки матрицы $B^{-1}$: ведь $B^{-1}B = E$, это и есть $v_i^*(v_j) = \delta_{ij}$.'

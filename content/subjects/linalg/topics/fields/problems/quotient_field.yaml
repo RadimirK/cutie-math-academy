@@ -1,0 +1,6 @@
+id: quotient_field
+title: Поле или нет?
+difficulty: 2
+answer_type: choice
+generator: generators/quotient_field.py
+hint: '$k[x]/(f)$ — поле ровно тогда, когда $f$ неприводим. Многочлен степени $2$ или $3$ неприводим, если у него нет корней.'

@@ -1,0 +1,8 @@
+id: lagrange
+title: Интерполяция Лагранжа
+difficulty: 3
+answer_type: expression
+config:
+  variables: [x]
+generator: generators/lagrange.py
+hint: '$f = \sum_i y_i \, l_i(x)$, где $l_i$ равен $1$ в $x_i$ и $0$ в остальных узлах.'

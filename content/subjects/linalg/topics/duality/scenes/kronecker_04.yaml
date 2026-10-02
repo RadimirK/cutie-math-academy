@@ -78,3 +78,4 @@ nodes:
     - speaker: kronecker
       emotion: serious
       text: 'Там $\zeta$ всё ещё инъективно, но $V^{**}$ бывает больше $V$. Мы работаем с конечномерными. Итог: двойственный базис — $\delta_{ij}$, $V \cong V^*$ через базис, $V \cong V^{**}$ канонически.'
+unlocks: [dual_basis]

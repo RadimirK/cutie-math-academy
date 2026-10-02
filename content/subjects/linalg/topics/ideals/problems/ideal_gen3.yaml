@@ -1,0 +1,6 @@
+id: ideal_gen3
+title: Образующая идеала
+difficulty: 1
+answer_type: number
+generator: generators/ideal_gen3.py
+hint: 'В $\mathbb{Z}$ идеал $(a, b, c)$ главный, и его образующая — общий делитель, который выражается через $a, b, c$.'

@@ -87,3 +87,4 @@ nodes:
     - speaker: grassmann
       emotion: happy
       text: 'Да, ровно по лемме Стейница. Ты перевела лемму на человеческий язык лучше меня. Спасибо, Хината.'
+unlocks: [space_dim]

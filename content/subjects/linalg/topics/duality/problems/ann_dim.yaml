@@ -1,0 +1,6 @@
+id: ann_dim
+title: Размерность аннулятора
+difficulty: 1
+answer_type: number
+generator: generators/ann_dim.py
+hint: '$\dim W + \dim \operatorname{Ann} W = \dim V$.'

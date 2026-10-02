@@ -1,0 +1,6 @@
+id: abelian_count
+title: Сколько абелевых групп
+difficulty: 2
+answer_type: number
+generator: generators/abelian_count.py
+hint: 'Разложите порядок на простые. Для $p^k$ групп столько, сколько разбиений числа $k$ на слагаемые; по разным $p$ перемножьте.'

@@ -76,3 +76,4 @@ nodes:
     - speaker: grassmann
       emotion: happy
       text: 'Спасибо, что слушаете. Вы правда это видите? Стрелки, площадки, объёмы? Тогда я рада.'
+unlocks: [tensor_dims]

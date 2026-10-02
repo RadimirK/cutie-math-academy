@@ -1,0 +1,6 @@
+id: group_order
+title: Порядок группы по соотношениям
+difficulty: 2
+answer_type: number
+generator: generators/group_order.py
+hint: 'Группа — $\mathbb{Z}^2 / A\mathbb{Z}^2$. По форме Смита $A \sim \operatorname{diag}(d_1, d_2)$, и элементов $|d_1 d_2| = |\det A|$.'

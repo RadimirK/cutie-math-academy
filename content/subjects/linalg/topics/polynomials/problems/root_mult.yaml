@@ -1,0 +1,6 @@
+id: root_mult
+title: Кратность корня
+difficulty: 2
+answer_type: number
+generator: generators/root_mult.py
+hint: 'Корень $\alpha$ кратности $m$: $f(\alpha) = f''(\alpha) = \ldots = f^{(m-1)}(\alpha) = 0$, а $f^{(m)}(\alpha) \ne 0$.'

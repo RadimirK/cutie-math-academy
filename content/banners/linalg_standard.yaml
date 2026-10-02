@@ -1,0 +1,8 @@
+id: linalg_standard
+title: Стандартный баннер линейной алгебры
+subject: linalg
+rates: {5: 0.006, 4: 0.051, 3: 0.943}
+pool:
+  5: [noether, gauss, grassmann]
+  4: [cramer, bezout, kronecker, jordan]
+  3: [student_a, student_b]

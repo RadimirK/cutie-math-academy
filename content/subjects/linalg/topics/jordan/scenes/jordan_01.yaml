@@ -93,3 +93,4 @@ nodes:
     - speaker: jordan
       emotion: smile
       text: 'Следствие. $A^n$ выражается через меньшие степени, и вообще любая степень $A$ — через $E, A, \dots, A^{n-1}$. А если $\det A \ne 0$, то $c_0 = \pm \det A \ne 0$, и $A^{-1}$ — многочлен от $A$. Заседание закрыто. В следующий раз — клетки.'
+unlocks: [char_poly, cayley_hamilton]

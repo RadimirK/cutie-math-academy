@@ -1,0 +1,6 @@
+id: smith_factor
+title: Инвариантные множители
+difficulty: 3
+answer_type: number
+generator: generators/smith_factor.py
+hint: '$d_1$ — НОД всех элементов матрицы, $d_1 d_2 = |\det A|$.'

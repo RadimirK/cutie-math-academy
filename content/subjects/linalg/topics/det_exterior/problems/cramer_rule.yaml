@@ -1,0 +1,6 @@
+id: cramer_rule
+title: Правило Крамера
+difficulty: 2
+answer_type: number
+generator: generators/cramer_rule.py
+hint: '$x_i = \det A_i / \det A$, где в $A_i$ столбец $i$ заменён столбцом правых частей.'

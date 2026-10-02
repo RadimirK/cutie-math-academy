@@ -1,0 +1,6 @@
+id: euler_power
+title: Огромная степень по модулю
+difficulty: 2
+answer_type: number
+generator: generators/euler_power.py
+hint: 'Если $\gcd(a, n) = 1$, то $a^{\varphi(n)} \equiv 1$, и показатель можно уменьшить по модулю $\varphi(n)$.'

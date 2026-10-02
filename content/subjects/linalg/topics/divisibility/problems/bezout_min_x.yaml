@@ -1,0 +1,6 @@
+id: bezout_min_x
+title: Соотношение Безу
+difficulty: 2
+answer_type: number
+generator: generators/bezout_min_x.py
+hint: 'Найдите НОД алгоритмом Евклида и выразите его обратной подстановкой. Все решения по $x$ отличаются на кратные $b / d$.'

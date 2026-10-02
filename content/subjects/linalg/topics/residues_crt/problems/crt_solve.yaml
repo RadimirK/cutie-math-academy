@@ -1,0 +1,6 @@
+id: crt_solve
+title: Китайская теорема
+difficulty: 2
+answer_type: number
+generator: generators/crt_solve.py
+hint: 'Разложите $1 = i + j$ с $i \in (m)$, $j \in (n)$, тогда $x = rj + si$. Или переберите числа с нужным остатком по большему модулю.'

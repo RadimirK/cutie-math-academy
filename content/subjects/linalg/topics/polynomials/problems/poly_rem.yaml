@@ -1,0 +1,8 @@
+id: poly_rem
+title: Деление многочленов с остатком
+difficulty: 2
+answer_type: expression
+config:
+  variables: [x]
+generator: generators/poly_rem.py
+hint: 'Убивайте старший член: вычитайте из $f$ делитель, умноженный на подходящий одночлен, пока степень не станет меньше $2$.'

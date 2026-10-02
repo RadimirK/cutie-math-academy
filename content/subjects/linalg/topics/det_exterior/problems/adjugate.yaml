@@ -1,0 +1,6 @@
+id: adjugate
+title: Присоединённая матрица
+difficulty: 3
+answer_type: matrix
+generator: generators/adjugate.py
+hint: 'На месте $(i, j)$ стоит $(-1)^{i+j} M_{ji}$ — минор без $j$-й строки и $i$-го столбца. Проверка: $A^\vee A = \det A \cdot E$.'

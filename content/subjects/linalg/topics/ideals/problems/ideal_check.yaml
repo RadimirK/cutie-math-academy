@@ -1,0 +1,26 @@
+id: ideal_check
+title: Идеал или нет?
+difficulty: 1
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {s: '\text{чётные числа в } \mathbb{Z}', ans: 'Да'}
+      - {s: '\mathbb{N} \text{ в } \mathbb{Z}', ans: 'Нет'}
+      - {s: '\{f \in \mathbb{R}[x] \mid f(1) = 0\} \text{ в } \mathbb{R}[x]', ans: 'Да'}
+      - {s: '\{f \in \mathbb{R}[x] \mid \deg f \le 2\} \cup \{0\} \text{ в } \mathbb{R}[x]', ans: 'Нет'}
+      - {s: '\mathbb{Z} \text{ в } \mathbb{Q}', ans: 'Нет'}
+      - {s: '\{0\} \text{ в } \mathbb{Z}', ans: 'Да'}
+      - {s: '\{f \in \mathbb{Z}[x] \mid f(0) \text{ чётно}\} \text{ в } \mathbb{Z}[x]', ans: 'Да'}
+      - {s: '\text{нечётные числа в } \mathbb{Z}', ans: 'Нет'}
+      - {s: '\{f \in \mathbb{R}[x] \mid f(1) = 1\} \text{ в } \mathbb{R}[x]', ans: 'Нет'}
+      - {s: '\{0, 3, 6, 9\} \text{ в } \mathbb{Z}/12\mathbb{Z}', ans: 'Да'}
+      - {s: '\{0, 3, 6\} \text{ в } \mathbb{Z}/12\mathbb{Z}', ans: 'Нет'}
+      - {s: '\{(a, 0) \mid a \in \mathbb{Z}\} \text{ в } \mathbb{Z} \times \mathbb{Z}', ans: 'Да'}
+      - {s: '\{(a, a) \mid a \in \mathbb{Z}\} \text{ в } \mathbb{Z} \times \mathbb{Z}', ans: 'Нет'}
+statement: 'Является ли $<<q.s>>$ идеалом?'
+config:
+  options: ['Да', 'Нет']
+answer: '<<q.ans>>'
+hint: 'Проверьте: замкнуто ли по сложению и «всасывает» ли умножение на любой элемент кольца.'

@@ -1,0 +1,6 @@
+id: kernel_dim
+title: Размерность ядра
+difficulty: 1
+answer_type: number
+generator: generators/kernel_dim.py
+hint: '$\dim \ker L = \dim V - \dim \operatorname{Im} L$, а размерность образа — ранг матрицы.'

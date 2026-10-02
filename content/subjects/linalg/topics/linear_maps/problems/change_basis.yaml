@@ -1,0 +1,6 @@
+id: change_basis
+title: Замена базиса
+difficulty: 3
+answer_type: matrix
+generator: generators/change_basis.py
+hint: 'Если $C$ — матрица перехода (координаты новых векторов по столбцам), то матрица оператора в новом базисе — $C^{-1} A C$.'

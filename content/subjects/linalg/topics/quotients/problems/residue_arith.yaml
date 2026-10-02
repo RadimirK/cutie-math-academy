@@ -1,0 +1,6 @@
+id: residue_arith
+title: Счёт на часах
+difficulty: 1
+answer_type: number
+generator: generators/residue_arith.py
+hint: 'Считайте с представителями и в конце возьмите остаток от деления на $n$.'

@@ -1,0 +1,6 @@
+id: complex_arith
+title: Арифметика комплексных чисел
+difficulty: 1
+answer_type: number
+generator: generators/complex_arith.py
+hint: '$i^2 = -1$. Чтобы поделить, домножьте числитель и знаменатель на сопряжённое к знаменателю.'

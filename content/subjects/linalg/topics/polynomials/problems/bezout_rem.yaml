@@ -1,0 +1,6 @@
+id: bezout_rem
+title: Остаток по теореме Безу
+difficulty: 1
+answer_type: number
+generator: generators/bezout_rem.py
+hint: 'Остаток от деления $f(x)$ на $x - a$ равен $f(a)$.'

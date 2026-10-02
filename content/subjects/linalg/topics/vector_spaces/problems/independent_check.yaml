@@ -1,0 +1,6 @@
+id: independent_check
+title: Независимы ли векторы?
+difficulty: 1
+answer_type: choice
+generator: generators/independent_check.py
+hint: 'Три вектора в $\mathbb{Q}^3$ независимы ровно тогда, когда определитель из них не ноль.'

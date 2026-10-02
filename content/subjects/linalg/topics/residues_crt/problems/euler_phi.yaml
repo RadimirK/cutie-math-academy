@@ -1,0 +1,6 @@
+id: euler_phi
+title: Функция Эйлера
+difficulty: 1
+answer_type: number
+generator: generators/euler_phi.py
+hint: '$\varphi(p^k) = p^k - p^{k-1}$, а для взаимно простых множителей $\varphi$ перемножается.'

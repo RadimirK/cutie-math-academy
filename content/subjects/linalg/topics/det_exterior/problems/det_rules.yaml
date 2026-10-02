@@ -1,0 +1,6 @@
+id: det_rules
+title: Свойства определителя
+difficulty: 1
+answer_type: number
+generator: generators/det_rules.py
+hint: '$\det(LT) = \det L \det T$, а $\det(kL) = k^n \det L$: каждый из $n$ множителей в $\wedge$ растягивается в $k$ раз.'

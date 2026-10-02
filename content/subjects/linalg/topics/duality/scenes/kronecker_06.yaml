@@ -72,3 +72,4 @@ nodes:
     - speaker: kronecker
       emotion: serious
       text: 'Итог темы. Двойственный базис — $\delta_{ij}$. $V \cong V^{**}$ канонически. Аннулятор и сопряжённое дают $\operatorname{rk} A = \operatorname{rk} A^T$. Система разрешима, когда приписанный столбец не меняет ранг. Дальше — Грассман и тензоры. Ей понадобятся двойственные пространства, так что повтори.'
+unlocks: [system_solvable, rank_param]

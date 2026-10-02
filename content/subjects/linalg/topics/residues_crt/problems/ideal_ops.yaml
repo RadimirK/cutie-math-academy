@@ -1,0 +1,6 @@
+id: ideal_ops
+title: Сумма, пересечение, произведение
+difficulty: 1
+answer_type: number
+generator: generators/ideal_ops.py
+hint: 'В $\mathbb{Z}$: $(a) + (b) = (\gcd)$, $(a) \cap (b) = (\operatorname{НОК})$, $(a)(b) = (ab)$.'

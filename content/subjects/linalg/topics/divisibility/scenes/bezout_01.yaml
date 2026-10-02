@@ -107,3 +107,4 @@ nodes:
     - speaker: bezout
       emotion: smile
       text: 'Отдать швартовы! В следующий раз — деление с остатком и алгоритм Евклида. И там будет теорема с моим именем.'
+unlocks: [zero_divisors, domain_check]

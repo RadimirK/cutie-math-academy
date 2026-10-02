@@ -1,0 +1,6 @@
+id: hom_exists
+title: Есть ли гомоморфизм?
+difficulty: 2
+answer_type: choice
+generator: generators/hom_exists.py
+hint: 'Гомоморфизм с $1 \mapsto 1$ из $\mathbb{Z}$ однозначен. Он пропускается через $\mathbb{Z}/m\mathbb{Z}$, только если $(m)$ лежит в ядре.'

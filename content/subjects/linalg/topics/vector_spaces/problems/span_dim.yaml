@@ -1,0 +1,6 @@
+id: span_dim
+title: Размерность оболочки
+difficulty: 1
+answer_type: number
+generator: generators/span_dim.py
+hint: 'Запишите векторы строками матрицы и приведите её к ступенчатому виду: число ненулевых строк — размерность.'

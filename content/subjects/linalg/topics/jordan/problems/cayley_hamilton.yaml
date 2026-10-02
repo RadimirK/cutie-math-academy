@@ -1,0 +1,6 @@
+id: cayley_hamilton
+title: Гамильтон — Кэли
+difficulty: 2
+answer_type: number
+generator: generators/cayley_hamilton.py
+hint: 'Для $2 \times 2$: $\chi_A(x) = x^2 - (\operatorname{tr} A)x + \det A$, и $\chi_A(A) = 0$.'

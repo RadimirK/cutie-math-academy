@@ -1,0 +1,6 @@
+id: system_solvable
+title: Совместна ли система?
+difficulty: 2
+answer_type: choice
+generator: generators/system_solvable.py
+hint: 'Теорема Кронекера — Капелли: решение есть ровно тогда, когда $\operatorname{rk} A = \operatorname{rk}(A \mid b)$.'

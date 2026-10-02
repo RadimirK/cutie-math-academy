@@ -70,3 +70,4 @@ nodes:
     - speaker: kronecker
       emotion: serious
       text: 'Итог темы. Отображение определяется образами базиса. $\dim V = \dim \ker + \dim \operatorname{Im}$. Матрица — образы по столбцам, произведение — композиция, смена базиса — $D^{-1} A C$. Канонический вид — $E_r$ с нулями. Свободны.'
+unlocks: [change_basis]

@@ -1,0 +1,6 @@
+id: map_matrix
+title: Матрица отображения
+difficulty: 1
+answer_type: matrix
+generator: generators/map_matrix.py
+hint: 'В $j$-м столбце стоят координаты образа $j$-го базисного вектора.'

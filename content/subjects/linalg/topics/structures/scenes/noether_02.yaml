@@ -155,3 +155,4 @@ nodes:
     - speaker: noether
       emotion: happy
       text: 'Вот и пример некоммутативности из жизни! В следующий раз у нас будет две операции сразу. Это и есть кольцо.'
+unlocks: [inverse_count, structure_kind]

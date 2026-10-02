@@ -78,3 +78,4 @@ nodes:
     - speaker: kronecker
       emotion: serious
       text: 'Итог. $\dim W + \dim \operatorname{Ann} W = \dim V$. $L^*(\varphi) = \varphi \circ L$, матрица — $A^T$. $\operatorname{Ann} \operatorname{Im} L = \ker L^*$. В следующий раз из этих трёх фактов получим, что строчный ранг равен столбцовому.'
+unlocks: [ann_dim]

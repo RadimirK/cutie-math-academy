@@ -1,0 +1,6 @@
+id: compose_matrix
+title: Матрица композиции
+difficulty: 1
+answer_type: matrix
+generator: generators/compose_matrix.py
+hint: '$[T \circ L] = [T] \cdot [L]$: сначала действует $L$, но её матрица стоит справа.'

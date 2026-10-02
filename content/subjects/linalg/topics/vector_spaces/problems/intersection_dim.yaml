@@ -1,0 +1,6 @@
+id: intersection_dim
+title: Размерность пересечения
+difficulty: 2
+answer_type: number
+generator: generators/intersection_dim.py
+hint: 'Формула Грассмана: $\dim(U \cap W) = \dim U + \dim W - \dim(U + W)$.'

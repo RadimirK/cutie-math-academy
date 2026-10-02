@@ -93,3 +93,4 @@ nodes:
     - speaker: kronecker
       emotion: serious
       text: 'Итог. Матрица — координаты образов базиса по столбцам. $\operatorname{Hom}(V, W) \cong M_{m \times n}$. Произведение матриц — композиция. Следующий вопрос: что будет с матрицей, если поменять базис.'
+unlocks: [map_matrix, compose_matrix]

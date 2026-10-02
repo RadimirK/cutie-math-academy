@@ -93,3 +93,4 @@ nodes:
     - speaker: jordan
       emotion: smile
       text: 'Только Нётер этого не говори, она будет невыносима. Заседание объявляю закрытым. Спасибо за работу.'
+unlocks: [jordan_blocks, geom_mult]

@@ -1,0 +1,6 @@
+id: comp_table
+title: Композиция по таблицам
+difficulty: 1
+answer_type: number
+generator: generators/comp_table.py
+hint: '$(g \circ f)(a) = g(f(a))$: сначала $f$, потом $g$.'

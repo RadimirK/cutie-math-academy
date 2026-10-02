@@ -1,0 +1,25 @@
+id: domain_check
+title: Область целостности?
+difficulty: 1
+answer_type: choice
+params:
+  q:
+    type: pick
+    values:
+      - {s: '\mathbb{Z}', ans: 'Да'}
+      - {s: '\mathbb{Z}/7\mathbb{Z}', ans: 'Да'}
+      - {s: '\mathbb{Z}/12\mathbb{Z}', ans: 'Нет'}
+      - {s: '\mathbb{Z}/9\mathbb{Z}', ans: 'Нет'}
+      - {s: '\mathbb{R}[x]', ans: 'Да'}
+      - {s: '\mathbb{Z} \times \mathbb{Z}', ans: 'Нет'}
+      - {s: '\mathbb{Q}', ans: 'Да'}
+      - {s: '\mathbb{Z}/2\mathbb{Z}', ans: 'Да'}
+      - {s: '\text{функции } \mathbb{R} \to \mathbb{R}', ans: 'Нет'}
+      - {s: '(\mathbb{Z}/4\mathbb{Z})[x]', ans: 'Нет'}
+      - {s: '\mathbb{Z}[i] = \{a + bi \mid a, b \in \mathbb{Z}\}', ans: 'Да'}
+      - {s: '\mathbb{Z}/15\mathbb{Z}', ans: 'Нет'}
+statement: 'Является ли кольцо $<<q.s>>$ областью целостности?'
+config:
+  options: ['Да', 'Нет']
+answer: '<<q.ans>>'
+hint: 'Ищите два ненулевых элемента, дающих в произведении ноль.'

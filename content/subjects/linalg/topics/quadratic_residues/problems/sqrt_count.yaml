@@ -1,0 +1,6 @@
+id: sqrt_count
+title: Сколько квадратных корней
+difficulty: 2
+answer_type: number
+generator: generators/sqrt_count.py
+hint: 'Ненулевой квадратичный вычет имеет ровно два корня $\pm x$, невычет — ни одного.'

@@ -1,0 +1,6 @@
+id: generators_count
+title: Сколько образующих
+difficulty: 2
+answer_type: number
+generator: generators/generators_count.py
+hint: 'Группа $(\mathbb{Z}/p)^\times$ циклическая порядка $p - 1$, и элементов порядка $d$ в ней ровно $\varphi(d)$.'
