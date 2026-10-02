@@ -83,6 +83,7 @@ set request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000a';
 select pg_temp.check((select reward from public.submit_solution(:'p1')) = 80, 'first reward');
 select pg_temp.expect_error(format('select * from public.submit_solution(%L)', :'p1'), 'already solved');
 select pg_temp.check((select affection from public.owned_characters where character_id = 'cauchy') = 1, 'affection grows');
+select pg_temp.expect_error($$select * from public.complete_scene('calculus.seq_limits.cauchy_bond_1', 'start')$$, 'scene locked');
 
 -- Decay: solves 2..5 pay 80, 6..15 pay 40.
 create temp table rewards (n int, reward int);
@@ -116,6 +117,12 @@ update public.economy set daily_cap_amount = 1600;
 set role authenticated;
 
 select pg_temp.check((select currency from public.profiles) = 1600 + 540, 'balance = start + rewards');
+
+-- ---------- affection scenes ----------
+-- Ten solves of difficulty 1 bring Cauchy to her threshold of 10.
+select pg_temp.check((select affection from public.owned_characters where character_id = 'cauchy') = 10, 'affection after ten solves');
+select pg_temp.check((select affection_threshold from public.scenes where id = 'calculus.seq_limits.cauchy_bond_1') = 10, 'gate synced');
+select pg_temp.check((select scene_status from public.complete_scene('calculus.seq_limits.cauchy_bond_1', 'start', true)) = 'completed', 'affection scene opens');
 select pg_temp.check((select currency from public.profiles) = (select sum(delta) from public.currency_ledger), 'balance matches ledger');
 
 -- ---------- gacha ----------
@@ -150,12 +157,21 @@ select pg_temp.check((select max(copies) from public.owned_characters) = 7, 'C6 
 select pg_temp.check(exists (select 1 from public.currency_ledger where reason = 'duplicate'), 'duplicate refund');
 select pg_temp.check((select currency from public.profiles) = (select sum(delta) from public.currency_ledger), 'balance matches ledger after pulls');
 
+-- Heroines bound to no topic take to every topic of their subject.
+select id as p2 from public.issue_problem('calculus.seq_limits.lim_basic_2', true) \gset
+select * from public.submit_solution(:'p2');
+create temp view subject_heroines as
+  select oc.affection from public.owned_characters oc join public.characters c on c.id = oc.character_id
+  where cardinality(c.topics) = 0;
+grant select on subject_heroines to authenticated;
+select pg_temp.check((select count(*) from subject_heroines) > 0 and (select bool_and(affection = 1) from subject_heroines), 'subject heroines gain affection');
+
 -- ---------- social ----------
 set request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000b';
 select pg_temp.check((select count(*) from public.owned_characters) = 0, 'bob sees only own characters');
 select pg_temp.check((select count(*) from public.profiles) = 1, 'bob sees only own profile');
 select pg_temp.check((select count(*) from public.leaderboard) = 2, 'leaderboard lists everyone');
-select pg_temp.check((select score from public.leaderboard where nickname = 'Alice') = 10, 'leaderboard score');
+select pg_temp.check((select score from public.leaderboard where nickname = 'Alice') = 11, 'leaderboard score');
 select pg_temp.check(exists (select 1 from public.events where kind = 'pull_5' and payload ->> 'nickname' = 'Alice'), 'feed event');
 
 set role anon;

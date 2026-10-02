@@ -4,6 +4,8 @@ rarity: 4
 subject: discrete
 topics: [zhegalkin_post, monotone, boolean_proofs]
 description: 'Сторожит пять классов, как пять ворот. Систему функций назовёт полной, только если та вырвалась из каждого.'
+affection_scenes:
+  - { threshold: 10, scene: zhegalkin_post.post_bond_1 }
 sprites:
   smile: post/smile.png
   thinking: post/thinking.png

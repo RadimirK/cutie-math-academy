@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { backgroundUrl, content } from '../content/bundle.ts';
 import type { Scene } from '../content/schema.ts';
+import { sceneOpen } from '../core/progress.ts';
 import { advance, boardFigure, choose, normalize, view, type VnPosition } from '../core/vn.ts';
 import { Figure } from '../figures/Figure.tsx';
 import { usePlayer } from '../lib/player.tsx';
@@ -12,8 +13,9 @@ import { Portrait } from '../ui/Portrait.tsx';
 export function ScenePlayer() {
   const { sceneId = '' } = useParams();
   const navigate = useNavigate();
-  const { progress, saveScene } = usePlayer();
-  const scene = content.scenes[sceneId];
+  const { demo, progress, owned, saveScene } = usePlayer();
+  // Demo mode lets authors open any scene by its address, as it does with problems.
+  const scene = content.scenes[sceneId] && (demo || sceneOpen(content, progress, owned, sceneId)) ? content.scenes[sceneId] : undefined;
   const saved = progress.scenes[sceneId];
   // Every position shown so far, the current one last; stepping back pops it.
   // A finished scene replays from the start; an unfinished one resumes at the saved node.
@@ -65,7 +67,17 @@ export function ScenePlayer() {
     return () => window.removeEventListener('keydown', onKey);
   }, [scene]);
 
-  if (!scene) return <p className="p-8">Нет такой сцены.</p>;
+  if (!scene)
+    return (
+      <p className="p-8">
+        {content.scenes[sceneId] ? 'Эта сцена ещё закрыта.' : 'Нет такой сцены.'}{' '}
+        <button onClick={() => navigate(-1)} className="font-bold text-ba-500 underline">
+          Назад
+        </button>
+      </p>
+    );
+  // An affection scene belongs to its heroine: leaving it returns to her profile.
+  const exitTo = scene.affection ? `/character/${scene.affection.character}` : `/topic/${scene.topic}`;
   const bg = backgroundUrl(scene.background);
   const speaker = v.kind === 'line' ? content.characters[v.step.speaker] : undefined;
   const onStage = v.kind === 'line' ? v.step.speaker : scene.character;
@@ -102,7 +114,7 @@ export function ScenePlayer() {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/topic/${scene.topic}`);
+            navigate(exitTo);
           }}
           className="btn-ghost ml-auto !bg-white/90 !py-1.5 shadow"
         >
@@ -159,11 +171,13 @@ export function ScenePlayer() {
           <div className="animate-rise overflow-hidden rounded-lg bg-white text-center shadow-xl">
             <div className="bg-ba-500 py-2 font-display text-lg font-black tracking-widest text-white italic">EPISODE CLEAR</div>
             <div className="p-5">
-              <p className="mb-4 font-bold text-ink-700">Эпизод пройден! Задачи темы открыты.</p>
+              <p className="mb-4 font-bold text-ink-700">
+                {scene.affection ? `Сцена с ${content.characters[scene.affection.character]?.name} пройдена!` : 'Эпизод пройден! Задачи темы открыты.'}
+              </p>
               <div className="flex items-center justify-center gap-3">
                 {backButton('btn-ghost')}
-                <button onClick={() => navigate(`/topic/${scene.topic}`)} className="btn-gold">
-                  К задачам темы
+                <button onClick={() => navigate(exitTo)} className="btn-gold">
+                  {scene.affection ? 'К героине' : 'К задачам темы'}
                 </button>
               </div>
             </div>

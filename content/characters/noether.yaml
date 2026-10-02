@@ -4,6 +4,8 @@ rarity: 5
 subject: linalg
 topics: [structures, ideals, quotients, modules]
 description: 'Говорит «забудь, что это числа» и видит кольцо там, где другие видят арифметику. Раздаёт идеи ученикам, как конфеты.'
+affection_scenes:
+  - { threshold: 10, scene: structures.noether_bond_1 }
 look:
   head: 1.02
   chest: 0.6

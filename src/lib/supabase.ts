@@ -18,6 +18,7 @@ export function rpcErrorMessage(message: string): string {
     'nickname taken': 'Этот ник уже занят.',
     'topic locked': 'Тема ещё закрыта.',
     'template locked': 'Эта задача ещё не открыта.',
+    'scene locked': 'Эта сцена ещё закрыта.',
     'already solved': 'Эта задача уже засчитана.',
     'not enough currency': 'Не хватает валюты.',
   };

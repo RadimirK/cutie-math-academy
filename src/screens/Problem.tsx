@@ -6,7 +6,7 @@ import { content } from '../content/bundle.ts';
 import type { LoadedTemplate } from '../content/load.ts';
 import { instantiateDeclarative, type ProblemInstance } from '../core/generate.ts';
 import { Figure } from '../figures/Figure.tsx';
-import { templateUnlocked } from '../core/progress.ts';
+import { affectionTargets, scenesOpenedBy, templateUnlocked } from '../core/progress.ts';
 import { checkAnswer, mayNeedPython } from '../lib/checkAnswer.ts';
 import { usePlayer } from '../lib/player.tsx';
 import { generateWithPython, preloadPython } from '../lib/python.ts';
@@ -27,6 +27,12 @@ interface Reward {
   decay_factor: number;
   capped: boolean;
 }
+/** Heroines whose affection the solve raised, and the affection scenes it opened. */
+interface Bond {
+  characters: string[];
+  gain: number;
+  scenes: string[];
+}
 type Feedback = { kind: 'wrong' } | { kind: 'parse'; message: string } | { kind: 'error'; message: string } | null;
 
 const LINES = {
@@ -44,7 +50,7 @@ async function instantiate(t: LoadedTemplate, seed: number): Promise<ProblemInst
 export function ProblemScreen() {
   const { templateId = '' } = useParams();
   const t = content.templates[templateId];
-  const { demo, progress, refresh } = usePlayer();
+  const { demo, progress, owned, recordSolve } = usePlayer();
   const pyStatus = usePythonStatus();
 
   const [issued, setIssued] = useState<Issued | null>(null);
@@ -54,6 +60,7 @@ export function ProblemScreen() {
   const [checking, setChecking] = useState(false);
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [solved, setSolved] = useState<Reward | 'demo' | null>(null);
+  const [bond, setBond] = useState<Bond | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [line, setLine] = useState(() => pick(LINES.idle));
   const [attempt, setAttempt] = useState(0); // remounts the input on a new problem
@@ -66,6 +73,7 @@ export function ProblemScreen() {
       setDraft(null);
       setFeedback(null);
       setSolved(null);
+      setBond(null);
       setShowHint(false);
       setLine(pick(LINES.idle));
       setAttempt((a) => a + 1);
@@ -124,8 +132,12 @@ export function ProblemScreen() {
           const { data, error } = await supabase.rpc('submit_solution', { p_issued_id: issued.id });
           if (error) throw new Error(rpcErrorMessage(error.message));
           setSolved((data as Reward[])[0]!);
-          void refresh();
         }
+        // The server raised affection the same way; `owned` still holds the values from before.
+        const characters = affectionTargets(content, t!.fullId).filter((id) => owned[id]);
+        const gain = t!.difficulty;
+        setBond({ characters, gain, scenes: characters.flatMap((id) => scenesOpenedBy(content, id, owned[id]!.affection, owned[id]!.affection + gain)) });
+        void recordSolve(t!.fullId);
       }
     } catch (e) {
       setFeedback({ kind: 'error', message: (e as Error).message });
@@ -191,7 +203,7 @@ export function ProblemScreen() {
                 )}
 
                 {solved ? (
-                  <RewardBanner solved={solved} onNext={() => void load(false)} topicId={topic.fullId} />
+                  <RewardBanner solved={solved} bond={bond} onNext={() => void load(false)} topicId={topic.fullId} />
                 ) : (
                   <div className="mt-6 flex flex-wrap items-center gap-3">
                     <button className="btn-gold !px-8" disabled={checking} onClick={() => void submit()}>
@@ -237,7 +249,7 @@ export function ProblemScreen() {
   );
 }
 
-function RewardBanner({ solved, onNext, topicId }: { solved: Reward | 'demo'; onNext(): void; topicId: string }) {
+function RewardBanner({ solved, bond, onNext, topicId }: { solved: Reward | 'demo'; bond: Bond | null; onNext(): void; topicId: string }) {
   return (
     <div className="mt-6 animate-rise overflow-hidden rounded-md border border-gold-400 bg-gradient-to-r from-gold-100 to-white">
       <div className="bg-gold-400 px-5 py-1 font-display text-sm font-black tracking-widest text-ink-900 italic">MISSION CLEAR</div>
@@ -258,6 +270,28 @@ function RewardBanner({ solved, onNext, topicId }: { solved: Reward | 'demo'; on
             {solved.capped && <p className="mt-1 text-sm text-ink-500">Дневной лимит за лёгкие задачи исчерпан — задачи посложнее по-прежнему приносят кристаллы.</p>}
           </>
         )}
+        {bond && bond.characters.length > 0 && (
+          <p className="mt-2 text-sm font-bold text-momo-500">
+            ♥ +{bond.gain} · {bond.characters.map((id) => content.characters[id]?.name ?? id).join(', ')}
+          </p>
+        )}
+        {bond?.scenes.map((id) => {
+          const s = content.scenes[id]!;
+          return (
+            <Link
+              key={id}
+              to={`/scene/${id}`}
+              className="mt-3 flex animate-rise items-center gap-3 rounded-md border border-momo-400 bg-momo-100 py-2 pr-4 pl-2 transition-colors hover:bg-white"
+            >
+              <Portrait id={s.character} className="h-12 w-12 shrink-0 rounded-md" />
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs font-bold tracking-widest text-momo-500 uppercase">Новая сцена симпатии</span>
+                <span className="block truncate font-bold text-ink-900">{s.title ?? s.id}</span>
+              </span>
+              <span className="font-bold text-momo-500">Смотреть ›</span>
+            </Link>
+          );
+        })}
         <div className="mt-4 flex gap-3">
           <button className="btn-gold" onClick={onNext}>
             Следующая задача

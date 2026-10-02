@@ -4,6 +4,8 @@ rarity: 4
 subject: linalg
 topics: [linear_maps, duality]
 description: 'Маленького роста и острая на язык. Говорит «один, если совпало, иначе ноль» и не верит ни во что, чего нельзя построить.'
+affection_scenes:
+  - { threshold: 10, scene: linear_maps.kronecker_bond_1 }
 look:
   head: 1.1
   shoulders: 0.9

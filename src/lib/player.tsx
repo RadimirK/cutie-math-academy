@@ -3,7 +3,7 @@
 import type { Session } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { content } from '../content/bundle.ts';
-import { applySceneProgress, emptyProgress, type Progress } from '../core/progress.ts';
+import { affectionTargets, applySceneProgress, emptyProgress, type Progress } from '../core/progress.ts';
 import { rpcErrorMessage, supabase } from './supabase.ts';
 
 export interface Profile {
@@ -27,6 +27,8 @@ interface PlayerState {
   owned: Record<string, OwnedCharacter>;
   refresh(): Promise<void>;
   saveScene(sceneId: string, node: string, finished: boolean): Promise<void>;
+  /** After a solved problem: reloads state, or in demo mode grows affection locally as the server would. */
+  recordSolve(templateId: string): Promise<void>;
   signOut(): Promise<void>;
 }
 
@@ -95,13 +97,26 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     [refresh],
   );
 
+  const recordSolve = useCallback(
+    async (templateId: string) => {
+      if (supabase) return refresh();
+      const gain = content.templates[templateId]?.difficulty ?? 0;
+      setOwned((o) => {
+        const next = { ...o };
+        for (const id of affectionTargets(content, templateId)) if (next[id]) next[id] = { ...next[id], affection: next[id].affection + gain };
+        return next;
+      });
+    },
+    [refresh],
+  );
+
   const signOut = useCallback(async () => {
     await supabase?.auth.signOut();
   }, []);
 
   const value = useMemo<PlayerState>(
-    () => ({ demo: !supabase, loading, session, profile, progress, owned, refresh, saveScene, signOut }),
-    [loading, session, profile, progress, owned, refresh, saveScene, signOut],
+    () => ({ demo: !supabase, loading, session, profile, progress, owned, refresh, saveScene, recordSolve, signOut }),
+    [loading, session, profile, progress, owned, refresh, saveScene, recordSolve, signOut],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

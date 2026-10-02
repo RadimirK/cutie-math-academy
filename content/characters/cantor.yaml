@@ -4,6 +4,8 @@ rarity: 5
 subject: discrete
 topics: [proofs, sets, relations]
 description: 'Умещает бесконечность в фигурные скобки, но множество всех множеств в рюкзак не берёт: от него одни парадоксы.'
+affection_scenes:
+  - { threshold: 10, scene: sets.cantor_bond_1 }
 sprites:
   smile: cantor/smile.png
   thinking: cantor/thinking.png

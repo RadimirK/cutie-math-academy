@@ -37,6 +37,8 @@ export function buildSyncPayload(c: Content) {
       topic_id: s.topic,
       nodes: Object.keys(s.nodes),
       unlocks: s.unlocks,
+      affection_character: s.affection?.character ?? null,
+      affection_threshold: s.affection?.threshold ?? null,
     })),
     templates: Object.values(c.templates).map((t) => ({
       id: t.fullId,

@@ -4,6 +4,8 @@ rarity: 4
 subject: linalg
 topics: [determinants, det_exterior]
 description: 'Библиотекарь кафедры. Решает системы уравнений быстрее, чем ты их записываешь.'
+affection_scenes:
+  - { threshold: 10, scene: determinants.cramer_bond_1 }
 sprites:
   smile: cramer/smile.png
   thinking: cramer/thinking.png

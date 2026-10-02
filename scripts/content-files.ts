@@ -12,7 +12,7 @@ export function readContentFiles(dir = CONTENT_DIR): Record<string, string> {
     const full = join(entry.parentPath, entry.name);
     const rel = relative(dir, full).split(sep).join('/');
     if (rel.startsWith('assets/')) continue;
-    if (!/\.(ya?ml|py)$/.test(rel)) continue;
+    if (!/\.(ya?ml|py)$/.test(rel) && !/^characters\/[^/]+\.md$/.test(rel)) continue;
     files[rel] = readFileSync(full, 'utf8');
   }
   return files;

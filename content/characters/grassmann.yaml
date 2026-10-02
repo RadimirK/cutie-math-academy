@@ -4,6 +4,8 @@ rarity: 5
 subject: linalg
 topics: [vector_spaces, tensors]
 description: 'Её учение о протяжённости долго никто не читал. Видит в каждом векторе стрелку, а в каждом произведении — ориентированную площадку.'
+affection_scenes:
+  - { threshold: 10, scene: vector_spaces.grassmann_bond_1 }
 look:
   head: 1.0
   chest: 0.5

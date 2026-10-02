@@ -39,13 +39,19 @@ export interface LoadedTopic extends Omit<Topic, 'main_scenes'> {
 export interface LoadedScene extends Scene {
   fullId: string;
   topic: string;
+  /** Set for a scene listed in a character's affection_scenes: it opens at that affection. */
+  affection?: { character: string; threshold: number };
 }
 export interface LoadedTemplate extends Template {
   fullId: string;
   topic: string;
   generatorSource?: string;
 }
-export type LoadedCharacter = Character;
+export interface LoadedCharacter extends Character {
+  /** From the character's .md prompt: trait headings of «Характер» and lines of «Примеры реплик». */
+  traits: string[];
+  quotes: string[];
+}
 export type LoadedBanner = Banner;
 
 export interface Content {
@@ -90,11 +96,31 @@ const PATTERNS: { re: RegExp; kind: string }[] = [
   { re: /^subjects\/([^/]+)\/topics\/([^/]+)\/problems\/([^/]+)\.yaml$/, kind: 'template' },
   { re: /^subjects\/([^/]+)\/topics\/([^/]+)\/generators\/([^/]+\.py)$/, kind: 'generator' },
   { re: /^characters\/([^/]+)\.yaml$/, kind: 'character' },
+  { re: /^characters\/([^/]+)\.md$/, kind: 'character_prompt' },
   { re: /^banners\/([^/]+)\.yaml$/, kind: 'banner' },
   { re: /^art\/parts\/([^/]+)\/([^/]+)\.yaml$/, kind: 'part' },
   { re: /^art\/props\/([^/]+)\.yaml$/, kind: 'prop' },
   { re: /^backgrounds\/([^/]+)\.yaml$/, kind: 'background' },
 ];
+
+/** Trait headings (`- **Тёплая.** …` under «Характер») and quotes (under «Примеры реплик»). */
+export function promptProfile(md: string): { traits: string[]; quotes: string[] } {
+  const traits: string[] = [];
+  const quotes: string[] = [];
+  let section = '';
+  for (const line of md.split('\n')) {
+    const h = /^## (.+)/.exec(line);
+    if (h) section = h[1]!.trim();
+    else if (section === 'Характер') {
+      const t = /^- \*\*(.+?)\.?\*\*/.exec(line);
+      if (t) traits.push(t[1]!);
+    } else if (section === 'Примеры реплик') {
+      const q = /^- «(.+)»\s*$/.exec(line);
+      if (q) quotes.push(q[1]!);
+    }
+  }
+  return { traits, quotes };
+}
 
 /** @param files map from path relative to content/ (e.g. "banners/x.yaml") to file text. */
 export function loadContent(files: Record<string, string>): { content: Content; issues: Issue[] } {
@@ -116,6 +142,7 @@ export function loadContent(files: Record<string, string>): { content: Content; 
   };
   const fileOf = new Map<string, string>(); // full id (with kind prefix) -> file, for messages
   const generators: Record<string, string> = {};
+  const prompts: Record<string, string> = {};
 
   function parse<S extends z.ZodType>(file: string, text: string, schema: S): z.infer<S> | null {
     let raw: unknown;
@@ -215,9 +242,14 @@ export function loadContent(files: Record<string, string>): { content: Content; 
           ...c,
           topics: c.topics.map((t) => resolveRef(t, [c.subject], 2) ?? t),
           affection_scenes: c.affection_scenes.map((a) => ({ ...a, scene: resolveRef(a.scene, [c.subject], 3) ?? a.scene })),
+          traits: [],
+          quotes: [],
         }, file);
         break;
       }
+      case 'character_prompt':
+        prompts[m[1]!] = text;
+        break;
       case 'banner': {
         const b = parse(file, text, BannerSchema);
         if (!b) break;
@@ -354,7 +386,17 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     const file = f('character', c.id);
     if (!content.subjects[c.subject]) err(file, `subject: нет предмета ${c.subject}`);
     for (const t of c.topics) if (!content.topics[t]) err(file, `topics: нет темы ${t}`);
-    for (const a of c.affection_scenes) if (!content.scenes[a.scene]) err(file, `affection_scenes: нет сцены ${a.scene}`);
+    for (const a of c.affection_scenes) {
+      const scene = content.scenes[a.scene];
+      if (!scene) err(file, `affection_scenes: нет сцены ${a.scene}`);
+      else if (scene.affection) err(file, `affection_scenes: сцена ${a.scene} уже открывается симпатией ${scene.affection.character}`);
+      else if (content.topics[scene.topic]?.main_scenes.includes(scene.fullId))
+        err(file, `affection_scenes: ${a.scene} входит в main_scenes темы, её нельзя закрыть симпатией`);
+      else scene.affection = { character: c.id, threshold: a.threshold };
+    }
+    const prompt = prompts[c.id];
+    if (prompt === undefined) warn(file, `нет characters/${c.id}.md с характером`);
+    else Object.assign(c, promptProfile(prompt));
     if (c.look) for (const message of lookIssues(c.look, content.parts)) err(file, `look: ${message}`);
   }
 

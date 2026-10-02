@@ -37,3 +37,34 @@ export function applySceneProgress(c: Content, p: Progress, sceneId: string, nod
   const topics = { ...p.topics, [topic.fullId]: p.topics[topic.fullId] === 'completed' || done ? 'completed' as const : 'in_progress' as const };
   return { scenes, topics };
 }
+
+/** Affection per owned character (only owned characters are listed). */
+export type Affection = Record<string, { affection: number }>;
+
+/**
+ * Whether the scene can be played: its topic is open and, for an affection scene, the
+ * heroine is owned with enough affection (mirrors complete_scene).
+ */
+export function sceneOpen(c: Content, p: Progress, owned: Affection, sceneId: string): boolean {
+  const s = c.scenes[sceneId];
+  if (!s || !topicOpen(c, p, s.topic)) return false;
+  return !s.affection || (owned[s.affection.character]?.affection ?? -1) >= s.affection.threshold;
+}
+
+/**
+ * Characters whose affection grows when the template is solved (mirrors submit_solution):
+ * those bound to its topic, and those bound to no topic in particular but to its subject.
+ */
+export function affectionTargets(c: Content, templateId: string): string[] {
+  const t = c.templates[templateId];
+  const topic = t && c.topics[t.topic];
+  if (!topic) return [];
+  return Object.values(c.characters)
+    .filter((ch) => ch.topics.includes(topic.fullId) || (ch.topics.length === 0 && ch.subject === topic.subject))
+    .map((ch) => ch.id);
+}
+
+/** Affection scenes of the character that open when her affection goes from `before` to `after`. */
+export function scenesOpenedBy(c: Content, characterId: string, before: number, after: number): string[] {
+  return (c.characters[characterId]?.affection_scenes ?? []).filter((a) => before < a.threshold && a.threshold <= after).map((a) => a.scene);
+}

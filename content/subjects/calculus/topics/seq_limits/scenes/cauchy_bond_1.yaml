@@ -1,0 +1,77 @@
+id: cauchy_bond_1
+title: Пять минут на плече
+character: cauchy
+background: classroom_evening
+nodes:
+  start:
+    - narration: 'Вечер. В пустой аудитории горит одна лампа. Коши сидит над стопкой тетрадей, подперев щёку рукой. Галстук ослаблен, верхняя пуговица рубашки расстёгнута.'
+    - speaker: cauchy
+      emotion: surprised
+      text: 'А? Я не сплю! Я… проверяю. Очень внимательно. С закрытыми глазами.'
+    - speaker: cauchy
+      emotion: embarrassed
+      text: 'Ладно. Устала. Две пары, консультация, кафедра. А тетради сами себя не проверят.'
+    - choice:
+        question: 'Что сделать?'
+        options:
+          - text: 'Сесть рядом и подставить плечо: «Пять минут».'
+            goto: shoulder
+          - text: 'Встать за её спиной и размять ей плечи.'
+            goto: massage
+  shoulder:
+    - speaker: cauchy
+      emotion: embarrassed
+      text: 'Плечо? На тебя? Это непрофессионально. Совершенно. Абсолютно…'
+    - narration: 'Через минуту её голова уже лежит у тебя на плече. Через две Коши тихо сопит. Красные волосы рассыпались по твоей руке.'
+    - goto: wake
+  massage:
+    - speaker: cauchy
+      emotion: surprised
+      text: 'Что ты… ах!'
+    - narration: 'Плечи у неё каменные. Под твоими ладонями они медленно оттаивают. Коши роняет ручку и откидывает голову назад.'
+    - speaker: cauchy
+      emotion: embarrassed
+      text: 'Ммм… Не останавливайся. Это приказ куратора. Нет, просьба. Нет, приказ…'
+    - narration: 'Голос становится всё тише. Коши засыпает прямо на стуле, прислонившись к тебе затылком.'
+    - goto: wake
+  wake:
+    - narration: 'Проходит полчаса. Коши вздрагивает, открывает глаза и обнаруживает, что лицо у неё в нескольких сантиметрах от твоего.'
+    - speaker: cauchy
+      emotion: surprised
+      text: 'Я… уснула? На тебе? Сколько я спала?! Строго говоря, сколько?!'
+    - speaker: cauchy
+      emotion: embarrassed
+      text: 'И я… не говорила во сне? Ничего такого? Мне иногда снится всякое…'
+    - choice:
+        question: 'Что ответить?'
+        options:
+          - text: 'Ты назвала моё имя.'
+            goto: name
+          - text: 'Ничего. Ты очень мило сопела.'
+            goto: cute
+  name:
+    - speaker: cauchy
+      emotion: embarrassed
+      text: 'Не может быть. Не может быть! Ты шутишь. …Ты же шутишь?'
+    - narration: 'Ты молчишь и улыбаешься. Коши закрывает лицо ладонями.'
+    - speaker: cauchy
+      emotion: embarrassed
+      text: 'Это было в контексте проверки тетрадей. Исключительно. Я ничего не помню. И ты не помни!'
+    - goto: end
+  cute:
+    - speaker: cauchy
+      emotion: angry
+      text: 'Я не сопела! Я дышала. Ровно и строго.'
+    - speaker: cauchy
+      emotion: embarrassed
+      text: '…Мило?'
+    - goto: end
+  end:
+    - narration: 'Коши распускает растрепавшийся хвост и протягивает тебе чёрный бант.'
+    - speaker: cauchy
+      emotion: smile
+      text: 'Завяжешь? У меня руки не слушаются после сна. И вообще… мне нравится, когда ты рядом.'
+    - narration: 'Пока ты завязываешь бант, она сидит очень прямо и не дышит.'
+    - speaker: cauchy
+      emotion: embarrassed
+      text: 'Спасибо. Это между нами. Строго говоря, это вообще не было.'

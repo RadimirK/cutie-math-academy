@@ -4,6 +4,8 @@ rarity: 4
 subject: discrete
 topics: [normal_forms]
 description: 'Оптимистка с ограничениями: в каждом дизъюнкте разрешает не больше одной надежды без отрицания. Зато выполнимость проверяет быстрее всех.'
+affection_scenes:
+  - { threshold: 10, scene: normal_forms.horn_bond_1 }
 sprites:
   smile: horn/smile.png
   thinking: horn/thinking.png

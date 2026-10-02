@@ -4,6 +4,8 @@ rarity: 5
 subject: linalg
 topics: [residues_crt, fields, quadratic_residues]
 description: 'Принцесса математиков. Публикует немного, но только безупречное. В детстве сложила числа от 1 до 100 за минуту и до сих пор об этом напоминает.'
+affection_scenes:
+  - { threshold: 10, scene: residues_crt.gauss_bond_1 }
 look:
   head: 0.97
   chest: 0.65

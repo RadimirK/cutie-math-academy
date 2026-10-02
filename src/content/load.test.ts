@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { loadContent, resolveRef } from './load.ts';
+import { loadContent, promptProfile, resolveRef } from './load.ts';
 
 const economy = `pull_cost: 160
 reward_by_difficulty: {1: 80, 2: 160, 3: 400, 4: 800, 5: 1600}
@@ -76,6 +76,27 @@ describe('loadContent', () => {
     expect(errors({ ...base(), 'subjects/s/topics/a/problems/p1.yaml': "id: p1\ndifficulty: 1\nanswer_type: telepathy\nstatement: '<<q>>'\nanswer: '1'\n" }).join('\n'))
       .toMatch(/неизвестный тип telepathy[\s\S]*<<q>>: параметр не объявлен/);
     expect(e).toContain('subjects/s/stray.yaml: файл лежит не на своём месте');
+  });
+
+  it('gates affection scenes and rejects gating a main scene', () => {
+    const f = base();
+    f['subjects/s/topics/a/scenes/date.yaml'] = 'id: date\ncharacter: hero\nbackground: bg\nnodes:\n  start:\n    - speaker: hero\n      text: hi\n';
+    f['characters/hero.yaml'] = 'id: hero\nname: H\nrarity: 5\nsubject: s\naffection_scenes:\n  - { threshold: 10, scene: a.date }\n';
+    const { content, issues } = loadContent(f);
+    expect(issues.filter((i) => i.level === 'error')).toEqual([]);
+    expect(content.scenes['s.a.date']!.affection).toEqual({ character: 'hero', threshold: 10 });
+    expect(content.scenes['s.a.intro']!.affection).toBeUndefined();
+    f['characters/hero.yaml'] = 'id: hero\nname: H\nrarity: 5\nsubject: s\naffection_scenes:\n  - { threshold: 10, scene: a.intro }\n';
+    expect(errors(f).join('\n')).toContain('входит в main_scenes');
+  });
+
+  it('reads traits and quotes from the character prompt', () => {
+    const f = base();
+    f['characters/hero.md'] = '# H\n\n## Характер\n\n- **Смелая.** Всегда.\n- **Добрая**\n\n## Примеры реплик\n\n- «Привет, $x$!»\n';
+    const { content, issues } = loadContent(f);
+    expect(issues).toEqual([]);
+    expect(content.characters.hero).toMatchObject({ traits: ['Смелая', 'Добрая'], quotes: ['Привет, $x$!'] });
+    expect(promptProfile('нет разделов')).toEqual({ traits: [], quotes: [] });
   });
 
   it('requires ids to match file names', () => {

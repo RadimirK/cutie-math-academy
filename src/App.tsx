@@ -5,6 +5,7 @@ import { Gem, IconBook, IconCards, IconWish } from './ui/Icons.tsx';
 import { Logo } from './ui/Logo.tsx';
 import { PlayerProvider, usePlayer } from './lib/player.tsx';
 import { AuthScreen } from './screens/Auth.tsx';
+import { CharacterProfile } from './screens/CharacterProfile.tsx';
 import { Collection } from './screens/Collection.tsx';
 import { Gacha } from './screens/Gacha.tsx';
 import { Lobby } from './screens/Lobby.tsx';
@@ -31,6 +32,7 @@ export function App() {
               <Route path="/problem/:templateId" element={<ProblemScreen />} />
               <Route path="/gacha" element={<Gacha />} />
               <Route path="/collection" element={<Collection />} />
+              <Route path="/character/:characterId" element={<CharacterProfile />} />
             </Route>
           </Route>
         </Routes>
@@ -53,6 +55,7 @@ function Layout() {
   const { demo, profile, signOut } = usePlayer();
   const { pathname } = useLocation();
   const inStudy = /^\/(study|subject|topic|problem)\b/.test(pathname);
+  const inCollection = pathname.startsWith('/character/');
   const link = ({ isActive }: { isActive: boolean }) =>
     `flex -skew-x-12 items-center px-4 py-1.5 font-display text-sm font-bold transition-colors ${
       isActive ? 'bg-ba-500 text-white' : 'text-ink-700 hover:bg-ba-100 hover:text-ba-700'
@@ -74,7 +77,7 @@ function Layout() {
                 <IconWish className="h-4 w-4" /> Набор
               </span>
             </NavLink>
-            <NavLink to="/collection" className={link}>
+            <NavLink to="/collection" className={(a) => link({ isActive: a.isActive || inCollection })}>
               <span className="flex skew-x-12 items-center gap-1.5">
                 <IconCards className="h-4 w-4" /> Героини
               </span>

@@ -6,7 +6,7 @@ import type { Overrides } from '../art/schema.ts';
 import { FRAMES, type Frame } from '../art/style.ts';
 import { loadContent } from './load.ts';
 
-const raw = import.meta.glob(['/content/**/*.yaml', '/content/**/*.py', '!/content/assets/**'], {
+const raw = import.meta.glob(['/content/**/*.yaml', '/content/**/*.py', '/content/characters/*.md', '!/content/assets/**'], {
   query: '?raw',
   import: 'default',
   eager: true,

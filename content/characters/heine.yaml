@@ -4,6 +4,8 @@ rarity: 4
 subject: calculus
 topics: []
 description: 'Переводит всё на язык последовательностей, даже бытовые споры.'
+affection_scenes:
+  - { threshold: 10, scene: seq_limits.heine_bond_1 }
 sprites:
   smile: heine/smile.png
   thinking: heine/thinking.png

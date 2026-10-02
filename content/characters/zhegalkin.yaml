@@ -4,6 +4,8 @@ rarity: 4
 subject: discrete
 topics: [zhegalkin_post]
 description: 'Складывает по модулю два быстрее, чем ты моргаешь. Строит треугольники из нулей и единиц и находит в них полиномы.'
+affection_scenes:
+  - { threshold: 10, scene: zhegalkin_post.zhegalkin_bond_1 }
 sprites:
   smile: zhegalkin/smile.png
   thinking: zhegalkin/thinking.png

@@ -6,15 +6,21 @@ import { Gem, IconLock } from '../ui/Icons.tsx';
 import { Difficulty } from '../ui/Difficulty.tsx';
 import { PageHeader } from '../ui/PageHeader.tsx';
 import { Portrait, Stars } from '../ui/Portrait.tsx';
+import { SectionTitle } from '../ui/SectionTitle.tsx';
 
 export function TopicPage() {
   const { topicId = '' } = useParams();
-  const { progress } = usePlayer();
+  const { progress, owned } = usePlayer();
   const topic = content.topics[topicId];
   if (!topic) return <p>Нет такой темы.</p>;
   if (!topicOpen(content, progress, topicId)) return <p>Эта тема пока закрыта.</p>;
   const heroine = content.characters[topic.main_character]!;
-  const scenes = [...topic.main_scenes, ...topic.scenes.filter((s) => !topic.main_scenes.includes(s))];
+  // Affection scenes are listed once their heroine has joined.
+  const bonus = topic.scenes.filter((id) => {
+    const gate = content.scenes[id]!.affection;
+    return !topic.main_scenes.includes(id) && (!gate || owned[gate.character]);
+  });
+  const scenes = [...topic.main_scenes, ...bonus];
   const rewards = content.economy.reward_by_difficulty;
 
   return (
@@ -37,8 +43,10 @@ export function TopicPage() {
           const s = content.scenes[id]!;
           const p = progress.scenes[id];
           const main = topic.main_scenes.includes(id);
-          // Main scenes are played in order.
-          const prevDone = i === 0 || !main || progress.scenes[topic.main_scenes[i - 1]!]?.status === 'completed';
+          const gate = s.affection;
+          const affection = gate ? (owned[gate.character]?.affection ?? 0) : 0;
+          // Main scenes are played in order; an affection scene waits for enough affection.
+          const prevDone = gate ? affection >= gate.threshold : i === 0 || !main || progress.scenes[topic.main_scenes[i - 1]!]?.status === 'completed';
           const done = p?.status === 'completed';
           const label = done ? 'Пересмотреть' : p ? 'Продолжить' : 'Начать';
           return (
@@ -50,7 +58,9 @@ export function TopicPage() {
                 {done ? '✓' : main ? String(i + 1).padStart(2, '0') : '♡'}
               </span>
               <div className="flex-1 py-2">
-                <div className="font-display text-xs font-bold tracking-widest text-ba-500 uppercase">{main ? `Эпизод ${i + 1}` : 'Бонусная сцена'}</div>
+                <div className={`font-display text-xs font-bold tracking-widest uppercase ${gate ? 'text-momo-500' : 'text-ba-500'}`}>
+                  {main ? `Эпизод ${i + 1}` : gate ? `Симпатия · ${content.characters[gate.character]?.name}` : 'Бонусная сцена'}
+                </div>
                 <div className="font-bold text-ink-900">{s.title ?? s.id}</div>
               </div>
               {prevDone ? (
@@ -59,7 +69,7 @@ export function TopicPage() {
                 </Link>
               ) : (
                 <span className="flex items-center gap-1 text-sm font-bold text-ink-500">
-                  <IconLock /> после эпизода {i}
+                  <IconLock /> {gate ? `♥ ${affection} / ${gate.threshold}` : `после эпизода ${i}`}
                 </span>
               )}
             </li>
@@ -100,15 +110,5 @@ export function TopicPage() {
         })}
       </ul>
     </div>
-  );
-}
-
-function SectionTitle({ children }: { children: string }) {
-  return (
-    <h2 className="mb-3 flex items-center gap-3 font-display text-xl font-extrabold text-ink-900 italic">
-      <span className="h-5 w-2 -skew-x-12 bg-ba-500" />
-      {children}
-      <span className="h-px flex-1 bg-ink-100" />
-    </h2>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { content } from '../content/bundle.ts';
 import { usePlayer } from '../lib/player.tsx';
 import { CharacterCard } from '../ui/CharacterCard.tsx';
@@ -30,13 +31,14 @@ export function Collection() {
         {all.map((c) => {
           const o = owned[c.id];
           return (
-            <CharacterCard
-              key={c.id}
-              id={c.id}
-              locked={!o}
-              badge={o && o.copies > 1 ? <span className="chip bg-white/95 text-ink-900 shadow">C{o.copies - 1}</span> : undefined}
-              footer={o ? <span className="text-momo-500">♥ {o.affection}</span> : undefined}
-            />
+            <Link key={c.id} to={`/character/${c.id}`} className="block">
+              <CharacterCard
+                id={c.id}
+                locked={!o}
+                badge={o && o.copies > 1 ? <span className="chip bg-white/95 text-ink-900 shadow">C{o.copies - 1}</span> : undefined}
+                footer={o ? <span className="text-momo-500">♥ {o.affection}</span> : undefined}
+              />
+            </Link>
           );
         })}
       </div>

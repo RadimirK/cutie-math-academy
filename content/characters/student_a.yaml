@@ -4,6 +4,8 @@ rarity: 3
 subject: calculus
 topics: []
 description: 'Однокурсница, конспектирует всё цветными ручками.'
+affection_scenes:
+  - { threshold: 10, scene: seq_limits.student_a_bond_1 }
 sprites:
   smile: student_a/smile.png
   thinking: student_a/thinking.png

@@ -4,6 +4,8 @@ rarity: 5
 subject: calculus
 topics: []
 description: 'Любит контрпримеры: непрерывная, но нигде не дифференцируемая — её любимая шутка.'
+affection_scenes:
+  - { threshold: 10, scene: seq_limits.weierstrass_bond_1 }
 sprites:
   smile: weierstrass/smile.png
   thinking: weierstrass/thinking.png

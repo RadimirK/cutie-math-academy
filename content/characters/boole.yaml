@@ -4,6 +4,8 @@ rarity: 4
 subject: discrete
 topics: [boolean_functions, special_functions]
 description: 'Отвечает только «да» или «нет», но всегда может объяснить почему. Любой спор раскладывает в таблицу истинности.'
+affection_scenes:
+  - { threshold: 10, scene: boolean_functions.boole_bond_1 }
 sprites:
   smile: boole/smile.png
   thinking: boole/thinking.png

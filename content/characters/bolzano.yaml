@@ -4,6 +4,8 @@ rarity: 4
 subject: calculus
 topics: []
 description: 'Тихая отличница. Всегда найдёт сходящуюся подпоследовательность.'
+affection_scenes:
+  - { threshold: 10, scene: seq_limits.bolzano_bond_1 }
 sprites:
   smile: bolzano/smile.png
   thinking: bolzano/thinking.png

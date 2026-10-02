@@ -4,6 +4,8 @@ rarity: 5
 subject: calculus
 topics: [seq_limits]
 description: 'Строгая, но добрая. Верит, что любую интуицию можно записать через ε и δ.'
+affection_scenes:
+  - { threshold: 10, scene: seq_limits.cauchy_bond_1 }
 sprites:
   smile: cauchy/smile.png
   thinking: cauchy/thinking.png

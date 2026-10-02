@@ -4,6 +4,8 @@ rarity: 4
 subject: linalg
 topics: [jordan]
 description: 'Секретарь студсовета. Раскладывает по клеткам всё: расписание, шкаф и любую матрицу над алгебраически замкнутым полем.'
+affection_scenes:
+  - { threshold: 10, scene: jordan.jordan_bond_1 }
 look:
   head: 0.96
   chest: 0.7
