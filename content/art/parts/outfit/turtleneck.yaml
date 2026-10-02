@@ -1,0 +1,57 @@
+id: turtleneck
+desc: Облегающая вязаная водолазка с высоким горлом и резинкой на манжетах и по низу.
+material: cloth
+params:
+  hem: { range: [3.4, 4.6], default: 4.0, desc: нижний край }
+  sleeve: { range: [2.3, 4.7], default: 4.6, desc: длина рукава }
+shapes:
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '$hem'], [-2.2, '$hem']]
+    clip: torso
+    grow: 1
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '$hem'], [-2.2, '$hem']]
+    clip: chest
+    seam: true
+    shadow: true
+    when: { chest: { min: 0.2 } }
+  # высокое горло
+  - poly: [[-0.3, 1.0], [0.3, 1.0], [0.32, 1.6], [-0.32, 1.6]]
+    clip: neck
+    grow: 1
+    seam: true
+  - stroke: [['-0.18 + 0.12 * $i', 1.05], ['-0.18 + 0.12 * $i', 1.55]]
+    tone: 1
+    repeat: { count: 4, step: [0, 0] }
+  # резинка по низу и косы вязки
+  - poly: [[-2.2, '$hem - 0.22'], [2.2, '$hem - 0.22'], [2.2, '$hem'], [-2.2, '$hem']]
+    clip: torso
+    grow: 1
+    tone: 1
+  - stroke: [[-0.34, 1.9], [-0.28, 2.3], [-0.34, 2.7], [-0.28, 3.1], [-0.34, 3.5]]
+    tone: 3
+    mirror: true
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: forearms
+    grow: 1
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: forearms
+    grow: 1
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
+  - poly: [[-2.4, '$sleeve - 0.2'], [2.4, '$sleeve - 0.2'], [2.4, '$sleeve'], [-2.4, '$sleeve']]
+    clip: [arms, forearms]
+    grow: 1
+    tone: 1

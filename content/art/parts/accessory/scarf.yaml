@@ -1,0 +1,23 @@
+id: scarf
+desc: Вязаный шарф цвета accent вокруг шеи, один конец с бахромой свисает на грудь.
+material: accent
+shadow: true
+shapes:
+  - poly: [[-0.48, 1.26], [0.48, 1.26], [0.56, 1.5], [0.36, 1.72], [0, 1.78], [-0.36, 1.72], [-0.56, 1.5]]
+    smooth: true
+    slot: outfit
+    seam: true
+  - stroke: [[-0.4, 1.4], [0.4, 1.4]]
+    slot: outfit
+    tone: 1
+  - poly: [[0.12, 1.6], [0.46, 1.62], [0.5, 3.0], [0.2, 3.0]]
+    slot: outfit
+    seam: true
+  - stroke: [[0.2, '1.9 + 0.3 * $i'], [0.48, '1.9 + 0.3 * $i']]
+    slot: outfit
+    tone: 1
+    repeat: { count: 4, step: [0, 0] }
+  - stroke: [['0.22 + 0.06 * $i', 3.0], ['0.22 + 0.06 * $i', 3.18]]
+    slot: outfit
+    tone: 3
+    repeat: { count: 5, step: [0, 0] }

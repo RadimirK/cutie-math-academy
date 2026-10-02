@@ -1,0 +1,61 @@
+id: blouse
+desc: 'Блузка, заправленная в юбку: круглый отложной воротничок цвета cloth2, бант accent, пуговицы; puff — пышные короткие рукава-фонарики.'
+material: cloth
+params:
+  puff: { options: ['no', 'yes'], default: 'no', desc: рукава-фонарики }
+  sleeve: { range: [2.3, 4.6], default: 4.55, desc: длина рукава }
+shapes:
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '3.45'], [-2.2, '3.45']]
+    clip: torso
+    grow: 1
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, '3.45'], [-2.2, '3.45']]
+    clip: chest
+    seam: true
+    shadow: true
+    when: { chest: { min: 0.2 } }
+  - stroke: [[0, 1.75], [0, 3.4]]
+    tone: 1
+  - stamp: { at: [0.08, 2.4], rows: ['b'], key: { b: 'cloth2:3' } }
+  - stamp: { at: [0.08, 2.9], rows: ['b'], key: { b: 'cloth2:3' } }
+  # круглый воротничок
+  - ellipse: { at: [-0.24, 1.56], r: [0.27, 0.17], rot: 18 }
+    material: cloth2
+    mirror: true
+    seam: true
+    shadow: true
+  - poly: [[-0.36, 1.66], [-0.05, 1.7], [-0.32, 1.92]]
+    material: accent
+    mirror: true
+    shadow: true
+  - ellipse: { at: [0, 1.74], r: [0.09, 0.08] }
+    material: accent
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: forearms
+    grow: 1
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: forearms
+    grow: 1
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
+  # фонарики поверх плеча
+  - ellipse: { at: ['-1.18 * $shoulders', 1.84], r: [0.38, 0.32] }
+    clip: arms
+    grow: 2
+    mirror: true
+    seam: true
+    shadow: true
+    when: { puff: 'yes' }

@@ -1,0 +1,24 @@
+id: slippers
+desc: 'Мягкие домашние тапочки: plain — пушистые, bunny — с заячьими ушками и мордочкой.'
+material: shoes
+params:
+  kind: { options: [plain, bunny], default: plain }
+shapes:
+  - ellipse: { at: [-0.34, 9.08], r: [0.27, 0.2] }
+    mirror: true
+    seam: true
+  - stroke: [[-0.56, 9.02], [-0.12, 9.02]]
+    mirror: true
+    tone: 3
+    when: { kind: plain }
+  - ellipse: { at: [-0.44, 8.84], r: [0.06, 0.16], rot: -15 }
+    mirror: true
+    seam: true
+    when: { kind: bunny }
+  - ellipse: { at: [-0.26, 8.84], r: [0.06, 0.16], rot: 15 }
+    mirror: true
+    seam: true
+    when: { kind: bunny }
+  - stamp: { at: [-0.34, 9.06], rows: ['e.e', '.n.'], key: { e: 'line:0', n: 'blush:2' } }
+    mirror: true
+    when: { kind: bunny }

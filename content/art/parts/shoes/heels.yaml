@@ -1,0 +1,21 @@
+id: heels
+desc: Туфли-лодочки на тонком каблуке с открытым подъёмом; strap — ремешок вокруг щиколотки.
+material: shoes
+params:
+  strap: { options: [none, ankle], default: none }
+shapes:
+  # низкая лодочка: подъём стопы открыт
+  - ellipse: { at: [-0.34, 9.12], r: [0.19, 0.11] }
+    mirror: true
+    seam: true
+  - poly: [[-0.5, 9.1], [-0.18, 9.1], [-0.22, 9.2], [-0.46, 9.2]]
+    mirror: true
+    seam: true
+  # тонкий каблук под пяткой
+  - poly: [[-0.37, 9.2], [-0.31, 9.2], [-0.32, 9.32], [-0.36, 9.32]]
+    tone: 0
+    mirror: true
+  - stroke: [[-0.46, 8.84], [-0.22, 8.84]]
+    mirror: true
+    tone: 1
+    when: { strap: ankle }

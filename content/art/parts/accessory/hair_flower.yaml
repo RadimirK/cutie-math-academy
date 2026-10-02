@@ -1,0 +1,14 @@
+id: hair_flower
+desc: 'Цветок в волосах сбоку: пять лепестков цвета accent и жёлтая серединка.'
+material: accent
+shade: none
+outline: false
+params:
+  x: { range: [-1.0, 1.0], default: 0.72, desc: 'где по горизонтали: минус — слева на картинке' }
+  y: { range: [-1.1, 0.2], default: -0.58, desc: где по вертикали }
+shapes:
+  - stamp:
+      at: ['$x', '$y']
+      rows: ['.oo.oo.', 'oaaoaao', 'oaaaaao', '.oayao.', 'oaaaaao', 'oaaoaao', '.oo.oo.']
+      key: { a: 'accent:3', o: 'accent:1', y: '#ffd24a' }
+      flip: false

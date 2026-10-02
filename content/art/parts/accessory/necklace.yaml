@@ -1,0 +1,18 @@
+id: necklace
+desc: 'Тонкая цепочка с кулоном: drop — капля цвета accent, star — звёздочка metal.'
+material: metal
+shade: none
+outline: false
+params:
+  kind: { options: [drop, star], default: drop }
+shapes:
+  - stroke: [[-0.3, 1.36], [-0.14, 1.66], [0, 1.74], [0.14, 1.66], [0.3, 1.36]]
+    smooth: true
+    slot: outfit
+    tone: 3
+  - stamp: { at: [0, 1.86], rows: ['.a.', 'aAa', 'aaa', '.a.'], key: { a: 'accent:2', A: 'accent:4' } }
+    slot: outfit
+    when: { kind: drop }
+  - stamp: { at: [0, 1.86], rows: ['.m.', 'mMm', '.m.'], key: { m: 'metal:3', M: 'metal:4' } }
+    slot: outfit
+    when: { kind: star }

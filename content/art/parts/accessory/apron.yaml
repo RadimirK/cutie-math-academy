@@ -1,0 +1,31 @@
+id: apron
+desc: 'Фартук с нагрудником и оборкой по краю, лямки на шее и бант на поясе; цвета cloth2, оборка светлее.'
+material: cloth2
+shadow: true
+params:
+  length: { range: [4.6, 7.0], default: 5.9, desc: нижний край }
+shapes:
+  # фартук лежит поверх одежды, но под волосами (slot: outfit)
+  - poly: [[-0.62, 1.95], [0.62, 1.95], [0.66, 3.3], [-0.66, 3.3]]
+    slot: outfit
+    seam: true
+  - poly: [[-0.9, 3.25], [0.9, 3.25], [1.14, '$length'], [-1.14, '$length']]
+    slot: outfit
+    seam: true
+  - stroke: [[-1.14, '$length - 0.04'], [-0.95, '$length + 0.06'], [-0.76, '$length - 0.04'], [-0.57, '$length + 0.06'], [-0.38, '$length - 0.04'], [-0.19, '$length + 0.06'], [0, '$length - 0.04'], [0.19, '$length + 0.06'], [0.38, '$length - 0.04'], [0.57, '$length + 0.06'], [0.76, '$length - 0.04'], [0.95, '$length + 0.06'], [1.14, '$length - 0.04']]
+    slot: outfit
+    tone: 3
+  - poly: [[-0.62, 1.95], [-0.5, 1.95], [-0.24, 1.38], [-0.32, 1.36]]
+    mirror: true
+    slot: outfit
+    seam: true
+  - poly: [[-0.32, 3.5], [0.32, 3.5], [0.34, 3.9], [-0.34, 3.9]]
+    slot: outfit
+    tone: 1
+  # бант сбоку на поясе
+  - poly: [[0.92, 3.3], [0.66, 3.12], [0.66, 3.48]]
+    slot: outfit
+    seam: true
+  - poly: [[0.92, 3.3], [1.16, 3.1], [1.16, 3.5]]
+    slot: outfit
+    seam: true

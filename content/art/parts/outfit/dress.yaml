@@ -1,0 +1,61 @@
+id: dress
+desc: 'Платье: лиф по фигуре с округлым вырезом, пояс-лента accent и юбка-трапеция до length; надевается без детали bottom. Рукава любой длины, 2.3 — короткие.'
+material: cloth
+shadow: true
+params:
+  length: { range: [5.4, 8.6], default: 6.6, desc: 'длина юбки: 6.7 — колено' }
+  flare: { range: [1.1, 1.9], default: 1.5, desc: ширина подола }
+  sleeve: { range: [2.3, 4.6], default: 2.6, desc: длина рукава }
+shapes:
+  # лиф с вырезом
+  - poly: [[-2.2, 1.55], [-0.42, 1.42], [-0.2, 1.72], [0, 1.78], [0.2, 1.72], [0.42, 1.42], [2.2, 1.55], [2.2, 3.4], [-2.2, 3.4]]
+    clip: torso
+    grow: 1
+    shadow: false
+  - poly: [[-2.2, 1.2], [2.2, 1.2], [2.2, 3.4], [-2.2, 3.4]]
+    clip: chest
+    seam: true
+    shadow: true
+    when: { chest: { min: 0.2 } }
+  # юбка-трапеция с мягкими складками
+  - poly: [[-0.76, 3.3], [0.76, 3.3], [1.02, 4.05], ['$flare', '$length'], ['-$flare', '$length'], [-1.02, 4.05]]
+    seam: true
+  - stroke: [[-0.3, 3.9], ['-$flare * 0.45', '$length - 0.05']]
+    tone: 1
+    mirror: true
+  - stroke: [[0, 4.0], [0, '$length - 0.05']]
+    tone: 1
+  - poly: [['-$flare', '$length - 0.14'], ['$flare', '$length - 0.14'], ['$flare', '$length'], ['-$flare', '$length']]
+    tone: 3
+  # пояс-лента и бант сбоку
+  - poly: [[-0.8, 3.22], [0.8, 3.22], [0.82, 3.44], [-0.82, 3.44]]
+    material: accent
+    seam: true
+  - poly: [[0.5, 3.33], [0.24, 3.16], [0.24, 3.5]]
+    material: accent
+    seam: true
+  - poly: [[0.5, 3.33], [0.76, 3.16], [0.76, 3.5]]
+    material: accent
+    seam: true
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[-2.4, 1.5], [0, 1.5], [0, '$sleeve'], [-2.4, '$sleeve']]
+    clip: forearms
+    grow: 1
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: arms
+    grow: 1
+    seam: true
+    shadow: true
+  - poly: [[0, 1.5], [2.4, 1.5], [2.4, '$sleeve'], [0, '$sleeve']]
+    clip: forearms
+    grow: 1
+    seam: true
+    shadow: true
+    when: { sleeve: { min: 3.2 } }
