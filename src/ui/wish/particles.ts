@@ -24,6 +24,21 @@ interface Particle {
 }
 
 const MAX = 900;
+/** How far a ring's glow reaches beyond its stroke, px (what shadowBlur 30 used to give). */
+const RING_GLOW = 30;
+
+const alphaCache = new Map<string, string>();
+/** '#rrggbb' -> 'rgb(r g b / a)'. */
+function withAlpha(hex: string, a: number): string {
+  const key = hex + a;
+  let s = alphaCache.get(key);
+  if (!s) {
+    const n = parseInt(hex.slice(1), 16);
+    s = `rgb(${n >> 16} ${(n >> 8) & 255} ${n & 255} / ${a})`;
+    alphaCache.set(key, s);
+  }
+  return s;
+}
 
 // Glowing glyphs and sparkles are pre-rendered once per (shape, colour): shadowBlur on
 // hundreds of particles per frame is too slow on phones.
@@ -53,6 +68,7 @@ export class ParticleField {
   private sparkleRate = 0;
   private sparkleColor = '#fff';
   private acc = { vortex: 0, sparkle: 0 };
+  private running = false;
 
   constructor(private canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d')!;
@@ -70,19 +86,29 @@ export class ParticleField {
   }
 
   start() {
+    this.running = true;
+    this.wake();
+  }
+
+  stop() {
+    this.running = false;
+    cancelAnimationFrame(this.raf);
+    this.raf = 0;
+  }
+
+  /** Restarts the frame loop after it fell asleep with nothing to draw. */
+  private wake() {
+    if (!this.running || this.raf) return;
     this.last = performance.now();
     const tick = (t: number) => {
       const dt = Math.min(0.05, (t - this.last) / 1000);
       this.last = t;
       this.step(dt);
       this.draw();
-      this.raf = requestAnimationFrame(tick);
+      // Nothing alive and nothing emitting: sleep until the next burst, ring or emitter.
+      this.raf = this.ps.length || this.vortexRate || this.sparkleRate ? requestAnimationFrame(tick) : 0;
     };
     this.raf = requestAnimationFrame(tick);
-  }
-
-  stop() {
-    cancelAnimationFrame(this.raf);
   }
 
   get center() {
@@ -96,12 +122,14 @@ export class ParticleField {
     this.vortexRate = rate;
     this.vortexColor = color;
     for (const p of this.ps) if (p.kind === 'glyph') p.color = color;
+    this.wake();
   }
 
   /** Sparkles per second rising across the screen (0 turns them off). */
   sparkles(rate: number, color = this.sparkleColor) {
     this.sparkleRate = rate;
     this.sparkleColor = color;
+    this.wake();
   }
 
   /** Radial burst of sparks (and optional shards) from a point. */
@@ -128,8 +156,10 @@ export class ParticleField {
   }
 
   private add(p: Particle) {
-    if (this.ps.length >= MAX) this.ps.shift();
-    this.ps.push(p);
+    // Over the cap, the new particle replaces a random one (shift() would copy 900 items).
+    if (this.ps.length >= MAX) this.ps[Math.floor(Math.random() * MAX)] = p;
+    else this.ps.push(p);
+    this.wake();
   }
 
   private maxRadius() {
@@ -192,7 +222,10 @@ export class ParticleField {
           break;
       }
     }
-    this.ps = this.ps.filter((p) => p.life < p.maxLife);
+    // Drop dead particles in place: a new array every frame feeds the garbage collector.
+    let n = 0;
+    for (const p of this.ps) if (p.life < p.maxLife) this.ps[n++] = p;
+    this.ps.length = n;
   }
 
   private draw() {
@@ -262,16 +295,31 @@ export class ParticleField {
           c.drawImage(img, p.x - d / 2, p.y - d / 2, d, d);
           break;
         }
-        case 'ring':
+        case 'ring': {
+          // The glow is a radial gradient across the ring, not shadowBlur: blurring an arc
+          // up to the screen size every frame took up to 200 ms.
+          const lw = 14 * (1 - p.life / p.maxLife) + 1;
+          const halo = lw / 2 + RING_GLOW;
+          const inner = Math.max(0, p.size - halo);
+          const g = c.createRadialGradient(p.x, p.y, inner, p.x, p.y, p.size + halo);
+          const mid = (p.size - inner) / (p.size + halo - inner);
+          g.addColorStop(0, withAlpha(p.color, 0));
+          g.addColorStop(mid * 0.5, withAlpha(p.color, 0.1));
+          g.addColorStop(mid, withAlpha(p.color, 0.4));
+          g.addColorStop(mid + (1 - mid) * 0.5, withAlpha(p.color, 0.1));
+          g.addColorStop(1, withAlpha(p.color, 0));
+          c.fillStyle = g;
+          c.beginPath();
+          c.arc(p.x, p.y, p.size + halo, 0, Math.PI * 2);
+          c.arc(p.x, p.y, inner, 0, Math.PI * 2, true);
+          c.fill();
           c.strokeStyle = p.color;
-          c.lineWidth = 14 * (1 - p.life / p.maxLife) + 1;
-          c.shadowColor = p.color;
-          c.shadowBlur = 30;
+          c.lineWidth = lw;
           c.beginPath();
           c.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           c.stroke();
-          c.shadowBlur = 0;
           break;
+        }
       }
     }
     c.globalAlpha = 1;
