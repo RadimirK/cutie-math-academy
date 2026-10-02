@@ -1,7 +1,7 @@
 id: kronecker_04
 title: Один, если совпало
 character: kronecker
-background: classroom
+background: seminar_room
 nodes:
   start:
     - speaker: kronecker

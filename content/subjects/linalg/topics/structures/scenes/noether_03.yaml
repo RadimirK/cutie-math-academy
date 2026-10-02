@@ -1,7 +1,7 @@
 id: noether_03
 title: Почему минус на минус даёт плюс
 character: noether
-background: classroom
+background: seminar_room
 nodes:
   start:
     - narration: 'Аудитория поменьше. Нётер пишет на доске «$+$» и «$\cdot$» и обводит их в один круг.'

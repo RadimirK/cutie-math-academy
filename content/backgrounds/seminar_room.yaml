@@ -1,0 +1,21 @@
+id: seminar_room
+name: Семинарская кафедры алгебры
+palette:
+  wall: '#dde5d6'
+  trim: '#7f8f74'
+  floor: '#a37b57'
+  board: '#2f5a49'
+  fabric: '#dccb92'
+  accent: '#c0503f'
+props:
+  - { prop: room, at: [0, 0], floor: 272, panel: 60, ceiling: 14 }
+  - { prop: window, at: [524, 70], w: 90, h: 124, rows: 3, curtains: side }
+  - { prop: sunlight, at: [506, 272], w: 96, len: 60, lean: -60 }
+  - { prop: bookshelf, at: [16, 98], w: 100, h: 174, shelves: 4 }
+  - { prop: blackboard, at: [320, 72], w: 310, h: 122, writing: matrices }
+  - { prop: clock, at: [66, 52], r: 12 }
+  - { prop: ceiling_lamp, at: [210, 14], w: 110 }
+  - { prop: ceiling_lamp, at: [430, 14], w: 110 }
+  - { prop: table, at: [212, 272], w: 120, h: 54 }
+  - { prop: desk_items, at: [212, 211] }
+  - { prop: plant, at: [480, 272], size: 0.9 }

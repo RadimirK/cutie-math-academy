@@ -1,7 +1,7 @@
 id: kronecker_05
 title: Аннулятор и сопряжённое отображение
 character: kronecker
-background: classroom
+background: seminar_room
 nodes:
   start:
     - speaker: kronecker

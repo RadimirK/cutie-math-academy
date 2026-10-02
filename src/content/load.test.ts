@@ -43,6 +43,8 @@ describe('loadContent', () => {
     expect(issues.filter((i) => i.level === 'error')).toEqual([]);
     expect(content.backgrounds.bg_night!.palette).toEqual({ wall: '#333333', floor: '#222222' });
     expect(content.backgrounds.bg_night!.props.map((p) => p.at)).toEqual([[0, 0], [5, 5]]);
+    f['backgrounds/bg_night.yaml'] = 'id: bg_night\nname: N\nbase: bg\nset: { door: { w: 1 } }\n';
+    expect(errors(f).join('\n')).toContain('set: в фоне bg нет предмета door');
     f['backgrounds/bg.yaml'] = 'id: bg\nname: BG\nbase: bg_night\n';
     expect(errors(f).join('\n')).toContain('base: цикл');
   });

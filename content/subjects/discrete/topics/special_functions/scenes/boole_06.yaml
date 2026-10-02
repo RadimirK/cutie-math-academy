@@ -1,9 +1,10 @@
 id: boole_06
 title: Пороговые функции
 character: boole
-background: classroom
+background: courtyard
 nodes:
   start:
+    - narration: 'Перемена. Буль сидит на скамейке под сакурой с тетрадью на коленях.'
     - speaker: boole
       emotion: smile
       text: 'Функция $f$ пороговая, если есть вещественные веса $a_1, \ldots, a_n$ и порог $b$, такие что $$f(x_1, \ldots, x_n) = 1 \iff a_1 x_1 + \ldots + a_n x_n \ge b.$$'

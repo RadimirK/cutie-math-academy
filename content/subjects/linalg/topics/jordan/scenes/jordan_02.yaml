@@ -1,7 +1,7 @@
 id: jordan_02
 title: Жорданова форма
 character: jordan
-background: classroom_evening
+background: seminar_room_evening
 nodes:
   start:
     - narration: 'Вечернее заседание. Жордан раскладывает на столе листы, разделённые на клетки.'

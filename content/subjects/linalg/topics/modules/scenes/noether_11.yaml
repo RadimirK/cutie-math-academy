@@ -1,7 +1,7 @@
 id: noether_11
 title: Нормальная форма Смита
 character: noether
-background: classroom
+background: seminar_room
 nodes:
   start:
     - speaker: noether

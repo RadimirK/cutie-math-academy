@@ -1,7 +1,7 @@
 id: noether_04
 title: Идеалы
 character: noether
-background: classroom
+background: seminar_room
 nodes:
   start:
     - narration: 'Нётер пишет на доске длинный ряд: $\dots, -12, -6, 0, 6, 12, 18, \dots$'

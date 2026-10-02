@@ -1,7 +1,7 @@
 id: proof_01
 title: Из чего сделано доказательство
 character: cantor
-background: classroom
+background: corridor
 nodes:
   start:
     - narration: 'Хината сдаёт первое домашнее задание. Кантор читает и хмурится.'

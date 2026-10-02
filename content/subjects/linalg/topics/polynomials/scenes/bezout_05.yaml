@@ -1,7 +1,7 @@
 id: bezout_05
 title: Кратные корни и формула Тейлора
 character: bezout
-background: classroom
+background: seminar_room
 nodes:
   start:
     - narration: 'Дождь, так что сегодня в аудитории. Безу сидит прямо на парте.'

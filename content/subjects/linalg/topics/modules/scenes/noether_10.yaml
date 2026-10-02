@@ -1,7 +1,7 @@
 id: noether_10
 title: Модули
 character: noether
-background: lecture_hall
+background: lecture_hall_algebra
 nodes:
   start:
     - narration: 'Большая аудитория. Нётер вбегает с охапкой бумаг, роняет половину и не обращает на это внимания.'

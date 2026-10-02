@@ -1,0 +1,14 @@
+id: seminar_room_evening
+name: Семинарская вечером
+base: seminar_room
+palette:
+  wall: '#e2c9aa'
+  trim: '#8d6a4f'
+  floor: '#9a603d'
+  ceiling: '#eed7bd'
+  sky: '#f08d5c'
+  cloud: '#ffd3a6'
+  plant: '#5a7f52'
+  fabric: '#e7b58f'
+props:
+  - { prop: sunlight, at: [506, 272], w: 96, len: 88, lean: -170 }

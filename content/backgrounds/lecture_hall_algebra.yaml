@@ -1,0 +1,5 @@
+id: lecture_hall_algebra
+name: Лекционная, алгебра
+base: lecture_hall
+set:
+  blackboard: { writing: matrices }

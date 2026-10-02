@@ -1,7 +1,7 @@
 id: noether_12
 title: Структура модулей и абелевых групп
 character: noether
-background: classroom_evening
+background: seminar_room_evening
 nodes:
   start:
     - narration: 'Вечер. Нётер сидит на подоконнике, очки сползли на нос.'

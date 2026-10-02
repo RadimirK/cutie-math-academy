@@ -1,7 +1,7 @@
 id: noether_08
 title: Гомоморфизмы
 character: noether
-background: classroom
+background: seminar_room
 nodes:
   start:
     - speaker: noether

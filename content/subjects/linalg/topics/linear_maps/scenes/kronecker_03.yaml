@@ -1,7 +1,7 @@
 id: kronecker_03
 title: Замена базиса и канонический вид
 character: kronecker
-background: classroom_evening
+background: seminar_room_evening
 nodes:
   start:
     - speaker: kronecker

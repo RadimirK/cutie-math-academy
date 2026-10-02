@@ -1,7 +1,7 @@
 id: kronecker_06
 title: Теорема Кронекера — Капелли
 character: kronecker
-background: classroom_evening
+background: seminar_room_evening
 nodes:
   start:
     - speaker: kronecker

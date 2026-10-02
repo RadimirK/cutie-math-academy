@@ -1,7 +1,7 @@
 id: noether_02
 title: Дорога обратно
 character: noether
-background: lecture_hall
+background: lecture_hall_algebra
 nodes:
   start:
     - narration: 'Нётер вбегает за минуту до звонка, на ходу вытирая мел о кардиган.'

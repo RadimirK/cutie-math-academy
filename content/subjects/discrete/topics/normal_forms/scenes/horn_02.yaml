@@ -1,9 +1,10 @@
 id: horn_02
 title: КНФ Хорна
 character: horn
-background: classroom
+background: rooftop
 nodes:
   start:
+    - narration: 'Обеденный перерыв на крыше. Хорн уже разложила на скамейке листок с формулами.'
     - speaker: horn
       emotion: smile
       text: 'КНФ Хорна — это КНФ, в каждом дизъюнкте которой не больше одной переменной без отрицания. Пример: $x \wedge (\neg x \vee \neg y \vee z) \wedge (\neg z \vee t) \wedge (\neg x \vee \neg t)$.'

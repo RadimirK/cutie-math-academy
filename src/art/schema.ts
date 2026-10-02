@@ -243,6 +243,8 @@ export const BackdropSchema = z
      * this one's, its props under this one's.
      */
     base: Name.optional(),
+    /** Params to change in the props it gets from its base, by prop: `{ blackboard: { writing: matrices } }`. */
+    set: z.record(Name, z.record(Name, ParamValue)).default({}),
     palette: z.partialRecord(SceneryMaterial, Hex).default({}),
     /** Back to front. */
     props: z.array(PropUse).default([]),

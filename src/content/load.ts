@@ -366,7 +366,10 @@ export function loadContent(files: Record<string, string>): { content: Content; 
     const base = content.backgrounds[b.base];
     if (!base) throw new Error(`base: нет фона ${b.base}`);
     const r = resolved.get(base.id) ?? inherit(base, [...chain, b.id]);
-    return { ...b, palette: { ...r.palette, ...b.palette }, props: [...r.props, ...b.props] };
+    for (const id of Object.keys(b.set))
+      if (!r.props.some((p) => p.prop === id)) throw new Error(`set: в фоне ${base.id} нет предмета ${id}`);
+    const props = r.props.map((p) => (b.set[p.prop] ? { ...p, ...b.set[p.prop] } : p));
+    return { ...b, palette: { ...r.palette, ...b.palette }, props: [...props, ...b.props] };
   };
   for (const b of Object.values(content.backgrounds)) {
     try {

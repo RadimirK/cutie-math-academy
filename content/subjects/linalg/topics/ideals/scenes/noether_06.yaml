@@ -1,7 +1,7 @@
 id: noether_06
 title: Основная теорема арифметики
 character: noether
-background: classroom
+background: seminar_room
 nodes:
   start:
     - speaker: noether

@@ -1,7 +1,7 @@
 id: jordan_01
 title: Теорема Гамильтона — Кэли
 character: jordan
-background: lecture_hall
+background: lecture_hall_algebra
 nodes:
   start:
     - narration: 'Девушка в светлом пиджаке кладёт на кафедру папку с закладками и неторопливо оглядывает аудиторию.'

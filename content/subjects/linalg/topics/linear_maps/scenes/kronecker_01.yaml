@@ -1,7 +1,7 @@
 id: kronecker_01
 title: Куда идёт базис
 character: kronecker
-background: classroom
+background: seminar_room
 nodes:
   start:
     - narration: 'У доски стоит девушка с пепельными пучками, ниже всех в аудитории. Она молча ждёт, пока все сядут, и постукивает мелом по ладони.'

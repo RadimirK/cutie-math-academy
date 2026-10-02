@@ -1,7 +1,7 @@
 id: noether_09
 title: Теорема об изоморфизме
 character: noether
-background: classroom_evening
+background: seminar_room_evening
 nodes:
   start:
     - narration: 'Вечер. Нётер сидит на краю стола, в волосах у неё кусочек мела.'
