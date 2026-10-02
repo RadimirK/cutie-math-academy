@@ -1,10 +1,10 @@
 id: marks
-desc: 'Значки эмоций у головы: капля пота, «вена» злости, вопрос, искры.'
+desc: 'Значки эмоций у головы: капля пота, «вена» злости, вопрос, искры, многоточие раздумья.'
 material: shine
 shade: none
 outline: false
 params:
-  kind: { options: [sweat, anger, question, sparkle], default: sweat }
+  kind: { options: [sweat, anger, question, sparkle, dots], default: sweat }
 shapes:
   - stamp:
       at: [1.02, -0.3]
@@ -27,3 +27,8 @@ shapes:
       key: { s: '#ffcf33' }
     mirror: true
     when: { kind: sparkle }
+  - stamp:
+      at: [1.22, -1.05]
+      rows: ['oo..oo..oo', 'oo..oo..oo']
+      key: { o: '#4a4e8c' }
+    when: { kind: dots }

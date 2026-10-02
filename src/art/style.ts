@@ -41,8 +41,14 @@ export const EMOTIONS: Record<string, Overrides> = {
   smile: { eyes: { shape: 'open' }, brows: { mood: 'calm' }, mouth: { shape: 'smile' } },
   /** joy, praise for a solved problem */
   happy: { eyes: { shape: 'joy' }, brows: { mood: 'raised' }, mouth: { shape: 'open' }, cheeks: { part: 'blush' } },
-  /** pondering a question */
-  thinking: { body: { pose: 'chin' }, eyes: { shape: 'half', look_x: -1, look_y: -1 }, brows: { mood: 'calm' }, mouth: { shape: 'flat' } },
+  /** pondering a question: eyes wide awake and looking up, not half shut (that reads as boredom) */
+  thinking: {
+    body: { pose: 'chin' },
+    eyes: { shape: 'open', look_x: -1, look_y: -1 },
+    brows: { mood: 'raised' },
+    mouth: { shape: 'neutral' },
+    fx: { part: 'marks', kind: 'dots' },
+  },
   /** an unexpected answer, a twist */
   surprised: { eyes: { shape: 'wide' }, brows: { mood: 'raised' }, mouth: { shape: 'o' } },
   /** a compliment, affection scenes */
