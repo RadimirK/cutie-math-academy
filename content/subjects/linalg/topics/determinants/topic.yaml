@@ -1,6 +1,6 @@
 id: determinants
 title: Определители
-description: Что такое определитель, как его считать и зачем он нужен.
-requires: []
+description: Как считать определитель матрицы, его свойства и связь с обратимостью — практика перед определителем через внешнюю степень.
+requires: [linear_maps]
 main_character: cramer
 main_scenes: [cramer_01]
